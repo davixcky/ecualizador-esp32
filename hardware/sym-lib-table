@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Ecualizador")(type "KiCad")(uri "${KIPRJMOD}/Ecualizador.kicad_sym")(options "")(descr "Símbolos propios"))
+)
