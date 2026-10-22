@@ -86,9 +86,9 @@ def netlist(pots=None, fuente="AC 1", extra=""):
     lineas = [".include mcp6004.lib", "V5 P5V 0 5", "V33 P3V3 0 3.3"]
     for p in cto.PIEZAS:
         ref, t, n = p["ref"], p["tipo"], {k: nodo(v) for k, v in p["pines"].items() if v}
-        if t == "R" and ref != "R30":
+        if t == "R" and ref not in ("R30", "R31", "R32"):
             lineas.append(f"{ref} {n['1']} {n['2']} {valor_spice(p['valor'])}")
-        elif t in ("C", "CP"):
+        elif t in ("C", "CP") and ref not in ("C25", "C26"):
             lineas.append(f"{ref} {n['1']} {n['2']} {valor_spice(p['valor'])}")
         elif t == "POT":
             total = valor_num(p["valor"])
@@ -105,7 +105,7 @@ def netlist(pots=None, fuente="AC 1", extra=""):
     # El macromodelo recorta en los rieles, así que el punto de operación tiene soluciones
     # espurias con las salidas pegadas a 0 V. Se le indica a ngspice el reposo esperado.
     senal = sorted({nodo(r) for r in cto.redes() if r not in ("GND", "+5V", "+3V3", "+3.3VA", "IN_L", "IN_R", "MIX",
-                                                               "NIVEL", "LINEA", "AMP_IN") and not r.startswith("TFT")
+                                                               "NIVEL", "LINEA", "AMP_IN") and not r.startswith(("TFT", "LED"))
                     and r not in ("BTN", "DO_G", "DO_M", "DO_A")})
     lineas.append(".nodeset " + " ".join(f"v({x})={VREF}" for x in senal))
     return "\n".join(lineas) + "\n" + MODELOS + extra
@@ -286,6 +286,21 @@ def main():
          f"{v['ADC_M'][m].max():.3f} V", "≤ 2,45 V (zona lineal del ADC)", v["ADC_M"][m].max() <= ADC_MAX)
     fila("Ídem: ADC_FFT", f"{v['ADC_FFT'][m].min():.3f} a {v['ADC_FFT'][m].max():.3f} V",
          "0,15 a 2,45 V", ADC_MIN <= v["ADC_FFT"][m].min() and v["ADC_FFT"][m].max() <= ADC_MAX)
+
+    # Curva dedicada a la sustentación: ejes y leyenda legibles al proyectar.
+    fig, ax = plt.subplots(figsize=(10, 4.1))
+    linea_revisada, = ax.semilogx(f, plano, color="#A3161A", lw=2.8, label="Diseño revisado")
+    ax.semilogx(d1[:, 0], plano1, color="#595959", lw=2.3, ls="--", label="Fase 1: sin inversión de medios")
+    ax.axhspan(-1, 1, color="#C9A227", alpha=.10)
+    ax.set(xlabel="Frecuencia (Hz)", ylabel="Ganancia respecto a PRE (dB)", xlim=(20, 20000), ylim=(-12, 3))
+    ax.grid(True, which="both", alpha=.2)
+    ax.legend(loc="lower left", frameon=False, fontsize=12)
+    ax.tick_params(labelsize=11)
+    fig.tight_layout()
+    fig.savefig(os.path.join(IMG, "sim-comparacion-fase.png"), dpi=180)
+    linea_revisada.set_visible(False)
+    fig.savefig(os.path.join(IMG, "sim-comparacion-fase-inicial.png"), dpi=180)
+    plt.close(fig)
 
     # ------------------------------------------------ figuras
     estilo = {"GRAVES": ("#e4572e", "Graves (pasa bajas)"), "MEDIOS": ("#29a35a", "Medios (pasa banda)"),

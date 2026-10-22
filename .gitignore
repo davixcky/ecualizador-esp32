@@ -7,3 +7,29 @@ hardware/*.dsn
 hardware/*.ses
 simulacion/*.dat
 docs/presentacion/png/_tmp.html
+
+.venv/
+firmware/.pio/
+firmware/test/prueba_dsp
+firmware/test/pantallas
+firmware/test/salida/
+docs/latex/build/
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.out
+
+*.vrb
+*.fls
+*.fdb_latexmk
+
+# Intentos de autoruteo; la sesión aprobada sí se conserva.
+hardware/ruteo-trabajo/
+!hardware/ruteo-freerouting.ses
+
+# Fotogramas intermedios del video; MP4 y escena se conservan.
+docs/video/frames/
+docs/video/preview-*.png
+docs/video/*.blend1

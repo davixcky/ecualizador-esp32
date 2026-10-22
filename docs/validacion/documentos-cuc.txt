@@ -1,0 +1,5 @@
+docs/informe-fase2.pdf: 19 páginas; autores y adjuntos verificados.
+docs/presentacion/presentacion-fase2.pdf: 36 páginas; autores y adjuntos verificados.
+docs/presentacion/presentacion-animada.pdf: 46 páginas; autores y adjuntos verificados.
+docs/presentacion/presentacion-filtros-hoy.pdf: 10 páginas; autores y adjuntos verificados.
+Orden solicitado correcto. Enlaces internos PDF/PPTX correctos. Anexo PowerPoint de 6000 px. ZIP verificado. Niveles hasta TFT: pasan 100 Hz, 1 kHz y 8 kHz. FFT no calibrada.

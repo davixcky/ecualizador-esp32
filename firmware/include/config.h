@@ -9,13 +9,17 @@
 #define PIN_AGUDOS 32   // GPIO32, ADC1_CH4: detector de agudos (ADC_A)
 #define PIN_FFT 33      // GPIO33, ADC1_CH5: salida ecualizada tras el antialiasing (ADC_FFT)
 
-// ---- pantalla TFT ILI9341 (SPI por VSPI)
+// ---- pantalla Waveshare 1,9 pulgadas ST7789V2 (SPI por VSPI)
 #define TFT_CS 5
 #define TFT_DC 21
 #define TFT_RST 22
 #define TFT_MOSI 23
 #define TFT_SCK 18
-#define TFT_MISO 19
+#define TFT_BL 19
+#define TFT_MISO -1
+#define PIN_NEOPIXEL 25
+#define NEOPIXEL_CANTIDAD 12
+#define NEOPIXEL_BRILLO 32
 #define TFT_SPI_HZ 40000000
 
 // ---- pulsador de vista (a GND, pull-up interno)

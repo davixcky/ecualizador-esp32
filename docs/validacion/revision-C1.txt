@@ -1,0 +1,25 @@
+Revisión C.1 · 22 de octubre de 2026
+
+Esquema: 59 redes coinciden pin a pin con circuito.py. ERC: 0 infracciones.
+PCB: DRC 0 infracciones, 0 pads sin conectar, 0 diferencias de huellas con el esquema.
+Geometría de ruteo: 0 segmentos F.Cu, 808 segmentos B.Cu, 0 vías, 0 zonas.
+Montaje: 79 referencias eléctricas, 111 rutas inferiores, 77 puentes aislados.
+Continuidad independiente: 59/59 redes unidas, 0 agujeros compartidos entre redes distintas.
+GPIO: 13 coinciden con firmware y esquema; ninguno compartido; AHCT comprobado.
+Exclusiones DRC: pth_inside_courtyard, silk_overlap, silk_over_copper; ver hardware/perforada/LEEME.md.
+Los anillos pasantes de KiCad representan agujeros; C.1 es una guía de perforada, no Gerbers de dos caras.
+
+Figuras de graves, medios, agudos, filtro ADC y LED: netlists de las figuras comparadas contra circuito.py.
+Medios: cable visible MED_HP entre U1D y U2A; conectividad conservada.
+Diagrama de bloques: sin etiquetas superpuestas a flechas o recuadros.
+
+Velxio: tres casos SPICE vuelven a mostrar la banda esperada. Cuarto caso ESP32: 12 NeoPixel,
+GPIO25, pasos cada 160 ms; ejecución confirmada en serial y cambio de estado visual comprobado.
+El ensayo LED usa datos programados, sin audio ni modelo del AHCT o consumo de potencia.
+
+Redacción: revisada con blader/humanizer, SKILL.md versión 3.1.0.
+Se conservaron los resultados y límites de las pruebas, se retiraron frases de presentación
+artificiales y se cambiaron instrucciones del orador por explicaciones del circuito.
+Fuente: https://github.com/blader/humanizer/blob/main/SKILL.md
+
+El montaje físico y las mediciones del equipo siguen pendientes. Cambios locales sin publicar.

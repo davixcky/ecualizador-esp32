@@ -1,0 +1,7 @@
+{
+  "redes": 82,
+  "redes_conectadas": 82,
+  "alambres": 80,
+  "grupos_JP": 79,
+  "metodo": "DRC KiCad de cobre, plano GND y puentes; paridad pin a pin con el esquema"
+}

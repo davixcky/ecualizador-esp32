@@ -1,0 +1,152 @@
+{
+  "piezas": {
+    "cuerpo": {
+      "valido": true,
+      "volumen_mm3": 145708.147
+    },
+    "rotulos": {
+      "valido": true,
+      "volumen_mm3": 79.397
+    },
+    "tapa": {
+      "valido": true,
+      "volumen_mm3": 74523.227
+    },
+    "franja0": {
+      "valido": true,
+      "volumen_mm3": 23.98
+    },
+    "franja1": {
+      "valido": true,
+      "volumen_mm3": 23.98
+    },
+    "franja2": {
+      "valido": true,
+      "volumen_mm3": 23.98
+    },
+    "perilla-nivel": {
+      "valido": true,
+      "volumen_mm3": 1645.925
+    },
+    "perilla-volumen": {
+      "valido": true,
+      "volumen_mm3": 1645.925
+    },
+    "deslizable0": {
+      "valido": true,
+      "volumen_mm3": 333.328
+    },
+    "deslizable1": {
+      "valido": true,
+      "volumen_mm3": 333.328
+    },
+    "deslizable2": {
+      "valido": true,
+      "volumen_mm3": 333.328
+    },
+    "boton": {
+      "valido": true,
+      "volumen_mm3": 124.666
+    },
+    "separadores": {
+      "valido": true,
+      "volumen_mm3": 306.059
+    },
+    "parlante": {
+      "valido": true,
+      "volumen_mm3": 233.57
+    },
+    "pam8403": {
+      "valido": true,
+      "volumen_mm3": 1050.69
+    },
+    "pam8403-ci": {
+      "valido": true,
+      "volumen_mm3": 52.0
+    },
+    "tft-placa": {
+      "valido": true,
+      "volumen_mm3": 2236.416
+    },
+    "tft-vidrio": {
+      "valido": true,
+      "volumen_mm3": 4066.4
+    },
+    "cuna-tft": {
+      "valido": true,
+      "volumen_mm3": 1713.528
+    },
+    "tira0": {
+      "valido": true,
+      "volumen_mm3": 800.0
+    },
+    "difusor0": {
+      "valido": true,
+      "volumen_mm3": 700.0
+    },
+    "led0": {
+      "valido": true,
+      "volumen_mm3": 180.0
+    },
+    "tira1": {
+      "valido": true,
+      "volumen_mm3": 800.0
+    },
+    "difusor1": {
+      "valido": true,
+      "volumen_mm3": 700.0
+    },
+    "led1": {
+      "valido": true,
+      "volumen_mm3": 180.0
+    },
+    "iman-base0": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-tapa0": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-base1": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-tapa1": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-base2": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-tapa2": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-base3": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    },
+    "iman-tapa3": {
+      "valido": true,
+      "volumen_mm3": 56.549
+    }
+  },
+  "intersecciones_mm3": {
+    "cuerpo/tira0": 0.0,
+    "cuerpo/tira1": 0.0,
+    "cuna-tft/tft-placa": 0.0,
+    "tapa/tft-placa": 0.0,
+    "cuerpo/tapa": 0.0,
+    "iman-base0/cuerpo": 0.0,
+    "iman-base1/cuerpo": 0.0,
+    "iman-base2/cuerpo": 0.0,
+    "iman-base3/cuerpo": 0.0,
+    "iman-tapa0/tapa": 0.0,
+    "iman-tapa1/tapa": 0.0,
+    "iman-tapa2/tapa": 0.0,
+    "iman-tapa3/tapa": 0.0
+  },
+  "alcance": "Validez de sólidos y ajustes nominales de pantalla, LED, tapa e imanes; no certifica tolerancias, componentes reales ni montaje completo."
+}

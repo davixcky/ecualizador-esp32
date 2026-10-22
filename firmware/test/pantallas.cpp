@@ -1,5 +1,5 @@
 // Dibuja las pantallas de la TFT en el PC con el mismo código del firmware (lib/interfaz y
-// lib/dsp) a partir de una señal sintética de música, y las guarda como PPM de 320 × 240.
+// lib/dsp) a partir de una señal sintética de música, y las guarda como PPM de 320 × 170.
 // Comprueba además que dibujar por franjas de 40 píxeles (como en el ESP32) da la misma imagen
 // que dibujar sobre un lienzo completo.
 //   make pantallas        # escribe salida/*.ppm y ../../img/ui-tft-*.png
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
   Datos d = ejemplo();
   printf("Señal de ejemplo: %.1f dBFS, tono dominante %.1f Hz\n", d.esp.rms_dbfs, d.esp.pico_hz);
   GFXcanvas16 completo(ANCHO, ALTO);
-  const int alto_franja = 40;
+  const int alto_franja = 34;
   Franja franja(alto_franja);
   static uint16_t compuesta[ANCHO * ALTO];
   int fallos = 0;

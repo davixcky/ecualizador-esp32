@@ -1,0 +1,25 @@
+const {chromium}=require('playwright');
+const fs=require('fs'),path=require('path');const root=path.resolve(__dirname,'..');
+(async()=>{
+ const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1900,height:1100}});p.setDefaultTimeout(1800);const frames=[];p.on('websocket',w=>w.on('framesent',f=>{if(String(f.payload).includes('adc'))frames.push(String(f.payload))}));
+ await p.goto('https://velxio.dev/editor',{waitUntil:'networkidle',timeout:60000});
+ for(const name of ['Got it','Cancel'])await p.getByRole('button',{name,exact:true}).click().catch(()=>{});
+ await p.locator('input[type=file][accept*=".vlx"]').first().setInputFiles(path.join(root,'simulacion/velxio/e2e-1000Hz.vlx'));
+ await p.getByRole('button',{name:'Minimize chat'}).click().catch(()=>{});
+ await p.getByTitle('Hide file explorer').click().catch(()=>{});
+ await p.getByRole('button',{name:'Circuit',exact:true}).click().catch(()=>{});
+ await p.getByRole('button',{name:'Switch to light theme',exact:true}).click().catch(()=>{});
+ await p.getByTitle('Run (auto-compiles if needed)').click();
+ await p.waitForTimeout(12000);
+ await p.waitForFunction(()=>/E2E RMS_ADC/.test(document.body.innerText),{},{timeout:90000}).catch(async e=>{console.log(await p.locator('body').innerText());await p.screenshot({path:'/tmp/e2e-error.png'});throw e;});
+ await p.getByTitle('Toggle Output Console').click().catch(()=>{});
+ await p.waitForTimeout(5000);
+ fs.writeFileSync('/tmp/e2e-ws.json',JSON.stringify(frames));const debug=await p.evaluate(()=>window.__spiceDebug?.());
+ const serial=await p.locator('body').innerText();console.log(serial);
+ await p.screenshot({path:path.join(root,'img/velxio-e2e.png')});
+ fs.writeFileSync(path.join(root,'simulacion/velxio/e2e-serial.txt'),serial);
+ const rows=[...serial.matchAll(/E2E RMS_ADC G=([\d.]+) M=([\d.]+) A=([\d.]+) DOM=(\d)/g)].map(m=>({rms_adc:m.slice(1,4).map(Number),dominant:Number(m[4])}));
+ const pass=rows.some(x=>x.rms_adc[1]>10&&x.dominant===1);
+ fs.writeFileSync(path.join(root,'simulacion/velxio/validacion-e2e.json'),JSON.stringify({timestamp:new Date().toISOString(),source:'https://velxio.dev/editor',frequency_hz:1000,pass,rows,debug,limitation:pass?null:'SPICE tiene formas de onda; el ADC del ESP32 devuelve 2047 constante. Cadena integrada no validada.'},null,2));
+ await b.close();if(!pass)process.exitCode=1;
+})();

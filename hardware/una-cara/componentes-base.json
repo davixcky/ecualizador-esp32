@@ -1,0 +1,983 @@
+[
+  {
+    "ref": "R1",
+    "tipo": "R",
+    "valor": "10",
+    "pines": {
+      "1": "+3V3",
+      "2": "+3.3VA"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Filtro RC de la alimentación analógica (con C1)"
+  },
+  {
+    "ref": "C1",
+    "tipo": "CP",
+    "valor": "100u 10V",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+    "funcion": "Filtro de la alimentación analógica"
+  },
+  {
+    "ref": "C2",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople de alta frecuencia de +3.3VA"
+  },
+  {
+    "ref": "C3",
+    "tipo": "CP",
+    "valor": "470u 10V",
+    "pines": {
+      "1": "+5V",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm",
+    "funcion": "Reserva de 5 V para el amplificador de potencia"
+  },
+  {
+    "ref": "C4",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople de U1"
+  },
+  {
+    "ref": "C5",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople de U2"
+  },
+  {
+    "ref": "C6",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople de U3"
+  },
+  {
+    "ref": "C7",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople de U4"
+  },
+  {
+    "ref": "R2",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "+3.3VA",
+      "2": "VDIV"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Divisor de VREF"
+  },
+  {
+    "ref": "R3",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "VDIV",
+      "2": "GND"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Divisor de VREF"
+  },
+  {
+    "ref": "C8",
+    "tipo": "CP",
+    "valor": "10u 16V",
+    "pines": {
+      "1": "VDIV",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
+    "funcion": "Filtro del divisor de VREF"
+  },
+  {
+    "ref": "J1",
+    "tipo": "JACK",
+    "valor": "Entrada de línea 3,5 mm",
+    "pines": {
+      "T": "IN_L",
+      "R": "IN_R",
+      "S": "GND"
+    },
+    "huella": "Connector_Audio:Jack_3.5mm_CUI_SJ1-3523N_Horizontal",
+    "funcion": "Entrada estéreo (celular o PC)"
+  },
+  {
+    "ref": "R4",
+    "tipo": "R",
+    "valor": "10k",
+    "pines": {
+      "1": "IN_L",
+      "2": "MIX"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Mezcla del canal izquierdo a mono"
+  },
+  {
+    "ref": "R5",
+    "tipo": "R",
+    "valor": "10k",
+    "pines": {
+      "1": "IN_R",
+      "2": "MIX"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Mezcla del canal derecho a mono"
+  },
+  {
+    "ref": "RV1",
+    "tipo": "POT",
+    "valor": "10k log",
+    "pines": {
+      "1": "MIX",
+      "2": "NIVEL",
+      "3": "GND"
+    },
+    "huella": "Potentiometer_THT:Potentiometer_Alps_RK09K_Single_Vertical",
+    "funcion": "Nivel de entrada"
+  },
+  {
+    "ref": "C9",
+    "tipo": "C",
+    "valor": "1u film",
+    "pines": {
+      "1": "NIVEL",
+      "2": "PRE_IN"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Acople de entrada"
+  },
+  {
+    "ref": "R6",
+    "tipo": "R",
+    "valor": "100k",
+    "pines": {
+      "1": "PRE_IN",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Polarización de la entrada en VREF"
+  },
+  {
+    "ref": "R7",
+    "tipo": "R",
+    "valor": "22k 1%",
+    "pines": {
+      "1": "PRE_FB",
+      "2": "PRE"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Realimentación del preamplificador"
+  },
+  {
+    "ref": "R8",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "PRE_FB",
+      "2": "PRE_G"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Resistencia de ganancia del preamplificador"
+  },
+  {
+    "ref": "C10",
+    "tipo": "CP",
+    "valor": "10u 16V",
+    "pines": {
+      "1": "PRE_G",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
+    "funcion": "Ganancia unitaria en continua"
+  },
+  {
+    "ref": "R9",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "PRE",
+      "2": "LB1"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa bajas de graves"
+  },
+  {
+    "ref": "R10",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "LB1",
+      "2": "LB2"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa bajas de graves"
+  },
+  {
+    "ref": "C11",
+    "tipo": "C",
+    "valor": "100n film",
+    "pines": {
+      "1": "LB1",
+      "2": "GRAVES"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa bajas de graves (realimentación)"
+  },
+  {
+    "ref": "C12",
+    "tipo": "C",
+    "valor": "47n film",
+    "pines": {
+      "1": "LB2",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa bajas de graves"
+  },
+  {
+    "ref": "C13",
+    "tipo": "C",
+    "valor": "10n film",
+    "pines": {
+      "1": "PRE",
+      "2": "MH1"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa altas de medios"
+  },
+  {
+    "ref": "C14",
+    "tipo": "C",
+    "valor": "10n film",
+    "pines": {
+      "1": "MH1",
+      "2": "MH2"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa altas de medios"
+  },
+  {
+    "ref": "R11",
+    "tipo": "R",
+    "valor": "27k 1%",
+    "pines": {
+      "1": "MH1",
+      "2": "MED_HP"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa altas de medios (realimentación)"
+  },
+  {
+    "ref": "R12",
+    "tipo": "R",
+    "valor": "56k 1%",
+    "pines": {
+      "1": "MH2",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa altas de medios"
+  },
+  {
+    "ref": "R13",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "MED_HP",
+      "2": "ML1"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa bajas de medios"
+  },
+  {
+    "ref": "R14",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "ML1",
+      "2": "ML2"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa bajas de medios"
+  },
+  {
+    "ref": "C15",
+    "tipo": "C",
+    "valor": "10n film",
+    "pines": {
+      "1": "ML1",
+      "2": "MEDIOS"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa bajas de medios (realimentación)"
+  },
+  {
+    "ref": "C16",
+    "tipo": "C",
+    "valor": "4n7 film",
+    "pines": {
+      "1": "ML2",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa bajas de medios"
+  },
+  {
+    "ref": "C17",
+    "tipo": "C",
+    "valor": "10n film",
+    "pines": {
+      "1": "PRE",
+      "2": "AH1"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa altas de agudos"
+  },
+  {
+    "ref": "C18",
+    "tipo": "C",
+    "valor": "10n film",
+    "pines": {
+      "1": "AH1",
+      "2": "AH2"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Pasa altas de agudos"
+  },
+  {
+    "ref": "R15",
+    "tipo": "R",
+    "valor": "2k7 1%",
+    "pines": {
+      "1": "AH1",
+      "2": "AGUDOS"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa altas de agudos (realimentación)"
+  },
+  {
+    "ref": "R16",
+    "tipo": "R",
+    "valor": "5k6 1%",
+    "pines": {
+      "1": "AH2",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Pasa altas de agudos"
+  },
+  {
+    "ref": "RV2",
+    "tipo": "POT",
+    "valor": "10k lin",
+    "pines": {
+      "1": "GRAVES",
+      "2": "G_W",
+      "3": "VREF"
+    },
+    "huella": "Potentiometer_THT:Potentiometer_Bourns_PTA3043_Single_Slide",
+    "funcion": "Ganancia de graves"
+  },
+  {
+    "ref": "RV3",
+    "tipo": "POT",
+    "valor": "10k lin",
+    "pines": {
+      "1": "MEDIOS",
+      "2": "M_W",
+      "3": "VREF"
+    },
+    "huella": "Potentiometer_THT:Potentiometer_Bourns_PTA3043_Single_Slide",
+    "funcion": "Ganancia de medios"
+  },
+  {
+    "ref": "RV4",
+    "tipo": "POT",
+    "valor": "10k lin",
+    "pines": {
+      "1": "AGUDOS",
+      "2": "A_W",
+      "3": "VREF"
+    },
+    "huella": "Potentiometer_THT:Potentiometer_Bourns_PTA3043_Single_Slide",
+    "funcion": "Ganancia de agudos"
+  },
+  {
+    "ref": "R17",
+    "tipo": "R",
+    "valor": "47k 1%",
+    "pines": {
+      "1": "M_W",
+      "2": "INV_N"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Entrada del inversor de medios"
+  },
+  {
+    "ref": "R18",
+    "tipo": "R",
+    "valor": "47k 1%",
+    "pines": {
+      "1": "INV_N",
+      "2": "M_INV"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Realimentación del inversor de medios"
+  },
+  {
+    "ref": "R19",
+    "tipo": "R",
+    "valor": "47k 1%",
+    "pines": {
+      "1": "G_W",
+      "2": "SUM_N"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Entrada de graves al sumador"
+  },
+  {
+    "ref": "R20",
+    "tipo": "R",
+    "valor": "47k 1%",
+    "pines": {
+      "1": "M_INV",
+      "2": "SUM_N"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Entrada de medios al sumador"
+  },
+  {
+    "ref": "R21",
+    "tipo": "R",
+    "valor": "47k 1%",
+    "pines": {
+      "1": "A_W",
+      "2": "SUM_N"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Entrada de agudos al sumador"
+  },
+  {
+    "ref": "R22",
+    "tipo": "R",
+    "valor": "100k 1%",
+    "pines": {
+      "1": "SUM_N",
+      "2": "EQ_OUT"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Realimentación del sumador"
+  },
+  {
+    "ref": "C19",
+    "tipo": "CP",
+    "valor": "10u 16V",
+    "pines": {
+      "1": "EQ_OUT",
+      "2": "OUT_AC"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D5.0mm_P2.00mm",
+    "funcion": "Acople de salida"
+  },
+  {
+    "ref": "R23",
+    "tipo": "R",
+    "valor": "100",
+    "pines": {
+      "1": "OUT_AC",
+      "2": "LINEA"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Protección de la salida contra cortocircuito"
+  },
+  {
+    "ref": "R24",
+    "tipo": "R",
+    "valor": "47k",
+    "pines": {
+      "1": "LINEA",
+      "2": "GND"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Descarga de C19"
+  },
+  {
+    "ref": "J2",
+    "tipo": "JACK",
+    "valor": "Salida de línea 3,5 mm",
+    "pines": {
+      "T": "LINEA",
+      "R": "LINEA",
+      "S": "GND"
+    },
+    "huella": "Connector_Audio:Jack_3.5mm_CUI_SJ1-3523N_Horizontal",
+    "funcion": "Salida para audífonos activos o parlante con amplificador"
+  },
+  {
+    "ref": "RV5",
+    "tipo": "POT",
+    "valor": "10k log",
+    "pines": {
+      "1": "LINEA",
+      "2": "AMP_IN",
+      "3": "GND"
+    },
+    "huella": "Potentiometer_THT:Potentiometer_Alps_RK09K_Single_Vertical",
+    "funcion": "Volumen del parlante"
+  },
+  {
+    "ref": "J3",
+    "tipo": "CONN4",
+    "valor": "PAM8403",
+    "pines": {
+      "1": "+5V",
+      "2": "GND",
+      "3": "AMP_IN",
+      "4": "GND"
+    },
+    "huella": "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical",
+    "funcion": "Módulo amplificador PAM8403 (+5V, GND, entrada, GND)"
+  },
+  {
+    "ref": "R25",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "EQ_OUT",
+      "2": "AA1"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Antialiasing"
+  },
+  {
+    "ref": "R26",
+    "tipo": "R",
+    "valor": "10k 1%",
+    "pines": {
+      "1": "AA1",
+      "2": "AA2"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Antialiasing"
+  },
+  {
+    "ref": "C20",
+    "tipo": "C",
+    "valor": "4n7 film",
+    "pines": {
+      "1": "AA1",
+      "2": "ADC_FFT"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Antialiasing (realimentación)"
+  },
+  {
+    "ref": "C21",
+    "tipo": "C",
+    "valor": "2n2 film",
+    "pines": {
+      "1": "AA2",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Antialiasing"
+  },
+  {
+    "ref": "D1",
+    "tipo": "D",
+    "valor": "1N4148",
+    "pines": {
+      "1": "DET_G",
+      "2": "DO_G"
+    },
+    "huella": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+    "funcion": "Diodo del detector de graves"
+  },
+  {
+    "ref": "C22",
+    "tipo": "C",
+    "valor": "100n film",
+    "pines": {
+      "1": "DET_G",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Retención del detector de graves"
+  },
+  {
+    "ref": "R27",
+    "tipo": "R",
+    "valor": "220k",
+    "pines": {
+      "1": "DET_G",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Descarga del detector de graves (τ = 22 ms)"
+  },
+  {
+    "ref": "D2",
+    "tipo": "D",
+    "valor": "1N4148",
+    "pines": {
+      "1": "DET_M",
+      "2": "DO_M"
+    },
+    "huella": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+    "funcion": "Diodo del detector de medios"
+  },
+  {
+    "ref": "C23",
+    "tipo": "C",
+    "valor": "100n film",
+    "pines": {
+      "1": "DET_M",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Retención del detector de medios"
+  },
+  {
+    "ref": "R28",
+    "tipo": "R",
+    "valor": "220k",
+    "pines": {
+      "1": "DET_M",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Descarga del detector de medios (τ = 22 ms)"
+  },
+  {
+    "ref": "D3",
+    "tipo": "D",
+    "valor": "1N4148",
+    "pines": {
+      "1": "DET_A",
+      "2": "DO_A"
+    },
+    "huella": "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal",
+    "funcion": "Diodo del detector de agudos"
+  },
+  {
+    "ref": "C24",
+    "tipo": "C",
+    "valor": "100n film",
+    "pines": {
+      "1": "DET_A",
+      "2": "VREF"
+    },
+    "huella": "Capacitor_THT:C_Rect_L7.2mm_W3.0mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
+    "funcion": "Retención del detector de agudos"
+  },
+  {
+    "ref": "R29",
+    "tipo": "R",
+    "valor": "220k",
+    "pines": {
+      "1": "DET_A",
+      "2": "VREF"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Descarga del detector de agudos (τ = 22 ms)"
+  },
+  {
+    "ref": "J4",
+    "tipo": "TFT",
+    "valor": "Waveshare 1.9 ST7789V2",
+    "pines": {
+      "1": "+3V3",
+      "2": "GND",
+      "3": "TFT_MOSI",
+      "4": "TFT_SCK",
+      "5": "TFT_CS",
+      "6": "TFT_DC",
+      "7": "TFT_RST",
+      "8": "TFT_BL"
+    },
+    "huella": "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical",
+    "funcion": "Cable adaptador: VCC GND DIN CLK CS DC RST BL; no insertar el módulo directamente"
+  },
+  {
+    "ref": "R30",
+    "tipo": "R",
+    "valor": "10k",
+    "pines": {
+      "1": "TFT_BL",
+      "2": "GND"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Apaga la retroiluminación durante el arranque"
+  },
+  {
+    "ref": "J5",
+    "tipo": "CONN3",
+    "valor": "NeoPixel 5V DIN GND",
+    "pines": {
+      "1": "+5V",
+      "2": "LED_DIN",
+      "3": "GND"
+    },
+    "huella": "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+    "funcion": "Salida hacia 12 LED WS2812B"
+  },
+  {
+    "ref": "J6",
+    "tipo": "CONN2",
+    "valor": "Entrada 5V 3A",
+    "pines": {
+      "1": "+5V",
+      "2": "GND"
+    },
+    "huella": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+    "funcion": "Fuente regulada externa; desconectar VBUS USB"
+  },
+  {
+    "ref": "U6",
+    "tipo": "BUFFER",
+    "valor": "74AHCT125",
+    "pines": {
+      "1": "GND",
+      "2": "LED_DATA",
+      "3": "LED_5V",
+      "4": "+5V",
+      "5": "GND",
+      "6": null,
+      "7": "GND",
+      "8": null,
+      "9": "GND",
+      "10": "+5V",
+      "11": null,
+      "12": "GND",
+      "13": "+5V",
+      "14": "+5V"
+    },
+    "huella": "Package_DIP:DIP-14_W7.62mm_Socket",
+    "funcion": "Adaptador lógico 3,3 a 5 V; no sustituir por HC"
+  },
+  {
+    "ref": "R31",
+    "tipo": "R",
+    "valor": "330",
+    "pines": {
+      "1": "LED_5V",
+      "2": "LED_DIN"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Serie de datos; junto al conector de la tira"
+  },
+  {
+    "ref": "R32",
+    "tipo": "R",
+    "valor": "10k",
+    "pines": {
+      "1": "LED_DATA",
+      "2": "GND"
+    },
+    "huella": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+    "funcion": "Mantiene DIN bajo durante reset"
+  },
+  {
+    "ref": "C25",
+    "tipo": "C",
+    "valor": "100n",
+    "pines": {
+      "1": "+5V",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+    "funcion": "Desacople del 74AHCT125"
+  },
+  {
+    "ref": "C26",
+    "tipo": "CP",
+    "valor": "1000u 10V",
+    "pines": {
+      "1": "+5V",
+      "2": "GND"
+    },
+    "huella": "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm",
+    "funcion": "Reserva para los LED"
+  },
+  {
+    "ref": "SW1",
+    "tipo": "SW",
+    "valor": "Pulsador",
+    "pines": {
+      "1": "BTN",
+      "2": "GND"
+    },
+    "huella": "Button_Switch_THT:SW_PUSH_6mm_H5mm",
+    "funcion": "Cambia la vista de la pantalla"
+  },
+  {
+    "ref": "U5",
+    "tipo": "ESP32",
+    "valor": "ESP32-DevKitC V4",
+    "pines": {
+      "1": "+3V3",
+      "2": null,
+      "3": "VREF",
+      "4": null,
+      "5": "ADC_G",
+      "6": "ADC_M",
+      "7": "ADC_A",
+      "8": "ADC_FFT",
+      "9": "LED_DATA",
+      "10": null,
+      "11": "BTN",
+      "12": null,
+      "13": null,
+      "14": "GND",
+      "15": null,
+      "16": null,
+      "17": null,
+      "18": null,
+      "19": "+5V",
+      "20": "GND",
+      "21": "TFT_MOSI",
+      "22": "TFT_RST",
+      "23": null,
+      "24": null,
+      "25": "TFT_DC",
+      "26": "GND",
+      "27": "TFT_BL",
+      "28": "TFT_SCK",
+      "29": "TFT_CS",
+      "30": null,
+      "31": null,
+      "32": null,
+      "33": null,
+      "34": null,
+      "35": null,
+      "36": null,
+      "37": null,
+      "38": null
+    },
+    "huella": "Ecualizador:ESP32-DevKitC-38_Zocalo",
+    "funcion": "Microcontrolador: ADC1, FFT, pantalla y Wi-Fi"
+  },
+  {
+    "ref": "U1",
+    "tipo": "OPAMP",
+    "valor": "MCP6004",
+    "pines": {
+      "4": "+3.3VA",
+      "11": "GND",
+      "3": "VDIV",
+      "2": "VREF",
+      "1": "VREF",
+      "5": "PRE_IN",
+      "6": "PRE_FB",
+      "7": "PRE",
+      "10": "LB2",
+      "9": "GRAVES",
+      "8": "GRAVES",
+      "12": "MH2",
+      "13": "MED_HP",
+      "14": "MED_HP"
+    },
+    "huella": "Package_DIP:DIP-14_W7.62mm_Socket",
+    "funcion": "Cuatro amplificadores operacionales riel a riel"
+  },
+  {
+    "ref": "U2",
+    "tipo": "OPAMP",
+    "valor": "MCP6004",
+    "pines": {
+      "4": "+3.3VA",
+      "11": "GND",
+      "3": "ML2",
+      "2": "MEDIOS",
+      "1": "MEDIOS",
+      "5": "AH2",
+      "6": "AGUDOS",
+      "7": "AGUDOS",
+      "10": "VREF",
+      "9": "SUM_N",
+      "8": "EQ_OUT",
+      "12": "AA2",
+      "13": "ADC_FFT",
+      "14": "ADC_FFT"
+    },
+    "huella": "Package_DIP:DIP-14_W7.62mm_Socket",
+    "funcion": "Cuatro amplificadores operacionales riel a riel"
+  },
+  {
+    "ref": "U3",
+    "tipo": "OPAMP",
+    "valor": "MCP6004",
+    "pines": {
+      "4": "+3.3VA",
+      "11": "GND",
+      "3": "G_W",
+      "2": "DET_G",
+      "1": "DO_G",
+      "5": "DET_G",
+      "6": "ADC_G",
+      "7": "ADC_G",
+      "10": "M_W",
+      "9": "DET_M",
+      "8": "DO_M",
+      "12": "DET_M",
+      "13": "ADC_M",
+      "14": "ADC_M"
+    },
+    "huella": "Package_DIP:DIP-14_W7.62mm_Socket",
+    "funcion": "Cuatro amplificadores operacionales riel a riel"
+  },
+  {
+    "ref": "U4",
+    "tipo": "OPAMP",
+    "valor": "MCP6004",
+    "pines": {
+      "4": "+3.3VA",
+      "11": "GND",
+      "3": "A_W",
+      "2": "DET_A",
+      "1": "DO_A",
+      "5": "DET_A",
+      "6": "ADC_A",
+      "7": "ADC_A",
+      "10": "VREF",
+      "9": "INV_N",
+      "8": "M_INV",
+      "12": "VREF",
+      "13": "U4D_OUT",
+      "14": "U4D_OUT"
+    },
+    "huella": "Package_DIP:DIP-14_W7.62mm_Socket",
+    "funcion": "Cuatro amplificadores operacionales riel a riel"
+  }
+]

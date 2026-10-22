@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Convierte las pantallas PPM a PNG ampliadas y arma una lámina con las cuatro vistas dentro
-de un marco que imita el módulo TFT de 2,8"."""
+de un marco que imita el módulo TFT de 1,9"."""
 import os
 import sys
 
@@ -19,11 +19,11 @@ for n in nombres:
 
 def marco(im):
     m = 26
-    fondo = Image.new("RGB", (im.width + 2 * m + 40, im.height + 2 * m), (176, 30, 40))
+    fondo = Image.new("RGB", (im.width + 2 * m + 40, im.height + 2 * m), (25, 60, 85))
     d = ImageDraw.Draw(fondo)
     d.rounded_rectangle((m - 8, m - 8, m + im.width + 8, m + im.height + 8), 10, fill=(12, 12, 14))
-    for k in range(14):                      # conector de 14 pines
-        y = fondo.height // 2 - 7 * 18 + k * 18
+    for k in range(8):                      # conector de 14 pines
+        y = fondo.height // 2 - 4 * 18 + k * 18
         d.rectangle((fondo.width - 28, y, fondo.width - 16, y + 10), fill=(212, 175, 55))
     fondo.paste(im, (m, m))
     return fondo

@@ -1,0 +1,113 @@
+Velxio
+File
+Edit
+View
+Account
+Help
+Code
+Both
+Circuit
+Arduino C++
+MicroPython
+ESP-IDF
+Libraries
+ESP32 - ADC y barras
+Serial
+Scope
+29
+Add
+Signal Generator
+Signal Generator
+Resistor (custom)
+Resistor (custom)
+Cap. ceramic (custom)
+Cap. ceramic (custom)
+Ideal Op-Amp
+Cap. ceramic (custom)
+Cap. ceramic (custom)
+Resistor (custom)
+Resistor (custom)
+Ideal Op-Amp
+Resistor (custom)
+Resistor (custom)
+Cap. ceramic (custom)
+Cap. ceramic (custom)
+Ideal Op-Amp
+Cap. ceramic (custom)
+Cap. ceramic (custom)
+Resistor (custom)
+Resistor (custom)
+Ideal Op-Amp
++
+-
+AC V
+RMS 6.11 mV
+pk 16.56 mV
+DC 2.87 mV
++
+-
+AC V
+RMS 63.23 mV
+pk 102.65 mV
+DC -2.83 mV
++
+-
+AC V
+RMS 4.51 mV
+pk 11.11 mV
+DC 0.57 mV
+NeoPixel Matrix
+Resistor (custom)
+Resistor (custom)
+Resistor (custom)
+AC
+SPICE 20 nets | 0 ms
+100%
+Share
+⬡
+ESP32 - ADC y barras
+115,200 baud
+Autoscroll
+Clear
+Monitor
+Auto
+300
+1200
+2400
+4800
+9600
+19200
+38400
+57600
+74880
+115200
+230400
+250000
+460800
+500000
+921600
+1000000
+2000000
+⚡ Hardware serial
+ets Jun  8 2016 00:22:57
+
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:1396
+load:0x40078000,len:13700
+load:0x40080400,len:3008
+entry 0x40080574
+E2E RMS_ADC G=0.00 M=0.00 A=0.00 DOM=0
+MEAN 2047 2047 2047
+E2E RMS_ADC G=0.00 M=0.00 A=0.00 DOM=0
+MEAN 2047 2047 2047
+E2E RMS_ADC G=0.00 M=0.00 A=0.00 DOM=0
+MEAN 2047 2047 2047
+
+No line ending
+Newline
+Carriage return
+Both NL & CR
+Send

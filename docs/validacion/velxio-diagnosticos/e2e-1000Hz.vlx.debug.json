@@ -1,0 +1,597 @@
+{
+  "analysisMode": "tran",
+  "converged": true,
+  "error": null,
+  "lastSolveMs": 0,
+  "nodeVoltageCount": 20,
+  "branchCurrentCount": 5,
+  "branchCurrentNames": [
+    "v_aux_rail_5",
+    "v_vcc_rail",
+    "v_pre",
+    "v_vref",
+    "v_esp32_25"
+  ],
+  "pinNetMapSize": 69,
+  "pinNetMapEntries": [
+    [
+      "PRE:SIG",
+      "n6"
+    ],
+    [
+      "R9:1",
+      "n6"
+    ],
+    [
+      "C13:1",
+      "n6"
+    ],
+    [
+      "C17:1",
+      "n6"
+    ],
+    [
+      "PRE:GND",
+      "0"
+    ],
+    [
+      "VREF:GND",
+      "0"
+    ],
+    [
+      "VREF:SIG",
+      "n16"
+    ],
+    [
+      "C12:2",
+      "n16"
+    ],
+    [
+      "R12:2",
+      "n16"
+    ],
+    [
+      "C16:2",
+      "n16"
+    ],
+    [
+      "R16:2",
+      "n16"
+    ],
+    [
+      "GRAVES:V-",
+      "n16"
+    ],
+    [
+      "MEDIOS:V-",
+      "n16"
+    ],
+    [
+      "AGUDOS:V-",
+      "n16"
+    ],
+    [
+      "R9:2",
+      "n12"
+    ],
+    [
+      "R10:1",
+      "n12"
+    ],
+    [
+      "C11:1",
+      "n12"
+    ],
+    [
+      "R10:2",
+      "n7"
+    ],
+    [
+      "C12:1",
+      "n7"
+    ],
+    [
+      "U1C:IN+",
+      "n7"
+    ],
+    [
+      "C11:2",
+      "n0"
+    ],
+    [
+      "U1C:IN-",
+      "n0"
+    ],
+    [
+      "U1C:OUT",
+      "n0"
+    ],
+    [
+      "GRAVES:V+",
+      "n0"
+    ],
+    [
+      "C13:2",
+      "n1"
+    ],
+    [
+      "C14:1",
+      "n1"
+    ],
+    [
+      "R11:1",
+      "n1"
+    ],
+    [
+      "C14:2",
+      "n2"
+    ],
+    [
+      "R12:1",
+      "n2"
+    ],
+    [
+      "U1D:IN+",
+      "n2"
+    ],
+    [
+      "R11:2",
+      "n8"
+    ],
+    [
+      "U1D:IN-",
+      "n8"
+    ],
+    [
+      "U1D:OUT",
+      "n8"
+    ],
+    [
+      "R13:1",
+      "n8"
+    ],
+    [
+      "R13:2",
+      "n9"
+    ],
+    [
+      "R14:1",
+      "n9"
+    ],
+    [
+      "C15:1",
+      "n9"
+    ],
+    [
+      "R14:2",
+      "n10"
+    ],
+    [
+      "C16:1",
+      "n10"
+    ],
+    [
+      "U2A:IN+",
+      "n10"
+    ],
+    [
+      "C15:2",
+      "n3"
+    ],
+    [
+      "U2A:IN-",
+      "n3"
+    ],
+    [
+      "U2A:OUT",
+      "n3"
+    ],
+    [
+      "MEDIOS:V+",
+      "n3"
+    ],
+    [
+      "C17:2",
+      "n4"
+    ],
+    [
+      "C18:1",
+      "n4"
+    ],
+    [
+      "R15:1",
+      "n4"
+    ],
+    [
+      "C18:2",
+      "n5"
+    ],
+    [
+      "R16:1",
+      "n5"
+    ],
+    [
+      "U2B:IN+",
+      "n5"
+    ],
+    [
+      "R15:2",
+      "n11"
+    ],
+    [
+      "U2B:IN-",
+      "n11"
+    ],
+    [
+      "U2B:OUT",
+      "n11"
+    ],
+    [
+      "AGUDOS:V+",
+      "n11"
+    ],
+    [
+      "R_ADC_34:1",
+      "n0"
+    ],
+    [
+      "R_ADC_34:2",
+      "n14"
+    ],
+    [
+      "esp32:34",
+      "n14"
+    ],
+    [
+      "R_ADC_35:1",
+      "n3"
+    ],
+    [
+      "R_ADC_35:2",
+      "n15"
+    ],
+    [
+      "esp32:35",
+      "n15"
+    ],
+    [
+      "R_ADC_32:1",
+      "n11"
+    ],
+    [
+      "R_ADC_32:2",
+      "n13"
+    ],
+    [
+      "esp32:32",
+      "n13"
+    ],
+    [
+      "esp32:GND",
+      "0"
+    ],
+    [
+      "esp32:VIN",
+      "aux_rail_5"
+    ],
+    [
+      "tira:VDD",
+      "aux_rail_5"
+    ],
+    [
+      "tira:VSS",
+      "0"
+    ],
+    [
+      "esp32:25",
+      "n17"
+    ],
+    [
+      "tira:DIN",
+      "n17"
+    ]
+  ],
+  "nodeVoltages": {
+    "n0": 1.6481381636021342,
+    "n1": 1.682342154077112,
+    "n2": 1.7055113821233512,
+    "n3": 1.6462936744103256,
+    "n4": 1.668046521686198,
+    "n5": 1.6520060912625831,
+    "n6": 1.65,
+    "n7": 1.6481398117402977,
+    "n8": 1.7055096766136746,
+    "n9": 1.675599869598331,
+    "n10": 1.6462953207039999,
+    "n11": 1.6520044392581439,
+    "n12": 1.6332881641379018,
+    "n13": 1.6520044392581439,
+    "n14": 1.6481381636021342,
+    "n15": 1.6462936744103256,
+    "n16": 1.6500000000000001,
+    "aux_rail_5": 5,
+    "n17": 0,
+    "vcc_rail": 3.3000000000000003
+  },
+  "hasTimeWaveforms": true,
+  "paused": false,
+  "outputPinsByBoard": {
+    "esp32": [
+      11,
+      7,
+      8,
+      10,
+      9,
+      25
+    ]
+  },
+  "collectedByBoard": {
+    "esp32": {
+      "kind": "esp32",
+      "states": {
+        "25": {
+          "type": "digital",
+          "v": 0
+        }
+      }
+    }
+  },
+  "rebuildCount": 15,
+  "edgeCount": 0,
+  "stateSolveCount": 0,
+  "cacheHitCount": 0,
+  "windowCount": 0,
+  "lastRebuildAt": 1792706372396,
+  "edgePath": {
+    "pads": 1,
+    "padSources": [
+      "V_esp32_25"
+    ],
+    "deckSources": 5,
+    "analysis": "tran",
+    "tickQueued": false,
+    "busy": false,
+    "windowOpen": false,
+    "streaming": false,
+    "pendingEdges": 0,
+    "currentLevels": [
+      0
+    ],
+    "cacheSize": 1,
+    "lastSolve": {
+      "solveMs": 2,
+      "vectors": 25,
+      "timing": {
+        "commandMs": 1.3999999985098839,
+        "readMs": 0.10000000149011612,
+        "engineMs": 1.3999999985098839,
+        "engineReadMs": 0
+      }
+    },
+    "lastRebuildMs": 4,
+    "maxRebuildMs": 3019,
+    "lastStateSolveMs": 0,
+    "lastStateSolveBreakdown": null,
+    "maxStateSolveMs": 0,
+    "healRequests": [],
+    "stopped": false,
+    "trace": [
+      {
+        "at": 1012,
+        "rebuild": 1,
+        "collected": {
+          "arduino-uno": 0
+        },
+        "sources": 3
+      },
+      {
+        "at": 4030,
+        "rebuilt": 1,
+        "ms": 3019,
+        "loadMs": 3005
+      },
+      {
+        "at": 4031,
+        "rebuild": 2,
+        "collected": {
+          "arduino-uno": 0
+        },
+        "sources": 3
+      },
+      {
+        "at": 4035,
+        "rebuilt": 2,
+        "ms": 4,
+        "loadMs": 3
+      },
+      {
+        "at": 6145,
+        "rebuild": 3,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6172,
+        "rebuilt": 3,
+        "ms": 27,
+        "loadMs": 17
+      },
+      {
+        "at": 6174,
+        "rebuild": 4,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6178,
+        "rebuilt": 4,
+        "ms": 5,
+        "loadMs": 2
+      },
+      {
+        "at": 6231,
+        "rebuild": 5,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6335,
+        "rebuilt": 5,
+        "ms": 104,
+        "loadMs": 6
+      },
+      {
+        "at": 6336,
+        "rebuild": 6,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6374,
+        "rebuilt": 6,
+        "ms": 38,
+        "loadMs": 17
+      },
+      {
+        "at": 6453,
+        "rebuild": 7,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6457,
+        "rebuilt": 7,
+        "ms": 5,
+        "loadMs": 3
+      },
+      {
+        "at": 6647,
+        "rebuild": 8,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 6651,
+        "rebuilt": 8,
+        "ms": 4,
+        "loadMs": 2
+      },
+      {
+        "at": 10145,
+        "rebuild": 9,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 10161,
+        "rebuilt": 9,
+        "ms": 17,
+        "loadMs": 14
+      },
+      {
+        "at": 12492,
+        "rebuild": 10,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 12495,
+        "rebuilt": 10,
+        "ms": 4,
+        "loadMs": 2
+      },
+      {
+        "at": 12524,
+        "rebuild": 11,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 12528,
+        "rebuilt": 11,
+        "ms": 4,
+        "loadMs": 1
+      },
+      {
+        "at": 13182,
+        "rebuild": 12,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 13186,
+        "rebuilt": 12,
+        "ms": 4,
+        "loadMs": 2
+      },
+      {
+        "at": 13216,
+        "rebuild": 13,
+        "collected": {
+          "esp32": 0
+        },
+        "sources": 4
+      },
+      {
+        "at": 13219,
+        "rebuilt": 13,
+        "ms": 3,
+        "loadMs": 1
+      },
+      {
+        "at": 16357,
+        "heal": "esp32|25",
+        "tickQueued": false,
+        "busy": false
+      },
+      {
+        "at": 16357,
+        "rebuild": 14,
+        "collected": {
+          "esp32": 1
+        },
+        "sources": 5
+      },
+      {
+        "at": 16361,
+        "rebuilt": 14,
+        "ms": 4,
+        "loadMs": 2
+      },
+      {
+        "at": 16391,
+        "rebuild": 15,
+        "collected": {
+          "esp32": 1
+        },
+        "sources": 5
+      },
+      {
+        "at": 16394,
+        "rebuilt": 15,
+        "ms": 4,
+        "loadMs": 2
+      }
+    ]
+  }
+}

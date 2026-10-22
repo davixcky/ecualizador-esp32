@@ -1,0 +1,96 @@
+{
+  "docs/informe-fase2.pdf": {
+    "paginas": 19,
+    "autores": true,
+    "adjuntos": [
+      "integrado-100Hz.vlx",
+      "integrado-8000Hz.vlx",
+      "integrado-1000Hz.vlx",
+      "INTEGRADO.md",
+      "filtros-100Hz.vlx",
+      "filtros-8000Hz.vlx",
+      "filtros-1000Hz.vlx",
+      "led-animado.vlx",
+      "ecualizador.pdf",
+      "pcb-rev-D2.pdf",
+      "PUENTES.md",
+      "LEEME.md",
+      "DEMO-HOY.md"
+    ],
+    "frase_retirada": true
+  },
+  "docs/presentacion/presentacion-fase2.pdf": {
+    "paginas": 36,
+    "autores": true,
+    "adjuntos": [
+      "integrado-100Hz.vlx",
+      "integrado-8000Hz.vlx",
+      "integrado-1000Hz.vlx",
+      "INTEGRADO.md",
+      "filtros-100Hz.vlx",
+      "filtros-8000Hz.vlx",
+      "filtros-1000Hz.vlx",
+      "led-animado.vlx",
+      "ecualizador.pdf",
+      "pcb-rev-D2.pdf",
+      "PUENTES.md",
+      "LEEME.md",
+      "DEMO-HOY.md"
+    ],
+    "frase_retirada": true
+  },
+  "docs/presentacion/presentacion-animada.pdf": {
+    "paginas": 46,
+    "autores": true,
+    "adjuntos": [
+      "integrado-100Hz.vlx",
+      "integrado-8000Hz.vlx",
+      "integrado-1000Hz.vlx",
+      "INTEGRADO.md",
+      "filtros-100Hz.vlx",
+      "filtros-8000Hz.vlx",
+      "filtros-1000Hz.vlx",
+      "led-animado.vlx",
+      "ecualizador.pdf",
+      "pcb-rev-D2.pdf",
+      "PUENTES.md",
+      "LEEME.md",
+      "DEMO-HOY.md"
+    ],
+    "frase_retirada": true
+  },
+  "docs/presentacion/presentacion-filtros-hoy.pdf": {
+    "paginas": 10,
+    "autores": true,
+    "adjuntos": [
+      "filtros-100Hz.vlx",
+      "filtros-1000Hz.vlx",
+      "filtros-8000Hz.vlx"
+    ],
+    "frase_retirada": true
+  },
+  "comprobaciones": {
+    "orden_solicitado": true,
+    "esquema_interno_pdf_y_pptx": true,
+    "anexo_pptx_ancho_px": 6000,
+    "zip_portable_integridad": true,
+    "niveles_tft_por_tono_v": {
+      "100": [
+        0.03971,
+        0.00287,
+        0.00042
+      ],
+      "1000": [
+        0.00431,
+        0.0477,
+        0.00364
+      ],
+      "8000": [
+        0.00081,
+        0.00403,
+        0.04755
+      ]
+    },
+    "fft_calibrada": false
+  }
+}

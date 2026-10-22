@@ -1,0 +1,634 @@
+{
+  "C26": {
+    "xy": [
+      113.97,
+      48.57
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C26"
+  },
+  "R21": {
+    "xy": [
+      138.1,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R21"
+  },
+  "C12": {
+    "xy": [
+      49.199999,
+      101.91
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C12"
+  },
+  "C7": {
+    "xy": [
+      50.47,
+      37.14
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C7"
+  },
+  "J2": {
+    "xy": [
+      172.39,
+      48.57
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J2"
+  },
+  "R30": {
+    "xy": [
+      36.5,
+      56.19
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R30"
+  },
+  "R32": {
+    "xy": [
+      124.13,
+      54.919999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R32"
+  },
+  "R11": {
+    "xy": [
+      56.819999,
+      85.399999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R11"
+  },
+  "RV5": {
+    "xy": [
+      149.529999,
+      35.87
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_RV5"
+  },
+  "R3": {
+    "xy": [
+      25.069999,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R3"
+  },
+  "R27": {
+    "xy": [
+      32.689999,
+      28.249999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R27"
+  },
+  "C11": {
+    "xy": [
+      18.719999,
+      79.05
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C11"
+  },
+  "R16": {
+    "xy": [
+      107.619999,
+      100.64
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R16"
+  },
+  "SW1": {
+    "xy": [
+      172.39,
+      35.87
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_SW1"
+  },
+  "R6": {
+    "xy": [
+      36.5,
+      106.99
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R6"
+  },
+  "C23": {
+    "xy": [
+      39.04,
+      18.089999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C23"
+  },
+  "R19": {
+    "xy": [
+      125.399999,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R19"
+  },
+  "R20": {
+    "xy": [
+      131.75,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R20"
+  },
+  "R13": {
+    "xy": [
+      101.27,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R13"
+  },
+  "U4": {
+    "xy": [
+      19.989999,
+      9.199999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U4"
+  },
+  "C8": {
+    "xy": [
+      17.449999,
+      87.94
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C8"
+  },
+  "R31": {
+    "xy": [
+      124.13,
+      42.22
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R31"
+  },
+  "R5": {
+    "xy": [
+      78.41,
+      56.19
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R5"
+  },
+  "R25": {
+    "xy": [
+      119.05,
+      101.91
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R25"
+  },
+  "J3": {
+    "xy": [
+      190.17,
+      65.08
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J3"
+  },
+  "C9": {
+    "xy": [
+      37.769999,
+      100.64
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C9"
+  },
+  "C21": {
+    "xy": [
+      97.46,
+      103.18
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C21"
+  },
+  "R22": {
+    "xy": [
+      122.86,
+      96.83
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R22"
+  },
+  "R9": {
+    "xy": [
+      30.149999,
+      80.32
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R9"
+  },
+  "C24": {
+    "xy": [
+      22.529999,
+      29.519999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C24"
+  },
+  "C20": {
+    "xy": [
+      119.05,
+      108.259999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C20"
+  },
+  "R2": {
+    "xy": [
+      30.149999,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R2"
+  },
+  "RV3": {
+    "xy": [
+      149.529999,
+      23.17
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_RV3"
+  },
+  "D1": {
+    "xy": [
+      44.12,
+      28.249999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_D1"
+  },
+  "R10": {
+    "xy": [
+      25.069999,
+      80.32
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R10"
+  },
+  "C15": {
+    "xy": [
+      89.84,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C15"
+  },
+  "R1": {
+    "xy": [
+      60.629999,
+      56.19
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R1"
+  },
+  "C19": {
+    "xy": [
+      131.75,
+      103.18
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C19"
+  },
+  "C6": {
+    "xy": [
+      60.629999,
+      28.249999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C6"
+  },
+  "R7": {
+    "xy": [
+      36.5,
+      73.97
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R7"
+  },
+  "C5": {
+    "xy": [
+      119.05,
+      90.48
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C5"
+  },
+  "C22": {
+    "xy": [
+      39.04,
+      28.249999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C22"
+  },
+  "C2": {
+    "xy": [
+      66.979999,
+      56.19
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C2"
+  },
+  "U1": {
+    "xy": [
+      36.5,
+      80.32
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U1"
+  },
+  "D3": {
+    "xy": [
+      16.179999,
+      20.629999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_D3"
+  },
+  "C17": {
+    "xy": [
+      108.89,
+      75.24
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C17"
+  },
+  "R17": {
+    "xy": [
+      60.629999,
+      18.089999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R17"
+  },
+  "R26": {
+    "xy": [
+      107.619999,
+      106.99
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R26"
+  },
+  "RV1": {
+    "xy": [
+      149.529999,
+      10.469999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_RV1"
+  },
+  "RV4": {
+    "xy": [
+      172.39,
+      23.17
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_RV4"
+  },
+  "C14": {
+    "xy": [
+      54.279999,
+      73.97
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C14"
+  },
+  "C4": {
+    "xy": [
+      47.93,
+      90.48
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C4"
+  },
+  "RV2": {
+    "xy": [
+      172.39,
+      10.469999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_RV2"
+  },
+  "U6": {
+    "xy": [
+      119.05,
+      13.009999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U6"
+  },
+  "U3": {
+    "xy": [
+      47.93,
+      18.089999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U3"
+  },
+  "U2": {
+    "xy": [
+      107.619999,
+      80.32
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U2"
+  },
+  "R8": {
+    "xy": [
+      36.5,
+      68.89
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R8"
+  },
+  "R12": {
+    "xy": [
+      54.279999,
+      98.1
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R12"
+  },
+  "D2": {
+    "xy": [
+      47.93,
+      13.009999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_D2"
+  },
+  "R29": {
+    "xy": [
+      32.689999,
+      33.33
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_R29"
+  },
+  "J6": {
+    "xy": [
+      186.36,
+      48.57
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J6"
+  },
+  "R4": {
+    "xy": [
+      72.06,
+      56.19
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R4"
+  },
+  "C10": {
+    "xy": [
+      49.199999,
+      80.32
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C10"
+  },
+  "R14": {
+    "xy": [
+      94.92,
+      91.75
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R14"
+  },
+  "R18": {
+    "xy": [
+      66.979999,
+      18.089999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R18"
+  },
+  "J4": {
+    "xy": [
+      102.539999,
+      9.199999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J4"
+  },
+  "R23": {
+    "xy": [
+      139.37,
+      108.259999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R23"
+  },
+  "C25": {
+    "xy": [
+      124.13,
+      48.57
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C25"
+  },
+  "R24": {
+    "xy": [
+      143.18,
+      95.56
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R24"
+  },
+  "C3": {
+    "xy": [
+      51.739999,
+      53.65
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C3"
+  },
+  "J1": {
+    "xy": [
+      149.529999,
+      48.57
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J1"
+  },
+  "C1": {
+    "xy": [
+      42.849999,
+      53.65
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C1"
+  },
+  "R28": {
+    "xy": [
+      32.689999,
+      16.819999
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R28"
+  },
+  "R15": {
+    "xy": [
+      119.05,
+      77.78
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_R15"
+  },
+  "C18": {
+    "xy": [
+      108.89,
+      68.89
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C18"
+  },
+  "J5": {
+    "xy": [
+      190.17,
+      32.059999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_J5"
+  },
+  "C16": {
+    "xy": [
+      93.649999,
+      96.83
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_C16"
+  },
+  "U5": {
+    "xy": [
+      157.149999,
+      62.539999
+    ],
+    "rot": 0.0,
+    "huella": "Ecualizador:UnaCara_U5"
+  },
+  "C13": {
+    "xy": [
+      49.199999,
+      73.97
+    ],
+    "rot": 90.0,
+    "huella": "Ecualizador:UnaCara_C13"
+  }
+}

@@ -1,0 +1,873 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,30,&H00FFFFFF,&H00FFFFFF,&H00352519,&H00000000,0,0,0,0,100,100,0,0,1,1,0,9,64,64,48,1
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.04,0:00:00.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.08,0:00:00.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.12,0:00:00.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.17,0:00:00.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.21,0:00:00.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.25,0:00:00.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.29,0:00:00.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.33,0:00:00.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.38,0:00:00.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.42,0:00:00.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.46,0:00:00.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.50,0:00:00.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.54,0:00:00.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.58,0:00:00.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.62,0:00:00.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.67,0:00:00.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.71,0:00:00.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.75,0:00:00.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.79,0:00:00.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.83,0:00:00.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.88,0:00:00.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.92,0:00:00.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:00.96,0:00:01.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.00,0:00:01.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.04,0:00:01.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.08,0:00:01.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.12,0:00:01.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.17,0:00:01.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.21,0:00:01.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.25,0:00:01.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.29,0:00:01.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.33,0:00:01.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.38,0:00:01.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.42,0:00:01.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.46,0:00:01.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.50,0:00:01.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.54,0:00:01.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.58,0:00:01.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.62,0:00:01.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.67,0:00:01.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.71,0:00:01.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.75,0:00:01.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.79,0:00:01.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.83,0:00:01.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.88,0:00:01.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.92,0:00:01.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:01.96,0:00:02.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.00,0:00:02.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.04,0:00:02.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.08,0:00:02.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.12,0:00:02.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.17,0:00:02.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.21,0:00:02.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.25,0:00:02.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.29,0:00:02.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.33,0:00:02.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.38,0:00:02.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.42,0:00:02.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.46,0:00:02.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.50,0:00:02.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.54,0:00:02.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.58,0:00:02.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.62,0:00:02.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.67,0:00:02.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.71,0:00:02.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.75,0:00:02.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.79,0:00:02.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.83,0:00:02.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.88,0:00:02.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.92,0:00:02.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:02.96,0:00:03.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:03.00,0:00:03.04,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:03.04,0:00:03.08,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:03.08,0:00:03.12,Default,,0,0,0,,GRAVES  ·  49 %
+Dialogue: 0,0:00:03.12,0:00:03.17,Default,,0,0,0,,GRAVES  ·  47 %
+Dialogue: 0,0:00:03.17,0:00:03.21,Default,,0,0,0,,GRAVES  ·  45 %
+Dialogue: 0,0:00:03.21,0:00:03.25,Default,,0,0,0,,GRAVES  ·  43 %
+Dialogue: 0,0:00:03.25,0:00:03.29,Default,,0,0,0,,GRAVES  ·  41 %
+Dialogue: 0,0:00:03.29,0:00:03.33,Default,,0,0,0,,GRAVES  ·  38 %
+Dialogue: 0,0:00:03.33,0:00:03.38,Default,,0,0,0,,GRAVES  ·  35 %
+Dialogue: 0,0:00:03.38,0:00:03.42,Default,,0,0,0,,GRAVES  ·  31 %
+Dialogue: 0,0:00:03.42,0:00:03.46,Default,,0,0,0,,GRAVES  ·  28 %
+Dialogue: 0,0:00:03.46,0:00:03.50,Default,,0,0,0,,GRAVES  ·  24 %
+Dialogue: 0,0:00:03.50,0:00:03.54,Default,,0,0,0,,GRAVES  ·  21 %
+Dialogue: 0,0:00:03.54,0:00:03.58,Default,,0,0,0,,GRAVES  ·  17 %
+Dialogue: 0,0:00:03.58,0:00:03.62,Default,,0,0,0,,GRAVES  ·  14 %
+Dialogue: 0,0:00:03.62,0:00:03.67,Default,,0,0,0,,GRAVES  ·  11 %
+Dialogue: 0,0:00:03.67,0:00:03.71,Default,,0,0,0,,GRAVES  ·  8 %
+Dialogue: 0,0:00:03.71,0:00:03.75,Default,,0,0,0,,GRAVES  ·  6 %
+Dialogue: 0,0:00:03.75,0:00:03.79,Default,,0,0,0,,GRAVES  ·  4 %
+Dialogue: 0,0:00:03.79,0:00:03.83,Default,,0,0,0,,GRAVES  ·  2 %
+Dialogue: 0,0:00:03.83,0:00:03.88,Default,,0,0,0,,GRAVES  ·  1 %
+Dialogue: 0,0:00:03.88,0:00:03.92,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:03.92,0:00:03.96,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:03.96,0:00:04.00,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.00,0:00:04.04,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.04,0:00:04.08,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.08,0:00:04.12,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.12,0:00:04.17,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.17,0:00:04.21,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.21,0:00:04.25,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.25,0:00:04.29,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.29,0:00:04.33,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.33,0:00:04.38,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.38,0:00:04.42,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.42,0:00:04.46,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.46,0:00:04.50,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.50,0:00:04.54,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.54,0:00:04.58,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.58,0:00:04.62,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.62,0:00:04.67,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.67,0:00:04.71,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.71,0:00:04.75,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.75,0:00:04.79,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.79,0:00:04.83,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.83,0:00:04.88,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.88,0:00:04.92,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.92,0:00:04.96,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:04.96,0:00:05.00,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:05.00,0:00:05.04,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:05.04,0:00:05.08,Default,,0,0,0,,GRAVES  ·  0 %
+Dialogue: 0,0:00:05.08,0:00:05.12,Default,,0,0,0,,GRAVES  ·  1 %
+Dialogue: 0,0:00:05.12,0:00:05.17,Default,,0,0,0,,GRAVES  ·  1 %
+Dialogue: 0,0:00:05.17,0:00:05.21,Default,,0,0,0,,GRAVES  ·  2 %
+Dialogue: 0,0:00:05.21,0:00:05.25,Default,,0,0,0,,GRAVES  ·  4 %
+Dialogue: 0,0:00:05.25,0:00:05.29,Default,,0,0,0,,GRAVES  ·  5 %
+Dialogue: 0,0:00:05.29,0:00:05.33,Default,,0,0,0,,GRAVES  ·  7 %
+Dialogue: 0,0:00:05.33,0:00:05.38,Default,,0,0,0,,GRAVES  ·  9 %
+Dialogue: 0,0:00:05.38,0:00:05.42,Default,,0,0,0,,GRAVES  ·  11 %
+Dialogue: 0,0:00:05.42,0:00:05.46,Default,,0,0,0,,GRAVES  ·  14 %
+Dialogue: 0,0:00:05.46,0:00:05.50,Default,,0,0,0,,GRAVES  ·  16 %
+Dialogue: 0,0:00:05.50,0:00:05.54,Default,,0,0,0,,GRAVES  ·  19 %
+Dialogue: 0,0:00:05.54,0:00:05.58,Default,,0,0,0,,GRAVES  ·  22 %
+Dialogue: 0,0:00:05.58,0:00:05.62,Default,,0,0,0,,GRAVES  ·  25 %
+Dialogue: 0,0:00:05.62,0:00:05.67,Default,,0,0,0,,GRAVES  ·  28 %
+Dialogue: 0,0:00:05.67,0:00:05.71,Default,,0,0,0,,GRAVES  ·  31 %
+Dialogue: 0,0:00:05.71,0:00:05.75,Default,,0,0,0,,GRAVES  ·  34 %
+Dialogue: 0,0:00:05.75,0:00:05.79,Default,,0,0,0,,GRAVES  ·  38 %
+Dialogue: 0,0:00:05.79,0:00:05.83,Default,,0,0,0,,GRAVES  ·  41 %
+Dialogue: 0,0:00:05.83,0:00:05.88,Default,,0,0,0,,GRAVES  ·  44 %
+Dialogue: 0,0:00:05.88,0:00:05.92,Default,,0,0,0,,GRAVES  ·  48 %
+Dialogue: 0,0:00:05.92,0:00:05.96,Default,,0,0,0,,GRAVES  ·  51 %
+Dialogue: 0,0:00:05.96,0:00:06.00,Default,,0,0,0,,GRAVES  ·  55 %
+Dialogue: 0,0:00:06.00,0:00:06.04,Default,,0,0,0,,GRAVES  ·  58 %
+Dialogue: 0,0:00:06.04,0:00:06.08,Default,,0,0,0,,GRAVES  ·  62 %
+Dialogue: 0,0:00:06.08,0:00:06.12,Default,,0,0,0,,GRAVES  ·  65 %
+Dialogue: 0,0:00:06.12,0:00:06.17,Default,,0,0,0,,GRAVES  ·  68 %
+Dialogue: 0,0:00:06.17,0:00:06.21,Default,,0,0,0,,GRAVES  ·  72 %
+Dialogue: 0,0:00:06.21,0:00:06.25,Default,,0,0,0,,GRAVES  ·  75 %
+Dialogue: 0,0:00:06.25,0:00:06.29,Default,,0,0,0,,GRAVES  ·  78 %
+Dialogue: 0,0:00:06.29,0:00:06.33,Default,,0,0,0,,GRAVES  ·  81 %
+Dialogue: 0,0:00:06.33,0:00:06.38,Default,,0,0,0,,GRAVES  ·  83 %
+Dialogue: 0,0:00:06.38,0:00:06.42,Default,,0,0,0,,GRAVES  ·  86 %
+Dialogue: 0,0:00:06.42,0:00:06.46,Default,,0,0,0,,GRAVES  ·  88 %
+Dialogue: 0,0:00:06.46,0:00:06.50,Default,,0,0,0,,GRAVES  ·  91 %
+Dialogue: 0,0:00:06.50,0:00:06.54,Default,,0,0,0,,GRAVES  ·  93 %
+Dialogue: 0,0:00:06.54,0:00:06.58,Default,,0,0,0,,GRAVES  ·  94 %
+Dialogue: 0,0:00:06.58,0:00:06.62,Default,,0,0,0,,GRAVES  ·  96 %
+Dialogue: 0,0:00:06.62,0:00:06.67,Default,,0,0,0,,GRAVES  ·  97 %
+Dialogue: 0,0:00:06.67,0:00:06.71,Default,,0,0,0,,GRAVES  ·  98 %
+Dialogue: 0,0:00:06.71,0:00:06.75,Default,,0,0,0,,GRAVES  ·  99 %
+Dialogue: 0,0:00:06.75,0:00:06.79,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:06.79,0:00:06.83,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:06.83,0:00:06.88,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:06.88,0:00:06.92,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:06.92,0:00:06.96,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:06.96,0:00:07.00,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.00,0:00:07.04,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.04,0:00:07.08,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.08,0:00:07.12,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.12,0:00:07.17,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.17,0:00:07.21,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.21,0:00:07.25,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.25,0:00:07.29,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.29,0:00:07.33,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.33,0:00:07.38,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.38,0:00:07.42,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.42,0:00:07.46,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.46,0:00:07.50,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.50,0:00:07.54,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.54,0:00:07.58,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.58,0:00:07.62,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.62,0:00:07.67,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.67,0:00:07.71,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.71,0:00:07.75,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.75,0:00:07.79,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.79,0:00:07.83,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.83,0:00:07.88,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.88,0:00:07.92,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.92,0:00:07.96,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:07.96,0:00:08.00,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:08.00,0:00:08.04,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:08.04,0:00:08.08,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:08.08,0:00:08.12,Default,,0,0,0,,GRAVES  ·  100 %
+Dialogue: 0,0:00:08.12,0:00:08.17,Default,,0,0,0,,GRAVES  ·  99 %
+Dialogue: 0,0:00:08.17,0:00:08.21,Default,,0,0,0,,GRAVES  ·  98 %
+Dialogue: 0,0:00:08.21,0:00:08.25,Default,,0,0,0,,GRAVES  ·  97 %
+Dialogue: 0,0:00:08.25,0:00:08.29,Default,,0,0,0,,GRAVES  ·  96 %
+Dialogue: 0,0:00:08.29,0:00:08.33,Default,,0,0,0,,GRAVES  ·  95 %
+Dialogue: 0,0:00:08.33,0:00:08.38,Default,,0,0,0,,GRAVES  ·  94 %
+Dialogue: 0,0:00:08.38,0:00:08.42,Default,,0,0,0,,GRAVES  ·  92 %
+Dialogue: 0,0:00:08.42,0:00:08.46,Default,,0,0,0,,GRAVES  ·  91 %
+Dialogue: 0,0:00:08.46,0:00:08.50,Default,,0,0,0,,GRAVES  ·  89 %
+Dialogue: 0,0:00:08.50,0:00:08.54,Default,,0,0,0,,GRAVES  ·  87 %
+Dialogue: 0,0:00:08.54,0:00:08.58,Default,,0,0,0,,GRAVES  ·  85 %
+Dialogue: 0,0:00:08.58,0:00:08.62,Default,,0,0,0,,GRAVES  ·  83 %
+Dialogue: 0,0:00:08.62,0:00:08.67,Default,,0,0,0,,GRAVES  ·  81 %
+Dialogue: 0,0:00:08.67,0:00:08.71,Default,,0,0,0,,GRAVES  ·  79 %
+Dialogue: 0,0:00:08.71,0:00:08.75,Default,,0,0,0,,GRAVES  ·  77 %
+Dialogue: 0,0:00:08.75,0:00:08.79,Default,,0,0,0,,GRAVES  ·  75 %
+Dialogue: 0,0:00:08.79,0:00:08.83,Default,,0,0,0,,GRAVES  ·  73 %
+Dialogue: 0,0:00:08.83,0:00:08.88,Default,,0,0,0,,GRAVES  ·  71 %
+Dialogue: 0,0:00:08.88,0:00:08.92,Default,,0,0,0,,GRAVES  ·  69 %
+Dialogue: 0,0:00:08.92,0:00:08.96,Default,,0,0,0,,GRAVES  ·  67 %
+Dialogue: 0,0:00:08.96,0:00:09.00,Default,,0,0,0,,GRAVES  ·  65 %
+Dialogue: 0,0:00:09.00,0:00:09.04,Default,,0,0,0,,GRAVES  ·  63 %
+Dialogue: 0,0:00:09.04,0:00:09.08,Default,,0,0,0,,GRAVES  ·  61 %
+Dialogue: 0,0:00:09.08,0:00:09.12,Default,,0,0,0,,GRAVES  ·  59 %
+Dialogue: 0,0:00:09.12,0:00:09.17,Default,,0,0,0,,GRAVES  ·  58 %
+Dialogue: 0,0:00:09.17,0:00:09.21,Default,,0,0,0,,GRAVES  ·  56 %
+Dialogue: 0,0:00:09.21,0:00:09.25,Default,,0,0,0,,GRAVES  ·  55 %
+Dialogue: 0,0:00:09.25,0:00:09.29,Default,,0,0,0,,GRAVES  ·  54 %
+Dialogue: 0,0:00:09.29,0:00:09.33,Default,,0,0,0,,GRAVES  ·  53 %
+Dialogue: 0,0:00:09.33,0:00:09.38,Default,,0,0,0,,GRAVES  ·  52 %
+Dialogue: 0,0:00:09.38,0:00:09.42,Default,,0,0,0,,GRAVES  ·  51 %
+Dialogue: 0,0:00:09.42,0:00:09.46,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.46,0:00:09.50,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.50,0:00:09.54,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.54,0:00:09.58,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.58,0:00:09.62,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.62,0:00:09.67,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.67,0:00:09.71,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.71,0:00:09.75,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.75,0:00:09.79,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.79,0:00:09.83,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.83,0:00:09.88,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.88,0:00:09.92,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.92,0:00:09.96,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:09.96,0:00:10.00,Default,,0,0,0,,GRAVES  ·  50 %
+Dialogue: 0,0:00:10.00,0:00:10.04,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:10.04,0:00:10.08,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:10.08,0:00:10.12,Default,,0,0,0,,MEDIOS  ·  49 %
+Dialogue: 0,0:00:10.12,0:00:10.17,Default,,0,0,0,,MEDIOS  ·  47 %
+Dialogue: 0,0:00:10.17,0:00:10.21,Default,,0,0,0,,MEDIOS  ·  45 %
+Dialogue: 0,0:00:10.21,0:00:10.25,Default,,0,0,0,,MEDIOS  ·  43 %
+Dialogue: 0,0:00:10.25,0:00:10.29,Default,,0,0,0,,MEDIOS  ·  41 %
+Dialogue: 0,0:00:10.29,0:00:10.33,Default,,0,0,0,,MEDIOS  ·  38 %
+Dialogue: 0,0:00:10.33,0:00:10.38,Default,,0,0,0,,MEDIOS  ·  35 %
+Dialogue: 0,0:00:10.38,0:00:10.42,Default,,0,0,0,,MEDIOS  ·  31 %
+Dialogue: 0,0:00:10.42,0:00:10.46,Default,,0,0,0,,MEDIOS  ·  28 %
+Dialogue: 0,0:00:10.46,0:00:10.50,Default,,0,0,0,,MEDIOS  ·  24 %
+Dialogue: 0,0:00:10.50,0:00:10.54,Default,,0,0,0,,MEDIOS  ·  21 %
+Dialogue: 0,0:00:10.54,0:00:10.58,Default,,0,0,0,,MEDIOS  ·  17 %
+Dialogue: 0,0:00:10.58,0:00:10.62,Default,,0,0,0,,MEDIOS  ·  14 %
+Dialogue: 0,0:00:10.62,0:00:10.67,Default,,0,0,0,,MEDIOS  ·  11 %
+Dialogue: 0,0:00:10.67,0:00:10.71,Default,,0,0,0,,MEDIOS  ·  8 %
+Dialogue: 0,0:00:10.71,0:00:10.75,Default,,0,0,0,,MEDIOS  ·  6 %
+Dialogue: 0,0:00:10.75,0:00:10.79,Default,,0,0,0,,MEDIOS  ·  4 %
+Dialogue: 0,0:00:10.79,0:00:10.83,Default,,0,0,0,,MEDIOS  ·  2 %
+Dialogue: 0,0:00:10.83,0:00:10.88,Default,,0,0,0,,MEDIOS  ·  1 %
+Dialogue: 0,0:00:10.88,0:00:10.92,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:10.92,0:00:10.96,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:10.96,0:00:11.00,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.00,0:00:11.04,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.04,0:00:11.08,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.08,0:00:11.12,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.12,0:00:11.17,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.17,0:00:11.21,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.21,0:00:11.25,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.25,0:00:11.29,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.29,0:00:11.33,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.33,0:00:11.38,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.38,0:00:11.42,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.42,0:00:11.46,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.46,0:00:11.50,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.50,0:00:11.54,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.54,0:00:11.58,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.58,0:00:11.62,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.62,0:00:11.67,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.67,0:00:11.71,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.71,0:00:11.75,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.75,0:00:11.79,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.79,0:00:11.83,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.83,0:00:11.88,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.88,0:00:11.92,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.92,0:00:11.96,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:11.96,0:00:12.00,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:12.00,0:00:12.04,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:12.04,0:00:12.08,Default,,0,0,0,,MEDIOS  ·  0 %
+Dialogue: 0,0:00:12.08,0:00:12.12,Default,,0,0,0,,MEDIOS  ·  1 %
+Dialogue: 0,0:00:12.12,0:00:12.17,Default,,0,0,0,,MEDIOS  ·  1 %
+Dialogue: 0,0:00:12.17,0:00:12.21,Default,,0,0,0,,MEDIOS  ·  2 %
+Dialogue: 0,0:00:12.21,0:00:12.25,Default,,0,0,0,,MEDIOS  ·  4 %
+Dialogue: 0,0:00:12.25,0:00:12.29,Default,,0,0,0,,MEDIOS  ·  5 %
+Dialogue: 0,0:00:12.29,0:00:12.33,Default,,0,0,0,,MEDIOS  ·  7 %
+Dialogue: 0,0:00:12.33,0:00:12.38,Default,,0,0,0,,MEDIOS  ·  9 %
+Dialogue: 0,0:00:12.38,0:00:12.42,Default,,0,0,0,,MEDIOS  ·  11 %
+Dialogue: 0,0:00:12.42,0:00:12.46,Default,,0,0,0,,MEDIOS  ·  14 %
+Dialogue: 0,0:00:12.46,0:00:12.50,Default,,0,0,0,,MEDIOS  ·  16 %
+Dialogue: 0,0:00:12.50,0:00:12.54,Default,,0,0,0,,MEDIOS  ·  19 %
+Dialogue: 0,0:00:12.54,0:00:12.58,Default,,0,0,0,,MEDIOS  ·  22 %
+Dialogue: 0,0:00:12.58,0:00:12.62,Default,,0,0,0,,MEDIOS  ·  25 %
+Dialogue: 0,0:00:12.62,0:00:12.67,Default,,0,0,0,,MEDIOS  ·  28 %
+Dialogue: 0,0:00:12.67,0:00:12.71,Default,,0,0,0,,MEDIOS  ·  31 %
+Dialogue: 0,0:00:12.71,0:00:12.75,Default,,0,0,0,,MEDIOS  ·  34 %
+Dialogue: 0,0:00:12.75,0:00:12.79,Default,,0,0,0,,MEDIOS  ·  38 %
+Dialogue: 0,0:00:12.79,0:00:12.83,Default,,0,0,0,,MEDIOS  ·  41 %
+Dialogue: 0,0:00:12.83,0:00:12.88,Default,,0,0,0,,MEDIOS  ·  44 %
+Dialogue: 0,0:00:12.88,0:00:12.92,Default,,0,0,0,,MEDIOS  ·  48 %
+Dialogue: 0,0:00:12.92,0:00:12.96,Default,,0,0,0,,MEDIOS  ·  51 %
+Dialogue: 0,0:00:12.96,0:00:13.00,Default,,0,0,0,,MEDIOS  ·  55 %
+Dialogue: 0,0:00:13.00,0:00:13.04,Default,,0,0,0,,MEDIOS  ·  58 %
+Dialogue: 0,0:00:13.04,0:00:13.08,Default,,0,0,0,,MEDIOS  ·  62 %
+Dialogue: 0,0:00:13.08,0:00:13.12,Default,,0,0,0,,MEDIOS  ·  65 %
+Dialogue: 0,0:00:13.12,0:00:13.17,Default,,0,0,0,,MEDIOS  ·  68 %
+Dialogue: 0,0:00:13.17,0:00:13.21,Default,,0,0,0,,MEDIOS  ·  72 %
+Dialogue: 0,0:00:13.21,0:00:13.25,Default,,0,0,0,,MEDIOS  ·  75 %
+Dialogue: 0,0:00:13.25,0:00:13.29,Default,,0,0,0,,MEDIOS  ·  78 %
+Dialogue: 0,0:00:13.29,0:00:13.33,Default,,0,0,0,,MEDIOS  ·  81 %
+Dialogue: 0,0:00:13.33,0:00:13.38,Default,,0,0,0,,MEDIOS  ·  83 %
+Dialogue: 0,0:00:13.38,0:00:13.42,Default,,0,0,0,,MEDIOS  ·  86 %
+Dialogue: 0,0:00:13.42,0:00:13.46,Default,,0,0,0,,MEDIOS  ·  88 %
+Dialogue: 0,0:00:13.46,0:00:13.50,Default,,0,0,0,,MEDIOS  ·  91 %
+Dialogue: 0,0:00:13.50,0:00:13.54,Default,,0,0,0,,MEDIOS  ·  93 %
+Dialogue: 0,0:00:13.54,0:00:13.58,Default,,0,0,0,,MEDIOS  ·  94 %
+Dialogue: 0,0:00:13.58,0:00:13.62,Default,,0,0,0,,MEDIOS  ·  96 %
+Dialogue: 0,0:00:13.62,0:00:13.67,Default,,0,0,0,,MEDIOS  ·  97 %
+Dialogue: 0,0:00:13.67,0:00:13.71,Default,,0,0,0,,MEDIOS  ·  98 %
+Dialogue: 0,0:00:13.71,0:00:13.75,Default,,0,0,0,,MEDIOS  ·  99 %
+Dialogue: 0,0:00:13.75,0:00:13.79,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:13.79,0:00:13.83,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:13.83,0:00:13.88,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:13.88,0:00:13.92,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:13.92,0:00:13.96,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:13.96,0:00:14.00,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.00,0:00:14.04,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.04,0:00:14.08,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.08,0:00:14.12,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.12,0:00:14.17,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.17,0:00:14.21,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.21,0:00:14.25,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.25,0:00:14.29,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.29,0:00:14.33,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.33,0:00:14.38,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.38,0:00:14.42,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.42,0:00:14.46,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.46,0:00:14.50,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.50,0:00:14.54,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.54,0:00:14.58,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.58,0:00:14.62,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.62,0:00:14.67,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.67,0:00:14.71,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.71,0:00:14.75,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.75,0:00:14.79,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.79,0:00:14.83,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.83,0:00:14.88,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.88,0:00:14.92,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.92,0:00:14.96,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:14.96,0:00:15.00,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:15.00,0:00:15.04,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:15.04,0:00:15.08,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:15.08,0:00:15.12,Default,,0,0,0,,MEDIOS  ·  100 %
+Dialogue: 0,0:00:15.12,0:00:15.17,Default,,0,0,0,,MEDIOS  ·  99 %
+Dialogue: 0,0:00:15.17,0:00:15.21,Default,,0,0,0,,MEDIOS  ·  98 %
+Dialogue: 0,0:00:15.21,0:00:15.25,Default,,0,0,0,,MEDIOS  ·  97 %
+Dialogue: 0,0:00:15.25,0:00:15.29,Default,,0,0,0,,MEDIOS  ·  96 %
+Dialogue: 0,0:00:15.29,0:00:15.33,Default,,0,0,0,,MEDIOS  ·  95 %
+Dialogue: 0,0:00:15.33,0:00:15.38,Default,,0,0,0,,MEDIOS  ·  94 %
+Dialogue: 0,0:00:15.38,0:00:15.42,Default,,0,0,0,,MEDIOS  ·  92 %
+Dialogue: 0,0:00:15.42,0:00:15.46,Default,,0,0,0,,MEDIOS  ·  91 %
+Dialogue: 0,0:00:15.46,0:00:15.50,Default,,0,0,0,,MEDIOS  ·  89 %
+Dialogue: 0,0:00:15.50,0:00:15.54,Default,,0,0,0,,MEDIOS  ·  87 %
+Dialogue: 0,0:00:15.54,0:00:15.58,Default,,0,0,0,,MEDIOS  ·  85 %
+Dialogue: 0,0:00:15.58,0:00:15.62,Default,,0,0,0,,MEDIOS  ·  83 %
+Dialogue: 0,0:00:15.62,0:00:15.67,Default,,0,0,0,,MEDIOS  ·  81 %
+Dialogue: 0,0:00:15.67,0:00:15.71,Default,,0,0,0,,MEDIOS  ·  79 %
+Dialogue: 0,0:00:15.71,0:00:15.75,Default,,0,0,0,,MEDIOS  ·  77 %
+Dialogue: 0,0:00:15.75,0:00:15.79,Default,,0,0,0,,MEDIOS  ·  75 %
+Dialogue: 0,0:00:15.79,0:00:15.83,Default,,0,0,0,,MEDIOS  ·  73 %
+Dialogue: 0,0:00:15.83,0:00:15.88,Default,,0,0,0,,MEDIOS  ·  71 %
+Dialogue: 0,0:00:15.88,0:00:15.92,Default,,0,0,0,,MEDIOS  ·  69 %
+Dialogue: 0,0:00:15.92,0:00:15.96,Default,,0,0,0,,MEDIOS  ·  67 %
+Dialogue: 0,0:00:15.96,0:00:16.00,Default,,0,0,0,,MEDIOS  ·  65 %
+Dialogue: 0,0:00:16.00,0:00:16.04,Default,,0,0,0,,MEDIOS  ·  63 %
+Dialogue: 0,0:00:16.04,0:00:16.08,Default,,0,0,0,,MEDIOS  ·  61 %
+Dialogue: 0,0:00:16.08,0:00:16.12,Default,,0,0,0,,MEDIOS  ·  59 %
+Dialogue: 0,0:00:16.12,0:00:16.17,Default,,0,0,0,,MEDIOS  ·  58 %
+Dialogue: 0,0:00:16.17,0:00:16.21,Default,,0,0,0,,MEDIOS  ·  56 %
+Dialogue: 0,0:00:16.21,0:00:16.25,Default,,0,0,0,,MEDIOS  ·  55 %
+Dialogue: 0,0:00:16.25,0:00:16.29,Default,,0,0,0,,MEDIOS  ·  54 %
+Dialogue: 0,0:00:16.29,0:00:16.33,Default,,0,0,0,,MEDIOS  ·  53 %
+Dialogue: 0,0:00:16.33,0:00:16.38,Default,,0,0,0,,MEDIOS  ·  52 %
+Dialogue: 0,0:00:16.38,0:00:16.42,Default,,0,0,0,,MEDIOS  ·  51 %
+Dialogue: 0,0:00:16.42,0:00:16.46,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.46,0:00:16.50,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.50,0:00:16.54,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.54,0:00:16.58,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.58,0:00:16.62,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.62,0:00:16.67,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.67,0:00:16.71,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.71,0:00:16.75,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.75,0:00:16.79,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.79,0:00:16.83,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.83,0:00:16.88,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.88,0:00:16.92,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.92,0:00:16.96,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:16.96,0:00:17.00,Default,,0,0,0,,MEDIOS  ·  50 %
+Dialogue: 0,0:00:17.00,0:00:17.04,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:17.04,0:00:17.08,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:17.08,0:00:17.12,Default,,0,0,0,,AGUDOS  ·  49 %
+Dialogue: 0,0:00:17.12,0:00:17.17,Default,,0,0,0,,AGUDOS  ·  47 %
+Dialogue: 0,0:00:17.17,0:00:17.21,Default,,0,0,0,,AGUDOS  ·  45 %
+Dialogue: 0,0:00:17.21,0:00:17.25,Default,,0,0,0,,AGUDOS  ·  43 %
+Dialogue: 0,0:00:17.25,0:00:17.29,Default,,0,0,0,,AGUDOS  ·  41 %
+Dialogue: 0,0:00:17.29,0:00:17.33,Default,,0,0,0,,AGUDOS  ·  38 %
+Dialogue: 0,0:00:17.33,0:00:17.38,Default,,0,0,0,,AGUDOS  ·  35 %
+Dialogue: 0,0:00:17.38,0:00:17.42,Default,,0,0,0,,AGUDOS  ·  31 %
+Dialogue: 0,0:00:17.42,0:00:17.46,Default,,0,0,0,,AGUDOS  ·  28 %
+Dialogue: 0,0:00:17.46,0:00:17.50,Default,,0,0,0,,AGUDOS  ·  24 %
+Dialogue: 0,0:00:17.50,0:00:17.54,Default,,0,0,0,,AGUDOS  ·  21 %
+Dialogue: 0,0:00:17.54,0:00:17.58,Default,,0,0,0,,AGUDOS  ·  17 %
+Dialogue: 0,0:00:17.58,0:00:17.62,Default,,0,0,0,,AGUDOS  ·  14 %
+Dialogue: 0,0:00:17.62,0:00:17.67,Default,,0,0,0,,AGUDOS  ·  11 %
+Dialogue: 0,0:00:17.67,0:00:17.71,Default,,0,0,0,,AGUDOS  ·  8 %
+Dialogue: 0,0:00:17.71,0:00:17.75,Default,,0,0,0,,AGUDOS  ·  6 %
+Dialogue: 0,0:00:17.75,0:00:17.79,Default,,0,0,0,,AGUDOS  ·  4 %
+Dialogue: 0,0:00:17.79,0:00:17.83,Default,,0,0,0,,AGUDOS  ·  2 %
+Dialogue: 0,0:00:17.83,0:00:17.88,Default,,0,0,0,,AGUDOS  ·  1 %
+Dialogue: 0,0:00:17.88,0:00:17.92,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:17.92,0:00:17.96,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:17.96,0:00:18.00,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.00,0:00:18.04,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.04,0:00:18.08,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.08,0:00:18.12,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.12,0:00:18.17,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.17,0:00:18.21,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.21,0:00:18.25,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.25,0:00:18.29,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.29,0:00:18.33,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.33,0:00:18.38,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.38,0:00:18.42,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.42,0:00:18.46,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.46,0:00:18.50,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.50,0:00:18.54,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.54,0:00:18.58,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.58,0:00:18.62,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.62,0:00:18.67,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.67,0:00:18.71,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.71,0:00:18.75,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.75,0:00:18.79,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.79,0:00:18.83,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.83,0:00:18.88,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.88,0:00:18.92,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.92,0:00:18.96,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:18.96,0:00:19.00,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:19.00,0:00:19.04,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:19.04,0:00:19.08,Default,,0,0,0,,AGUDOS  ·  0 %
+Dialogue: 0,0:00:19.08,0:00:19.12,Default,,0,0,0,,AGUDOS  ·  1 %
+Dialogue: 0,0:00:19.12,0:00:19.17,Default,,0,0,0,,AGUDOS  ·  1 %
+Dialogue: 0,0:00:19.17,0:00:19.21,Default,,0,0,0,,AGUDOS  ·  2 %
+Dialogue: 0,0:00:19.21,0:00:19.25,Default,,0,0,0,,AGUDOS  ·  4 %
+Dialogue: 0,0:00:19.25,0:00:19.29,Default,,0,0,0,,AGUDOS  ·  5 %
+Dialogue: 0,0:00:19.29,0:00:19.33,Default,,0,0,0,,AGUDOS  ·  7 %
+Dialogue: 0,0:00:19.33,0:00:19.38,Default,,0,0,0,,AGUDOS  ·  9 %
+Dialogue: 0,0:00:19.38,0:00:19.42,Default,,0,0,0,,AGUDOS  ·  11 %
+Dialogue: 0,0:00:19.42,0:00:19.46,Default,,0,0,0,,AGUDOS  ·  14 %
+Dialogue: 0,0:00:19.46,0:00:19.50,Default,,0,0,0,,AGUDOS  ·  16 %
+Dialogue: 0,0:00:19.50,0:00:19.54,Default,,0,0,0,,AGUDOS  ·  19 %
+Dialogue: 0,0:00:19.54,0:00:19.58,Default,,0,0,0,,AGUDOS  ·  22 %
+Dialogue: 0,0:00:19.58,0:00:19.62,Default,,0,0,0,,AGUDOS  ·  25 %
+Dialogue: 0,0:00:19.62,0:00:19.67,Default,,0,0,0,,AGUDOS  ·  28 %
+Dialogue: 0,0:00:19.67,0:00:19.71,Default,,0,0,0,,AGUDOS  ·  31 %
+Dialogue: 0,0:00:19.71,0:00:19.75,Default,,0,0,0,,AGUDOS  ·  34 %
+Dialogue: 0,0:00:19.75,0:00:19.79,Default,,0,0,0,,AGUDOS  ·  38 %
+Dialogue: 0,0:00:19.79,0:00:19.83,Default,,0,0,0,,AGUDOS  ·  41 %
+Dialogue: 0,0:00:19.83,0:00:19.88,Default,,0,0,0,,AGUDOS  ·  44 %
+Dialogue: 0,0:00:19.88,0:00:19.92,Default,,0,0,0,,AGUDOS  ·  48 %
+Dialogue: 0,0:00:19.92,0:00:19.96,Default,,0,0,0,,AGUDOS  ·  51 %
+Dialogue: 0,0:00:19.96,0:00:20.00,Default,,0,0,0,,AGUDOS  ·  55 %
+Dialogue: 0,0:00:20.00,0:00:20.04,Default,,0,0,0,,AGUDOS  ·  58 %
+Dialogue: 0,0:00:20.04,0:00:20.08,Default,,0,0,0,,AGUDOS  ·  62 %
+Dialogue: 0,0:00:20.08,0:00:20.12,Default,,0,0,0,,AGUDOS  ·  65 %
+Dialogue: 0,0:00:20.12,0:00:20.17,Default,,0,0,0,,AGUDOS  ·  68 %
+Dialogue: 0,0:00:20.17,0:00:20.21,Default,,0,0,0,,AGUDOS  ·  72 %
+Dialogue: 0,0:00:20.21,0:00:20.25,Default,,0,0,0,,AGUDOS  ·  75 %
+Dialogue: 0,0:00:20.25,0:00:20.29,Default,,0,0,0,,AGUDOS  ·  78 %
+Dialogue: 0,0:00:20.29,0:00:20.33,Default,,0,0,0,,AGUDOS  ·  81 %
+Dialogue: 0,0:00:20.33,0:00:20.38,Default,,0,0,0,,AGUDOS  ·  83 %
+Dialogue: 0,0:00:20.38,0:00:20.42,Default,,0,0,0,,AGUDOS  ·  86 %
+Dialogue: 0,0:00:20.42,0:00:20.46,Default,,0,0,0,,AGUDOS  ·  88 %
+Dialogue: 0,0:00:20.46,0:00:20.50,Default,,0,0,0,,AGUDOS  ·  91 %
+Dialogue: 0,0:00:20.50,0:00:20.54,Default,,0,0,0,,AGUDOS  ·  93 %
+Dialogue: 0,0:00:20.54,0:00:20.58,Default,,0,0,0,,AGUDOS  ·  94 %
+Dialogue: 0,0:00:20.58,0:00:20.62,Default,,0,0,0,,AGUDOS  ·  96 %
+Dialogue: 0,0:00:20.62,0:00:20.67,Default,,0,0,0,,AGUDOS  ·  97 %
+Dialogue: 0,0:00:20.67,0:00:20.71,Default,,0,0,0,,AGUDOS  ·  98 %
+Dialogue: 0,0:00:20.71,0:00:20.75,Default,,0,0,0,,AGUDOS  ·  99 %
+Dialogue: 0,0:00:20.75,0:00:20.79,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:20.79,0:00:20.83,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:20.83,0:00:20.88,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:20.88,0:00:20.92,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:20.92,0:00:20.96,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:20.96,0:00:21.00,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.00,0:00:21.04,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.04,0:00:21.08,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.08,0:00:21.12,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.12,0:00:21.17,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.17,0:00:21.21,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.21,0:00:21.25,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.25,0:00:21.29,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.29,0:00:21.33,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.33,0:00:21.38,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.38,0:00:21.42,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.42,0:00:21.46,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.46,0:00:21.50,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.50,0:00:21.54,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.54,0:00:21.58,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.58,0:00:21.62,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.62,0:00:21.67,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.67,0:00:21.71,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.71,0:00:21.75,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.75,0:00:21.79,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.79,0:00:21.83,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.83,0:00:21.88,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.88,0:00:21.92,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.92,0:00:21.96,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:21.96,0:00:22.00,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:22.00,0:00:22.04,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:22.04,0:00:22.08,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:22.08,0:00:22.12,Default,,0,0,0,,AGUDOS  ·  100 %
+Dialogue: 0,0:00:22.12,0:00:22.17,Default,,0,0,0,,AGUDOS  ·  99 %
+Dialogue: 0,0:00:22.17,0:00:22.21,Default,,0,0,0,,AGUDOS  ·  98 %
+Dialogue: 0,0:00:22.21,0:00:22.25,Default,,0,0,0,,AGUDOS  ·  97 %
+Dialogue: 0,0:00:22.25,0:00:22.29,Default,,0,0,0,,AGUDOS  ·  96 %
+Dialogue: 0,0:00:22.29,0:00:22.33,Default,,0,0,0,,AGUDOS  ·  95 %
+Dialogue: 0,0:00:22.33,0:00:22.38,Default,,0,0,0,,AGUDOS  ·  94 %
+Dialogue: 0,0:00:22.38,0:00:22.42,Default,,0,0,0,,AGUDOS  ·  92 %
+Dialogue: 0,0:00:22.42,0:00:22.46,Default,,0,0,0,,AGUDOS  ·  91 %
+Dialogue: 0,0:00:22.46,0:00:22.50,Default,,0,0,0,,AGUDOS  ·  89 %
+Dialogue: 0,0:00:22.50,0:00:22.54,Default,,0,0,0,,AGUDOS  ·  87 %
+Dialogue: 0,0:00:22.54,0:00:22.58,Default,,0,0,0,,AGUDOS  ·  85 %
+Dialogue: 0,0:00:22.58,0:00:22.62,Default,,0,0,0,,AGUDOS  ·  83 %
+Dialogue: 0,0:00:22.62,0:00:22.67,Default,,0,0,0,,AGUDOS  ·  81 %
+Dialogue: 0,0:00:22.67,0:00:22.71,Default,,0,0,0,,AGUDOS  ·  79 %
+Dialogue: 0,0:00:22.71,0:00:22.75,Default,,0,0,0,,AGUDOS  ·  77 %
+Dialogue: 0,0:00:22.75,0:00:22.79,Default,,0,0,0,,AGUDOS  ·  75 %
+Dialogue: 0,0:00:22.79,0:00:22.83,Default,,0,0,0,,AGUDOS  ·  73 %
+Dialogue: 0,0:00:22.83,0:00:22.88,Default,,0,0,0,,AGUDOS  ·  71 %
+Dialogue: 0,0:00:22.88,0:00:22.92,Default,,0,0,0,,AGUDOS  ·  69 %
+Dialogue: 0,0:00:22.92,0:00:22.96,Default,,0,0,0,,AGUDOS  ·  67 %
+Dialogue: 0,0:00:22.96,0:00:23.00,Default,,0,0,0,,AGUDOS  ·  65 %
+Dialogue: 0,0:00:23.00,0:00:23.04,Default,,0,0,0,,AGUDOS  ·  63 %
+Dialogue: 0,0:00:23.04,0:00:23.08,Default,,0,0,0,,AGUDOS  ·  61 %
+Dialogue: 0,0:00:23.08,0:00:23.12,Default,,0,0,0,,AGUDOS  ·  59 %
+Dialogue: 0,0:00:23.12,0:00:23.17,Default,,0,0,0,,AGUDOS  ·  58 %
+Dialogue: 0,0:00:23.17,0:00:23.21,Default,,0,0,0,,AGUDOS  ·  56 %
+Dialogue: 0,0:00:23.21,0:00:23.25,Default,,0,0,0,,AGUDOS  ·  55 %
+Dialogue: 0,0:00:23.25,0:00:23.29,Default,,0,0,0,,AGUDOS  ·  54 %
+Dialogue: 0,0:00:23.29,0:00:23.33,Default,,0,0,0,,AGUDOS  ·  53 %
+Dialogue: 0,0:00:23.33,0:00:23.38,Default,,0,0,0,,AGUDOS  ·  52 %
+Dialogue: 0,0:00:23.38,0:00:23.42,Default,,0,0,0,,AGUDOS  ·  51 %
+Dialogue: 0,0:00:23.42,0:00:23.46,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.46,0:00:23.50,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.50,0:00:23.54,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.54,0:00:23.58,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.58,0:00:23.62,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.62,0:00:23.67,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.67,0:00:23.71,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.71,0:00:23.75,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.75,0:00:23.79,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.79,0:00:23.83,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.83,0:00:23.88,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.88,0:00:23.92,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.92,0:00:23.96,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:23.96,0:00:24.00,Default,,0,0,0,,AGUDOS  ·  50 %
+Dialogue: 0,0:00:24.00,0:00:24.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.04,0:00:24.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.08,0:00:24.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.12,0:00:24.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.17,0:00:24.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.21,0:00:24.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.25,0:00:24.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.29,0:00:24.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.33,0:00:24.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.38,0:00:24.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.42,0:00:24.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.46,0:00:24.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.50,0:00:24.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.54,0:00:24.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.58,0:00:24.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.62,0:00:24.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.67,0:00:24.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.71,0:00:24.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.75,0:00:24.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.79,0:00:24.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.83,0:00:24.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.88,0:00:24.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.92,0:00:24.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:24.96,0:00:25.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.00,0:00:25.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.04,0:00:25.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.08,0:00:25.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.12,0:00:25.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.17,0:00:25.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.21,0:00:25.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.25,0:00:25.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.29,0:00:25.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.33,0:00:25.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.38,0:00:25.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.42,0:00:25.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.46,0:00:25.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.50,0:00:25.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.54,0:00:25.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.58,0:00:25.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.62,0:00:25.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.67,0:00:25.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.71,0:00:25.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.75,0:00:25.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.79,0:00:25.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.83,0:00:25.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.88,0:00:25.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.92,0:00:25.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:25.96,0:00:26.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.00,0:00:26.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.04,0:00:26.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.08,0:00:26.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.12,0:00:26.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.17,0:00:26.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.21,0:00:26.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.25,0:00:26.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.29,0:00:26.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.33,0:00:26.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.38,0:00:26.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.42,0:00:26.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.46,0:00:26.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.50,0:00:26.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.54,0:00:26.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.58,0:00:26.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.62,0:00:26.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.67,0:00:26.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.71,0:00:26.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.75,0:00:26.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.79,0:00:26.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.83,0:00:26.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.88,0:00:26.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.92,0:00:26.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:26.96,0:00:27.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.00,0:00:27.04,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.04,0:00:27.08,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.08,0:00:27.12,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.12,0:00:27.17,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.17,0:00:27.21,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.21,0:00:27.25,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.25,0:00:27.29,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.29,0:00:27.33,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.33,0:00:27.38,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.38,0:00:27.42,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.42,0:00:27.46,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.46,0:00:27.50,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.50,0:00:27.54,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.54,0:00:27.58,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.58,0:00:27.62,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.62,0:00:27.67,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.67,0:00:27.71,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.71,0:00:27.75,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.75,0:00:27.79,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.79,0:00:27.83,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.83,0:00:27.88,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.88,0:00:27.92,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.92,0:00:27.96,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:27.96,0:00:28.00,Default,,0,0,0,,LOS TRES CONTROLES AL 50 %
+Dialogue: 0,0:00:28.00,0:00:28.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.04,0:00:28.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.08,0:00:28.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.12,0:00:28.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.17,0:00:28.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.21,0:00:28.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.25,0:00:28.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.29,0:00:28.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.33,0:00:28.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.38,0:00:28.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.42,0:00:28.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.46,0:00:28.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.50,0:00:28.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.54,0:00:28.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.58,0:00:28.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.62,0:00:28.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.67,0:00:28.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.71,0:00:28.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.75,0:00:28.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.79,0:00:28.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.83,0:00:28.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.88,0:00:28.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.92,0:00:28.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:28.96,0:00:29.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.00,0:00:29.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.04,0:00:29.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.08,0:00:29.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.12,0:00:29.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.17,0:00:29.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.21,0:00:29.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.25,0:00:29.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.29,0:00:29.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.33,0:00:29.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.38,0:00:29.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.42,0:00:29.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.46,0:00:29.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.50,0:00:29.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.54,0:00:29.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.58,0:00:29.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.62,0:00:29.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.67,0:00:29.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.71,0:00:29.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.75,0:00:29.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.79,0:00:29.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.83,0:00:29.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.88,0:00:29.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.92,0:00:29.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:29.96,0:00:30.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.00,0:00:30.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.04,0:00:30.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.08,0:00:30.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.12,0:00:30.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.17,0:00:30.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.21,0:00:30.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.25,0:00:30.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.29,0:00:30.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.33,0:00:30.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.38,0:00:30.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.42,0:00:30.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.46,0:00:30.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.50,0:00:30.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.54,0:00:30.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.58,0:00:30.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.62,0:00:30.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.67,0:00:30.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.71,0:00:30.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.75,0:00:30.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.79,0:00:30.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.83,0:00:30.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.88,0:00:30.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.92,0:00:30.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:30.96,0:00:31.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.00,0:00:31.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.04,0:00:31.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.08,0:00:31.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.12,0:00:31.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.17,0:00:31.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.21,0:00:31.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.25,0:00:31.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.29,0:00:31.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.33,0:00:31.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.38,0:00:31.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.42,0:00:31.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.46,0:00:31.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.50,0:00:31.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.54,0:00:31.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.58,0:00:31.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.62,0:00:31.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.67,0:00:31.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.71,0:00:31.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.75,0:00:31.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.79,0:00:31.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.83,0:00:31.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.88,0:00:31.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.92,0:00:31.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:31.96,0:00:32.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.00,0:00:32.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.04,0:00:32.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.08,0:00:32.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.12,0:00:32.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.17,0:00:32.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.21,0:00:32.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.25,0:00:32.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.29,0:00:32.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.33,0:00:32.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.38,0:00:32.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.42,0:00:32.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.46,0:00:32.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.50,0:00:32.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.54,0:00:32.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.58,0:00:32.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.62,0:00:32.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.67,0:00:32.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.71,0:00:32.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.75,0:00:32.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.79,0:00:32.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.83,0:00:32.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.88,0:00:32.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.92,0:00:32.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:32.96,0:00:33.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.00,0:00:33.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.04,0:00:33.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.08,0:00:33.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.12,0:00:33.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.17,0:00:33.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.21,0:00:33.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.25,0:00:33.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.29,0:00:33.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.33,0:00:33.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.38,0:00:33.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.42,0:00:33.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.46,0:00:33.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.50,0:00:33.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.54,0:00:33.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.58,0:00:33.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.62,0:00:33.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.67,0:00:33.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.71,0:00:33.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.75,0:00:33.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.79,0:00:33.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.83,0:00:33.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.88,0:00:33.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.92,0:00:33.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:33.96,0:00:34.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.00,0:00:34.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.04,0:00:34.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.08,0:00:34.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.12,0:00:34.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.17,0:00:34.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.21,0:00:34.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.25,0:00:34.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.29,0:00:34.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.33,0:00:34.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.38,0:00:34.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.42,0:00:34.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.46,0:00:34.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.50,0:00:34.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.54,0:00:34.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.58,0:00:34.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.62,0:00:34.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.67,0:00:34.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.71,0:00:34.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.75,0:00:34.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.79,0:00:34.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.83,0:00:34.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.88,0:00:34.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.92,0:00:34.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:34.96,0:00:35.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.00,0:00:35.04,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.04,0:00:35.08,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.08,0:00:35.12,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.12,0:00:35.17,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.17,0:00:35.21,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.21,0:00:35.25,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.25,0:00:35.29,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.29,0:00:35.33,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.33,0:00:35.38,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.38,0:00:35.42,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.42,0:00:35.46,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.46,0:00:35.50,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.50,0:00:35.54,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.54,0:00:35.58,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.58,0:00:35.62,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.62,0:00:35.67,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.67,0:00:35.71,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.71,0:00:35.75,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.75,0:00:35.79,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.79,0:00:35.83,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.83,0:00:35.88,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.88,0:00:35.92,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.92,0:00:35.96,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA
+Dialogue: 0,0:00:35.96,0:00:36.00,Default,,0,0,0,,TAPA IMANTADA · PCB DE UNA CARA

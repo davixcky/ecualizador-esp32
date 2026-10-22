@@ -1,0 +1,20 @@
+{
+  "video": "docs/video/ecualizador-animado.mp4",
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "pixels": [
+    1920,
+    1080
+  ],
+  "fps": 24,
+  "frames": 864,
+  "duration_seconds": 36,
+  "audio_sample_rate": 48000,
+  "audio_correlation_to_wav": 0.999320017997958,
+  "decoded_audio_peak": 0.8767687678337097,
+  "decode_errors": 0,
+  "portable_package_video_identical": true,
+  "blender_slider_led_audio_sync": true,
+  "audio_method": "SPICE AC quasi-static processing, not hardware recording",
+  "sha256": "5a21889f588d48f57b885694c47134684b23b687891f3dba3f2297b48a189e06"
+}

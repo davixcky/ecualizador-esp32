@@ -1,0 +1,8 @@
+D.2 - INFORME DE TALADROS PARA PCB DE UNA CARA
+Cobre: B.Cu. Todos los taladros se fabrican SIN metalizar.
+Las coordenadas repetidas de puentes a terminal se perforan una sola vez.
+
+T1: diametro 0.800 mm; 133 taladros unicos
+T2: diametro 1.000 mm; 270 taladros unicos
+T3: diametro 3.200 mm; 4 taladros unicos
+Total: 407 taladros unicos.

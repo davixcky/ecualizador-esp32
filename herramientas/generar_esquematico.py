@@ -125,7 +125,8 @@ def sim_esp32():
 
 SIMBOLO = {"R": "Device:R", "C": "Device:C", "CP": "Device:C_Polarized", "POT": "Device:R_Potentiometer",
            "D": "Device:D", "JACK": "Connector_Audio:AudioJack3", "CONN4": "Connector_Generic:Conn_01x04",
-           "TFT": "Connector_Generic:Conn_01x14", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:MCP6004",
+           "CONN3": "Connector_Generic:Conn_01x03", "CONN2": "Connector_Generic:Conn_01x02",
+           "BUFFER": "74xx:74AHCT125", "TFT": "Connector_Generic:Conn_01x08", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:MCP6004",
            "ESP32": "Ecualizador:ESP32-DevKitC-38"}
 POTENCIA = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+3.3VA": "power:+3.3VA"}
 
@@ -269,7 +270,11 @@ class Esquematico:
         for p in self.pines_pwr:
             extremos[p] += 1
         for ref, num, p, ang in self.pines:
-            if extremos[p]:
+            if extremos[p] or any(
+                (a[0] == b[0] == p[0] and min(a[1], b[1]) <= p[1] <= max(a[1], b[1])) or
+                (a[1] == b[1] == p[1] and min(a[0], b[0]) <= p[0] <= max(a[0], b[0]))
+                for a, b in self.cables
+            ):
                 continue
             red = cto.pieza(ref)["pines"].get(num)
             if red is None:
@@ -330,7 +335,7 @@ class Esquematico:
                         uniones.add(p)
         return sorted(uniones)
 
-    def guardar(self, ruta, titulo, papel="A3"):
+    def guardar(self, ruta, titulo, papel="A2"):
         cab = [S("kicad_sch"), [S("version"), 20250114], [S("generator"), "eeschema"],
                [S("generator_version"), "9.0"], [S("uuid"), RAIZ], [S("paper"), papel],
                [S("title_block"), [S("title"), titulo[0]], [S("date"), titulo[1]], [S("rev"), titulo[2]],
@@ -408,7 +413,7 @@ def a_potencia(sch, p, red, desplazamientos, rot):
     sch.potencia(red, *puntos[-1], rot)
 
 
-def sallen_key(sch, unidad, ox, oy, serie1, serie2, fb, tierra, red_in, red_out):
+def sallen_key(sch, unidad, ox, oy, serie1, serie2, fb, tierra, red_in, red_out, etiquetas=True):
     """Sallen-Key de ganancia unitaria (pasa bajas: serie = R, fb y tierra = C; pasa altas: al revés)."""
     mas, menos, out = sch.ao(unidad, ox, oy)
     y = mas[1]
@@ -425,9 +430,11 @@ def sallen_key(sch, unidad, ox, oy, serie1, serie2, fb, tierra, red_in, red_out)
     sch.cable(b2, t1, mas)
     sch.cable(menos, (ox - 10.16, menos[1]), (ox - 10.16, oy + 7.62), (xs, oy + 7.62), (xs, out[1]))
     sch.cable(out, (xs, out[1]))
-    salida(sch, (xs, out[1]), red_out, 5.08)
-    entrada(sch, a1, red_in)
+    if etiquetas:
+        salida(sch, (xs, out[1]), red_out, 5.08)
+        entrada(sch, a1, red_in)
     vref(sch, t2)
+    return a1, (xs, out[1])
 
 
 def no_inversor(sch, unidad, ox, oy, rf, rg, cg, red_out):
@@ -528,11 +535,11 @@ def construir():
         a, b = pasivo_v(sch, f"C{4 + i}", x + 10.16, (yv + yg) / 2)
         sch.cable((x + 10.16, yv), a)
         sch.cable(b, (x + 10.16, yg))
-    sch.cable((27.94, yg), (124.46, yg))
+    sch.cable((17.78, yg), (124.46, yg))
     sch.potencia("GND", 124.46, yg)
-    sch.bandera(27.94, yg)
-    sch.texto("R1–C1: fc = 1/(2π·10 Ω·100 µF) = 159 Hz; aísla los amplificadores del ruido del ESP32.",
-              15.24, 50.8, 1.0)
+    sch.bandera(17.78, yg)
+    sch.texto("Filtro RC R1–C1: fc ≈ 159 Hz. C4–C7: desacoplo local de los MCP6004.",
+              15.24, 52.07, 1.0)
     # reserva de 5 V
     sch.potencia("+5V", 20.32, 60.96)
     sch.bandera(27.94, 60.96)
@@ -592,16 +599,18 @@ def construir():
     a_potencia(sch, j4["2"], "GND", [(-12.7, 0)], 270)
     pasivo_v(sch, "R30", 345.44, 30.48, lado=-1)
     sch.colocar("SW1", 391.16, 30.48, ref_at=(388.62, 25.4), val_at=(386.08, 35.56))
-    sch.texto("J4: TFT ILI9341 2,8\" (1 VCC 2 GND 3 CS 4 RST 5 DC\n6 SDI 7 SCK 8 LED 9 SDO; 10–14 táctil, sin usar).\n"
-              "SW1 cambia la vista (pull-up interno de GPIO27).\nSolo ADC1 (GPIO32–39): el ADC2 no funciona con Wi-Fi.\n"
-              "GPIO36 lee VREF y el firmware la resta.", 372.11, 50.8, 1.0)
+    sch.texto("J4 (adaptador): 1 VCC, 2 GND, 3 DIN, 4 CLK,\n5 CS, 6 DC, 7 RST, 8 BL. Waveshare 1,9 pulgadas.\nBL = GPIO19; datos LED = GPIO25.\nCablear por nombre; GH1.25 no tiene este orden.\nADC1 permite mantener el Wi-Fi activo.", 372.11, 50.8, 1.0)
 
     # ================= fila 2: filtros =================
     sch.caja(12.7, 99.06, 407.67, 151.13, "FILTROS ACTIVOS SALLEN-KEY DE SEGUNDO ORDEN (ganancia unitaria, Q ≈ 0,73)")
     oy = 128.27
     sallen_key(sch, "U1C", 60.96, oy, "R9", "R10", "C11", "C12", "PRE", "GRAVES")
-    sallen_key(sch, "U1D", 157.48, oy, "C13", "C14", "R11", "R12", "PRE", "MED_HP")
-    sallen_key(sch, "U2A", 254.0, oy, "R13", "R14", "C15", "C16", "MED_HP", "MEDIOS")
+    medios_in, medios_hp = sallen_key(sch, "U1D", 157.48, oy, "C13", "C14", "R11", "R12", "PRE", "MED_HP", etiquetas=False)
+    medios_lp, medios_out = sallen_key(sch, "U2A", 254.0, oy, "R13", "R14", "C15", "C16", "MED_HP", "MEDIOS", etiquetas=False)
+    entrada(sch, medios_in, "PRE")
+    sch.cable(medios_hp, (190.5, medios_hp[1]), (190.5, medios_lp[1]), medios_lp)
+    sch.etiqueta("MED_HP", 190.5, medios_lp[1])
+    salida(sch, medios_out, "MEDIOS", 5.08)
     sallen_key(sch, "U2B", 350.52, oy, "C17", "C18", "R15", "R16", "PRE", "AGUDOS")
     yt = 146.05
     sch.texto("GRAVES, pasa bajas: fc = 1/(2π·10k·√(100n·47n)) = 232 Hz", 20.32, yt, 1.0)
@@ -670,13 +679,25 @@ def construir():
     sch.texto("Diodo dentro del lazo: Ch se carga al pico real sin la caída de 0,6 V.\n"
               "τ = Rd·Ch = 220k·100n = 22 ms. ADC_x − VREF = pico de la banda.", 267.97, 245.11, 1.0)
 
+    sch.caja(12.7, 254, 407.67, 335.28, "ILUMINACIÓN NEOPIXEL · 12 LED · FUENTE EXTERNA 5 V / 3 A")
+    sch.colocar("J6", 30.48, 274.32)
+    for unit, x in enumerate((76.2, 137.16, 198.12, 259.08), 1):
+        sch.colocar("U6", x, 279.4, unidad=unit)
+    sch.colocar("U6", 320.04, 279.4, unidad=5)
+    pasivo_v(sch, "C25", 345.44, 279.4)
+    pasivo_v(sch, "C26", 375.92, 279.4)
+    pasivo_h(sch, "R31", 76.2, 304.8)
+    pasivo_v(sch, "R32", 137.16, 304.8)
+    sch.colocar("J5", 198.12, 304.8)
+    sch.texto("J6 alimenta la placa, el PAM8403 y los LED. No conectar simultáneamente VBUS del USB.\nJ5: 1 = 5 V, 2 = DIN, 3 = GND. R31 cerca del primer LED; C26 junto a J5.\nU6 debe ser AHCT (umbral TTL): un 74HC125 a 5 V no garantiza reconocer 3,3 V.\nLa tira vuelve a GND de potencia; no usar VREF como retorno.", 218.44, 307.34, 1.27)
+
     sch.completar()
     return sch
 
 
 if __name__ == "__main__":
     e = construir()
-    e.guardar(SALIDA, ["Ecualizador de audio de tres bandas con visualizador ESP32", "2026-10-22", "A",
+    e.guardar(SALIDA, ["Ecualizador de audio de tres bandas con visualizador ESP32", "2026-10-22", "D.2",
                        "Electrónica II — Universidad de la Costa", "Amplificadores operacionales MCP6004 (riel a riel, 3,3 V)",
                        "Generado desde herramientas/circuito.py"])
     print("Esquemático escrito en", os.path.normpath(SALIDA))
