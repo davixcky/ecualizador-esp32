@@ -1,0 +1,45 @@
+** Drc report for ecualizador.kicad_pcb **
+** Created on 2026-10-22T14:57:28+0000 **
+** Report includes: Errors, Warnings **
+
+** Found 9 DRC violations **
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; 1 spokes connected to isolated island)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(158.0000 mm, 35.0000 mm): PTH pad 3 [GND] of RV5
+[starved_thermal]: Thermal relief connection to zone incomplete (layer B.Cu; 4 spokes connected to isolated island)
+    Local override; error
+    @(0.5000 mm, 0.5000 mm): Zone [GND] on B.Cu, priority 0
+    @(83.1850 mm, 71.2550 mm): PTH pad 11 [GND] of U2
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(81.2550 mm, 14.8950 mm): Reference field of C24
+    @(78.3950 mm, 18.0250 mm): Rectangle of D3 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(95.4950 mm, 86.8950 mm): Reference field of C20
+    @(94.8750 mm, 91.1750 mm): Segment of R26 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(98.0450 mm, 70.1750 mm): Segment of R14 on F.Silkscreen
+    @(98.6650 mm, 65.8950 mm): Reference field of C15
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(50.1450 mm, 14.8950 mm): Reference field of C23
+    @(47.2850 mm, 18.0250 mm): Rectangle of D2 on F.Silkscreen
+[silk_overlap]: Silkscreen overlap
+    Rule: board setup constraints silk; warning
+    @(35.6750 mm, 14.8950 mm): Reference field of C22
+    @(32.8150 mm, 18.0250 mm): Rectangle of D1 on F.Silkscreen
+[lib_footprint_mismatch]: Footprint 'Jack_3.5mm_CUI_SJ1-3523N_Horizontal' does not match copy in library 'Connector_Audio'.
+    Local override; warning
+    @(191.0000 mm, 14.0000 mm): Footprint J1
+[lib_footprint_mismatch]: Footprint 'Jack_3.5mm_CUI_SJ1-3523N_Horizontal' does not match copy in library 'Connector_Audio'.
+    Local override; warning
+    @(191.0000 mm, 36.0000 mm): Footprint J2
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **
