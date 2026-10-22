@@ -1,0 +1,14 @@
+<section id="arquitectura" data-transition="fade" style="background:#F3F4F7;color:#161B2E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-size:24px;letter-spacing:4px;text-transform:uppercase;color:#C2410C">Arquitectura</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Del celular al parlante y a la pantalla</h2>
+<img src="/_blob/e18113e395ec85cc06e29b3964380b72" alt="Diagrama de bloques: entrada, preamplificador, tres filtros, deslizables, inversor de medios, sumador, salida, antialiasing, detectores, ESP32, TFT y Wi-Fi" style="width:1664px;height:262px;object-fit:contain;background:#FFFFFF;border-radius:16px">
+<table style="font-size:24px;color:#161B2E">
+<tr><th style="width:8%">CI</th><th style="width:23%">A</th><th style="width:23%">B</th><th style="width:23%">C</th><th style="width:23%">D</th></tr>
+<tr><td>U1</td><td>Seguidor de VREF</td><td>Preamplificador</td><td>Graves 232 Hz</td><td>Medios HP 409 Hz</td></tr>
+<tr><td>U2</td><td>Medios LP 2,32 kHz</td><td>Agudos 4,1 kHz</td><td>Sumador</td><td>Antialiasing</td></tr>
+<tr><td>U3</td><td>Detector graves</td><td>Seguidor</td><td>Detector medios</td><td>Seguidor</td></tr>
+<tr><td>U4</td><td>Detector agudos</td><td>Seguidor</td><td>Inversor de medios</td><td>Libre</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5468">7</p>
+<aside>Cuatro MCP6004, 15 de 16 amplificadores en uso. El audio nunca pasa por el ESP32: el microcontrolador solo mide la salida filtrada y los detectores.</aside>
+</section>

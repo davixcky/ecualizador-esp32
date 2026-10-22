@@ -1,0 +1,14 @@
+<section id="firmware" data-transition="fade" style="background:#0E1220;color:#EEF1F6;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-size:24px;letter-spacing:4px;text-transform:uppercase;color:#4CB8FF">Firmware del ESP32</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Tres vistas y el teléfono</h2>
+<div style="display:flex;gap:48px;align-items:start">
+<img src="/_blob/e0e0ac9fafb17b286a9a12a8eba984c6" alt="Pantallas de la TFT: arranque, bandas con niveles, espectro de 32 barras y osciloscopio" style="width:920px;height:600px;object-fit:contain;border-radius:16px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:30px;line-height:1.4"><span style="color:#FF8A50">Núcleo 0:</span> 1024 muestras a 20 kS/s, FFT con ventana de Hann, 32 barras y aviso de recorte.</p>
+<p style="font-size:30px;line-height:1.4"><span style="color:#3DDC84">Núcleo 1:</span> pantalla por franjas, pulsador de vista y página web por Wi-Fi.</p>
+<p style="font-size:30px;line-height:1.4"><span style="color:#4CB8FF">Probado en el PC:</span> 19 pruebas pasan; un tono de 1 kHz cae en 999 Hz.</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#B9C2D3">15 · Compila en PlatformIO: RAM 19,7 %, flash 62,8 %</p>
+<aside>Las pantallas de la imagen se dibujaron con el mismo código del firmware, compilado en el PC. Las pruebas encontraron que bajo 300 Hz dos barras leían el mismo bin de la FFT, y se corrigió.</aside>
+</section>
