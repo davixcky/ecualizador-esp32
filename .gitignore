@@ -5,6 +5,5 @@ hardware/fp-info-cache
 hardware/*-backups/
 hardware/*.dsn
 hardware/*.ses
-hardware/3d/ecualizador-placa.wrl
-hardware/fabricacion/gerber/
 simulacion/*.dat
+docs/presentacion/png/_tmp.html

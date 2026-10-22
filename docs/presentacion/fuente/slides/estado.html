@@ -1,0 +1,16 @@
+<section id="estado" data-transition="fade" style="background:#F3F4F7;color:#161B2E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-size:24px;letter-spacing:4px;text-transform:uppercase;color:#C2410C">Estado del arte</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">Unos ajustan, otros muestran</h2>
+<table style="font-size:26px;color:#161B2E">
+<tr><th style="width:30%">Solución</th><th style="width:20%">Tipo</th><th style="width:14%">Bandas</th><th style="width:20%">Visualización</th><th style="width:16%">¿Ecualiza?</th></tr>
+<tr><td>Ecualizador de rack (Behringer FBQ1502HD)</td><td>Analógico</td><td>15</td><td>LED por banda</td><td>Sí, cerrado</td></tr>
+<tr><td>Control de tonos Baxandall</td><td>Analógico</td><td>2</td><td>No</td><td>Sí</td></tr>
+<tr><td>Integrado MSGEQ7</td><td>Analizador</td><td>7</td><td>Al micro</td><td>No</td></tr>
+<tr><td>WLED en ESP32</td><td>Digital (FFT)</td><td>16</td><td>Tiras LED</td><td>No</td></tr>
+<tr><td>Placa DSP ADAU1701</td><td>Digital</td><td>Programables</td><td>Requiere PC</td><td>Sí, no observable</td></tr>
+<tr style="background:#E3F1E8"><td><b>Este proyecto</b></td><td><b>Analógico + ESP32</b></td><td><b>3 + 32</b></td><td><b>TFT y teléfono</b></td><td><b>Sí, etapa por etapa</b></td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#4A5468">El MSGEQ7 valida la idea que usamos: filtro, detector de pico y lectura lenta del ADC.</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5468">5</p>
+<aside>Ningún producto revisado hace las dos cosas con un circuito que se pueda medir. Los analógicos comerciales ecualizan pero son cerrados; los analizadores miden pero no ecualizan.</aside>
+</section>

@@ -1,0 +1,19 @@
+<section id="simulacion" data-transition="fade" style="background:#F3F4F7;color:#161B2E;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:36px">
+<p style="font-size:24px;letter-spacing:4px;text-transform:uppercase;color:#C2410C">Simulación en ngspice</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.1">23 de 24 casos cumplen</h2>
+<div style="display:flex;gap:40px;align-items:start">
+<img src="/_blob/4cad6b25c586d5591a782e154395e36d" alt="Gráficas de simulación: respuesta de cada banda, suma plana frente a la Fase 1, curvas al mover los deslizables y detector de picos" style="width:900px;height:588px;object-fit:contain;background:#FFFFFF;border-radius:16px">
+<table style="width:724px;font-size:24px;color:#161B2E">
+<tr><th style="width:52%">Caso</th><th style="width:48%">Resultado</th></tr>
+<tr><td>Ganancia del preamplificador</td><td>3,20 (10,1 dB)</td></tr>
+<tr><td>Cortes: graves, medios, agudos</td><td>239 Hz · 403 Hz–2,39 kHz · 4,03 kHz</td></tr>
+<tr><td>Suma con controles al 50 %</td><td>−0,27 a +0,88 dB</td></tr>
+<tr><td>Ajuste por banda</td><td>+6 dB al 100 %</td></tr>
+<tr><td>Selectividad 100 Hz · 1 kHz · 8 kHz</td><td>Solo sube su barra</td></tr>
+<tr><td>Detector: error y ataque</td><td>2,0 % · 1,17 ms</td></tr>
+<tr><td>Antialiasing a 15 kHz</td><td>−19,3 dB</td></tr>
+</table>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#4A5468">11 · El caso que no cumple es la Fase 1 original, que motivó el rediseño</p>
+<aside>Para la demostración en vivo abrimos simulacion/ac_plano.cir y graficamos la salida respecto al preamplificador; con tran_tono_1000.cir mostramos que solo sube el detector de medios.</aside>
+</section>

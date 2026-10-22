@@ -8,6 +8,16 @@ Electrónica II · Ingeniería Electrónica · Universidad de la Costa (CUC) · 
 
 ![Ecualizador cerrado](img/3d-gabinete-cerrado.png)
 
+**Entregables de la Fase 2**
+
+| Documento | Archivos |
+|---|---|
+| Informe (trabajo inicial, objetivos, desarrollo) | [PDF](docs/informe-fase2.pdf) · [Word](docs/informe-fase2.docx) · [Markdown](docs/informe-fase2.md) |
+| Presentación (16 diapositivas con notas) | [PDF](docs/presentacion/presentacion-fase2.pdf) · [PowerPoint](docs/presentacion/presentacion-fase2.pptx) · [imágenes](docs/presentacion/png/) · [fuente HTML](docs/presentacion/fuente/) |
+| Fase 1: propuestas iniciales | [Propuestas_Electronica_II.pdf](docs/fase1/Propuestas_Electronica_II.pdf) · [rúbrica de la Fase 2](docs/fase1/rubrica-fase2.png) |
+| Esquemático y PCB | [esquemático PDF](hardware/ecualizador.pdf) · [serigrafía PDF](hardware/fabricacion/serigrafia-arriba.pdf) · [Gerber](hardware/fabricacion/gerbers-ecualizador.zip) · [BOM](hardware/fabricacion/bom.csv) |
+| Modelos 3D | [PCB STEP](hardware/3d/ecualizador-placa.step) · [gabinete STEP](cad/ecualizador-gabinete.step) · [STL para imprimir](cad/stl/) |
+
 ---
 
 ## Contenido
@@ -657,6 +667,7 @@ https://docs.espressif.com
 | [`firmware/`](firmware/) | Proyecto de PlatformIO, procesamiento, pantallas, página web y pruebas en el PC |
 | [`cad/`](cad/) | Gabinete en CadQuery, STL, STEP y render en Blender |
 | [`img/`](img/) | Ilustraciones del documento |
+| [`docs/`](docs/) | Informe y presentación (PDF, Word, PowerPoint), propuestas de la Fase 1 y rúbrica |
 
 Herramientas: KiCad 9, ngspice 42, Python 3 (matplotlib, numpy, CadQuery), Freerouting 2.1,
 PlatformIO, Blender 4 y Graphviz.
@@ -668,6 +679,8 @@ python3 generar_esquematico.py        # esquemático de KiCad
 python3 verificar_netlist.py          # netlist de KiCad = circuito.py
 python3 generar_pcb.py                # ubica, rutea (Freerouting) y rellena planos
 ./exportar_fabricacion.sh             # Gerber, taladros, PDF, BOM, ERC y DRC
+NODE_PATH=$(npm root -g) node exportar_documentos.js informe.html   # presentación en PNG y PDF, informe en PDF
+python3 exportar_pptx.py              # presentación en PowerPoint
 python3 protoboard.py                 # guía de protoboard
 dot -Tpng -Gdpi=150 diagrama_bloques.dot -o ../img/diagrama-de-bloques.png
 cd ../cad && ./generar.sh             # gabinete y renders

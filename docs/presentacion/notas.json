@@ -1,0 +1,38 @@
+{
+ "orden": [
+  "cover",
+  "fase1",
+  "problema",
+  "objetivos",
+  "estado",
+  "teoria",
+  "arquitectura",
+  "esquematico",
+  "materiales",
+  "hallazgo",
+  "simulacion",
+  "pcb",
+  "protoboard",
+  "prototipo",
+  "firmware",
+  "cierre"
+ ],
+ "notas": {
+  "cover": "Presentamos la Fase 2: el desarrollo de la propuesta elegida. Es un ecualizador analógico de tres bandas hecho con amplificadores operacionales, al que le sumamos un analizador de espectro en un ESP32.",
+  "fase1": "En la Fase 1 presentamos tres alternativas con los mismos criterios: 3,3 V, MCP6004, VREF de 1,65 V y ADC1 del ESP32. Elegimos la 2 porque tiene más contenido de Electrónica II con riesgo medio. De la 1 tomamos el analizador de espectro. La 3 se descartó por riesgo y porque conecta electrodos a una persona.",
+  "problema": "El problema tiene dos partes: el usuario no ve qué hace el ecualizador, y el microcontrolador no puede digitalizar bien el audio directamente. Por eso la solución es analógica para el audio y el ESP32 solo mide.",
+  "objetivos": "El objetivo general arriba; los tres específicos son medibles y cada uno tiene un criterio que luego verificamos en la simulación y que verificaremos en el montaje.",
+  "estado": "Ningún producto revisado hace las dos cosas con un circuito que se pueda medir. Los analógicos comerciales ecualizan pero son cerrados; los analizadores miden pero no ecualizan.",
+  "teoria": "Lo más importante es la cuarta idea: un pasa bajas y un pasa altas de segundo orden quedan a 180 grados en su cruce. Por eso invertimos la banda de medios, como en los cruces Linkwitz-Riley de los altavoces.",
+  "arquitectura": "Cuatro MCP6004, 15 de 16 amplificadores en uso. El audio nunca pasa por el ESP32: el microcontrolador solo mide la salida filtrada y los detectores.",
+  "esquematico": "El esquemático, la simulación y la PCB salen del mismo archivo de descripción del circuito, y un script compara la netlist que exporta KiCad con esa descripción. Así no hay diferencias entre lo que se simula y lo que se fabrica.",
+  "materiales": "La lista completa por referencia está en el repositorio. Todo es de inserción, para poder montarlo en protoboard y soldarlo a mano.",
+  "hallazgo": "Este es el resultado más importante de la simulación. La propuesta original, con los tres controles al centro, tenía dos huecos de 11 dB cerca de 300 Hz y 3 kHz. La causa es la fase en los cruces de segundo orden. Con un inversor la respuesta queda entre −0,27 y +0,88 dB de 20 Hz a 20 kHz.",
+  "simulacion": "Para la demostración en vivo abrimos simulacion/ac_plano.cir y graficamos la salida respecto al preamplificador; con tran_tono_1000.cir mostramos que solo sube el detector de medios.",
+  "pcb": "Quedan 9 avisos no eléctricos del DRC: textos de serigrafía que se tocan y dos conexiones térmicas con dos rayos. La zona bajo la pantalla solo tiene piezas bajas, porque la TFT queda 11 mm sobre la placa.",
+  "protoboard": "Armamos en el orden de la señal y medimos cada etapa antes de seguir. Fuera de la protoboard quedan solo los jacks, los potenciómetros y la pantalla, con cables Dupont.",
+  "prototipo": "El gabinete se modeló con las mismas coordenadas de la PCB, así cada ranura y agujero cae sobre su pieza. La rúbrica pide que los diseños del prototipo no se hagan con IA: además de estos renders, presentaremos bocetos a mano desde varias vistas.",
+  "firmware": "Las pantallas de la imagen se dibujaron con el mismo código del firmware, compilado en el PC. Las pruebas encontraron que bajo 300 Hz dos barras leían el mismo bin de la FFT, y se corrigió.",
+  "cierre": "Cerramos con lo que falta: todo lo mostrado es diseño y simulación; la siguiente entrega es el montaje medido. Preguntas."
+ }
+}
