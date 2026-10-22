@@ -1,0 +1,1 @@
+13 GPIO coinciden; ninguno compartido; MISO desactivado; pinout AHCT125 comprobado.

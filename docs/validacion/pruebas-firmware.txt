@@ -1,0 +1,60 @@
+make: Entering directory '/home/davixcky/dev/.personal/electronica/ecualizador-esp32/firmware/test'
+g++ -std=c++17 -O2 -Wall -I../lib/dsp -o prueba_dsp prueba_dsp.cpp ../lib/dsp/dsp.cpp
+./prueba_dsp
+Resolución: 19.53 Hz por bin; barras de 40 Hz a 5000 Hz
+
+1) Tono de 1 kHz a −6 dBFS (0,4 V de pico)
+  [ok] frecuencia dominante (Hz)                         999.150   (1000 ± 5 Hz)
+  [ok] bin del tono                                       51.000   (bin 51 (996 Hz))
+  [ok] nivel del pico (dB)                                -6.251   (−6,0 ± 0,5 dB)
+  [ok] nivel eficaz (dBFS)                                -6.025   (−6,0 ± 0,3 dBFS)
+  [ok] barra más alta                                    21.000   (la que contiene 1 kHz)
+  [ok] sin recorte                                         0.000   (falso)
+
+2) Tonos de 100 Hz y 4 kHz por separado
+  [ok] barra más alta con 100 Hz                          3.000   (la que contiene el tono)
+  [ok] frecuencia dominante (Hz)                          99.439   (± 10 Hz)
+  [ok] barra más alta con 4000 Hz                        30.000   (la que contiene el tono)
+  [ok] frecuencia dominante (Hz)                        4000.850   (± 10 Hz)
+
+3) Separación de dos tonos (150 Hz a −6 dB y 2 kHz a −20 dB)
+  [ok] diferencia entre las dos barras (dB)               14.320   (14 ± 1,5 dB)
+  [ok] barra de 600 Hz (sin señal)                      -60.000   (< −45 dB)
+
+4) Silencio (solo ruido del ADC)
+  [ok] nivel eficaz (dBFS)                               -53.836   (< −50 dBFS)
+
+5) Recorte: senoidal de 0,9 V de pico (sale de 0,15–2,45 V)
+  [ok] aviso de recorte                                    1.000   (verdadero)
+
+6) Detector de picos
+  [ok] nivel_mv(2,05 V; VREF 1,65 V)                     400.000   (400 mV)
+  [ok] nivel_db(400 mV)                                   -6.021   (−6,02 dB)
+  [ok] nivel bajo VREF                                     0.000   (0 (no negativo))
+
+7) Retención de picos
+  [ok] pico retenido a los 0,5 s                         -10.000   (−10 dB)
+  [ok] pico cayendo a los 1,5 s                          -26.000   (entre −40 y −10 dB)
+
+Todas las pruebas pasan
+g++ -std=c++17 -O2 -Wall -DARDUINO=100 -Iarduino -I"../.pio/libdeps/esp32dev/Adafruit GFX Library" -I../lib/interfaz -I../lib/dsp \
+    -o pantallas pantallas.cpp ../lib/interfaz/interfaz.cpp ../lib/dsp/dsp.cpp "../.pio/libdeps/esp32dev/Adafruit GFX Library/Adafruit_GFX.cpp"
+../.pio/libdeps/esp32dev/Adafruit GFX Library/Adafruit_GFX.cpp:60:9: warning: ‘pgm_read_pointer’ redefined
+   60 | #define pgm_read_pointer(addr) ((void *)pgm_read_dword(addr))
+      |         ^~~~~~~~~~~~~~~~
+In file included from ../.pio/libdeps/esp32dev/Adafruit GFX Library/Adafruit_GFX.h:5,
+                 from ../.pio/libdeps/esp32dev/Adafruit GFX Library/Adafruit_GFX.cpp:34:
+arduino/Arduino.h:14:9: note: this is the location of the previous definition
+   14 | #define pgm_read_pointer(a) (*(void* const*)(a))
+      |         ^~~~~~~~~~~~~~~~
+mkdir -p salida
+./pantallas salida
+Señal de ejemplo: -6.7 dBFS, tono dominante 81.5 Hz
+bandas    franjas iguales  salida/bandas.ppm
+espectro  franjas iguales  salida/espectro.ppm
+onda      franjas iguales  salida/onda.ppm
+arranque  franjas iguales  salida/arranque.ppm
+recorte   franjas iguales  salida/recorte.ppm
+python3 componer_pantallas.py salida ../../img
+PNG escritos en ../../img
+make: Leaving directory '/home/davixcky/dev/.personal/electronica/ecualizador-esp32/firmware/test'

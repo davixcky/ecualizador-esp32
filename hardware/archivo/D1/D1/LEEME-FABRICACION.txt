@@ -1,0 +1,6 @@
+D.1 — PCB DE UNA CARA. 200 x 120 mm; FR4 de 1,6 mm.
+Una sola capa de cobre, INFERIOR (B.Cu). No fabricar cobre superior.
+Los cruces son 80 cables aislados instalados a mano, fuera de los Gerbers.
+Los taladros de componentes y puentes se sueldan desde abajo; no requieren conexión metalizada entre capas.
+Mascara inferior opcional. Sin serigrafia de fabricacion.
+Consultar hardware/una-cara/LEEME.md y puentes.csv para el montaje.

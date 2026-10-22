@@ -6,5 +6,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 kicad-cli pcb export vrml ../hardware/ecualizador.kicad_pcb -o ../hardware/3d/ecualizador-placa.wrl --units mm -f
-python3 gabinete.py
-MUESTRAS=${MUESTRAS:-96} blender -b -P render_blender.py -- cerrado abierto planta debajo
+kicad-cli pcb export glb ../hardware/ecualizador.kicad_pcb -o ../hardware/3d/ecualizador-placa.glb --user-origin 100x60mm --subst-models --force
+kicad-cli pcb export glb ../hardware/archivo/B1/ecualizador.kicad_pcb -o ../hardware/3d/panel-controles.glb --user-origin 100x60mm --subst-models --force --no-board-body --component-filter "RV1,RV2,RV3,RV4,RV5,J1,J2,SW1"
+"${PYTHON:-../.venv/bin/python}" gabinete.py
+MUESTRAS=${MUESTRAS:-96} blender -b -P render_blender.py -- cerrado abierto planta debajo canales

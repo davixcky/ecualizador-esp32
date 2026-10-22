@@ -1,4 +1,4 @@
-// Pantallas de la TFT de 320 × 240. Solo dibujan sobre un Adafruit_GFX: en el ESP32 se dibujan
+// Pantallas de la TFT de 320 × 170. Solo dibujan sobre un Adafruit_GFX: en el ESP32 se dibujan
 // por franjas (clase Franja) que se envían una tras otra por SPI, y en el PC sobre un lienzo
 // completo para generar las imágenes del documento (test/pantallas.cpp).
 #pragma once
@@ -9,7 +9,7 @@
 namespace interfaz {
 
 constexpr int ANCHO = 320;
-constexpr int ALTO = 240;
+constexpr int ALTO = 170;
 
 enum Vista { BANDAS, ESPECTRO, ONDA, ARRANQUE, NUM_VISTAS = 3 };
 

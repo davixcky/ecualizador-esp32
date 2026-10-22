@@ -1,0 +1,59 @@
+[
+  {
+    "hz": 100,
+    "rms_mV": [
+      63.17,
+      4.65,
+      0.22
+    ],
+    "bandOrder": [
+      "graves",
+      "medios",
+      "agudos"
+    ],
+    "expectedDominant": 0,
+    "pass": true,
+    "engineStatus": "SPICE 14 nets | 0 ms",
+    "model": "opamp-ideal; entrada PRE 0.1 V pico + VREF 1.65 V",
+    "source": "https://velxio.dev/editor",
+    "timestamp": "2026-10-22T19:31:26.158Z"
+  },
+  {
+    "hz": 1000,
+    "rms_mV": [
+      6.11,
+      63.23,
+      4.51
+    ],
+    "bandOrder": [
+      "graves",
+      "medios",
+      "agudos"
+    ],
+    "expectedDominant": 1,
+    "pass": true,
+    "engineStatus": "SPICE 14 nets | 0 ms",
+    "model": "opamp-ideal; entrada PRE 0.1 V pico + VREF 1.65 V",
+    "source": "https://velxio.dev/editor",
+    "timestamp": "2026-10-22T19:31:32.020Z"
+  },
+  {
+    "hz": 8000,
+    "rms_mV": [
+      0.64,
+      6.15,
+      68.31
+    ],
+    "bandOrder": [
+      "graves",
+      "medios",
+      "agudos"
+    ],
+    "expectedDominant": 2,
+    "pass": true,
+    "engineStatus": "SPICE 14 nets | 0 ms",
+    "model": "opamp-ideal; entrada PRE 0.1 V pico + VREF 1.65 V",
+    "source": "https://velxio.dev/editor",
+    "timestamp": "2026-10-22T19:31:37.871Z"
+  }
+]

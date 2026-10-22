@@ -22,13 +22,12 @@ PANTALLA = os.path.join(IMG, "ui-tft-bandas.png")
 MUESTRAS = int(os.environ.get("MUESTRAS", "96"))
 
 # del modelo de CadQuery (gabinete.py)
-TFT_CENTRO = (-46.0, 29.0)
+TFT_CENTRO = (-49.0, 29.0)
 Z_VIDRIO = 17.6
 TAPA_SUBE = 85.0          # separación de la tapa en la vista abierta
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
-for m in ("io_scene_x3d", "io_mesh_stl"):
-    addon_utils.enable(m)
+
 esc = bpy.context.scene
 esc.unit_settings.scale_length = 0.001
 
@@ -49,8 +48,13 @@ def material(nombre, color, rugosidad=0.5, metal=0.0, emision=None, fuerza=0.0, 
 
 
 MAT = {
-    "cuerpo": material("cuerpo", (0.78, 0.79, 0.81), 0.45),
-    "tapa": material("tapa", (0.035, 0.04, 0.05), 0.38),
+    "rotulos": material("rotulos plata", (.72,.75,.78), .55),
+    "iman": material("neodimio niquelado", (0.65,0.67,0.69), .22, metal=1),
+    "tira": material("tira", (0.04,0.04,0.04)),
+    "led": material("led", (0.6,0.9,1.0), emision=(0.2,0.7,1.0), fuerza=3),
+    "difusor": material("difusor opal", (0.7,0.9,1.0), emision=(0.1,0.5,0.7), fuerza=1.5),
+    "cuerpo": material("cuerpo", (0.035, 0.043, 0.052), 0.4),
+    "tapa": material("tapa", (0.10, 0.12, 0.14), 0.36),
     "franja0": material("naranja", (1.0, 0.30, 0.08), 0.4, emision=(1.0, 0.30, 0.08), fuerza=1.5),
     "franja1": material("verde", (0.08, 0.75, 0.30), 0.4, emision=(0.08, 0.75, 0.30), fuerza=1.5),
     "franja2": material("cian", (0.05, 0.50, 1.0), 0.4, emision=(0.05, 0.50, 1.0), fuerza=1.5),
@@ -67,12 +71,13 @@ MAT = {
 
 
 def importar_stl(nombre):
-    bpy.ops.import_mesh.stl(filepath=os.path.join(STL, nombre + ".stl"))
-    o = bpy.context.selected_objects[0]
+    bpy.ops.object.select_all(action="DESELECT")
+    bpy.ops.wm.stl_import(filepath=os.path.join(STL, nombre + ".stl"))
+    o = bpy.context.active_object
     o.name = nombre
     clave = nombre if nombre in MAT else nombre.rstrip("0123456789").split("-")[0]
     o.data.materials.append(MAT.get(clave, MAT["cuerpo"]))
-    bpy.ops.object.shade_smooth()
+    bpy.ops.object.shade_flat()
     if hasattr(o.data, "use_auto_smooth"):          # Blender 4.0
         o.data.use_auto_smooth = True
         o.data.auto_smooth_angle = math.radians(35)
@@ -80,30 +85,32 @@ def importar_stl(nombre):
 
 
 # ---------------------------------------------------------------- placa de KiCad
-antes = set(bpy.data.objects)
-bpy.ops.import_scene.x3d(filepath=WRL)
-nuevos = [o for o in bpy.data.objects if o not in antes]
-mallas = [o for o in nuevos if o.type == "MESH"]
-vacios = [o.name for o in nuevos if o.type != "MESH"]
+bpy.ops.import_scene.gltf(filepath=os.path.join(AQUI,"..","hardware","3d","ecualizador-placa.glb"))
+mallas=[o for o in bpy.context.scene.objects if o.type=="MESH"]
 bpy.ops.object.select_all(action="DESELECT")
-for o in mallas:
-    o.select_set(True)
-bpy.context.view_layer.objects.active = mallas[0]
+for o in mallas:o.select_set(True)
+bpy.context.view_layer.objects.active=mallas[0]
 bpy.ops.object.parent_clear(type="CLEAR_KEEP_TRANSFORM")
 bpy.ops.object.join()
-pcb = bpy.context.view_layer.objects.active
-pcb.name = "pcb"
-for n in vacios:
-    if n in bpy.data.objects:
-        bpy.data.objects.remove(bpy.data.objects[n])
-# El VRML de KiCad viene con el eje Y hacia arriba: se gira para que la altura quede en Z.
-# Primero se aplica la transformación que trae cada pieza del VRML (escala 2,54 y giros), así los
-# vértices quedan en las coordenadas del VRML: centrado en la placa, X_vrml = 100 − x_pcb,
-# Z_vrml = 60 − y_pcb y la altura en Y_vrml, con el centro del espesor de la placa en 0 (medido).
-# Luego se lleva a X = x_pcb − 100, Y = 60 − y_pcb, Z = 0 en la cara inferior de la PCB.
-bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-pcb.matrix_world = Matrix(((-1, 0, 0, 0), (0, 0, 1, 0), (0, 1, 0, 0.79), (0, 0, 0, 1)))
-bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+pcb=bpy.context.active_object
+pcb.name="pcb"
+bpy.ops.object.transform_apply(location=True,rotation=True,scale=True)
+pcb.scale=(1,1,1) # glTF importer already converts metres to scene millimetres
+assert 199 < pcb.dimensions.x < 201, f"Escala PCB incorrecta: {pcb.dimensions}"
+pcb.location.z=1.6
+bpy.ops.object.transform_apply(location=True,rotation=True,scale=True)
+
+# Controles del panel: posiciones mecánicas conservadas, ahora conectados por cables.
+# Los modelos proceden de las huellas originales; se sujetan al panel.
+before=set(bpy.data.objects)
+bpy.ops.import_scene.gltf(filepath=os.path.join(AQUI,"..","hardware","3d","panel-controles.glb"))
+control_models=[o for o in set(bpy.data.objects)-before if o.type=="MESH"]
+for o in control_models:
+    bpy.context.view_layer.objects.active=o
+    o.select_set(True)
+    bpy.ops.object.parent_clear(type="CLEAR_KEEP_TRANSFORM")
+    o.location.z+=1.6
+    o.select_set(False)
 
 # ---------------------------------------------------------------- gabinete
 obj = {}
@@ -111,11 +118,11 @@ for f in sorted(os.listdir(STL)):
     if f.endswith(".stl"):
         obj[f[:-4]] = importar_stl(f[:-4])
 
-# pantalla: plano con la imagen de la interfaz como emisión (área activa de 57,6 × 43,2 mm)
+# Pantalla Waveshare: área activa horizontal 42,72 × 22,70 mm.
 bpy.ops.mesh.primitive_plane_add(size=1, location=(TFT_CENTRO[0], TFT_CENTRO[1], Z_VIDRIO + 0.05))
 pantalla = bpy.context.active_object
 pantalla.name = "pantalla"
-pantalla.scale = (57.6, 43.2, 1)
+pantalla.scale = (42.72, 22.70, 1)
 mp = bpy.data.materials.new("pantalla")
 mp.use_nodes = True
 nt = mp.node_tree
@@ -128,8 +135,12 @@ nt.links.new(tex.outputs["Color"], emi.inputs["Color"])
 nt.links.new(emi.outputs["Emission"], nt.nodes["Material Output"].inputs["Surface"])
 pantalla.data.materials.append(mp)
 
-TAPA = ["tapa", "franja0", "franja1", "franja2", "perilla-nivel", "perilla-volumen", "deslizable0", "deslizable1",
-        "deslizable2", "boton"]
+TAPA = ["tapa", "rotulos", "franja0", "franja1", "franja2", "perilla-nivel", "perilla-volumen", "deslizable0", "deslizable1",
+        "deslizable2", "boton", "cuna-tft", "tft-placa", "tft-vidrio"] + [f"iman-tapa{i}" for i in range(4)]
+
+# Identificación del parlante sobre la culata, visible en la vista de canales.
+rotulo=bpy.data.curves.new('etiqueta-parlante','FONT');rotulo.body='PARLANTE\n4 ohm / 3 W';rotulo.size=2.0;rotulo.align_x='CENTER';rotulo.align_y='CENTER';rotulo.extrude=.01
+obj_rot=bpy.data.objects.new('etiqueta-parlante',rotulo);bpy.context.collection.objects.link(obj_rot);obj_rot.location=(-55,-28,-7.15);rotulo.materials.append(MAT['rotulos'])
 
 # ---------------------------------------------------------------- luz, mundo y render
 mundo = bpy.data.worlds.new("mundo")
@@ -164,7 +175,8 @@ piso.data.materials.append(material("piso", (0.93, 0.94, 0.96), 0.85))
 
 esc.render.engine = "CYCLES"
 esc.cycles.samples = MUESTRAS
-esc.cycles.use_denoising = False   # la versión de Blender de Ubuntu no trae OpenImageDenoise
+esc.render.image_settings.file_format = "PNG"
+esc.cycles.use_denoising = True   # la versión de Blender de Ubuntu no trae OpenImageDenoise
 esc.cycles.device = "CPU"
 esc.render.resolution_x = 1800
 esc.render.resolution_y = 1150
@@ -211,10 +223,14 @@ if "planta" in vistas:
     esc.render.resolution_y = 1150
 
 if "abierto" in vistas:
+    for o in control_models: o.location.z += TAPA_SUBE
+    pantalla.location.z += TAPA_SUBE
     for n in TAPA:
         obj[n].location.z += TAPA_SUBE
     apuntar((210, -330, 430), (0, 5, 20), 46)
     render("3d-gabinete-abierto.png")
+    for o in control_models: o.location.z -= TAPA_SUBE
+    pantalla.location.z -= TAPA_SUBE
     for n in TAPA:
         obj[n].location.z -= TAPA_SUBE
 
@@ -223,3 +239,11 @@ if "debajo" in vistas:
     apuntar((150, -260, -260), (0, 0, -10), 50)
     render("3d-gabinete-debajo.png")
     piso.hide_render = False
+
+if "canales" in vistas:
+    for o in control_models: o.hide_render = True
+    pcb.hide_render = True
+    pantalla.hide_render = True
+    for n in TAPA: obj[n].hide_render = True
+    apuntar((80, -260, 340), (0, 0, -3), 48)
+    render("3d-gabinete-canales.png")

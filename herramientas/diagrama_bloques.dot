@@ -1,12 +1,12 @@
 // Diagrama de bloques del ecualizador. dot -Tpng -Gdpi=160 diagrama_bloques.dot -o ../img/diagrama-de-bloques.png
 digraph G {
-  rankdir=LR; splines=ortho; nodesep=0.35; ranksep=0.45;
+  rankdir=LR; splines=polyline; nodesep=0.5; ranksep=0.6;
   node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, penwidth=1.2, color="#3b4252", margin="0.18,0.08"];
   edge [color="#3b4252", penwidth=1.3, arrowsize=0.7, fontname="Helvetica", fontsize=9];
 
   entrada [label="Entrada de línea\n(celular / PC)\nJ1 + R4–R5 + RV1", fillcolor="#eceff4"];
   pre [label="Preamplificador\nno inversor\nU1B, G = 3,2", fillcolor="#dbe7ff"];
-  vref [label="VREF = 1,65 V\nU1A seguidor", fillcolor="#dbe7ff"];
+  vref [label="VREF = 1,65 V\nU1A seguidor\nReferencia de señal", fillcolor="#dbe7ff"];
 
   subgraph cluster_f { label="Filtros Sallen-Key (2.º orden)"; fontname="Helvetica"; fontsize=10; style="rounded,dashed"; color="#9aa3b5";
     lp [label="Pasa bajas 232 Hz\nGRAVES (U1C)", fillcolor="#ffe1d3"];
@@ -14,22 +14,23 @@ digraph G {
     hp [label="Pasa altas 4,1 kHz\nAGUDOS (U2B)", fillcolor="#d3ecff"];
   }
   pots [label="Ganancia por banda\nRV2–RV4\n(deslizables)", fillcolor="#eceff4"];
-  inv [label="Inversor\nde medios\nU4C", fillcolor="#dbe7ff"];
+  inv [label="Medios: inversión\nU4C, R17 y R18", fillcolor="#dbe7ff"];
   sum [label="Sumador inversor\nU2C", fillcolor="#dbe7ff"];
   salida [label="Salida de línea J2\n+ PAM8403 y parlante", fillcolor="#eceff4"];
   det [label="3 detectores de pico\nde precisión + seguidores\nU3, U4A–B", fillcolor="#dbe7ff"];
   aa [label="Antialiasing\nSallen-Key 4,95 kHz\nU2D", fillcolor="#dbe7ff"];
   esp [label="ESP32 (ADC1)\nFFT 1024 puntos\nGPIO32–36", fillcolor="#d9f2d0"];
-  tft [label="TFT 2,8\"\nbarras, espectro\ny osciloscopio", fillcolor="#fde8c8"];
+  tft [label="Waveshare 1,9\"\n170 x 320\nbarras, espectro\ny osciloscopio", fillcolor="#fde8c8"];
+  led [label="74AHCT125 + NeoPixel\n12 LED / 5 V externos", fillcolor="#eceff4"];
   web [label="Wi-Fi (AP)\npágina en el\nteléfono", fillcolor="#fde8c8"];
 
   entrada -> pre -> {lp bp hp};
-  vref -> pre [style=dashed, arrowhead=none, xlabel="tierra de señal"];
+  vref -> pre [style=dashed, arrowhead=none];
   {lp bp hp} -> pots;
-  pots -> inv [xlabel="medios"];
+  pots -> inv;
   pots -> sum; inv -> sum;
   sum -> salida;
   sum -> aa -> esp;
   pots -> det -> esp;
-  esp -> tft; esp -> web;
+  esp -> tft; esp -> web; esp -> led;
 }

@@ -20,7 +20,7 @@ H_DIP = "Package_DIP:DIP-14_W7.62mm_Socket"
 H_POT = "Potentiometer_THT:Potentiometer_Alps_RK09K_Single_Vertical"
 H_SLIDE = "Potentiometer_THT:Potentiometer_Bourns_PTA3043_Single_Slide"
 H_JACK = "Connector_Audio:Jack_3.5mm_CUI_SJ1-3523N_Horizontal"
-H_TFT = "Connector_PinSocket_2.54mm:PinSocket_1x14_P2.54mm_Vertical"
+H_TFT = "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical"
 H_AMP = "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 H_SW = "Button_Switch_THT:SW_PUSH_6mm_H5mm"
 H_ESP = "Ecualizador:ESP32-DevKitC-38_Zocalo"
@@ -159,11 +159,24 @@ for banda, cursor, d, ch, rd, det, seg in (("graves", "G_W", "D1", "C22", "R27",
 AO("U4D", "VREF", "U4D_OUT", "U4D_OUT", "Unidad libre: seguidor de VREF (reserva)")
 
 # --- pantalla y pulsador
-parte("J4", "TFT", "TFT ILI9341 2,8\" SPI",
-      {"1": "+3V3", "2": "GND", "3": "TFT_CS", "4": "TFT_RST", "5": "TFT_DC", "6": "TFT_MOSI",
-       "7": "TFT_SCK", "8": "TFT_LED", "9": "TFT_MISO", "10": None, "11": None, "12": None, "13": None,
-       "14": None}, H_TFT, "Zócalo de la pantalla TFT (pines táctiles sin usar)")
-R("R30", "10", "+3V3", "TFT_LED", "Limitación de la luz de fondo")
+# J4 es un adaptador de paso 2,54 mm; el cable GH1.25 se conecta por nombre.
+parte("J4", "TFT", 'Waveshare 1.9 ST7789V2',
+      {"1": "+3V3", "2": "GND", "3": "TFT_MOSI", "4": "TFT_SCK", "5": "TFT_CS",
+       "6": "TFT_DC", "7": "TFT_RST", "8": "TFT_BL"}, H_TFT,
+      "Cable adaptador: VCC GND DIN CLK CS DC RST BL; no insertar el módulo directamente")
+R("R30", "10k", "TFT_BL", "GND", "Apaga la retroiluminación durante el arranque")
+# LED: fuente externa común de 5 V; la corriente de la tira no atraviesa el DevKit.
+parte("J5", "CONN3", "NeoPixel 5V DIN GND", {"1": "+5V", "2": "LED_DIN", "3": "GND"},
+      "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical", "Salida hacia 12 LED WS2812B")
+parte("J6", "CONN2", "Entrada 5V 3A", {"1": "+5V", "2": "GND"},
+      "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal", "Fuente regulada externa; desconectar VBUS USB")
+parte("U6", "BUFFER", "74AHCT125", {"1":"GND", "2":"LED_DATA", "3":"LED_5V",
+      "4":"+5V", "5":"GND", "6":None, "7":"GND", "8":None, "9":"GND", "10":"+5V",
+      "11":None, "12":"GND", "13":"+5V", "14":"+5V"}, H_DIP, "Adaptador lógico 3,3 a 5 V; no sustituir por HC")
+R("R31", "330", "LED_5V", "LED_DIN", "Serie de datos; junto al conector de la tira")
+R("R32", "10k", "LED_DATA", "GND", "Mantiene DIN bajo durante reset")
+C("C25", "100n", "+5V", "GND", "Desacople del 74AHCT125")
+CP("C26", "1000u 10V", "+5V", "GND", "Reserva para los LED", "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm")
 parte("SW1", "SW", "Pulsador", {"1": "BTN", "2": "GND"}, H_SW, "Cambia la vista de la pantalla")
 
 # --- ESP32-DevKitC V4 (38 pines). Lado izquierdo: pines 1–19; lado derecho: 20–38.
@@ -173,7 +186,7 @@ DER = ["GND", "IO23", "IO22", "TXD0/IO1", "RXD0/IO3", "IO21", "GND", "IO19", "IO
        "IO17", "IO16", "IO4", "IO0", "IO2", "IO15", "SD1/IO8", "SD0/IO7", "CLK/IO6"]
 ESP_REDES = {"3V3": "+3V3", "VP/IO36": "VREF", "IO34": "ADC_G", "IO35": "ADC_M", "IO32": "ADC_A",
              "IO33": "ADC_FFT", "IO27": "BTN", "5V": "+5V", "IO23": "TFT_MOSI", "IO22": "TFT_RST",
-             "IO21": "TFT_DC", "IO19": "TFT_MISO", "IO18": "TFT_SCK", "IO5": "TFT_CS"}
+             "IO21": "TFT_DC", "IO19": "TFT_BL", "IO25": "LED_DATA", "IO18": "TFT_SCK", "IO5": "TFT_CS"}
 _pines_esp = {}
 for k, n in enumerate(IZQ + DER):
     _pines_esp[str(k + 1)] = "GND" if n == "GND" else ESP_REDES.get(n)
@@ -189,11 +202,12 @@ for u in ("U1", "U2", "U3", "U4"):
 
 # Material que no va en la placa (para la lista de materiales)
 FUERA = [
+    ("—", "Tira WS2812B de 10 mm, 60 LED/m: dos tramos de 100 mm (12 LED)", 1, "Iluminación del gabinete"),
     ("—", "Módulo amplificador PAM8403 (2 × 3 W, 5 V)", 1, "Amplificador del parlante (se conecta a J3)"),
     ("—", "Parlante de 3 W, 4 Ω, 40–50 mm", 1, "Salida de sonido del gabinete"),
-    ("—", "Pantalla TFT ILI9341 2,8\" 320 × 240 SPI", 1, "Visualización (se inserta en J4)"),
+    ("—", "Waveshare 1,9 pulgadas 170 × 320 SPI ST7789V2", 1, "Visualización mediante cable adaptador en J4"),
     ("—", "Perillas para potenciómetro de eje D y tapas para deslizable", 5, "Panel"),
-    ("—", "Cable USB y cargador de 5 V, 1 A", 1, "Alimentación"),
+    ("—", "Fuente regulada de 5 V, 3 A y cable USB sin VBUS", 1, "Alimentación"),
     ("—", "Cable de audio 3,5 mm macho-macho", 1, "Entrada desde el celular o el PC"),
 ]
 
@@ -217,3 +231,13 @@ if __name__ == "__main__":
         if len(nodos) < 2:
             print("¡Red con un solo nodo!", red, nodos)
     print(len(PIEZAS), "piezas,", len(redes()), "redes")
+
+# D.1: terminales de panel y patas adaptadas a PCB de una cara.
+# El inventario original de huellas permanece en hardware/una-cara/componentes-base.json.
+from pathlib import Path as _Path
+import json as _json
+_una_cara = _Path(__file__).resolve().parents[1] / 'hardware/una-cara/huellas.json'
+if _una_cara.exists():
+    _huellas = _json.loads(_una_cara.read_text())
+    for _pieza in PIEZAS:
+        _pieza['huella'] = _huellas.get(_pieza['ref'], _pieza['huella'])

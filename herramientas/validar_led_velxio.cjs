@@ -1,0 +1,27 @@
+const {chromium}=require('playwright');
+const fs=require('fs'),path=require('path');const root=path.resolve(__dirname,'..');
+(async()=>{
+ const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1900,height:1100}});p.setDefaultTimeout(1800);
+ await p.goto('https://velxio.dev/editor',{waitUntil:'networkidle',timeout:60000});
+ for(const name of ['Got it','Cancel'])await p.getByRole('button',{name,exact:true}).click().catch(()=>{});
+ await p.locator('input[type=file][accept*=".vlx"]').first().setInputFiles(path.join(root,'simulacion/velxio/led-animado.vlx'));
+ await p.getByRole('button',{name:'Minimize chat'}).click().catch(()=>{});
+ await p.getByTitle('Hide file explorer').click().catch(()=>{});
+ await p.getByRole('button',{name:'Circuit',exact:true}).click().catch(()=>{});
+ await p.getByRole('button',{name:'Switch to light theme',exact:true}).click().catch(()=>{});
+ await p.getByTitle('Run (auto-compiles if needed)').click();
+ await p.waitForFunction(()=>/\nPaso 11: LED 12/.test(document.body.innerText),{},{timeout:180000});
+ await p.getByTitle('Toggle Output Console').click().catch(()=>{});
+ const result={timestamp:new Date().toISOString(),source:'https://velxio.dev/editor',board:'ESP32',gpio:25,leds:12,scope:'Patrón programado sin audio; AHCT y carga de potencia no modelados',serial:(await p.locator('body').innerText()).match(/Paso \d+: LED \d+/g)};
+ result.parts=await p.locator('wokwi-neopixel-matrix').evaluateAll(es=>es.map(e=>({rows:e.rows,cols:e.cols,keys:Object.keys(e),svg:e.shadowRoot?.innerHTML.slice(-5000)})));
+ result.state1=await p.locator('wokwi-neopixel-matrix').evaluateAll(es=>es.map(e=>e.shadowRoot.innerHTML));
+ await p.screenshot({path:path.join(root,'img/velxio-led-completa.png')});
+ await p.screenshot({path:path.join(root,'img/velxio-led-animado.png'),clip:{x:500,y:390,width:850,height:420}});
+ await p.waitForTimeout(450);
+ await p.screenshot({path:path.join(root,'img/velxio-led-animado-2.png'),clip:{x:500,y:390,width:850,height:420}});
+ result.state2=await p.locator('wokwi-neopixel-matrix').evaluateAll(es=>es.map(e=>e.shadowRoot.innerHTML));
+ result.animationChanged=JSON.stringify(result.state1)!==JSON.stringify(result.state2);
+ result.pass=result.animationChanged&&result.serial?.includes('Paso 11: LED 12')&&result.parts.some(x=>x.rows===1&&x.cols===12);
+ fs.writeFileSync(path.join(root,'simulacion/velxio/validacion-led.json'),JSON.stringify(result,null,2));
+ await b.close();console.log({pass:result.pass,steps:result.serial?.length,parts:result.parts.map(x=>({rows:x.rows,cols:x.cols,keys:x.keys}))});if(!result.pass)process.exitCode=1;
+})();

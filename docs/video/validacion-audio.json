@@ -1,0 +1,49 @@
+{
+  "method": "SPICE AC LINEA + STFT quasi-static interpolation",
+  "duration_s": 36,
+  "sample_rate": 48000,
+  "samples": 1728000,
+  "peak": 0.87,
+  "clipped_samples": 0,
+  "single_playback_gain": 17.7476978659464,
+  "slider_tests": [
+    {
+      "band": 0,
+      "frequency_Hz": 100,
+      "max_vs_min_dB": 31.182795957907295
+    },
+    {
+      "band": 1,
+      "frequency_Hz": 1000,
+      "max_vs_min_dB": 26.14955319898181
+    },
+    {
+      "band": 2,
+      "frequency_Hz": 8000,
+      "max_vs_min_dB": 28.121803364090532
+    }
+  ],
+  "source": "original procedural composition",
+  "hardware_recording": false,
+  "circuit_sha256": "9d31e8d45a6e653b2610faf44962f77b5d42e60a001b0a2aa891e35570b56433",
+  "wav_band_comparisons": [
+    {
+      "band": 0,
+      "low_vs_center_dB": -21.65113492908819,
+      "high_vs_center_dB": 6.273884625393304,
+      "difference_dB": 27.925019554481494
+    },
+    {
+      "band": 1,
+      "low_vs_center_dB": -16.836930707239322,
+      "high_vs_center_dB": 5.85387076004918,
+      "difference_dB": 22.6908014672885
+    },
+    {
+      "band": 2,
+      "low_vs_center_dB": -20.637808087106922,
+      "high_vs_center_dB": 6.1934082894129805,
+      "difference_dB": 26.831216376519905
+    }
+  ]
+}

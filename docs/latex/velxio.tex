@@ -1,0 +1,26 @@
+\section{Simulación interactiva en Velxio}
+Se ejecutaron tres proyectos en \url{https://velxio.dev/editor}. En la carpeta \texttt{simulacion/velxio/}, los archivos \texttt{filtros-100Hz.vlx}, \texttt{filtros-1000Hz.vlx} y \texttt{filtros-8000Hz.vlx} se importan mediante \emph{File / Import project}. No requieren cuenta para esta demostración local en el navegador.
+
+Los valores de R y C corresponden a las cuatro secciones de los filtros del esquema. Se excita PRE con 0,1 V de pico y offset de 1,65 V; los voltímetros miden las salidas respecto a VREF. Se usan operacionales ideales, sin límites de alimentación ni ancho de banda. La prueba demuestra selectividad, no el funcionamiento completo del equipo ni la precisión del MCP6004.
+\begin{center}\begin{tabular}{rrrrl}\toprule
+Tono & Graves & Medios & Agudos & Banda predominante\\\midrule
+100 Hz & 63,17 mV & 4,65 mV & 0,22 mV & Graves\\
+1 kHz & 6,11 mV & 63,23 mV & 4,51 mV & Medios\\
+8 kHz & 0,64 mV & 6,15 mV & 68,31 mV & Agudos\\\bottomrule\end{tabular}\end{center}
+Estas son las lecturas RMS mostradas por los instrumentos de Velxio durante la ejecución; incluyen la ventana transitoria del simulador y no se usan como patrón de amplitud en régimen permanente. En los tres casos predominó la banda esperada. Se conservan las capturas y el registro \texttt{validacion.json}.
+\figura[1]{velxio-1000Hz.png}{Ejecución de los filtros en Velxio a 1 kHz, con el motor SPICE activo y lecturas en los tres instrumentos.}
+
+\noindent\href{https://velxio.dev/editor/}{\textbf{Abrir el editor Velxio}}. El QR de la presentación lleva al mismo enlace. Los tres casos de filtros y el ensayo LED se adjuntan al PDF; también están disponibles mediante \texttt{simulacion/velxio/index.html} en la copia local. Se importan después de abrir el editor.
+
+\subsection{Demostración con generador y osciloscopio}
+Para explicar los filtros se inyectan 200 mV pico a pico en PRE, con offset de 1,65 V. Se compara PRE con la salida de la banda seleccionada: graves a 100 Hz, medios a 1 kHz y agudos a 8 kHz. En Velxio se añade cada canal con clic derecho sobre el cable y \emph{Add to scope}. La ganancia se calcula como $V_{pp,out}/V_{pp,in}$ y el desfase a partir de la diferencia temporal entre las trazas. La guía \texttt{DEMO-HOY.md} incluye el procedimiento de banco. Las masas del generador y de las sondas se conectan a GND, nunca a VREF.
+\figura[1]{velxio-osciloscopio.png}{Captura del osciloscopio de Velxio con sondas en PRE y en la salida de medios.}
+
+
+\subsection{Cadena integrada con ESP32 y pantalla}
+Los proyectos \texttt{integrado-100Hz.vlx}, \texttt{integrado-1000Hz.vlx} y \texttt{integrado-8000Hz.vlx} conectan la entrada, el preamplificador, los filtros, los detectores y el ESP32 a una TFT ILI9341. Se ejecutan con \url{https://velxio.dev/editor?esp32sim=qemu}. La pantalla recibe las lecturas del ADC emulado y muestra el predominio de graves, medios y agudos ante los tres tonos, respectivamente.
+
+La ILI9341 sustituye a la Waveshare en el simulador. Se utilizan operacionales ideales y diodos genéricos sin ruptura inversa; los potenciómetros se representan con sus dos mitades resistivas. Los valores y redes de las etapas se generan desde la misma descripción del circuito. La guía \texttt{INTEGRADO.md} explica las equivalencias y el procedimiento.
+
+\textbf{Límite de esta comprobación:} la FFT de la emulación no está calibrada en frecuencia. No se usa su estimación como resultado de medida. Tampoco se modelan el PAM8403 ni la adaptación eléctrica de los NeoPixel. La selectividad y el recorrido hasta la pantalla no equivalen a validar ruido, distorsión o tolerancias del equipo físico.
+\figura[.6]{velxio-tft-1000Hz.png}{TFT alimentada por las lecturas del ESP32 emulado a 1 kHz; predomina la banda de medios.}

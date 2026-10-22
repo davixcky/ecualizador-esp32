@@ -5,7 +5,8 @@
 // Núcleo 1, `loop()`: dibuja la vista activa en la TFT por franjas, atiende el pulsador y la
 // página web del punto de acceso Wi-Fi.
 #include <Adafruit_GFX.h>
-#include <Adafruit_ILI9341.h>
+#include <Adafruit_ST7789.h>
+#include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
 #include <SPI.h>
 #include <WebServer.h>
@@ -22,7 +23,8 @@
 using interfaz::ALTO;
 using interfaz::ANCHO;
 
-static Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
+static Adafruit_ST7789 tft(TFT_CS, TFT_DC, TFT_RST);
+static Adafruit_NeoPixel leds(NEOPIXEL_CANTIDAD, PIN_NEOPIXEL, NEO_GRB + NEO_KHZ800);
 static WebServer servidor(80);
 static esp_adc_cal_characteristics_t cal;
 
@@ -113,7 +115,7 @@ static void responder_datos() {
 }
 
 // ---------------------------------------------------------------- pantalla
-static interfaz::Franja franja(40);
+static interfaz::Franja franja(34);
 static interfaz::Datos datos;
 static dsp::Retencion ret_banda[3], ret_barra[dsp::BARRAS];
 static int vista = interfaz::BANDAS;
@@ -138,8 +140,19 @@ void setup() {
   esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_12, ADC_WIDTH_BIT_12, 1100, &cal);
 
   SPI.begin(TFT_SCK, TFT_MISO, TFT_MOSI, TFT_CS);
-  tft.begin(TFT_SPI_HZ);
-  tft.setRotation(1);   // horizontal, 320 × 240
+  pinMode(TFT_BL, OUTPUT);
+  digitalWrite(TFT_BL, LOW);
+  tft.init(170, 320);  // La biblioteca aplica el offset de 35 columnas del ST7789.
+  tft.setSPISpeed(TFT_SPI_HZ);
+  tft.setRotation(1); // horizontal: 320 × 170
+  digitalWrite(TFT_BL, HIGH);
+  leds.begin();
+  leds.setBrightness(NEOPIXEL_BRILLO);
+  for (int i = 0; i < NEOPIXEL_CANTIDAD; ++i) {
+    const uint32_t color[] = {leds.Color(255, 122, 61), leds.Color(61, 220, 132), leds.Color(51, 181, 255)};
+    leds.setPixelColor(i, color[i / 4]);
+  }
+  leds.show(); // Luz fija tenue: no transmitir tramas durante cada bloque de ADC.
   datos.version = FW_VERSION;
   datos.ip = "192.168.4.1";
   mostrar(interfaz::ARRANQUE);

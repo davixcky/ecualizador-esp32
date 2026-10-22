@@ -1,0 +1,31 @@
+{
+  "revision": "D.2",
+  "track_segments": 663,
+  "min_track_width_mm": 0.9,
+  "required_clearance_mm": 1.0,
+  "copper_track_layers": [
+    "B.Cu"
+  ],
+  "physical_copper_layers": 1,
+  "vias": 0,
+  "ground_zones": 1,
+  "bridge_groups": 79,
+  "wire_segments": 80,
+  "bridges_to_existing_terminals": 13,
+  "free_perfboard_holes": 0,
+  "drc_errors": 0,
+  "unconnected": 0,
+  "schematic_parity_issues": 0,
+  "authors": [
+    "Leo Rojas",
+    "David Orozco",
+    "Manuel Castilla"
+  ],
+  "montaje_puentes": {
+    "superior": 29,
+    "inferior": 51,
+    "longitud_maxima_superior_mm": 20,
+    "espacio_libre_inferior_mm": 8,
+    "modelos_cables": "orientativos; no prueba de colisiones"
+  }
+}

@@ -5,7 +5,8 @@ separadores, parlante, módulo PAM8403 y módulo TFT.
 Sistema de coordenadas (mm): el mismo del modelo VRML que exporta KiCad de la placa, centrado
 en la PCB: X = x_pcb − 100, Y = 60 − y_pcb, Z = 0 en la cara inferior de la PCB. Así la placa
 exportada de KiCad cae exactamente dentro del gabinete y cada agujero del panel queda sobre su
-pieza. Las posiciones del panel salen de ../hardware/3d/panel.json (lo escribe generar_pcb.py).
+pieza. Las posiciones mecánicas se conservan en ../hardware/3d/panel.json.
+En D.1 los controles se sujetan al panel y se cablean a la placa; el USB usa extensión.
 
     python3 gabinete.py        → stl/*.stl y ecualizador-gabinete.step
 """
@@ -18,6 +19,7 @@ import cadquery as cq
 AQUI = os.path.dirname(os.path.abspath(__file__))
 PANEL = json.load(open(os.path.join(AQUI, "..", "hardware", "3d", "panel.json")))
 STL = os.path.join(AQUI, "stl")
+FUENTE = os.environ.get("CAD_FONT", next((p for p in ("/usr/share/fonts/apple-fonts/SF-Pro-Display-Regular.otf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf") if os.path.exists(p)), ""))
 
 # ---------------------------------------------------------------- cotas
 PCB_W, PCB_H = PANEL["placa"]
@@ -28,7 +30,7 @@ Z_PCB_ARRIBA = 1.6
 Z_TAPA = 18.0            # cara inferior de la tapa (por encima del ESP32 sobre su zócalo)
 ESPESOR_TAPA = 3.0
 Z_PISO = -26.0           # cara superior del piso (separadores de 26 mm bajo la PCB)
-RADIO = 6.0
+RADIO = 8.0
 
 XI, YI = PCB_W / 2 + HOLGURA, PCB_H / 2 + HOLGURA          # medio interior
 XE, YE = XI + PARED, YI + PARED                            # medio exterior
@@ -58,9 +60,18 @@ JACKS = [p(PCB_W, PANEL["piezas"][r]["y"]) for r in ("J1", "J2")]
 Z_JACK = Z_PCB_ARRIBA + 2.6
 USB_Y = p(0, PANEL["piezas"]["U5"]["y"] - 12.7)[1]
 tx, ty, tw, th = PANEL["tft"]
-TFT_CENTRO = p(tx + tw / 2 + 3.0, ty + th / 2)       # el vidrio está corrido hacia la derecha del conector
-VENTANA = (60.0, 46.0)
+TFT_CENTRO = p(tx + tw / 2, ty + th / 2)       # el vidrio está corrido hacia la derecha del conector
+VENTANA = (43.6, 23.6)
+# Dos tramos de 100 mm, 6 LED cada uno; canales verticales interiores.
+LED_LARGO, LED_ANCHO, LED_HOLGURA = 102.0, 10.0, 0.6
+LED_Z = 5.0
+LED_Y = YI - 1.5
 PARLANTE = p(45, 88)
+# Cierre magnético: cuatro pares de discos 6 × 2 mm, fijados con adhesivo.
+IMAN_DIAMETRO, IMAN_ESPESOR = 6.0, 2.0
+BOLSILLO_D, BOLSILLO_H = 6.3, 2.2
+IMANES = AGUJEROS_PCB
+
 
 
 # ---------------------------------------------------------------- piezas
@@ -98,6 +109,38 @@ def cuerpo():
         y = ys + 23 * math.sin(math.radians(a))
         c = c.union(cq.Workplane("XY").workplane(offset=Z_PISO).center(x, y).circle(2.8).extrude(5)
                     .faces(">Z").workplane().hole(1.8, 5))
+    # Alojamiento de la tira: 102 × 10,6 × 3 mm, con apoyo inferior y laterales.
+    # Ventanas pasantes al exterior cubiertas por difusores opal de 1 mm.
+    for side in (-1, 1):
+        y = side * LED_Y
+        apoyo = cq.Workplane("XY").workplane(offset=LED_Z-1.2).center(0,y).rect(LED_LARGO+2.4,5).extrude(12.8)
+        canal = cq.Workplane("XY").workplane(offset=LED_Z).center(0,y).rect(LED_LARGO,3).extrude(10.6)
+        c = c.union(apoyo).cut(canal)
+        ventana = cq.Workplane("XY").workplane(offset=LED_Z+2).center(0,side*(YI+PARED/2)).rect(98,PARED+4).extrude(6)
+        c = c.cut(ventana)
+        # Salida abierta para tres hilos y puente entre tramos, hacia el lateral izquierdo.
+        paso = cq.Workplane("XY").workplane(offset=LED_Z+1).center(-52,side*LED_Y).rect(6,6).extrude(5)
+        c = c.cut(paso)
+    # Dos clips de cable por pared izquierda: retorno LED separado del audio.
+    for y in (-35,0,35):
+        clip = cq.Workplane("XY").workplane(offset=7).center(-XI+2,y).rect(5,7).extrude(5)
+        paso = cq.Workplane("XY").workplane(offset=8).center(-XI+2,y).rect(3,9).extrude(5)
+        c = c.union(clip.cut(paso))
+    # Acceso al borne J6, con cable externo y alivio de tensión por brida.
+    c = c.cut(cq.Workplane("YZ").workplane(offset=XI-1).center(2,6).circle(3).extrude(PARED+2))
+    # Torres unidas a las paredes, por encima de la PCB. Bolsillos ciegos desde arriba.
+    for x,y in IMANES:
+        torre = (cq.Workplane("XY").workplane(offset=10).center(x,y)
+                 .rect(12,12).extrude(Z_TAPA-10).edges("|Z").fillet(2))
+        c = c.union(torre)
+        c = c.cut(cq.Workplane("XY").workplane(offset=Z_TAPA-BOLSILLO_H)
+                  .center(x,y).circle(BOLSILLO_D/2).extrude(BOLSILLO_H+0.1))
+    for x,y in [(-99,-52),(99,52)]:
+        c = c.cut(cq.Workplane("XY").workplane(offset=Z_TAPA-2.3).center(x,y)
+                  .circle(1.15).extrude(2.4))
+    # Uñero posterior para separar la tapa sin hacer palanca en la pantalla.
+    c = c.cut(cq.Workplane("XY").workplane(offset=Z_TAPA-1.5)
+              .center(70,YE).rect(18,5).extrude(2))
     return c
 
 
@@ -114,21 +157,29 @@ def tapa():
     for x, y in (EJE_NIVEL, EJE_VOLUMEN):
         t = t.cut(cq.Workplane("XY").workplane(offset=Z_TAPA - 1).center(x, y).circle(3.8).extrude(ESPESOR_TAPA + 2))
     t = t.cut(cq.Workplane("XY").workplane(offset=Z_TAPA - 1).center(*BOTON).circle(3.6).extrude(ESPESOR_TAPA + 2))
-    # tornillos M3 avellanados sobre los separadores
-    for x, y in AGUJEROS_PCB:
-        t = t.cut(cq.Workplane("XY").workplane(offset=Z_TAPA - 1).center(x, y).circle(1.7).extrude(ESPESOR_TAPA + 2))
-        t = t.cut(cq.Workplane("XY").workplane(offset=Z_TAPA + ESPESOR_TAPA - 1.6).center(x, y)
-                  .circle(1.7).workplane(offset=1.7).circle(3.4).loft())
+    # Bolsillos por la cara inferior: techo de 0,8 mm, sin tornillos visibles.
+    for x,y in IMANES:
+        t = t.cut(cq.Workplane("XY").workplane(offset=Z_TAPA-.1).center(x,y)
+                  .circle(BOLSILLO_D/2).extrude(BOLSILLO_H+.1))
+    # Dos tetones de registro: evitan que la tapa se desplace lateralmente.
+    for x,y in [(-99,-52),(99,52)]:
+        t = t.union(cq.Workplane("XY").workplane(offset=Z_TAPA-2).center(x,y)
+                    .circle(.9).extrude(2))
     # textos grabados
     z = Z_TAPA + ESPESOR_TAPA
 
     def grabar(txt, x, y, tam, ang=0):
         nonlocal t
         s = (cq.Workplane("XY").workplane(offset=z - 0.6).center(x, y)
-             .text(txt, tam, 1.0, combine=False, halign="center", valign="center"))
+             .text(txt, tam, 1.0, fontPath=FUENTE, combine=False, halign="center", valign="center"))
         if ang:
             s = s.rotate((x, y, 0), (x, y, 1), ang)
         t = t.cut(s)
+        relleno = s.intersect(cq.Workplane("XY").workplane(offset=z-.59).rect(2*XE,2*YE).extrude(.55))
+        if "rotulos" in PIEZAS:
+            PIEZAS["rotulos"] = PIEZAS["rotulos"].add(relleno)
+        else:
+            PIEZAS["rotulos"] = relleno
 
     for (x, y), nombre in zip(PALANCAS, ("GRAVES", "MEDIOS", "AGUDOS")):
         grabar(nombre, x, y - RECORRIDO / 2 - 6, 3.2)
@@ -143,9 +194,9 @@ def tapa():
     grabar("VISTA", BOTON[0], BOTON[1] - 9, 3.2)
     grabar("ENTRADA", XE - 7, JACKS[0][1], 2.6, 90)
     grabar("SALIDA", XE - 7, JACKS[1][1], 2.6, 90)
-    grabar("ECUALIZADOR", -40, -28, 11)
-    grabar("3 BANDAS  ·  ANALIZADOR DE ESPECTRO  ·  ESP32", -40, -42, 4.2)
-    grabar("Electrónica II  ·  Universidad de la Costa", -40, -52, 3.4)
+    grabar("EQ / 03", -57, -28, 8)
+    grabar("ANALOG AUDIO  /  ESP32", -46, -39, 3.0)
+    grabar("CUC   ·   ELECTRONICA II", -48, -48, 2.6)
     # tres franjas decorativas (se pintan de color en el render)
     for i in range(3):
         t = t.cut(cq.Workplane("XY").workplane(offset=z - 0.6).center(-40 + (i - 1) * 26, -16).rect(22, 2.2).extrude(1))
@@ -161,22 +212,22 @@ def franjas():
 
 def perilla(x, y):
     base = Z_TAPA + ESPESOR_TAPA + 0.8
-    k = (cq.Workplane("XY").workplane(offset=base).center(x, y).circle(8).workplane(offset=13).circle(7)
+    k = (cq.Workplane("XY").workplane(offset=base).center(x, y).circle(8).workplane(offset=9).circle(7.6)
          .loft().faces(">Z").edges().fillet(1.5))
     for i in range(24):                                      # moleteado
         a = 2 * math.pi * i / 24
         k = k.cut(cq.Workplane("XY").workplane(offset=base + 2).center(x + 8.2 * math.cos(a), y + 8.2 * math.sin(a))
-                  .circle(0.8).extrude(12))
-    k = k.cut(cq.Workplane("XY").workplane(offset=base + 12.4).center(x, y + 4).rect(1.2, 5).extrude(1))
+                  .circle(0.8).extrude(8))
+    k = k.cut(cq.Workplane("XY").workplane(offset=base + 8.4).center(x, y + 4).rect(1.2, 5).extrude(1))
     return k
 
 
 def tapa_deslizable(x, y):
     base = Z_TAPA + ESPESOR_TAPA + 1.0
-    c = cq.Workplane("XY").workplane(offset=base).center(x, y).rect(11, 7).extrude(9).edges("|Z").fillet(1.2)
+    c = cq.Workplane("XY").workplane(offset=base).center(x, y).rect(10, 6).extrude(6).edges("|Z").fillet(1.2)
     c = c.faces(">Z").edges().fillet(1.0)
     for k in (-2, 0, 2):
-        c = c.cut(cq.Workplane("XY").workplane(offset=base + 8.4).center(x, y + k).rect(11, 0.8).extrude(1))
+        c = c.cut(cq.Workplane("XY").workplane(offset=base + 5.4).center(x, y + k).rect(11, 0.8).extrude(1))
     return c
 
 
@@ -189,7 +240,7 @@ def separadores():
     out = None
     for x, y in AGUJEROS_PCB:
         s = (cq.Workplane("XY").workplane(offset=Z_PCB_ARRIBA).center(x, y).polygon(6, 5.5 / math.cos(math.pi / 6))
-             .extrude(Z_TAPA - Z_PCB_ARRIBA).faces(">Z").workplane().hole(3.0))
+             .extrude(4).faces(">Z").workplane().hole(3.0))
         out = s if out is None else out.union(s)
     return out
 
@@ -198,9 +249,15 @@ def parlante():
     x, y = PARLANTE
     marco = cq.Workplane("XY").workplane(offset=Z_PISO + 5).center(x, y).rect(50, 50).extrude(1.2).edges("|Z").fillet(4)
     marco = marco.cut(cq.Workplane("XY").workplane(offset=Z_PISO + 4).center(x, y).circle(18).extrude(4))
-    cono = cq.Workplane("XY").workplane(offset=Z_PISO + 5).center(x, y).circle(19).workplane(offset=8).circle(9).loft()
-    iman = cq.Workplane("XY").workplane(offset=Z_PISO + 13).center(x, y).circle(10).extrude(6)
-    return marco.union(cono).union(iman)
+    # Canasta abierta y culata: el cono mira a la rejilla del piso.
+    canasta = cq.Workplane("XY").workplane(offset=Z_PISO + 6.2).center(x,y).circle(19).circle(17).workplane(offset=7).circle(11).circle(9).loft()
+    for ang in (0,90,180,270):
+        ventana=cq.Workplane("XY").workplane(offset=Z_PISO+7).center(x,y+13).box(13,13,4,centered=(True,True,False)).rotate((x,y,0),(x,y,1),ang)
+        canasta=canasta.cut(ventana)
+    iman = cq.Workplane("XY").workplane(offset=Z_PISO + 13).center(x, y).circle(10).extrude(5)
+    culata=cq.Workplane("XY").workplane(offset=Z_PISO+18).center(x,y).circle(10.8).circle(2).extrude(.8)
+    return marco.union(canasta).union(iman).union(culata)
+
 
 
 def pam8403():
@@ -213,20 +270,39 @@ def pam8403():
 
 
 def tft():
-    """Módulo TFT 2,8\": placa roja, marco y vidrio negro (la imagen de la pantalla se agrega en el render)."""
-    x0, y0 = p(tx, ty)
-    cx, cy = x0 + tw / 2, y0 - th / 2
-    placa = cq.Workplane("XY").workplane(offset=12.6).center(cx, cy).rect(tw, th).extrude(1.6)
-    for dx, dy in ((2.8, 2.8), (tw - 2.8, 2.8), (2.8, th - 2.8), (tw - 2.8, th - 2.8)):
-        placa = placa.cut(cq.Workplane("XY").workplane(offset=12).center(x0 + dx, y0 - dy).circle(1.6).extrude(3))
-    vidrio = cq.Workplane("XY").workplane(offset=14.2).center(*TFT_CENTRO).rect(69.0, 50.0).extrude(3.4)
+    """Envolvente nominal Waveshare 51,2 × 27,3; montaje en cuna, sin inventar taladros."""
+    cx, cy = TFT_CENTRO
+    placa = cq.Workplane("XY").workplane(offset=12.6).center(cx,cy).rect(tw,th).extrude(1.6)
+    vidrio = cq.Workplane("XY").workplane(offset=14.2).center(cx,cy).rect(46.0,26.0).extrude(3.4)
     return placa, vidrio
+
+
+def cuna_tft():
+    cx,cy=TFT_CENTRO
+    aro=cq.Workplane("XY").workplane(offset=11.4).center(cx,cy).rect(tw+3,th+3).extrude(6.6)
+    hueco=cq.Workplane("XY").workplane(offset=12.6).center(cx,cy).rect(tw+0.6,th+0.6).extrude(7)
+    paso=cq.Workplane("XY").workplane(offset=11).center(cx,cy).rect(44,22).extrude(9)
+    # Ranura del cable GH1.25; la cuna se fija bajo la tapa con cinta de montaje.
+    cable=cq.Workplane("XY").workplane(offset=11).center(cx-tw/2,cy).rect(8,14).extrude(6)
+    return aro.cut(hueco).cut(paso).cut(cable)
+
+
+def iluminacion(side):
+    y=side*LED_Y
+    tira=cq.Workplane("XY").workplane(offset=LED_Z+0.3).center(0,y).rect(100,0.8).extrude(10)
+    difusor=cq.Workplane("XY").workplane(offset=LED_Z+1.5).center(0,side*(YI+PARED-0.6)).rect(100,1).extrude(7)
+    chips=None
+    for i in range(6):
+        led=cq.Workplane("XY").workplane(offset=LED_Z+2.8).center(-41.667+i*16.667,y+side*0.8).rect(5,1.2).extrude(5)
+        chips=led if chips is None else chips.union(led)
+    return tira,difusor,chips
 
 
 PIEZAS = {}
 
 
 def construir():
+    PIEZAS.clear()
     PIEZAS["cuerpo"] = cuerpo()
     PIEZAS["tapa"] = tapa()
     for i, f in enumerate(franjas()):
@@ -241,6 +317,12 @@ def construir():
     PIEZAS["parlante"] = parlante()
     PIEZAS["pam8403"], PIEZAS["pam8403-ci"] = pam8403()
     PIEZAS["tft-placa"], PIEZAS["tft-vidrio"] = tft()
+    PIEZAS["cuna-tft"] = cuna_tft()
+    for i,side in enumerate((-1,1)):
+        PIEZAS[f"tira{i}"],PIEZAS[f"difusor{i}"],PIEZAS[f"led{i}"] = iluminacion(side)
+    for i,(x,y) in enumerate(IMANES):
+        PIEZAS[f"iman-base{i}"] = cq.Workplane("XY").workplane(offset=Z_TAPA-2.1).center(x,y).circle(3).extrude(2)
+        PIEZAS[f"iman-tapa{i}"] = cq.Workplane("XY").workplane(offset=Z_TAPA+.1).center(x,y).circle(3).extrude(2)
     return PIEZAS
 
 

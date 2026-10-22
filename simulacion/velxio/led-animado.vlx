@@ -1,0 +1,95 @@
+{
+  "format": "velxio-project",
+  "version": 1,
+  "exportedAt": "2026-10-22T20:00:00Z",
+  "name": "EQ03 - ensayo animado de 12 LED (sin audio)",
+  "boards": [
+    {
+      "id": "esp32",
+      "name": "ESP32 - ensayo LED",
+      "boardKind": "esp32",
+      "x": 100,
+      "y": 150,
+      "activeFileGroupId": "group-esp32",
+      "languageMode": "arduino",
+      "serialBaudRate": 115200,
+      "libraries": [
+        "Adafruit NeoPixel"
+      ]
+    }
+  ],
+  "fileGroups": {
+    "group-esp32": [
+      {
+        "name": "sketch.ino",
+        "content": "#include <Adafruit_NeoPixel.h>\n// Ensayo visual: colores por banda, sin lectura de audio ni simulacion analogica.\nAdafruit_NeoPixel leds(12, 25, NEO_GRB + NEO_KHZ800);\nvoid setup() {\n  Serial.begin(115200);\n  leds.begin();\n  leds.setBrightness(32);\n  Serial.println(\"Ensayo de 12 LED / GPIO25 / brillo 32. Patron programado, sin audio.\");\n}\nvoid loop() {\n  for (int paso=0; paso<12; ++paso) {\n    for (int i=0; i<12; ++i) {\n      uint8_t nivel = i == paso ? 255 : 0;\n      if (i<4) leds.setPixelColor(i, leds.Color(nivel, nivel*100/255, 0));\n      else if (i<8) leds.setPixelColor(i, leds.Color(0, nivel, nivel*60/255));\n      else leds.setPixelColor(i, leds.Color(0, nivel*180/255, nivel));\n    }\n    leds.show();\n    Serial.printf(\"Paso %d: LED %d\\n\", paso, paso+1);\n    delay(160);\n  }\n}\n"
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "tira",
+      "metadataId": "neopixel-matrix",
+      "x": 500,
+      "y": 230,
+      "properties": {
+        "rows": 1,
+        "cols": 12
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "led-VDD",
+      "start": {
+        "componentId": "esp32",
+        "pinName": "VIN",
+        "x": 0,
+        "y": 0
+      },
+      "end": {
+        "componentId": "tira",
+        "pinName": "VDD",
+        "x": 0,
+        "y": 0
+      },
+      "waypoints": [],
+      "color": "#d8473c"
+    },
+    {
+      "id": "led-VSS",
+      "start": {
+        "componentId": "esp32",
+        "pinName": "GND",
+        "x": 0,
+        "y": 0
+      },
+      "end": {
+        "componentId": "tira",
+        "pinName": "VSS",
+        "x": 0,
+        "y": 0
+      },
+      "waypoints": [],
+      "color": "#252525"
+    },
+    {
+      "id": "led-DIN",
+      "start": {
+        "componentId": "esp32",
+        "pinName": "25",
+        "x": 0,
+        "y": 0
+      },
+      "end": {
+        "componentId": "tira",
+        "pinName": "DIN",
+        "x": 0,
+        "y": 0
+      },
+      "waypoints": [],
+      "color": "#278346"
+    }
+  ],
+  "activeBoardId": "esp32"
+}
