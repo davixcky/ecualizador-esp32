@@ -38,11 +38,19 @@ struct Medida {
 static Medida ultima;
 static portMUX_TYPE candado = portMUX_INITIALIZER_UNLOCKED;
 
+#ifdef PLACA_E2
+static constexpr adc1_channel_t CH_VREF = ADC1_CHANNEL_4;    // GPIO32
+static constexpr adc1_channel_t CH_FFT = ADC1_CHANNEL_5;     // GPIO33
+static constexpr adc1_channel_t CH_BANDA[3] = {ADC1_CHANNEL_6,   // GPIO34 graves
+                                               ADC1_CHANNEL_0,   // GPIO36 medios
+                                               ADC1_CHANNEL_3};  // GPIO39 agudos
+#else
 static constexpr adc1_channel_t CH_VREF = ADC1_CHANNEL_0;    // GPIO36
 static constexpr adc1_channel_t CH_FFT = ADC1_CHANNEL_5;     // GPIO33
 static constexpr adc1_channel_t CH_BANDA[3] = {ADC1_CHANNEL_6,   // GPIO34 graves
                                                ADC1_CHANNEL_7,   // GPIO35 medios
                                                ADC1_CHANNEL_4};  // GPIO32 agudos
+#endif
 
 static float leer_v(adc1_channel_t ch, int n) {
   uint32_t suma = 0;

@@ -1,0 +1,5 @@
+Seguir guia-prototipo-TL072.pdf. Variante de laboratorio con cuatro TL072CP y alimentación ±12 V.
+conexiones.csv contiene los pasivos de señal; conexiones de potenciómetros, operacionales y alimentación están en el PDF.
+verificacion.cir: simulación AC ideal de ganancia finita; no representa saturación, ruido ni estabilidad del TL072.
+Ejecutar de nuevo herramientas/guia_tl072.py desde el repositorio para regenerar la curva.
+No conectado ni validado físicamente.

@@ -1,0 +1,65 @@
+[
+ {
+  "ref": "JP16",
+  "red": "+3.3VA",
+  "de": "R2.1",
+  "a": "U1.4",
+  "largo_mm": 15.2
+ },
+ {
+  "ref": "JP17",
+  "red": "+3.3VA",
+  "de": "C1.1",
+  "a": "U2.4",
+  "largo_mm": 12.7
+ },
+ {
+  "ref": "JP18",
+  "red": "/LINEA",
+  "de": "RV5.1",
+  "a": "J2.T",
+  "largo_mm": 6.6
+ },
+ {
+  "ref": "JP19",
+  "red": "/AMP_IN",
+  "de": "J3.3",
+  "a": "RV5.2",
+  "largo_mm": 32.2
+ },
+ {
+  "ref": "JP20",
+  "red": "/AGUDOS",
+  "de": "U2.7",
+  "a": "RV4.1",
+  "largo_mm": 62.8
+ },
+ {
+  "ref": "JP21",
+  "red": "/A_W",
+  "de": "JX.4",
+  "a": "R21.1",
+  "largo_mm": 13.3
+ },
+ {
+  "ref": "JP22",
+  "red": "Net-(U1B-+)",
+  "de": "U1.5",
+  "a": "C9.2",
+  "largo_mm": 30.3
+ },
+ {
+  "ref": "JP23",
+  "red": "/M_W",
+  "de": "JX.7",
+  "a": "RV3.2",
+  "largo_mm": 72.9
+ },
+ {
+  "ref": "JP24",
+  "red": "/M_W",
+  "de": "RV3.2",
+  "a": "R17.1",
+  "largo_mm": 7.6
+ }
+]

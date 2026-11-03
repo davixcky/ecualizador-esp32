@@ -1,0 +1,93 @@
+[
+ {
+  "ref": "JP20",
+  "red": "GND",
+  "de": "R32.2",
+  "a": "U5.20",
+  "largo_mm": 7.9
+ },
+ {
+  "ref": "JP21",
+  "red": "GND",
+  "de": "U1.11",
+  "a": "R3.2",
+  "largo_mm": 8.0
+ },
+ {
+  "ref": "JP22",
+  "red": "GND",
+  "de": "C26.2",
+  "a": "U5.26",
+  "largo_mm": 9.7
+ },
+ {
+  "ref": "JP23",
+  "red": "GND",
+  "de": "C3.2",
+  "a": "U5.20",
+  "largo_mm": 9.8
+ },
+ {
+  "ref": "JP24",
+  "red": "GND",
+  "de": "R24.2",
+  "a": "J4.2",
+  "largo_mm": 10.5
+ },
+ {
+  "ref": "JP25",
+  "red": "GND",
+  "de": "J6.2",
+  "a": "SW1.2",
+  "largo_mm": 15.2
+ },
+ {
+  "ref": "JP26",
+  "red": "GND",
+  "de": "C4.2",
+  "a": "C2.2",
+  "largo_mm": 16.6
+ },
+ {
+  "ref": "JP27",
+  "red": "GND",
+  "de": "C6.2",
+  "a": "U2.11",
+  "largo_mm": 17.2
+ },
+ {
+  "ref": "JP28",
+  "red": "GND",
+  "de": "C7.2",
+  "a": "C8.2",
+  "largo_mm": 20.7
+ },
+ {
+  "ref": "JP29",
+  "red": "GND",
+  "de": "C4.2",
+  "a": "C7.2",
+  "largo_mm": 22.2
+ },
+ {
+  "ref": "JP30",
+  "red": "GND",
+  "de": "U1.11",
+  "a": "C8.2",
+  "largo_mm": 23.1
+ },
+ {
+  "ref": "JP31",
+  "red": "GND",
+  "de": "C1.2",
+  "a": "U3.11",
+  "largo_mm": 24.8
+ },
+ {
+  "ref": "JP32",
+  "red": "GND",
+  "de": "J2.T",
+  "a": "U4.11",
+  "largo_mm": 38.5
+ }
+]

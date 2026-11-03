@@ -1,0 +1,14 @@
+{
+  "modelo": "operacionales ideales, ganancia abierta 1e6",
+  "herramienta": "ngspice AC",
+  "entrada_mVpp": 100,
+  "controles": 0.5,
+  "puntos_Hz": [
+    100,
+    1000,
+    8000
+  ],
+  "montaje_fisico_verificado": false,
+  "opamps_usados": 7,
+  "TL072": 4
+}

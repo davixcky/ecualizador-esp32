@@ -1,5 +1,10 @@
 # Ecualizador de audio de tres bandas con ESP32
 
+## Prototipo en protoboard
+
+[Guía de montaje y esquema (PDF)](docs/protoboard/guia-prototipo-protoboard.pdf) · [Lista de materiales (CSV)](docs/protoboard/materiales.csv) · [Conexiones pin por pin (CSV)](docs/protoboard/conexiones.csv). Incluye pruebas con generador y osciloscopio, y ampliación con ESP32, pantalla y NeoPixel. [Fuente LaTeX](docs/latex/prototipo-protoboard.tex).
+
+
 ## Video del dispositivo
 
 [Ver video en Full HD](docs/video/ecualizador-animado.mp4) · [Escena de Blender y texturas](docs/video/ecualizador-blender.zip). Demo de 36 segundos con sonido: los deslizadores cambian el audio usando las respuestas SPICE del circuito. Pantalla y luces sincronizadas; apertura de la tapa imantada. Es una demo virtual, no una grabación del prototipo físico.
@@ -83,6 +88,16 @@ La presentación incluye fragmentos del esquema real para explicar preamplificad
 
 La PCB D.2 organiza las etapas con el flujo Python/KiCad y Freerouting de medidor-energia-esp32: ESP32 a la derecha, operacionales por etapas y cableado identificado por colores. Usa una sola cara de cobre y puentes aislados. Los controles van en el panel y requieren las [cabeceras y cables de montaje](hardware/una-cara/LEEME.md). Los Gerbers de dos capas B.1 están archivados y no corresponden al montaje vigente.
 
+### Placa única E.2 (propuesta, 33 alambres)
+
+[E.2](hardware/E2-placa-unica/README.md) reduce los 80 tramos de D.2 a 33 alambres en una sola placa de una cara de 200 × 120 mm para el gabinete original. Usa plano de GND, componentes con las patas más abiertas para pasar pistas por debajo, y reasigna las secciones de los amplificadores y los GPIO. El firmware se compila con `pio run -e e2`. La alternativa de tres placas está en [E.1](hardware/E1-tres-placas/README.md).
+
 ### Montaje de los puentes
 
 La cara superior lleva 29 puentes cortos (hasta 20 mm entre extremos). Los 51 cables restantes se montan aislados por debajo. El total sigue siendo 80 tramos; no se añade una capa de cobre. [La guía](hardware/PUENTES.md) y [el plano de cuatro páginas](hardware/pcb-rev-D2.pdf) indican la cara de cada conexión. Los arcos del render son orientativos: el montaje requiere comprobar separación, sujeción y continuidad.
+
+### Prototipo de laboratorio con TL072CP (±12 V)
+
+Para el montaje con los integrados disponibles: [guía PDF](docs/prototipo-tl072/guia-prototipo-TL072.pdf), [fuente LaTeX](docs/latex/prototipo-tl072.tex) y [paquete de conexiones y simulación](docs/prototipo-tl072/prototipo-TL072.zip). Utiliza cuatro TL072, salida de línea y medidas a 100 Hz, 1 kHz y 8 kHz. Es una variante analógica independiente del diseño MCP6004 de 3,3 V; sus salidas no se conectan directamente al ESP32.
+
+Esquema completo del prototipo en una lámina A2: [PDF](docs/prototipo-tl072/esquema-completo-TL072.pdf) · [SVG editable](docs/prototipo-tl072/esquema-completo.svg). Incluido al final de la guía TL072.

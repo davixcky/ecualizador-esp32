@@ -1,0 +1,8 @@
+{
+  "pasivos_senal_coinciden_con_guia": 29,
+  "TL072": 4,
+  "desacoples": 8,
+  "reserva_riel": 2,
+  "validacion": "referencias, valores y redes de los 29 pasivos contra conexiones.csv; revisi\u00f3n visual de cableado",
+  "montaje_fisico_verificado": false
+}

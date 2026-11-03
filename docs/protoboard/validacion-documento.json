@@ -1,0 +1,8 @@
+{
+  "paginas": 16,
+  "conexiones_csv": 247,
+  "conexiones_coinciden_con_circuito": true,
+  "esquema_completo_incluido": true,
+  "fuente_latex": "docs/latex/prototipo-protoboard.tex",
+  "validacion_fisica_realizada": false
+}

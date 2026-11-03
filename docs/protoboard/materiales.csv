@@ -1,0 +1,57 @@
+grupo,cantidad,componente,referencias
+analógico,1,10,R1
+analógico,1,100u 10V,C1
+analógico,5,100n,"C2, C4, C5, C6, C7"
+analógico,9,10k 1%,"R2, R3, R8, R9, R10, R13, R14, R25, R26"
+analógico,2,10u 16V,"C8, C19"
+analógico,1,"Entrada de línea 3,5 mm",J1
+analógico,2,10k,"R4, R5"
+analógico,1,10k log,RV1
+analógico,1,1u film,C9
+analógico,1,100k,R6
+analógico,1,22k 1%,R7
+analógico,1,"10 µF bipolar, ≥ 10 V (ver nota C10)",C10
+analógico,4,100n film,"C11, C22, C23, C24"
+analógico,1,47n film,C12
+analógico,5,10n film,"C13, C14, C15, C17, C18"
+analógico,1,27k 1%,R11
+analógico,1,56k 1%,R12
+analógico,2,4n7 film,"C16, C20"
+analógico,1,2k7 1%,R15
+analógico,1,5k6 1%,R16
+analógico,3,10 kΩ lineal; rotativo o deslizable con cables,"RV2, RV3, RV4"
+analógico,5,47k 1%,"R17, R18, R19, R20, R21"
+analógico,1,100k 1%,R22
+analógico,1,100,R23
+analógico,1,47k,R24
+analógico,1,"Salida de línea 3,5 mm",J2
+analógico,1,2n2 film,C21
+analógico,3,1N4148,"D1, D2, D3"
+analógico,3,220k,"R27, R28, R29"
+analógico,4,"MCP6004-I/P, DIP-14","U1, U2, U3, U4"
+parlante opcional,1,470u 10V,C3
+parlante opcional,1,10k log,RV5
+parlante opcional,1,Conexión de 4 vías al módulo PAM8403,J3
+ampliación,1,Adaptador de 8 vías para pantalla,J4
+ampliación,1,10k,R30
+ampliación,1,Conexión de 3 vías a tira LED,J5
+ampliación,1,Bornera de 2 vías para fuente 5 V,J6
+ampliación,1,74AHCT125,U6
+ampliación,1,330,R31
+ampliación,1,10k,R32
+ampliación,1,100n,C25
+ampliación,1,1000u 10V,C26
+ampliación,1,Pulsador,SW1
+ampliación,1,ESP32-DevKitC V4,U5
+accesorio,2,Protoboard de 830 puntos (analógico),
+accesorio,1,Protoboard de 830 puntos adicional (digital/LED),
+accesorio,1,Kit de 100–150 puentes rígidos 22 AWG,
+accesorio,1,Kit de 40 cables Dupont macho-hembra,
+accesorio,1,"Fuente regulada 3,3 V para pruebas analógicas; alternativa: 3V3 del ESP32 por USB",
+accesorio,1,Fuente 5 V 3 A para ampliación completa,
+accesorio,1,Adaptador externo para ESP32 de 38 pines,
+accesorio,1,"Cable/adaptador GH1.25 de 8 vías de la pantalla a 2,54 mm",
+accesorio,1,Tira WS2812B de 12 LED,
+accesorio,1,"Waveshare 1,9 pulgadas 170×320 ST7789V2",
+accesorio,1,Módulo PAM8403 opcional,
+accesorio,1,Parlante 4 ohm 3 W opcional,
