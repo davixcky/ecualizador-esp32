@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Modelo mecánico E.5: cuatro perforadas, arneses y dos barras WS2812B.
+"""Modelo mecánico E.5 basado en las envolventes de los artículos comprados.
 
 Ejecutar con:
     freecadcmd hardware/E5-perforadas/3d/generar_modelo.py
 
-El modelo reserva el ancho conservador de 12,5 mm publicado para algunas tiras
-WS2812B. El soporte acepta tiras de 10 a 12,5 mm mediante una cuna de 13,2 mm.
+Las placas se muestran completas, sin suponer recortes. Las cotas que la tienda
+no publica están documentadas como envolventes conservadoras en medidas-componentes.json.
 """
 from pathlib import Path
 import json
@@ -23,8 +23,8 @@ OUT = HERE
 STL = OUT / "stl"
 STL.mkdir(parents=True, exist_ok=True)
 
-# Gabinete ampliado para una sola capa comprobable.
-W, D, H = 236.0, 186.0, 58.0
+# Gabinete para las cuatro perforadas compradas completas: 3 x 120x80 y 1 x 90x70.
+W, D, H = 278.0, 192.0, 61.0
 WALL, FLOOR, LID = 2.5, 3.0, 3.0
 Z_BOARD = 9.0
 STRIP_W = 12.5
@@ -32,9 +32,9 @@ STRIP_W = 12.5
 # x, y, ancho, fondo, etiqueta
 BOARDS = {
     "T1": (8.0, 8.0, 90.0, 70.0, "ENTRADA + U1"),
-    "T2": (112.0, 8.0, 100.0, 70.0, "FILTROS + U2"),
-    "T3": (8.0, 90.0, 100.0, 70.0, "DETECTORES U3/U4"),
-    "T4": (122.0, 88.0, 100.0, 80.0, "ESP32 + CONTROL"),
+    "T2": (108.0, 8.0, 120.0, 80.0, "FILTROS + U2"),
+    "T3": (8.0, 100.0, 120.0, 80.0, "DETECTORES U3/U4"),
+    "T4": (140.0, 100.0, 120.0, 80.0, "ESP32 + CONTROL"),
 }
 
 COLORS = {
@@ -44,6 +44,7 @@ COLORS = {
     "esp": (0.05, 0.25, 0.20), "strip": (0.96, 0.96, 0.96),
     "led": (0.10, 0.78, 0.92), "wire": (0.06, 0.45, 0.92),
     "power": (0.85, 0.08, 0.05), "support": (0.16, 0.18, 0.20),
+    "screen": (0.02, 0.17, 0.28),
 }
 
 
@@ -121,9 +122,14 @@ def enclosure(doc):
     add(doc, "Gabinete_E5", bottom.fuse(walls), "body", "body")
     lid = box(W, D, LID, 0, 0, H)
     # Ventana TFT y ranuras visuales para las dos barras.
-    lid = lid.cut(box(46, 26, LID + 2, 151, 119, H - 1))
-    lid = lid.cut(box(102, 5, LID + 2, 12, 174, H - 1))
-    lid = lid.cut(box(102, 5, LID + 2, 122, 174, H - 1))
+    lid = lid.cut(box(47, 23, LID + 2, 194, 128, H - 1))
+    lid = lid.cut(box(102, 6, LID + 2, 16, 183, H - 1))
+    lid = lid.cut(box(102, 6, LID + 2, 150, 183, H - 1))
+    # Rejilla para el parlante comprado de 1,5 pulgadas (envolvente circular 38,1 mm).
+    for ix in range(-2, 3):
+        for iy in range(-2, 3):
+            if ix * ix + iy * iy <= 5:
+                lid = lid.cut(Part.makeCylinder(1.6, LID + 2, vec((64 + ix * 6, 52 + iy * 6, H - 1))))
     add(doc, "Tapa_E5", lid, "lid", "lid")
 
 
@@ -140,18 +146,19 @@ def populate(doc):
             add(doc, "T1_JAB", connector(x + w - 20, y + d - 9, 4), "connector")
         elif ref == "T2":
             add(doc, "T2_U2_LM324", dip(x + 39, y + 26), "chip")
-            add(doc, "T2_Potenciometros", Part.makeCompound([
-                box(12, 12, 8, x + 8 + i * 18, y + 7, Z_BOARD + 1.6) for i in range(5)]), "connector")
+            add(doc, "T2_Potenciometros_B10K", Part.makeCompound([
+                box(16, 8, 18, x + 8 + i * 21, y + 7, Z_BOARD + 1.6) for i in range(4)]), "connector")
             add(doc, "T2_JBC", connector(x + w - 25, y + d - 9, 5), "connector")
         elif ref == "T3":
             add(doc, "T3_U3_U4", Part.makeCompound([dip(x + 18, y + 25), dip(x + 55, y + 25)]), "chip")
             add(doc, "T3_Detectores", resistor_row(x + 10, y + 10, 8, 10), "connector")
             add(doc, "T3_JC4", connector(x + w - 22, y + d - 9, 4), "connector")
         else:
-            add(doc, "T4_ESP32", box(28, 54, 8, x + 8, y + 12, Z_BOARD + 1.6), "esp")
+            add(doc, "T4_ESP32_38P", box(28, 55, 13, x + 8, y + 12, Z_BOARD + 1.6), "esp")
             add(doc, "T4_HCT245", dip(x + 48, y + 20, 20), "chip")
             add(doc, "T4_LCD_Header", connector(x + 60, y + 52, 8), "connector")
             add(doc, "T4_JBUS", connector(x + w - 12, y + 8, 4, True), "connector")
+            add(doc, "T4_PAM8403_21x18", box(21, 18, 4, x + 72, y + 15, Z_BOARD + 1.6), "esp")
     # Postes de cada tarjeta, independientes y accesibles.
     posts = []
     for x, y in mounting:
@@ -160,22 +167,26 @@ def populate(doc):
 
     # Arnés lógico y bus estrella por el corredor central.
     wires = [
-        ((98, 70, 15), (112, 70, 15)), ((108, 125, 15), (122, 125, 15)),
-        ((212, 70, 15), (212, 88, 15)), ((55, 78, 15), (55, 90, 15)),
-        ((100, 84, 17), (218, 84, 17)),
+        ((98, 70, 15), (108, 70, 15)), ((128, 135, 15), (140, 135, 15)),
+        ((220, 88, 15), (220, 100, 15)), ((55, 78, 15), (55, 100, 15)),
+        ((100, 94, 17), (260, 94, 17)),
     ]
     add(doc, "Arneses_E5", Part.makeCompound([tube([a, b], .8) for a, b in wires]), "wire")
-    add(doc, "Bus_5V_GND", tube([(210, 164, 18), (228, 164, 18), (228, 82, 18), (104, 82, 18)], 1.2), "power")
+    add(doc, "Bus_5V_GND", tube([(258, 174, 18), (268, 174, 18), (268, 94, 18), (104, 94, 18)], 1.2), "power")
 
     # Dos barras cortadas de la misma tira WS2812B de 60 LED/m: 6 píxeles por tramo.
-    for idx, x in enumerate((12.0, 122.0), 1):
-        y, z = 171.0, 35.0
+    for idx, x in enumerate((16.0, 150.0), 1):
+        y, z = 181.0, 38.0
         support = box(104, STRIP_W + .7, 2.2, x - 2, y - .35, z - 1.5)
         strip = box(100, STRIP_W, 1.2, x, y, z)
         leds = Part.makeCompound([box(5, 5, 1.8, x + 6.7 + i * 16.67, y + (STRIP_W - 5) / 2, z + 1.2) for i in range(6)])
         add(doc, f"Soporte_NeoPixel_{idx}_13p2mm", support, "support")
         add(doc, f"Barra_NeoPixel_{idx}_WS2812B_6px", strip, "strip")
         add(doc, f"Pixels_{idx}", leds, "led")
+
+    # Elementos comprados montados en tapa/panel.
+    add(doc, "LCD_ST7789_1p9_51p2x27p3", box(51.2, 27.3, 3.0, 192, 126, H - 4), "screen", "lid")
+    add(doc, "Parlante_4ohm_3W_1p5in", Part.makeCylinder(19.05, 13, vec((64, 52, H - 16))), "chip", "lid")
 
 
 def validate():
@@ -193,7 +204,8 @@ def validate():
         "boards": {k: list(v[:4]) for k, v in BOARDS.items()},
         "neopixel_strip_mm": [100, STRIP_W], "support_clearance_mm": 13.2,
         "issues": issues, "valid": not issues,
-        "note": "La colocación de componentes es envolvente mecánica, no plantilla agujero por agujero.",
+        "dimension_basis": "medidas-componentes.json",
+        "note": "Placas compradas completas; componentes por envolvente. Ver estados fuente/conservadora/por_medir.",
     }
     (OUT / "validacion-3d.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     if issues:

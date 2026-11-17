@@ -1,0 +1,58 @@
+{
+  "revision": "E.5-comprados-2026-11-17",
+  "unidades": "mm",
+  "regla": "Una cota 'publicada' viene de la tienda o fabricante; 'conservadora' reserva espacio hasta medir la pieza recibida.",
+  "componentes": {
+    "PCB-FV-7X9-HQ": {
+      "cantidad": 1,
+      "envolvente": [90.0, 70.0, 1.6],
+      "estado": "publicada",
+      "fuente": "https://www.didacticaselectronicas.com/shop/pcb-fv-7x9-hq-circuito-impreso-universal-7cm-x-9cm-fibra-de-vidrio-8397",
+      "detalle": "26x31 agujeros, paso 2.54, perforacion 1.0"
+    },
+    "PCB-FV-8X12-HQ": {
+      "cantidad": 3,
+      "envolvente": [120.0, 80.0, 1.6],
+      "estado": "publicada",
+      "fuente": "https://www.didacticaselectronicas.com/shop/category/prototipado-fabricacion-de-productos-placas-de-prototipo-perforadas-362"
+    },
+    "ESP32-DevKit-WROOM-32D-38P": {
+      "cantidad": 1,
+      "envolvente": [55.0, 28.0, 13.0],
+      "estado": "conservadora",
+      "por_medir": ["largo", "ancho", "altura total", "separacion entre hileras"]
+    },
+    "TFT-ST7789-1.9-170x320": {
+      "cantidad": 1,
+      "envolvente": [51.2, 27.3, 3.0],
+      "estado": "publicada_fabricante_equivalente",
+      "por_medir": ["posicion exacta de agujeros y conector en la unidad CVR"]
+    },
+    "Parlante-PAR01-4ohm-3W": {
+      "cantidad": 1,
+      "envolvente": {"diametro": 38.1, "profundidad_reservada": 13.0},
+      "estado": "mixta",
+      "fuente": "https://www.cvrelectronica.com/description/?product_id=281",
+      "por_medir": ["profundidad", "diametro entre tornillos"]
+    },
+    "PAM8403": {
+      "cantidad": 1,
+      "envolvente": [21.0, 18.0, 4.0],
+      "estado": "conservadora",
+      "por_medir": ["largo", "ancho", "altura de componentes"]
+    },
+    "CINTALED-WS2812B-IP65": {
+      "cantidad": "2 tramos de 6 pixeles",
+      "envolvente_por_tramo": [100.0, 12.5, 2.5],
+      "estado": "conservadora",
+      "fuente": "https://www.didacticaselectronicas.com/shop/cintaled-ws2812b-cinta-led-rgb-ws2812b-5v-60-leds-ip65-1-metro-16610",
+      "por_medir": ["ancho exterior real con silicona", "espesor"]
+    },
+    "Potenciometro-B10K": {
+      "cantidad": 4,
+      "envolvente": [16.0, 8.0, 18.0],
+      "estado": "conservadora",
+      "por_medir": ["cuerpo", "longitud y diametro del eje", "paso de terminales"]
+    }
+  }
+}

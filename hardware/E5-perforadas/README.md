@@ -18,16 +18,16 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 
 ## División propuesta
 
-| Tarjeta | Tamaño inicial sugerido | Integrados | Función |
+| Tarjeta | Placa comprada usada completa | Integrados | Función |
 |---|---:|---|---|
 | T1 | 90 × 70 mm | U1 LM324 | Alimentación analógica, VREF, entrada, preamplificador, graves y pasa-altas de medios |
-| T2 | 100 × 70 mm | U2 LM324 | Pasa-bajas de medios, agudos, potenciómetros, sumador, salida y antialiasing |
-| T3 | 100 × 70 mm | U3 y U4 LM324 | Inversor de medios y tres detectores de pico |
-| T4 | 100 × 80 mm | ESP32 y U6 | Protección ADC, pantalla, pulsador y adaptación NeoPixel |
+| T2 | 120 × 80 mm | U2 LM324 | Pasa-bajas de medios, agudos, potenciómetros, sumador, salida y antialiasing |
+| T3 | 120 × 80 mm | U3 y U4 LM324 | Inversor de medios y tres detectores de pico |
+| T4 | 120 × 80 mm | ESP32 y U6 | Protección ADC, pantalla, pulsador y adaptación NeoPixel |
 
-Las medidas son una reserva para placa perforada de paso 2,54 mm. El modelo 3D
-define la envolvente y los soportes, pero no sustituye la colocación agujero por
-agujero. Antes de cortar, presentar físicamente zócalos, capacitores y conectores.
+El modelo 3D usa las placas adquiridas **sin recortarlas**. Las dimensiones y su
+grado de certeza están en `3d/medidas-componentes.json`; las cotas que el vendedor
+no publica siguen marcadas para medir con calibre antes de imprimir el gabinete.
 
 ## Reglas importantes
 

@@ -75,13 +75,13 @@ def renderizar(path):
 
     for name,obj in objects.items():
         obj.location=(0,0,0); obj.hide_render=False
-    shot("ecualizador-E5-cerrado.png", (118,93,28), (-.65,-.9,1), 300)
+    shot("ecualizador-E5-cerrado.png", (139,96,30), (-.65,-.9,1), 340)
     for name,obj in objects.items():
-        obj.location=(255,0,-58) if groups[name]=="lid" else (0,0,0); obj.hide_render=False
-    shot("ecualizador-E5-abierto.png", (180,93,24), (-.55,-.85,1.15), 410)
+        obj.location=(300,0,-61) if groups[name]=="lid" else (0,0,0); obj.hide_render=False
+    shot("ecualizador-E5-abierto.png", (215,96,24), (-.55,-.85,1.15), 500)
     for name,obj in objects.items():
         obj.location=(0,0,0); obj.hide_render=groups[name]=="lid"
-    shot("ecualizador-E5-planta.png", (118,93,12), (0,-.06,1), 255)
+    shot("ecualizador-E5-planta.png", (139,96,12), (0,-.06,1), 310)
 
 
 if "--" in sys.argv:

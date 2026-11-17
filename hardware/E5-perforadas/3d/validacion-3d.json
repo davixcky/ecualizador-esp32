@@ -1,9 +1,9 @@
 {
   "revision": "E.5",
   "enclosure_mm": [
-    236.0,
-    186.0,
-    61.0
+    278.0,
+    192.0,
+    64.0
   ],
   "boards": {
     "T1": [
@@ -13,21 +13,21 @@
       70.0
     ],
     "T2": [
-      112.0,
+      108.0,
       8.0,
-      100.0,
-      70.0
+      120.0,
+      80.0
     ],
     "T3": [
       8.0,
-      90.0,
       100.0,
-      70.0
+      120.0,
+      80.0
     ],
     "T4": [
-      122.0,
-      88.0,
+      140.0,
       100.0,
+      120.0,
       80.0
     ]
   },
@@ -38,5 +38,6 @@
   "support_clearance_mm": 13.2,
   "issues": [],
   "valid": true,
-  "note": "La colocaci\u00f3n de componentes es envolvente mec\u00e1nica, no plantilla agujero por agujero."
+  "dimension_basis": "medidas-componentes.json",
+  "note": "Placas compradas completas; componentes por envolvente. Ver estados fuente/conservadora/por_medir."
 }
