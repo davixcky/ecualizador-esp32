@@ -1,0 +1,42 @@
+{
+  "revision": "E.5",
+  "enclosure_mm": [
+    236.0,
+    186.0,
+    61.0
+  ],
+  "boards": {
+    "T1": [
+      8.0,
+      8.0,
+      90.0,
+      70.0
+    ],
+    "T2": [
+      112.0,
+      8.0,
+      100.0,
+      70.0
+    ],
+    "T3": [
+      8.0,
+      90.0,
+      100.0,
+      70.0
+    ],
+    "T4": [
+      122.0,
+      88.0,
+      100.0,
+      80.0
+    ]
+  },
+  "neopixel_strip_mm": [
+    100,
+    12.5
+  ],
+  "support_clearance_mm": 13.2,
+  "issues": [],
+  "valid": true,
+  "note": "La colocaci\u00f3n de componentes es envolvente mec\u00e1nica, no plantilla agujero por agujero."
+}

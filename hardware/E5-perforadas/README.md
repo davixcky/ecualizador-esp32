@@ -11,6 +11,10 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 - `BOM-precision.md` y `BOM-precision.csv`: lista de compra completa: pasivos de precisión, integrados, conectores, módulos, cables y material mecánico.
 - `COMPRAS-COLOMBIA.md`: enlaces de compra colombianos, cantidades con repuestos y advertencias de compatibilidad.
 - `LISTA-POR-TIENDA.md`: lista operativa con casillas, agrupada por proveedor para reducir pedidos y fletes.
+- `3d/ecualizador-E5-perforadas.FCStd` y `.step`: ensamble mecánico actualizado con
+  las cuatro tarjetas, arneses y dos barras WS2812B.
+- `3d/ecualizador-E5-{cerrado,abierto,planta}.png`: vistas para revisar
+  volumen, montaje y accesibilidad.
 
 ## División propuesta
 
@@ -21,7 +25,9 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 | T3 | 100 × 70 mm | U3 y U4 LM324 | Inversor de medios y tres detectores de pico |
 | T4 | 100 × 80 mm | ESP32 y U6 | Protección ADC, pantalla, pulsador y adaptación NeoPixel |
 
-Las medidas son una reserva para placa perforada de paso 2,54 mm, no un diseño de colocación terminado. Antes de cortar, presentar físicamente zócalos, capacitores y conectores.
+Las medidas son una reserva para placa perforada de paso 2,54 mm. El modelo 3D
+define la envolvente y los soportes, pero no sustituye la colocación agujero por
+agujero. Antes de cortar, presentar físicamente zócalos, capacitores y conectores.
 
 ## Reglas importantes
 
