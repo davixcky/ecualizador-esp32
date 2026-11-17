@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genera el esquemático KiCad del ecualizador en ../hardware/ecualizador.kicad_sch.
+"""Genera el esquemático lógico histórico D.3 en ../hardware/archivo/D3-logico/.
 
 Las piezas, los valores, las huellas y las redes salen de circuito.py. Este script solo
 decide dónde se dibuja cada pieza: las etapas con amplificador operacional se dibujan con
@@ -9,7 +9,7 @@ con su etiqueta o su símbolo de alimentación, así que el dibujo no puede omit
 
 Después de generar el archivo se verifica con:
 
-    kicad-cli sch erc ../hardware/ecualizador.kicad_sch
+    kicad-cli sch erc ../hardware/archivo/D3-logico/ecualizador-D3-logico.kicad_sch
     python3 verificar_netlist.py      (compara la netlist de KiCad con circuito.py)
 
 Coordenadas en milímetros sobre la grilla de 1,27 mm; el eje y crece hacia abajo.
@@ -26,10 +26,21 @@ from sexpr import Sym, dump, find, find1, parse  # noqa: E402
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 HW = os.path.join(AQUI, "..", "hardware")
-SALIDA = os.path.join(HW, "ecualizador.kicad_sch")
+SALIDA = os.path.join(HW, "archivo", "D3-logico", "ecualizador-D3-logico.kicad_sch")
 LIBS = "/usr/share/kicad/symbols/"
 PROYECTO = "ecualizador"
 S = Sym
+
+# Modo físico opcional usado por generar_esquematico_e4.py. La asignación se
+# inyecta desde la misma colocación que genera la PCB para evitar dos fuentes de
+# verdad independientes.
+PIN_RED_OVERRIDE = {}       # (ref, pin) -> red física o None
+OPAMP_UNIT_OVERRIDE = {}    # unidad lógica (U1A) -> unidad física (U1C)
+FOOTPRINT_OVERRIDE = {}     # ref -> identificador exacto usado en la PCB
+DESCRIPTION_OVERRIDE = {}   # ref -> campo Description exacto usado en la PCB
+NET_ALIAS = {}              # nombre semántico de circuito.py -> nombre KiCad
+DESCRIPCION_FISICA = False
+ETIQUETAS_FISICAS_AUTOMATICAS = False
 
 _ns = _uuid.UUID("3b9e7c10-0000-4000-8000-0000000000e0")
 _cont = Counter()
@@ -102,7 +113,9 @@ def pin_def(tipo, x, y, ang, nombre, numero, largo=5.08):
 
 
 def sim_esp32():
-    def tipo(n):
+    def tipo(n, numero):
+        if PIN_RED_OVERRIDE.get(("U5", str(numero)), "").startswith("NC-"):
+            return "passive"
         if n == "3V3":
             return "power_out"
         if n in ("5V", "GND"):
@@ -110,8 +123,8 @@ def sim_esp32():
         if n in ("VP/IO36", "VN/IO39", "IO34", "IO35", "EN"):
             return "input"
         return "bidirectional"
-    pines = [pin_def(tipo(n), -17.78, r(22.86 - 2.54 * k), 0, n, str(k + 1)) for k, n in enumerate(cto.IZQ)]
-    pines += [pin_def(tipo(n), 17.78, r(22.86 - 2.54 * k), 180, n, str(k + 20)) for k, n in enumerate(cto.DER)]
+    pines = [pin_def(tipo(n, k + 1), -17.78, r(22.86 - 2.54 * k), 0, n, str(k + 1)) for k, n in enumerate(cto.IZQ)]
+    pines += [pin_def(tipo(n, k + 20), 17.78, r(22.86 - 2.54 * k), 180, n, str(k + 20)) for k, n in enumerate(cto.DER)]
     graf = [[S("rectangle"), [S("start"), -12.7, 25.4], [S("end"), 12.7, -25.4],
              [S("stroke"), [S("width"), 0.254], [S("type"), S("default")]], [S("fill"), [S("type"), S("background")]]],
             [S("text"), "USB", [S("at"), 0, -23.5, 0], efectos()]]
@@ -126,7 +139,8 @@ def sim_esp32():
 SIMBOLO = {"R": "Device:R", "C": "Device:C", "CP": "Device:C_Polarized", "POT": "Device:R_Potentiometer",
            "D": "Device:D", "JACK": "Connector_Audio:AudioJack3", "CONN4": "Connector_Generic:Conn_01x04",
            "CONN3": "Connector_Generic:Conn_01x03", "CONN2": "Connector_Generic:Conn_01x02",
-           "BUFFER": "74xx:74AHCT125", "TFT": "Connector_Generic:Conn_01x08", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:MCP6004",
+           "BUFFER": "74xx:74AHCT125", "BUFFER245": "74xx:74HC245",
+           "TFT": "Connector_Generic:Conn_01x08", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:LM324",
            "ESP32": "Ecualizador:ESP32-DevKitC-38"}
 POTENCIA = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+3.3VA": "power:+3.3VA"}
 
@@ -143,12 +157,24 @@ class Esquematico:
         self.flg_n = 0
         self.pines_pwr = []      # pines de los símbolos de alimentación y banderas
 
+    def red_pin(self, ref, num):
+        k = (ref, str(num))
+        return PIN_RED_OVERRIDE[k] if k in PIN_RED_OVERRIDE else cto.pieza(ref)["pines"].get(str(num))
+
+    def pin_para_red(self, ref, posiciones, red, indice=0):
+        """Posición del pin físico que lleva la red lógica indicada."""
+        objetivo = NET_ALIAS.get(red, red)
+        candidatos = [n for n in posiciones if self.red_pin(ref, n) == objetivo]
+        if indice >= len(candidatos):
+            raise ValueError(f"{ref}: no existe pin físico para {red} ({objetivo}); candidatos={candidatos}")
+        return posiciones[candidatos[indice]]
+
     def usar(self, lib_id):
         if lib_id not in self.lib:
             if lib_id == "Ecualizador:ESP32-DevKitC-38":
                 d = sim_esp32()
-            elif lib_id == "Amplifier_Operational:MCP6004":
-                d = cargar("Amplifier_Operational", "MCP6004")
+            elif lib_id == "Amplifier_Operational:LM324":
+                d = cargar("Amplifier_Operational", "LM324")
             else:
                 d = cargar(*lib_id.split(":"))
             self.lib[lib_id] = d
@@ -196,10 +222,11 @@ class Esquematico:
                  [S("on_board"), S("no" if es_power else "yes")], [S("dnp"), S("no")], [S("uuid"), uid("sym")],
                  prop("Reference", ref, ra[0], ra[1], ang_campos, oculto=es_power, just=just),
                  prop("Value", valor, va[0], va[1], ang_campos, oculto=ocultar_valor, just=just),
-                 prop("Footprint", "" if es_power else p["huella"], x, y, 0, oculto=True),
+                 prop("Footprint", "" if es_power else FOOTPRINT_OVERRIDE.get(ref, p["huella"]), x, y, 0, oculto=True),
                  prop("Datasheet", "", x, y, 0, oculto=True)]
         if p:
-            nodo.append(prop("Description", p["funcion"], x, y, 0, oculto=True))
+            descripcion = DESCRIPTION_OVERRIDE.get(ref, "" if DESCRIPCION_FISICA else p["funcion"])
+            nodo.append(prop("Description", descripcion, x, y, 0, oculto=True))
         for num in pos:
             nodo.append([S("pin"), num, [S("uuid"), uid("pin")]])
         nodo.append([S("instances"), [S("project"), PROYECTO,
@@ -209,6 +236,7 @@ class Esquematico:
 
     def ao(self, unidad, x, y, invertido=False, **kw):
         """Unidad de amplificador operacional: + arriba (o abajo si invertido). Devuelve (+, −, salida)."""
+        unidad = OPAMP_UNIT_OVERRIDE.get(unidad, unidad)
         ref, letra = unidad[:-1], unidad[-1]
         n = "ABCDE".index(letra) + 1
         pos = self.colocar(ref, x, y, unidad=n, espejo_x=invertido,
@@ -246,6 +274,11 @@ class Esquematico:
         just = "left bottom" if ang in (0, 90) else "right bottom"
         self.items.append([S("label"), nombre, [S("at"), r(x), r(y), ang], efectos(just=just), [S("uuid"), uid("lbl")]])
 
+    def etiqueta_global(self, nombre, x, y, ang=0):
+        just = "left bottom" if ang in (0, 90) else "right bottom"
+        self.items.append([S("global_label"), nombre, [S("shape"), S("bidirectional")],
+                           [S("at"), r(x), r(y), ang], efectos(oculto=True, just=just), [S("uuid"), uid("glbl")]])
+
     def texto(self, t, x, y, tam=1.27, negrita=False):
         e = [S("effects"), [S("font"), [S("size"), tam, tam]] + ([[S("bold"), S("yes")]] if negrita else []),
              [S("justify"), S("left"), S("bottom")]]
@@ -269,6 +302,15 @@ class Esquematico:
             extremos[b] += 1
         for p in self.pines_pwr:
             extremos[p] += 1
+        # Los nombres automáticos Net-(...) de la PCB no llevan el prefijo de
+        # hoja '/'. Una etiqueta global fija exactamente ese nombre incluso si
+        # la unidad equivalente del operacional cambió de letra física.
+        if PIN_RED_OVERRIDE and ETIQUETAS_FISICAS_AUTOMATICAS:
+            for ref, num, p, ang in self.pines:
+                red = self.red_pin(ref, num)
+                if red:
+                    self.etiqueta_global(red, p[0], p[1], int(ang))
+                    extremos[p] += 1
         for ref, num, p, ang in self.pines:
             if extremos[p] or any(
                 (a[0] == b[0] == p[0] and min(a[1], b[1]) <= p[1] <= max(a[1], b[1])) or
@@ -276,7 +318,7 @@ class Esquematico:
                 for a, b in self.cables
             ):
                 continue
-            red = cto.pieza(ref)["pines"].get(num)
+            red = self.red_pin(ref, num)
             if red is None:
                 self.no_conectar(p)
                 continue
@@ -413,6 +455,10 @@ def a_potencia(sch, p, red, desplazamientos, rot):
     sch.potencia(red, *puntos[-1], rot)
 
 
+def texto_pinout(sch, ref, pines):
+    return ", ".join(f"{n} {sch.red_pin(ref, str(n)) or 'NC'}" for n in pines)
+
+
 def sallen_key(sch, unidad, ox, oy, serie1, serie2, fb, tierra, red_in, red_out, etiquetas=True):
     """Sallen-Key de ganancia unitaria (pasa bajas: serie = R, fb y tierra = C; pasa altas: al revés)."""
     mas, menos, out = sch.ao(unidad, ox, oy)
@@ -511,6 +557,9 @@ def detector(sch, det, seg, ox, oy, diodo, ch, rd, red_in, red_out):
 # ---------------------------------------------------------------- el dibujo completo
 def construir():
     sch = Esquematico()
+    if PIN_RED_OVERRIDE:
+        sch.caja(420.0, 15.24, 580.0, 160.0, "CONECTORES Y POTENCIÓMETROS · PINOUT FÍSICO E.4")
+        sch.texto("Las etiquetas de cada pin son la conexión física real de la PCB E.4.", 425.0, 155.0, 1.0)
 
     # ================= fila 1 =================
     # ---------------- alimentación y referencia
@@ -519,9 +568,9 @@ def construir():
     sch.potencia("+3V3", 17.78, yv)
     r1a, r1b = pasivo_h(sch, "R1", 22.86, yv, arriba=False)
     sch.cable((17.78, yv), r1a)
-    sch.cable(r1b, (124.46, yv))
+    sch.cable(r1b, (45.72, yv))
     sch.potencia("+3.3VA", 30.48, yv)
-    sch.bandera(124.46, yv)
+    sch.bandera(45.72, yv)
     for ref, x, lado in (("C1", 33.02, -1), ("C2", 43.18, 1)):
         a, b = pasivo_v(sch, ref, x, (yv + yg) / 2, lado=lado)
         sch.cable((x, yv), a)
@@ -535,10 +584,12 @@ def construir():
         a, b = pasivo_v(sch, f"C{4 + i}", x + 10.16, (yv + yg) / 2)
         sch.cable((x + 10.16, yv), a)
         sch.cable(b, (x + 10.16, yg))
+    sch.potencia("+5V", 53.34, yv)
+    sch.cable((53.34, yv), (120.65, yv))
     sch.cable((17.78, yg), (124.46, yg))
     sch.potencia("GND", 124.46, yg)
     sch.bandera(17.78, yg)
-    sch.texto("Filtro RC R1–C1: fc ≈ 159 Hz. C4–C7: desacoplo local de los MCP6004.",
+    sch.texto("R1–C1 filtra +3.3VA solo para VREF. U1–U4 y C4–C7 usan +5 V.",
               15.24, 52.07, 1.0)
     # reserva de 5 V
     sch.potencia("+5V", 20.32, 60.96)
@@ -563,25 +614,32 @@ def construir():
     sch.cable(nodo, (x + 10.16, nodo[1]), mas)
     sch.cable((x + 10.16, nodo[1]), c8a)
     salida(sch, sal, "VREF", 7.62)
-    sch.texto("VREF es la tierra de señal: todas las etapas\noscilan alrededor de 1,65 V con 3,3 V.",
+    sch.texto("VREF sigue siendo 1,65 V desde +3.3VA; los LM324 trabajan a +5 V.",
               71.12, 92.71, 1.0)
 
     # ---------------- entrada y preamplificador
     sch.caja(133.35, 15.24, 262.89, 96.52, "ENTRADA DE LÍNEA Y PREAMPLIFICADOR (G = 1 + R7/R8 = 3,2)")
     j1 = sch.colocar("J1", 143.51, 35.56, espejo_x=True, ref_at=(137.16, 27.94), val_at=(135.89, 45.72))
-    a_potencia(sch, j1["S"], "GND", [(2.54, 0), (0, 2.54)], 0)
+    a_potencia(sch, sch.pin_para_red("J1", j1, "GND"), "GND", [(2.54, 0), (0, 2.54)], 0)
     r4a, r4b = pasivo_h(sch, "R4", 166.37, 30.48)
     r5a, r5b = pasivo_h(sch, "R5", 166.37, 40.64, arriba=False)
     entrada(sch, r4a, "IN_L")
     entrada(sch, r5a, "IN_R")
     xm = 175.26
-    rv1 = sch.colocar("RV1", xm, 54.61, ref_at=(xm - 9.5, 53.34), val_at=(xm - 11.5, 55.88))
-    sch.cable(r4b, (xm, 30.48), (xm, 40.64), rv1["1"])
+    rv1x, rv1y = ((449.58, 40.64) if PIN_RED_OVERRIDE else (xm, 54.61))
+    rv1 = sch.colocar("RV1", rv1x, rv1y, ref_at=(rv1x - 9.5, rv1y - 1.27), val_at=(rv1x - 11.5, rv1y + 1.27))
+    sch.cable(r4b, (xm, 30.48), (xm, 40.64))
     sch.cable(r5b, (xm, 40.64))
-    sch.potencia("GND", *rv1["3"])
-    yin = rv1["2"][1]
+    if PIN_RED_OVERRIDE:
+        sch.etiqueta("MIX", xm, 40.64)
+        yin = 54.61
+    else:
+        sch.cable((xm, 40.64), rv1["1"])
+        sch.potencia("GND", *rv1["3"])
+        yin = rv1["2"][1]
     c9a, c9b = pasivo_h(sch, "C9", 186.69, yin)
-    sch.cable(rv1["2"], c9a)
+    if not PIN_RED_OVERRIDE:
+        sch.cable(rv1["2"], c9a)
     xp = 194.31
     r6a, r6b = pasivo_v(sch, "R6", xp, yin + 6.35, lado=-1)
     mas = no_inversor(sch, "U1B", 215.9, yin + 2.54, "R7", "R8", "C10", "PRE")
@@ -593,13 +651,29 @@ def construir():
 
     # ---------------- microcontrolador, pantalla y pulsador
     sch.caja(265.43, 15.24, 407.67, 96.52, "MICROCONTROLADOR, PANTALLA TFT Y PULSADOR")
-    sch.colocar("U5", 299.72, 55.88, ref_at=(297.18, 27.94), val_at=(289.56, 83.82))
-    j4 = sch.colocar("J4", 365.76, 58.42, ref_at=(363.22, 38.1), val_at=(354.33, 80.01))
-    a_potencia(sch, j4["1"], "+3V3", [(-5.08, 0), (0, -5.08)], 0)
-    a_potencia(sch, j4["2"], "GND", [(-12.7, 0)], 270)
+    sch.colocar("U5", 314.96, 55.88, ref_at=(312.42, 27.94), val_at=(304.8, 83.82))
+    j4x, j4y = ((520.7, 45.72) if PIN_RED_OVERRIDE else (365.76, 58.42))
+    j4 = sch.colocar("J4", j4x, j4y, ref_at=(j4x - 2.54, j4y - 20.32), val_at=(j4x - 11.43, j4y + 21.59))
+    if not PIN_RED_OVERRIDE:
+        a_potencia(sch, j4["1"], "+3V3", [(-5.08, 0), (0, -5.08)], 0)
+        a_potencia(sch, j4["2"], "GND", [(-12.7, 0)], 270)
     pasivo_v(sch, "R30", 345.44, 30.48, lado=-1)
     sch.colocar("SW1", 391.16, 30.48, ref_at=(388.62, 25.4), val_at=(386.08, 35.56))
-    sch.texto("J4 (adaptador): 1 VCC, 2 GND, 3 DIN, 4 CLK,\n5 CS, 6 DC, 7 RST, 8 BL. Waveshare 1,9 pulgadas.\nBL = GPIO19; datos LED = GPIO25.\nCablear por nombre; GH1.25 no tiene este orden.\nADC1 permite mantener el Wi-Fi activo.", 372.11, 50.8, 1.0)
+    # Atenuadores 2:1 alrededor de VREF para que las salidas de AO a 5 V no puedan
+    # sobrepasar el dominio del ADC de 3,3 V.
+    for i, (raw, adc) in enumerate((("ADC_G_RAW", "ADC_G"), ("ADC_M_RAW", "ADC_M"),
+                                    ("ADC_A_RAW", "ADC_A"), ("ADC_FFT_RAW", "ADC_FFT"))):
+        y = 31.75 + 15.24 * i
+        a, b = pasivo_h(sch, f"R{33 + 2 * i}", 274.32, y)
+        entrada(sch, a, raw, 1.27)
+        salida(sch, b, adc, 1.27)
+        c, d = pasivo_v(sch, f"R{34 + 2 * i}", b[0], y + 6.35, lado=-1)
+        sch.cable(b, c)
+        vref(sch, d)
+    sch.texto("R33–R40: ADC = VREF + (RAW−VREF)/2;\n0…5 V queda limitado a 0,825…3,325 V. Firmware compensa ×2.",
+              265.43, 94.0, 0.9)
+    sch.texto("J4 físico: " + texto_pinout(sch, "J4", range(1, 9)) +
+              ".\nCablear por nombre; GH1.25 no tiene este orden.", 351.79, 86.36, 0.9)
 
     # ================= fila 2: filtros =================
     sch.caja(12.7, 99.06, 407.67, 151.13, "FILTROS ACTIVOS SALLEN-KEY DE SEGUNDO ORDEN (ganancia unitaria, Q ≈ 0,73)")
@@ -623,13 +697,15 @@ def construir():
     sch.caja(12.7, 153.67, 148.59, 248.92, "GANANCIA POR BANDA, INVERSOR Y SUMADOR")
     for i, (rv, banda, cursor) in enumerate((("RV2", "GRAVES", "G_W"), ("RV3", "MEDIOS", "M_W"),
                                             ("RV4", "AGUDOS", "A_W"))):
-        x = 22.86 + 20.32 * i
-        p = sch.colocar(rv, x, 175.26, ref_at=(x - 8.4, 173.99), val_at=(x - 9.5, 176.53))
-        q = (x, r(p["1"][1] - 2.54))
-        sch.cable(p["1"], q)
-        sch.etiqueta(banda, q[0], q[1], 90)
-        vref(sch, p["3"])
-        salida(sch, p["2"], cursor)
+        x = ([469.9, 495.3, 520.7][i]) if PIN_RED_OVERRIDE else (22.86 + 20.32 * i)
+        py = 95.25 if PIN_RED_OVERRIDE else 175.26
+        p = sch.colocar(rv, x, py, ref_at=(x - 8.4, py - 1.27), val_at=(x - 9.5, py + 1.27))
+        if not PIN_RED_OVERRIDE:
+            q = (x, r(p["1"][1] - 2.54))
+            sch.cable(p["1"], q)
+            sch.etiqueta(banda, q[0], q[1], 90)
+            vref(sch, p["3"])
+            salida(sch, p["2"], cursor)
     inversor(sch, "U4C", 132.08, 175.26, [("R17", "M_W")], "R18", "M_INV")
     inversor(sch, "U2C", 66.04, 213.36, [("R19", "G_W"), ("R20", "M_INV"), ("R21", "A_W")], "R22", "EQ_OUT")
     sch.texto("Deslizables de 10 kΩ lineales entre la salida de cada filtro y VREF; al 50 % la suma es plana.\n"
@@ -647,31 +723,39 @@ def construir():
     sch.cable(c19b, r23a)
     xl = 189.23
     r24a, r24b = pasivo_v(sch, "R24", xl, y + 6.35)
-    sch.cable(r23b, (xl, y), (213.36, y), (213.36, y + 2.54))
+    sch.cable(r23b, (xl, y))
+    if not PIN_RED_OVERRIDE:
+        sch.cable((xl, y), (213.36, y), (213.36, y + 2.54))
     sch.cable((xl, y), r24a)
     sch.potencia("GND", *r24b)
     q = (xl, r(y - 2.54))
     sch.cable((xl, y), q)
     sch.etiqueta("LINEA", q[0], q[1], 90)
-    rv5 = sch.colocar("RV5", 213.36, y + 6.35, ref_at=(203.2, y + 5.08), val_at=(201.93, y + 7.62))
-    sch.potencia("GND", *rv5["3"])
-    j2 = sch.colocar("J2", 238.76, y + 1.27, espejo_x=True, ref_at=(232.41, y - 5.08), val_at=(219.71, y + 12.7))
-    a_potencia(sch, j2["S"], "GND", [(2.54, 0), (0, 2.54)], 0)
-    j3 = sch.colocar("J3", 250.19, y + 22.86, ref_at=(252.73, y + 16.51), val_at=(252.73, y + 30.48))
-    a_potencia(sch, j3["1"], "+5V", [(-5.08, 0), (0, -5.08)], 0)
-    a_potencia(sch, j3["2"], "GND", [(-12.7, 0)], 270)
-    a_potencia(sch, j3["4"], "GND", [(-2.54, 0), (0, 2.54)], 0)
+    rv5x, rv5y = ((546.1, 95.25) if PIN_RED_OVERRIDE else (213.36, y + 6.35))
+    rv5 = sch.colocar("RV5", rv5x, rv5y, ref_at=(rv5x - 10.16, rv5y - 1.27), val_at=(rv5x - 11.43, rv5y + 1.27))
+    if not PIN_RED_OVERRIDE:
+        sch.potencia("GND", *rv5["3"])
+    j2x, j2y = ((449.58, 134.62) if PIN_RED_OVERRIDE else (238.76, y + 1.27))
+    j2 = sch.colocar("J2", j2x, j2y, espejo_x=True, ref_at=(j2x - 6.35, j2y - 6.35), val_at=(j2x - 19.05, j2y + 11.43))
+    if not PIN_RED_OVERRIDE:
+        a_potencia(sch, j2["S"], "GND", [(2.54, 0), (0, 2.54)], 0)
+    j3x, j3y = ((505.46, 134.62) if PIN_RED_OVERRIDE else (250.19, y + 22.86))
+    j3 = sch.colocar("J3", j3x, j3y, ref_at=(j3x + 2.54, j3y - 6.35), val_at=(j3x + 2.54, j3y + 7.62))
+    if not PIN_RED_OVERRIDE:
+        a_potencia(sch, j3["1"], "+5V", [(-5.08, 0), (0, -5.08)], 0)
+        a_potencia(sch, j3["2"], "GND", [(-12.7, 0)], 270)
+        a_potencia(sch, j3["4"], "GND", [(-2.54, 0), (0, 2.54)], 0)
     sch.texto("J2: salida de línea. J3: módulo PAM8403 y parlante;\nRV5 = volumen. R23 protege la salida de un corto.",
               154.94, 205.74, 1.0)
-    sallen_key(sch, "U2D", 228.6, 226.06, "R25", "R26", "C20", "C21", "EQ_OUT", "ADC_FFT")
+    sallen_key(sch, "U2D", 228.6, 226.06, "R25", "R26", "C20", "C21", "EQ_OUT", "ADC_FFT_RAW")
     sch.texto("Antialiasing: fc = 1/(2π·10k·√(4n7·2n2)) = 4,95 kHz; fs = 20 kS/s.", 154.94, 245.11, 1.0)
 
     # ---------------- detectores
     sch.caja(265.43, 153.67, 407.67, 248.92, "DETECTORES DE PICO DE PRECISIÓN Y SEGUIDORES")
     for i, (det, seg, d, ch, rd, cursor, adc) in enumerate((
-            ("U3A", "U3B", "D1", "C22", "R27", "G_W", "ADC_G"),
-            ("U3C", "U3D", "D2", "C23", "R28", "M_W", "ADC_M"),
-            ("U4A", "U4B", "D3", "C24", "R29", "A_W", "ADC_A"))):
+            ("U3A", "U3B", "D1", "C22", "R27", "G_W", "ADC_G_RAW"),
+            ("U3C", "U3D", "D2", "C23", "R28", "M_W", "ADC_M_RAW"),
+            ("U4A", "U4B", "D3", "C24", "R29", "A_W", "ADC_A_RAW"))):
         detector(sch, det, seg, 284.48, 172.72 + 25.4 * i, d, ch, rd, cursor, adc)
     mas, sal = seguidor(sch, "U4D", 392.43, 168.91)
     entrada(sch, mas, "VREF")
@@ -681,15 +765,22 @@ def construir():
 
     sch.caja(12.7, 254, 407.67, 335.28, "ILUMINACIÓN NEOPIXEL · 12 LED · FUENTE EXTERNA 5 V / 3 A")
     sch.colocar("J6", 30.48, 274.32)
-    for unit, x in enumerate((76.2, 137.16, 198.12, 259.08), 1):
-        sch.colocar("U6", x, 279.4, unidad=unit)
-    sch.colocar("U6", 320.04, 279.4, unidad=5)
+    u6 = next(p for p in cto.PIEZAS if p["ref"] == "U6")
+    if u6["tipo"] == "BUFFER245":
+        sch.colocar("U6", 137.16, 279.4)
+    else:
+        for unit, x in enumerate((76.2, 137.16, 198.12, 259.08), 1):
+            sch.colocar("U6", x, 279.4, unidad=unit)
+        sch.colocar("U6", 320.04, 279.4, unidad=5)
     pasivo_v(sch, "C25", 345.44, 279.4)
     pasivo_v(sch, "C26", 375.92, 279.4)
     pasivo_h(sch, "R31", 76.2, 304.8)
     pasivo_v(sch, "R32", 137.16, 304.8)
     sch.colocar("J5", 198.12, 304.8)
-    sch.texto("J6 alimenta la placa, el PAM8403 y los LED. No conectar simultáneamente VBUS del USB.\nJ5: 1 = 5 V, 2 = DIN, 3 = GND. R31 cerca del primer LED; C26 junto a J5.\nU6 debe ser AHCT (umbral TTL): un 74HC125 a 5 V no garantiza reconocer 3,3 V.\nLa tira vuelve a GND de potencia; no usar VREF como retorno.", 218.44, 307.34, 1.27)
+    texto_u6 = ("U6 = 74HCT245 local: DIR pin 1 a +5 V y /OE pin 19 a GND; A0 pin 2 recibe 3,3 V y B0 pin 18 entrega 5 V."
+                if u6["tipo"] == "BUFFER245" else
+                "U6 debe ser AHCT (umbral TTL): un 74HC125 a 5 V no garantiza reconocer 3,3 V.")
+    sch.texto("J6 alimenta la placa, el PAM8403 y los LED. No conectar simultáneamente VBUS del USB.\nJ5: 1 = 5 V, 2 = DIN, 3 = GND. R31 cerca del primer LED; C26 junto a J5.\n" + texto_u6 + "\nLa tira vuelve a GND de potencia; no usar VREF como retorno.", 218.44, 307.34, 1.1)
 
     sch.completar()
     return sch
@@ -697,7 +788,7 @@ def construir():
 
 if __name__ == "__main__":
     e = construir()
-    e.guardar(SALIDA, ["Ecualizador de audio de tres bandas con visualizador ESP32", "2026-10-22", "D.2",
-                       "Electrónica II — Universidad de la Costa", "Amplificadores operacionales MCP6004 (riel a riel, 3,3 V)",
+    e.guardar(SALIDA, ["Ecualizador de audio de tres bandas con visualizador ESP32", "2026-11-05", "D.3-LM324",
+                       "Electrónica II — Universidad de la Costa", "LM324N a 5 V; VREF = 1,65 V; ADC protegido por atenuadores 2:1",
                        "Generado desde herramientas/circuito.py"])
     print("Esquemático escrito en", os.path.normpath(SALIDA))

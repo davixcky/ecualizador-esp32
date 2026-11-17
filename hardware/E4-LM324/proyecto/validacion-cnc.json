@@ -1,0 +1,9 @@
+{
+  "pcb": "hardware/E4-LM324/proyecto/ecualizador-E4-LM324.kicad_pcb",
+  "track_min_mm": 0.7,
+  "pad_min_mm": 1.999998,
+  "vias": 0,
+  "forbidden_2_54_crossings": [],
+  "shared_bridge_holes": [],
+  "errors": []
+}

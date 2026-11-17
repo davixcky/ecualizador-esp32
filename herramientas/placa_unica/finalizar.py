@@ -1,11 +1,13 @@
 """Package single board E.2: pin labels on headers, fabrication files, wire list, pin map, firmware config, renders.
 Usage: python3 finalizar.py closed_dir placement.json OUT"""
-import sys, json, csv, math, shutil, subprocess
+import sys, os, json, csv, math, shutil, subprocess
 from pathlib import Path
 import base, pcbnew as k
 from pcbnew import FromMM as MM, ToMM, VECTOR2I
 import pcb_freerouting as pf, pcb_legado_b1 as lb
 SRC, COL, OUT = Path(sys.argv[1]), json.load(open(sys.argv[2])), Path(sys.argv[3])
+REV = os.environ.get('PCB_REV', 'E.2')
+NOMBRE = os.environ.get('PCB_NAME', 'ecualizador-E2')
 (OUT / 'placa').mkdir(parents=True, exist_ok=True); (OUT / 'fabricacion').mkdir(exist_ok=True); (OUT / 'vistas').mkdir(exist_ok=True); (OUT / 'firmware').mkdir(exist_ok=True)
 b = k.LoadBoard(str(next(SRC.glob('*.kicad_pcb'))))
 pn0, _ = base.netlist_base()
@@ -31,8 +33,9 @@ for r, et in ETQ.items():
         t = k.PCB_TEXT(b); t.SetText(lab); t.SetLayer(k.F_SilkS); t.SetPosition(VECTOR2I(MM(tx), MM(ty)))
         t.SetTextSize(VECTOR2I(MM(1.0), MM(1.0))); t.SetTextThickness(MM(0.15)); b.Add(t)
         tabla.append(dict(conector=r, pin=p.GetNumber(), etiqueta=lab, red=p.GetNetname()))
-tb = b.GetTitleBlock(); tb.SetTitle('Ecualizador - placa unica CNC una cara'); tb.SetRevision('E.2'); tb.SetCompany('CUC'); tb.SetDate('2026-11-03')
-pcb = OUT / 'placa' / 'ecualizador-E2.kicad_pcb'; b.Save(str(pcb)); pf.reglas(pcb.with_suffix('.kicad_pro'))
+tb = b.GetTitleBlock(); tb.SetTitle('Ecualizador - placa unica CNC una cara'); tb.SetRevision(REV); tb.SetCompany('CUC'); tb.SetDate('2026-11-05')
+pcb = OUT / 'placa' / f'{NOMBRE}.kicad_pcb'; b.Save(str(pcb)); pf.reglas(pcb.with_suffix('.kicad_pro'))
+json.dump(COL, open(OUT / 'colocacion.json', 'w'), indent=1)
 subprocess.run([sys.executable, str(Path(__file__).parent / 'rellenar.py'), str(pcb)], capture_output=True)
 for fn in ('alambres-directos.json', 'puentes-ruteados.json'): shutil.copy(SRC / fn, OUT / 'placa' / fn)
 # DRC
@@ -40,6 +43,10 @@ rep = OUT / 'placa' / 'drc.json'
 subprocess.run(['kicad-cli', 'pcb', 'drc', str(pcb), '--format', 'json', '-o', str(rep)], capture_output=True)
 d = json.load(open(rep)); err = {}
 for v in d['violations']: err.setdefault(v['severity'], {}).setdefault(v['type'], 0); err[v['severity']][v['type']] += 1
+val = subprocess.run([sys.executable, str(Path(__file__).parents[1] / 'validar_pcb_cnc.py'), str(pcb),
+                      os.environ.get('PCB_TRACK', '0.7'), os.environ.get('PCB_PAD_MIN', '1.9')],
+                     check=True, capture_output=True, text=True)
+(OUT / 'validacion-cnc.json').write_text(val.stdout[val.stdout.find('{'):])
 # wire list (routed bridges + direct wires)
 import itertools
 filas = []
@@ -74,4 +81,5 @@ for nombre, capas in (('cobre', 'B.Cu,Edge.Cuts'), ('montaje', 'F.Silkscreen,Edg
 for lado in ('top', 'bottom'):
     subprocess.run(['kicad-cli', 'pcb', 'render', str(pcb), '-o', str(V / f'3d-{lado}.png'), '--side', lado, '--width', '1800', '--height', '1100', '--quality', 'high', '--background', 'opaque'], capture_output=True)
 subprocess.run(['kicad-cli', 'pcb', 'render', str(pcb), '-o', str(V / '3d-iso.png'), '--width', '1800', '--height', '1100', '--quality', 'high', '--background', 'opaque', '--rotate', "'-45,0,30'", '--zoom', '0.9'], capture_output=True)
+pcb.with_suffix('.kicad_prl').unlink(missing_ok=True)
 print(json.dumps(dict(drc=err, sin_conectar=len(d['unconnected_items']), alambres=len(filas))))

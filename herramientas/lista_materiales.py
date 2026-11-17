@@ -14,10 +14,13 @@ DESC = {
     "POT": "Potenciómetro",
     "D": "Diodo de señal",
     "JACK": "Jack hembra estéreo 3,5 mm para PCB",
+    "CONN2": "Bornera de alimentación 1 × 2",
+    "CONN3": "Espadín macho 1 × 3",
     "CONN4": "Espadín macho 1 × 4",
+    "BUFFER": "Adaptador lógico cuádruple 74AHCT125 (DIP-14)",
     "TFT": "Zócalo hembra 1 × 14 (pantalla)",
     "SW": "Pulsador táctil 6 × 6 mm (eje largo)",
-    "OPAMP": "Amplificador operacional cuádruple riel a riel MCP6004-I/P (DIP-14) + zócalo",
+    "OPAMP": "Amplificador operacional cuádruple LM324N (DIP-14) + zócalo",
     "ESP32": "Tarjeta ESP32-DevKitC V4 (38 pines) + 2 zócalos hembra 1 × 19",
 }
 
@@ -44,7 +47,8 @@ for p in cto.PIEZAS:
     k = (p["tipo"], p["valor"], p["huella"].split(":")[1])
     grupos.setdefault(k, []).append(p["ref"])
 
-orden = ["OPAMP", "ESP32", "R", "C", "CP", "POT", "D", "JACK", "CONN4", "TFT", "SW"]
+orden = ["OPAMP", "BUFFER", "ESP32", "R", "C", "CP", "POT", "D", "JACK",
+         "CONN2", "CONN3", "CONN4", "TFT", "SW"]
 filas = sorted(grupos.items(), key=lambda kv: (orden.index(kv[0][0]), kv[0][1]))
 print("| # | Referencias | Descripción | Valor | Cant. |")
 print("|---:|---|---|---|---:|")
@@ -57,7 +61,7 @@ for (tipo, valor, huella), refs in filas:
     if tipo == "POT":
         d = "Potenciómetro deslizable 30 mm (Bourns PTA3043)" if "Slide" in huella else "Potenciómetro rotativo 9 mm (Alps RK09K), eje 20 mm"
     v = valor.replace(" film", "").replace("u", " µ").replace("n", " n") if tipo in ("C", "CP") else valor
-    if tipo in ("JACK", "CONN4", "TFT", "SW", "ESP32", "OPAMP"):
+    if tipo in ("JACK", "CONN2", "CONN3", "CONN4", "TFT", "SW", "ESP32", "OPAMP", "BUFFER"):
         v = "—"
     print(f"| {n} | {rango(refs)} | {d} | {v} | {len(refs)} |")
 for ref, d, c, uso in cto.FUERA:

@@ -112,7 +112,7 @@ for style in word.styles:
 word.save(word_path)
 
 # Los proyectos y planos viajan con el PDF, sin depender de un enlace GitHub todavía no publicado.
-attachments = list((root/'simulacion/velxio').glob('integrado-*.vlx')) + [root/'simulacion/velxio/INTEGRADO.md'] + list((root/'simulacion/velxio').glob('filtros-*.vlx')) + [root/'simulacion/velxio/led-animado.vlx',root/'hardware/ecualizador.pdf', root/'hardware/pcb-rev-D2.pdf',root/'hardware/PUENTES.md',root/'hardware/una-cara/LEEME.md',root/'simulacion/velxio/DEMO-HOY.md']
+attachments = list((root/'simulacion/velxio').glob('integrado-*.vlx')) + [root/'simulacion/velxio/INTEGRADO.md'] + list((root/'simulacion/velxio').glob('filtros-*.vlx')) + [root/'simulacion/velxio/led-animado.vlx',root/'hardware/archivo/D3-logico/ecualizador-D3-logico.pdf', root/'hardware/pcb-rev-D2.pdf',root/'hardware/PUENTES.md',root/'hardware/una-cara/LEEME.md',root/'simulacion/velxio/DEMO-HOY.md']
 for target in [root/'docs/informe-fase2.pdf',deck/'presentacion-fase2.pdf',deck/'presentacion-animada.pdf']:
     output=fitz.open(target)
     for item in attachments:

@@ -1,0 +1,8 @@
+{
+  "pcb": "../../hardware/E3-LM324/placa/ecualizador-E3-LM324.kicad_pcb",
+  "track_min_mm": 0.7,
+  "pad_min_mm": 1.9,
+  "vias": 0,
+  "forbidden_2_54_crossings": [],
+  "errors": []
+}

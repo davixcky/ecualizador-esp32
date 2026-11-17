@@ -1,11 +1,12 @@
 """Descripción única del circuito del ecualizador: piezas, valores, huellas y redes.
 
-De este archivo salen la simulación (simulacion.py), el esquemático (generar_esquematico.py),
-la PCB (generar_pcb.py) y la lista de materiales. Si se cambia un valor aquí, se regeneran
-los tres y no quedan desalineados.
+De este archivo salen la simulación (simulacion.py), el esquemático (generar_esquematico.py)
+y la lista de materiales. El generador de PCB también lo consume, pero la PCB D.2 archivada
+no se ha reruteado para D.3-LM324; hardware/RETROFIT-LM324.md documenta su adaptación.
 
-Redes de alimentación: +5V (USB del DevKitC), +3V3 (regulador del DevKitC), +3.3VA (+3V3
-filtrada para los amplificadores operacionales) y GND. VREF = 1,65 V es la tierra de señal.
+Redes de alimentación: +5V (fuente de los LM324 y cargas de potencia), +3V3 (regulador
+del DevKitC), +3.3VA (+3V3 filtrada para generar VREF) y GND. VREF = 1,65 V es la
+tierra de señal.
 """
 
 # ---------------------------------------------------------------- huellas
@@ -50,7 +51,7 @@ def POT(ref, valor, extremo1, cursor, extremo3, funcion, huella=H_POT):
     parte(ref, "POT", valor, {"1": extremo1, "2": cursor, "3": extremo3}, huella, funcion)
 
 
-# Unidades de los MCP6004 (pines de DIP-14): (+, −, salida)
+# Unidades de los LM324N (pines de DIP-14): (+, −, salida)
 PINES_UNIDAD = {"A": ("3", "2", "1"), "B": ("5", "6", "7"), "C": ("10", "9", "8"), "D": ("12", "13", "14")}
 UNIDADES = {}   # "U1A": (+, −, salida, función)
 
@@ -65,7 +66,7 @@ CP("C1", "100u 10V", "+3.3VA", "GND", "Filtro de la alimentación analógica", H
 C("C2", "100n", "+3.3VA", "GND", "Desacople de alta frecuencia de +3.3VA")
 CP("C3", "470u 10V", "+5V", "GND", "Reserva de 5 V para el amplificador de potencia", H_CP8)
 for i, u in enumerate(("U1", "U2", "U3", "U4")):
-    C(f"C{4 + i}", "100n", "+3.3VA", "GND", f"Desacople de {u}")
+    C(f"C{4 + i}", "100n", "+5V", "GND", f"Desacople local de {u}")
 
 # --- referencia de señal
 R("R2", "10k 1%", "+3.3VA", "VDIV", "Divisor de VREF")
@@ -140,9 +141,9 @@ parte("J3", "CONN4", "PAM8403", {"1": "+5V", "2": "GND", "3": "AMP_IN", "4": "GN
 # --- filtro antialiasing hacia el ADC (espectro)
 R("R25", "10k 1%", "EQ_OUT", "AA1", "Antialiasing")
 R("R26", "10k 1%", "AA1", "AA2", "Antialiasing")
-C("C20", "4n7 film", "AA1", "ADC_FFT", "Antialiasing (realimentación)", H_CF)
+C("C20", "4n7 film", "AA1", "ADC_FFT_RAW", "Antialiasing (realimentación)", H_CF)
 C("C21", "2n2 film", "AA2", "VREF", "Antialiasing", H_CF)
-AO("U2D", "AA2", "ADC_FFT", "ADC_FFT", "Pasa bajas Sallen-Key antialiasing, fc = 4,95 kHz")
+AO("U2D", "AA2", "ADC_FFT_RAW", "ADC_FFT_RAW", "Pasa bajas Sallen-Key antialiasing, fc = 4,95 kHz")
 
 # --- detectores de pico de precisión
 for banda, cursor, d, ch, rd, det, seg in (("graves", "G_W", "D1", "C22", "R27", "U3A", "U3B"),
@@ -153,7 +154,14 @@ for banda, cursor, d, ch, rd, det, seg in (("graves", "G_W", "D1", "C22", "R27",
     parte(d, "D", "1N4148", {"1": f"DET_{k}", "2": f"DO_{k}"}, H_D, f"Diodo del detector de {banda}")
     C(ch, "100n film", f"DET_{k}", "VREF", f"Retención del detector de {banda}", H_CF)
     R(rd, "220k", f"DET_{k}", "VREF", f"Descarga del detector de {banda} (τ = 22 ms)")
-    AO(seg, f"DET_{k}", f"ADC_{k}", f"ADC_{k}", f"Seguidor del detector de {banda}")
+    AO(seg, f"DET_{k}", f"ADC_{k}_RAW", f"ADC_{k}_RAW", f"Seguidor del detector de {banda}")
+
+# --- protección de las entradas ADC con LM324 alimentado a 5 V
+# Cada divisor atenúa alrededor de VREF: ADC = VREF + (RAW - VREF)/2. Por tanto,
+# una salida RAW entre 0 y 5 V queda entre 0,825 y 3,325 V, dentro del dominio de 3,3 V.
+for i, red in enumerate(("ADC_G", "ADC_M", "ADC_A", "ADC_FFT")):
+    R(f"R{33 + 2 * i}", "10k 1%", f"{red}_RAW", red, f"Protección ADC: serie de {red}")
+    R(f"R{34 + 2 * i}", "10k 1%", red, "VREF", f"Protección ADC: atenuación referida a VREF de {red}")
 
 # --- amplificador libre de U4 (entradas a VREF, salida en seguidor)
 AO("U4D", "VREF", "U4D_OUT", "U4D_OUT", "Unidad libre: seguidor de VREF (reserva)")
@@ -194,11 +202,11 @@ parte("U5", "ESP32", "ESP32-DevKitC V4", _pines_esp, H_ESP, "Microcontrolador: A
 
 # Los amplificadores operacionales como piezas DIP-14
 for u in ("U1", "U2", "U3", "U4"):
-    pines = {"4": "+3.3VA", "11": "GND"}
+    pines = {"4": "+5V", "11": "GND"}
     for letra, (pm, pn, po) in PINES_UNIDAD.items():
         mas, menos, sal, _ = UNIDADES[u + letra]
         pines.update({pm: mas, pn: menos, po: sal})
-    parte(u, "OPAMP", "MCP6004", pines, H_DIP, "Cuatro amplificadores operacionales riel a riel")
+    parte(u, "OPAMP", "LM324N", pines, H_DIP, "Cuatro amplificadores operacionales alimentados a 5 V")
 
 # Material que no va en la placa (para la lista de materiales)
 FUERA = [

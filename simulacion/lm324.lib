@@ -1,0 +1,17 @@
+* Macromodelo funcional tipo LM324: A0 = 100 dB, GBW = 1 MHz,
+* SR = 0,5 V/us, salida aproximada VSS+20 mV a VDD-1,5 V, Iq = 175 uA por sección.
+* Pines: entrada +, entrada -, V+, V-, salida.
+.subckt LM324 inp inn vdd vss out
+Rq vdd vss 28.6k
+Emid mid 0 vdd vss 0.5
+* Etapa de transconductancia con corriente limitada (fija la rapidez de cambio)
+Bgm mid n1 I=0.0796*tanh((V(inp)-V(inn))/0.0796)
+R1 n1 mid 1e5
+C1 n1 mid 159.2n
+* Recortadores del nodo interno: evitan que el integrador se sature lejos de los rieles
+Dh n1 vdd DCL
+Dl vss n1 DCL
+Bo o1 0 V=min(max(V(n1), V(vss)+0.02), V(vdd)-1.5)
+Ro o1 out 25
+.model DCL D(IS=1e-12 N=1)
+.ends

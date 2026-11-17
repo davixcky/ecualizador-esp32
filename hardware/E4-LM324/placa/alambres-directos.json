@@ -1,0 +1,18 @@
+[
+ {
+  "ref": "JP24",
+  "red": "/LED_DATA",
+  "de": "taladro propio 183.502,71.554",
+  "a": "taladro propio 182.735,42.220",
+  "largo_mm": 29.3,
+  "taladros_propios": true
+ },
+ {
+  "ref": "JP25",
+  "red": "/TFT_MOSI",
+  "de": "taladro propio 169.690,35.619",
+  "a": "taladro propio 183.502,61.394",
+  "largo_mm": 29.2,
+  "taladros_propios": true
+ }
+]

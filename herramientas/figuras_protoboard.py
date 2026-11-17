@@ -4,7 +4,7 @@ import tempfile,subprocess
 import pymupdf as f
 from generar_esquematico import Esquematico,detector
 root=Path(__file__).resolve().parents[1];outdir=root/'docs/protoboard';mm=72/25.4
-source=f.open(root/'hardware/ecualizador.pdf')
+source=f.open(root/'hardware/archivo/D3-logico/ecualizador-D3-logico.pdf')
 for name,bounds in [('sumador',(12.7,153.67,157,248.92)),('salida',(151,153.67,263,204))]:
     out=f.open();rect=f.Rect(*(v*mm for v in bounds));p=out.new_page(width=rect.width,height=rect.height);p.show_pdf_page(p.rect,source,0,clip=rect);out.save(outdir/f'esquema-{name}.pdf')
 with tempfile.TemporaryDirectory() as folder:

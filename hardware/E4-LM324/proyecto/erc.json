@@ -1,0 +1,383 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-06T09:01:20",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.0",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/e0c17aac-cbb0-5059-91ec-83da70219546",
+            "violations": [
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U6-3'",
+                            "pos": {
+                                "x": 0.8636,
+                                "y": 2.794
+                            },
+                            "uuid": "3cd8eda2-08a8-52e0-8407-041170fa6dae"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-2'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.3556
+                            },
+                            "uuid": "5391e1c8-0fc3-5b32-b897-e18fbbc4b966"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-6'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.4572
+                            },
+                            "uuid": "9123b074-92e9-58ad-8569-0ee9ab4e97ad"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-11'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.5842
+                            },
+                            "uuid": "ba411862-d9dc-5bd5-a7e8-5c685400d81d"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-12'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.6096
+                            },
+                            "uuid": "8641abb7-cae1-5e69-ae20-6900110a95fa"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-13'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.635
+                            },
+                            "uuid": "1868e71e-bef2-5098-9c95-a6a04e04a5dc"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-15'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.6858
+                            },
+                            "uuid": "ca054021-a18f-5eaf-bae2-dccca98d023e"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-16'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.7112
+                            },
+                            "uuid": "cc23f491-0cd2-5b1b-b651-221fb9875684"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-17'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.7366
+                            },
+                            "uuid": "271f7fca-9b98-5c0f-a67b-1bb023a59729"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-18'",
+                            "pos": {
+                                "x": 2.9464,
+                                "y": 0.762
+                            },
+                            "uuid": "c02db7e4-f6bf-58b1-837c-d25c399a9425"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U6-6'",
+                            "pos": {
+                                "x": 1.4732,
+                                "y": 2.794
+                            },
+                            "uuid": "8511e0c9-facb-544b-bbb6-d559503052d3"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-23'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.4064
+                            },
+                            "uuid": "9c606c38-430b-583f-b663-24c5517c7848"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-24'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.4318
+                            },
+                            "uuid": "46cc8a24-58a9-5d4d-9657-1c4098dd6fdd"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-29'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.5588
+                            },
+                            "uuid": "2889f522-3b8e-50b7-b774-27ebbc025b10"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-30'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.5842
+                            },
+                            "uuid": "3084acd0-d73f-50ba-b0cc-0145fa6d935f"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-31'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.6096
+                            },
+                            "uuid": "a8d48441-726f-50a7-b254-250d458d481c"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-33'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.6604
+                            },
+                            "uuid": "162e2c9f-71f1-50ea-a7ec-6b088490c63e"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-34'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.6858
+                            },
+                            "uuid": "a4f24539-77c4-58e1-a3c6-cd633c884aea"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-35'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.7112
+                            },
+                            "uuid": "09c625f7-3f0a-52dc-b529-a8832b7a95e0"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-36'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.7366
+                            },
+                            "uuid": "e5d1c387-9ca2-50d8-a9e5-07e3b25ce423"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-37'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.762
+                            },
+                            "uuid": "78cf4c5a-a1d3-5b9e-b7da-5b714c6360e5"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U5-38'",
+                            "pos": {
+                                "x": 3.3528,
+                                "y": 0.7874
+                            },
+                            "uuid": "ffbd5366-8623-5e9a-a718-bbeb52db8179"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                },
+                {
+                    "description": "Label connected to only one pin",
+                    "items": [
+                        {
+                            "description": "Label 'NC-U6-11'",
+                            "pos": {
+                                "x": 2.6924,
+                                "y": 2.794
+                            },
+                            "uuid": "379d2960-724e-5a6d-b3b4-46388c8a8248"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "isolated_pin_label"
+                }
+            ]
+        }
+    ],
+    "source": "ecualizador-E4-LM324.kicad_sch"
+}

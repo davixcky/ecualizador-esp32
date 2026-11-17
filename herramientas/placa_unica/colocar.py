@@ -14,7 +14,8 @@ SEED, ITER, OUT = int(sys.argv[1]), int(sys.argv[2]), sys.argv[3]
 INICIO = sys.argv[4] if len(sys.argv) > 4 else 'd2'
 random.seed(SEED); np.random.seed(SEED)
 W, H = base.W, base.H
-GAP = 2.0; MARGEN = 1.5; PASO = 0.9 + 2 * 1.1
+GAP = float(os.environ.get('PLACEMENT_GAP', '2.0')); MARGEN = 1.5
+PASO = float(os.environ.get('PCB_TRACK', '0.9')) + 2 * float(os.environ.get('PCB_CLEARANCE', '1.1'))
 XW = float(os.environ.get('XW', 20))
 
 b = base.construir()
@@ -94,6 +95,25 @@ def cruces(A, B, same):
 
 SALTAR = {NI[x] for x in os.environ.get('SALTAR', '').split(',') if x}
 HB = [(hx - 3.5, hy - 3.5, hx + 3.5, hy + 3.5) for hx, hy in base.HOLES]
+
+# Floorplan de montaje: mantiene las funciones reconocibles sin fijar cada pieza a mano.
+# Solo se aplica al pedir FLOORPLAN=1; el coste eléctrico todavía decide la posición fina.
+REGIONES = {}
+def region(caja, refs):
+    for r in refs:
+        if r in REF: REGIONES[r] = caja
+region((5, 5, 58, 34), 'R1 R2 R3 C1 C2 C3 C8'.split())
+region((5, 25, 112, 116), ('J1 RV1 RV2 RV3 RV4 U1 U2 ' +
+       ' '.join(f'R{i}' for i in range(4, 17)) + ' ' + ' '.join(f'C{i}' for i in range(9, 19))).split())
+region((85, 5, 158, 116), ('J2 J3 RV5 U3 U4 D1 D2 D3 ' +
+       ' '.join(f'R{i}' for i in range(17, 30)) + ' ' + ' '.join(f'R{i}' for i in range(33, 41)) + ' ' +
+       ' '.join(f'C{i}' for i in range(19, 25))).split())
+region((145, 5, 198, 118), 'U5 U6 J4 J5 J6 R30 R31 R32 C25 C26 SW1'.split())
+OBJETIVOS = {'J1': (7, 60), 'J2': (150, 8), 'J3': (170, 8), 'J4': (194, 48),
+             'J5': (194, 82), 'J6': (190, 108), 'SW1': (156, 111),
+             'U5': (174, 74), 'U6': (166, 25)}
+PAREJAS = [('C4', 'U1', 12), ('C5', 'U2', 12), ('C6', 'U3', 12), ('C7', 'U4', 12),
+           ('C25', 'U6', 12), ('C26', 'J5', 18), ('R31', 'J5', 12)]
 def costo(pos, pn, detalle=False):
     xy = pads_xy(pos)
     segs, sn, L = [], [], 0.0
@@ -123,11 +143,27 @@ def costo(pos, pn, detalle=False):
     o = ox * oy; np.fill_diagonal(o, 0); ov = o[:NP].sum()
     m = MARGEN - GAP / 2
     fuera = (np.clip(m - B[:NP, 0], 0, None) + np.clip(B[:NP, 2] - (W - m), 0, None) + np.clip(m - B[:NP, 1], 0, None) + np.clip(B[:NP, 3] - (H - m), 0, None)).sum()
-    c = L + XW * (X + Wc) + 40 * ov + 200 * fuera
-    if detalle: return dict(L=round(L), cruces=X, muros=Wc, solape=round(float(ov), 2), fuera=round(float(fuera), 2), costo=round(c))
+    montaje = 0.0
+    if os.environ.get('FLOORPLAN'):
+        fw = float(os.environ.get('FLOORPLAN_W', '18'))
+        for r, (x0, y0, x1, y1) in REGIONES.items():
+            i = REF.index(r); x, y = pos[i, :2]
+            montaje += fw * (max(x0 - x, 0, x - x1) + max(y0 - y, 0, y - y1))
+        for r, (tx, ty) in OBJETIVOS.items():
+            i = REF.index(r); montaje += .7 * fw * math.hypot(pos[i, 0] - tx, pos[i, 1] - ty)
+        for a, z, limite in PAREJAS:
+            ia, iz = REF.index(a), REF.index(z)
+            montaje += 2 * fw * max(0, math.hypot(*(pos[ia, :2] - pos[iz, :2])) - limite)
+    c = L + XW * (X + Wc) + 40 * ov + 200 * fuera + montaje
+    if detalle: return dict(L=round(L), cruces=X, muros=Wc, solape=round(float(ov), 2), fuera=round(float(fuera), 2), montaje=round(montaje), costo=round(c))
     return c
 
-if INICIO == 'd2':
+if os.path.isfile(INICIO):
+    inicial = json.load(open(INICIO)).get('partes', {})
+    pos = np.array([(inicial[r]['x'], inicial[r]['y'], int(inicial[r]['rot']) % 360 // 90)
+                    if r in inicial else (random.uniform(12, W - 12), random.uniform(12, H - 12), random.randrange(4))
+                    for r in REF], float)
+elif INICIO == 'd2':
     pos = np.array([d2[r] for r in REF], float)
 else:
     pos = np.array([[random.uniform(12, W - 12), random.uniform(12, H - 12), random.randrange(4)] for _ in range(NP)], float)

@@ -4,7 +4,13 @@
 
 // ---- entradas analógicas (todas en ADC1: el ADC2 no funciona con Wi-Fi activo)
 // PLACA_E2 (pio run -e e2): pines de la placa única E.2 (hardware/E2-placa-unica).
-#ifdef PLACA_E2
+#if defined(PLACA_E3) || defined(PLACA_E4)
+#define PIN_VREF 35     // GPIO35, ADC1_CH7: VREF = 1,65 V
+#define PIN_GRAVES 39   // GPIO39, ADC1_CH3: detector de graves (ADC_G)
+#define PIN_MEDIOS 36   // GPIO36, ADC1_CH0: detector de medios (ADC_M)
+#define PIN_AGUDOS 32   // GPIO32, ADC1_CH4: detector de agudos (ADC_A)
+#define PIN_FFT 34      // GPIO34, ADC1_CH6: salida tras el antialiasing (ADC_FFT)
+#elif defined(PLACA_E2)
 #define PIN_VREF 32     // GPIO32, ADC1_CH4: VREF = 1,65 V
 #define PIN_GRAVES 34   // GPIO34, ADC1_CH6: detector de graves (ADC_G)
 #define PIN_MEDIOS 36   // GPIO36 (VP), ADC1_CH0: detector de medios (ADC_M)
@@ -19,7 +25,11 @@
 #endif
 
 // ---- pantalla Waveshare 1,9 pulgadas ST7789V2 (SPI por VSPI)
-#ifdef PLACA_E2
+#if defined(PLACA_E3) || defined(PLACA_E4)
+#define TFT_CS 19
+#define TFT_DC 21
+#define TFT_RST 25
+#elif defined(PLACA_E2)
 #define TFT_CS 25
 #define TFT_DC 22
 #define TFT_RST 5
@@ -30,9 +40,15 @@
 #endif
 #define TFT_MOSI 23
 #define TFT_SCK 18
+#if defined(PLACA_E3) || defined(PLACA_E4)
+#define TFT_BL 22
+#else
 #define TFT_BL 19
+#endif
 #define TFT_MISO -1
-#ifdef PLACA_E2
+#if defined(PLACA_E3) || defined(PLACA_E4)
+#define PIN_NEOPIXEL 5
+#elif defined(PLACA_E2)
 #define PIN_NEOPIXEL 21
 #else
 #define PIN_NEOPIXEL 25
@@ -42,7 +58,9 @@
 #define TFT_SPI_HZ 40000000
 
 // ---- pulsador de vista (a GND, pull-up interno)
-#ifdef PLACA_E2
+#if defined(PLACA_E3) || defined(PLACA_E4)
+#define PIN_BOTON 13
+#elif defined(PLACA_E2)
 #define PIN_BOTON 4
 #else
 #define PIN_BOTON 27

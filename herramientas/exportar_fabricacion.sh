@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# D.2: cobre B.Cu; puentes cortos superiores y cableado inferior aislado.
+# Flujo histórico D.2: no es la entrega vigente E.4.
 set -euo pipefail
 cd "$(dirname "$0")/../hardware"
+SCH="archivo/D3-logico/ecualizador-D3-logico.kicad_sch"
 mkdir -p fabricacion/D2
-kicad-cli sch export pdf ecualizador.kicad_sch -o ecualizador.pdf >/dev/null
-kicad-cli sch export bom ecualizador.kicad_sch -o fabricacion/bom.csv --fields 'Reference,Value,Footprint,${QUANTITY}' --group-by Value,Footprint >/dev/null
-kicad-cli pcb drc ecualizador.kicad_pcb -o drc.rpt --schematic-parity --severity-error --exit-code-violations
-kicad-cli sch erc ecualizador.kicad_sch -o erc.rpt --exit-code-violations
+kicad-cli sch export pdf "$SCH" -o archivo/D3-logico/ecualizador-D3-logico.pdf >/dev/null
+kicad-cli sch export bom "$SCH" -o fabricacion/bom.csv --fields 'Reference,Value,Footprint,${QUANTITY}' --group-by Value,Footprint >/dev/null
+kicad-cli pcb drc ecualizador.kicad_pcb -o drc.rpt --severity-error --exit-code-violations
+kicad-cli sch erc "$SCH" -o archivo/D3-logico/erc-D3-logico.rpt --exit-code-violations
 kicad-cli pcb export gerbers ecualizador.kicad_pcb -o fabricacion/D2/ -l B.Cu,B.Mask,Edge.Cuts >/dev/null
 kicad-cli pcb export drill ecualizador.kicad_pcb -o fabricacion/D2/ --generate-map --generate-report >/dev/null
 kicad-cli pcb export pdf ecualizador.kicad_pcb -o una-cara/cobre-inferior-1a1.pdf -l B.Cu,Edge.Cuts --mode-single --scale 1 >/dev/null

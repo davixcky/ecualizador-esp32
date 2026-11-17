@@ -1,5 +1,9 @@
 # PCB D.2 — una cara, con puentes de alambre
 
+> **Diseño anterior:** esta PCB y su BOM corresponden al MCP6004 a 3,3 V. El esquema
+> vigente D.3-LM324 requiere la [adaptación documentada](../RETROFIT-LM324.md), incluidos
+> los atenuadores R33–R40. No fabricar D.2 suponiendo que ya contiene esos cambios.
+
 200 × 120 mm; 79 componentes y 59 redes. Participantes: Leo Rojas, David Orozco y Manuel Castilla.
 
 La placa se fabrica únicamente por **B.Cu**. Las pistas tienen al menos **0,9 mm** y la separación entre cobres es de **1 mm**. El plano de GND ocupa el cobre libre y deja una reserva bajo la antena del ESP32. KiCad conserva dos capas internas para representar los pads pasantes; no se fabrica F.Cu.

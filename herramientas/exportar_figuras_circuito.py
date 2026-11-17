@@ -3,7 +3,7 @@
 from pathlib import Path
 import pymupdf as f
 root=Path(__file__).resolve().parents[1]
-p=f.open(root/'hardware/ecualizador.pdf');mm=72/25.4
+p=f.open(root/'hardware/archivo/D3-logico/ecualizador-D3-logico.pdf');mm=72/25.4
 crops={'entrada':(133.35,15.24,262.89,96.52),'referencia':(12.7,15.24,130.81,96.52),'filtros':(12.7,99.06,407.67,151.13),'graves':(13,107,111,150),'medios':(108,107,299,150),'agudos':(307,107,406,151),'antialias':(151,208,263,248),'pantalla':(266,16,407,96),'sumador':(12.7,153.67,148.59,248.92),'detector-graves':(266,161,380,188),'detectores':(265.43,153.67,407.67,248.92),'neopixel':(12.7,254,407.67,335.28)}
 outdir=root/'img/circuitos';outdir.mkdir(exist_ok=True)
 for name,b in crops.items():

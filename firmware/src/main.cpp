@@ -38,7 +38,13 @@ struct Medida {
 static Medida ultima;
 static portMUX_TYPE candado = portMUX_INITIALIZER_UNLOCKED;
 
-#ifdef PLACA_E2
+#if defined(PLACA_E3) || defined(PLACA_E4)
+static constexpr adc1_channel_t CH_VREF = ADC1_CHANNEL_7;    // GPIO35
+static constexpr adc1_channel_t CH_FFT = ADC1_CHANNEL_6;     // GPIO34
+static constexpr adc1_channel_t CH_BANDA[3] = {ADC1_CHANNEL_3,   // GPIO39 graves
+                                               ADC1_CHANNEL_0,   // GPIO36 medios
+                                               ADC1_CHANNEL_4};  // GPIO32 agudos
+#elif defined(PLACA_E2)
 static constexpr adc1_channel_t CH_VREF = ADC1_CHANNEL_4;    // GPIO32
 static constexpr adc1_channel_t CH_FFT = ADC1_CHANNEL_5;     // GPIO33
 static constexpr adc1_channel_t CH_BANDA[3] = {ADC1_CHANNEL_6,   // GPIO34 graves
@@ -58,6 +64,17 @@ static float leer_v(adc1_channel_t ch, int n) {
   return esp_adc_cal_raw_to_voltage(suma / n, &cal) / 1000.0f;
 }
 
+// R33–R40 atenúan cada señal analógica 2:1 alrededor de VREF para proteger el
+// ESP32 de las salidas de los LM324 alimentados a 5 V. Reconstruye la tensión RAW.
+static float desatenuar_adc(float vadc, float vref) {
+#ifdef PLACA_E2
+  // La propuesta E.2 archivada conserva las entradas directas del diseño MCP6004.
+  return vadc;
+#else
+  return vref + 2.0f * (vadc - vref);
+#endif
+}
+
 static void adquisicion(void*) {
   static uint16_t crudo[dsp::N];
   static float v[dsp::N];
@@ -75,9 +92,13 @@ static void adquisicion(void*) {
     }
     // 2) detectores de pico (tensiones casi continuas) y VREF
     const float vref = leer_v(CH_VREF, PROMEDIO_DET);
-    for (int b = 0; b < 3; ++b) m.banda_mv[b] = dsp::nivel_mv(leer_v(CH_BANDA[b], PROMEDIO_DET), vref);
+    for (int b = 0; b < 3; ++b)
+      m.banda_mv[b] = dsp::nivel_mv(desatenuar_adc(leer_v(CH_BANDA[b], PROMEDIO_DET), vref), vref);
     // 3) espectro
-    for (int i = 0; i < dsp::N; ++i) v[i] = esp_adc_cal_raw_to_voltage(crudo[i], &cal) / 1000.0f;
+    for (int i = 0; i < dsp::N; ++i) {
+      const float vadc = esp_adc_cal_raw_to_voltage(crudo[i], &cal) / 1000.0f;
+      v[i] = desatenuar_adc(vadc, vref);
+    }
     dsp::analizar(v, m.esp, trabajo);
     // 4) forma de onda disparada en el primer cruce ascendente por VREF
     int k0 = 0;

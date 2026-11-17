@@ -1,0 +1,20 @@
+arnes,pin,senal,origen,destino,nota
+JBUS,1,+5V,T4,T1/T2/T3,Distribución en estrella; cable de alimentación
+JBUS,2,GND,T4,T1/T2/T3,Distribución en estrella; retorno común
+JBUS,3,+3V3,T4,T1,Solo T1 usa esta línea para generar +3.3VA y VREF
+JBUS,4,VREF,T1,T2/T3/T4,Referencia analógica 1.65 V; nunca usar como retorno de potencia
+JAB,1,PRE,T1,T2,Salida del preamplificador
+JAB,2,GRAVES,T1,T2,Salida del filtro de graves
+JAB,3,MED_HP,T1,T2,Salida pasa-altas de medios
+JAB,4,GND,T1,T2,Masa acompañante del arnés
+JBC,1,G_W,T2,T3,Cursor de graves hacia detector y sumador
+JBC,2,M_W,T2,T3,Cursor de medios hacia inversor y detector
+JBC,3,A_W,T2,T3,Cursor de agudos hacia detector y sumador
+JBC,4,M_INV,T3,T2,Medios invertidos de regreso al sumador
+JBC,5,GND,T2,T3,Masa acompañante del arnés
+JB4,1,ADC_FFT_RAW,T2,T4,FFT antes del atenuador 2 a 1
+JB4,2,GND,T2,T4,Masa acompañante
+JC4,1,ADC_G_RAW,T3,T4,Nivel de graves antes del atenuador
+JC4,2,ADC_M_RAW,T3,T4,Nivel de medios antes del atenuador
+JC4,3,ADC_A_RAW,T3,T4,Nivel de agudos antes del atenuador
+JC4,4,GND,T3,T4,Masa acompañante

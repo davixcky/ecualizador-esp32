@@ -1,0 +1,198 @@
+{
+    "$schema": "https://schemas.kicad.org/erc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-11-16T11:29:31",
+    "ignored_checks": [
+        {
+            "description": "Global label only appears once in the schematic",
+            "key": "single_global_label"
+        },
+        {
+            "description": "Four connection points are joined together",
+            "key": "four_way_junction"
+        },
+        {
+            "description": "SPICE model issue",
+            "key": "simulation_model_issue"
+        },
+        {
+            "description": "Assigned footprint doesn't match footprint filters",
+            "key": "footprint_filter"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.0",
+    "sheets": [
+        {
+            "path": "/",
+            "uuid_path": "/e0c17aac-cbb0-5059-91ec-83da70219546",
+            "violations": [
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 3 [A1, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.6924
+                            },
+                            "uuid": "7742e8d2-7fff-55b3-84b1-00db567ecbd3"
+                        },
+                        {
+                            "description": "Symbol #PWR030 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.6924
+                            },
+                            "uuid": "402ec027-8c22-5618-959c-014924440330"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 4 [A2, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.7178
+                            },
+                            "uuid": "dc32e5c0-34e5-57c0-b1ad-aa43956d5141"
+                        },
+                        {
+                            "description": "Symbol #PWR031 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.7178
+                            },
+                            "uuid": "364a7140-cf7a-5ecb-baed-a06dcf45e16b"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 5 [A3, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.7432
+                            },
+                            "uuid": "1afc8b25-b7c8-56bd-b147-9e484dbb6924"
+                        },
+                        {
+                            "description": "Symbol #PWR032 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.7432
+                            },
+                            "uuid": "40cb29ca-5277-5ba8-826a-bb8e2ab2e208"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 6 [A4, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.7686
+                            },
+                            "uuid": "4f894346-a785-50cd-97ef-1ca9017985b0"
+                        },
+                        {
+                            "description": "Symbol #PWR033 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.7686
+                            },
+                            "uuid": "365d064c-a177-56f9-baff-a3cdd34c589c"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 7 [A5, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.794
+                            },
+                            "uuid": "d2c60c5f-46a1-56b6-8bba-8df613e1bfdd"
+                        },
+                        {
+                            "description": "Symbol #PWR034 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.794
+                            },
+                            "uuid": "22ff222c-e83b-5398-a943-964b772d828d"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 8 [A6, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.8194
+                            },
+                            "uuid": "e357d7fd-ff01-5fff-a2f0-a867785f3885"
+                        },
+                        {
+                            "description": "Symbol #PWR035 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.8194
+                            },
+                            "uuid": "9a0dde5f-971d-50bb-ba8c-f34ebef8b894"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                },
+                {
+                    "description": "Pins of type Tri-state and Power input are connected",
+                    "items": [
+                        {
+                            "description": "Symbol U6 Pin 9 [A7, Tri-state, Line]",
+                            "pos": {
+                                "x": 1.2446,
+                                "y": 2.8448
+                            },
+                            "uuid": "1dbf2dd3-0323-5950-aaf2-c4bb2a34d88a"
+                        },
+                        {
+                            "description": "Symbol #PWR036 Pin 1 [Power input, Line]",
+                            "pos": {
+                                "x": 1.2192,
+                                "y": 2.8448
+                            },
+                            "uuid": "1cd95063-735a-507f-9f3a-e6eb3bf31803"
+                        }
+                    ],
+                    "severity": "warning",
+                    "type": "pin_to_pin"
+                }
+            ]
+        }
+    ],
+    "source": "ecualizador-perforadas.kicad_sch"
+}

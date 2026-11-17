@@ -8,9 +8,9 @@ y compara el resultado con el criterio de diseño. Imprime la tabla de resultado
 (../simulacion/resultados.md) y dibuja ../img/sim-*.png.
 
 Supuestos del modelo:
-- MCP6004: macromodelo propio (../simulacion/mcp6004.lib) con ganancia de 100 dB, producto
-  ganancia-ancho de banda de 1 MHz, rapidez de cambio de 0,6 V/µs y salida riel a riel limitada
-  a 20 mV de cada riel, que son los datos típicos de la hoja de datos de Microchip.
+- LM324: macromodelo funcional propio (../simulacion/lm324.lib) con ganancia de 100 dB,
+  producto ganancia-ancho de banda de 1 MHz, rapidez de cambio de 0,5 V/µs y salida
+  aproximada entre VSS + 20 mV y VDD − 1,5 V. No modela distorsión de cruce ni dispersión.
 - 1N4148: modelo estándar de diodo de pequeña señal.
 - Los potenciómetros son dos resistencias; la posición 1 es el cursor en el extremo 1 (máximo).
 - La entrada del ADC del ESP32 se modela como 10 MΩ; el módulo PAM8403 como 20 kΩ.
@@ -34,20 +34,20 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 SIM = os.path.join(AQUI, "..", "simulacion")
 IMG = os.path.join(AQUI, "..", "img")
 
-OPAMP_LIB = """* Macromodelo riel a riel tipo MCP6004 (Microchip): A0 = 100 dB, GBW = 1 MHz,
-* SR = 0,6 V/us, salida limitada a 20 mV de los rieles, Iq = 100 uA.
+OPAMP_LIB = """* Macromodelo funcional tipo LM324: A0 = 100 dB, GBW = 1 MHz,
+* SR = 0,5 V/us, salida aproximada VSS+20 mV a VDD-1,5 V, Iq = 175 uA por sección.
 * Pines: entrada +, entrada -, V+, V-, salida.
-.subckt MCP6004 inp inn vdd vss out
-Rq vdd vss 33k
+.subckt LM324 inp inn vdd vss out
+Rq vdd vss 28.6k
 Emid mid 0 vdd vss 0.5
 * Etapa de transconductancia con corriente limitada (fija la rapidez de cambio)
-Bgm mid n1 I=0.0954*tanh((V(inp)-V(inn))/0.0954)
+Bgm mid n1 I=0.0796*tanh((V(inp)-V(inn))/0.0796)
 R1 n1 mid 1e5
 C1 n1 mid 159.2n
 * Recortadores del nodo interno: evitan que el integrador se sature lejos de los rieles
 Dh n1 vdd DCL
 Dl vss n1 DCL
-Bo o1 0 V=min(max(V(n1), V(vss)+0.02), V(vdd)-0.02)
+Bo o1 0 V=min(max(V(n1), V(vss)+0.02), V(vdd)-1.5)
 Ro o1 out 25
 .model DCL D(IS=1e-12 N=1)
 .ends
@@ -83,7 +83,7 @@ def nodo(red):
 def netlist(pots=None, fuente="AC 1", extra=""):
     """Netlist del circuito. pots = {ref: posición 0..1}; fuente = señal de la entrada J1."""
     pots = pots or {}
-    lineas = [".include mcp6004.lib", "V5 P5V 0 5", "V33 P3V3 0 3.3"]
+    lineas = [".include lm324.lib", "V5 P5V 0 5", "V33 P3V3 0 3.3"]
     for p in cto.PIEZAS:
         ref, t, n = p["ref"], p["tipo"], {k: nodo(v) for k, v in p["pines"].items() if v}
         if t == "R" and ref not in ("R30", "R31", "R32"):
@@ -99,7 +99,7 @@ def netlist(pots=None, fuente="AC 1", extra=""):
             lineas.append(f"{ref} {n['2']} {n['1']} D1N4148")
         elif t == "OPAMP":
             for letra, (pm, pn, po) in cto.PINES_UNIDAD.items():
-                lineas.append(f"X{ref}{letra} {n[pm]} {n[pn]} {n['4']} {n['11']} {n[po]} MCP6004")
+                lineas.append(f"X{ref}{letra} {n[pm]} {n[pn]} {n['4']} {n['11']} {n[po]} LM324")
     lineas += [f"VIN IN_L 0 {fuente}", "Rin_r IN_R IN_L 1m",
                "Ramp AMP_IN 0 20k"] + [f"Radc_{a} {a} 0 10Meg" for a in ("ADC_G", "ADC_M", "ADC_A", "ADC_FFT")]
     # El macromodelo recorta en los rieles, así que el punto de operación tiene soluciones
@@ -113,7 +113,7 @@ def netlist(pots=None, fuente="AC 1", extra=""):
 
 def correr(nombre, cuerpo, analisis, columnas):
     os.makedirs(SIM, exist_ok=True)
-    with open(os.path.join(SIM, "mcp6004.lib"), "w") as f:
+    with open(os.path.join(SIM, "lm324.lib"), "w") as f:
         f.write(OPAMP_LIB)
     datos = f"{nombre}.dat"
     ruta = os.path.join(SIM, f"{nombre}.cir")
@@ -177,10 +177,10 @@ def main():
          "VREF ± 10 mV", max(abs(vpre - vref), abs(veq - vref), abs(vfft - vref)) < 0.01)
     fila("Detector de graves sin señal (ADC_G)", f"{vadc_g:.3f} V", "VREF a VREF + 50 mV",
          -0.005 < vadc_g - vref < 0.05)
-    fila("Alimentación analógica +3.3VA (4 × MCP6004)", f"{v3a:.3f} V", "≥ 3,25 V (caída en R1 < 50 mV)", v3a >= 3.25)
+    fila("+3.3VA para el divisor de VREF", f"{v3a:.3f} V", "≥ 3,25 V (caída en R1 < 50 mV)", v3a >= 3.25)
 
     # ------------------------------------------------ 2. respuesta en frecuencia de cada etapa
-    nodos = ["NIVEL", "PRE", "GRAVES", "MED_HP", "MEDIOS", "AGUDOS", "EQ_OUT", "ADC_FFT"]
+    nodos = ["NIVEL", "PRE", "GRAVES", "MED_HP", "MEDIOS", "AGUDOS", "EQ_OUT", "ADC_FFT_RAW"]
     f, db = ac("ac_plano", {"RV1": 1.0}, nodos)
     rel = {x: db[x] - db["PRE"] for x in nodos}            # filtros respecto a la salida del preamp
     g_pre = en(f, db["PRE"] - db["NIVEL"], 1000)
@@ -192,14 +192,14 @@ def main():
                ("Medios, pasa bajas", "MEDIOS", "lp", 1 / (2 * math.pi * 10e3 * math.sqrt(10e-9 * 4.7e-9)),
                 db["MEDIOS"] - db["MED_HP"]),
                ("Agudos, pasa altas", "AGUDOS", "hp", 1 / (2 * math.pi * 10e-9 * math.sqrt(2.7e3 * 5.6e3)), rel["AGUDOS"]),
-               ("Antialiasing, pasa bajas", "ADC_FFT", "lp", 1 / (2 * math.pi * 10e3 * math.sqrt(4.7e-9 * 2.2e-9)),
-                db["ADC_FFT"] - db["EQ_OUT"])]
+               ("Antialiasing, pasa bajas", "ADC_FFT_RAW", "lp", 1 / (2 * math.pi * 10e3 * math.sqrt(4.7e-9 * 2.2e-9)),
+                db["ADC_FFT_RAW"] - db["EQ_OUT"])]
     cortes = {}
     for nombre, n, tipo, fd, curva in disenos:
         fc = corte(f, curva, 0.0, tipo)
         cortes[n] = fc
         fila(f"Frecuencia de corte: {nombre.lower()}", f"{fc:.0f} Hz", f"{fd:.0f} Hz ± 10 %", abs(fc / fd - 1) < 0.10)
-    aa = db["ADC_FFT"] - db["EQ_OUT"]
+    aa = db["ADC_FFT_RAW"] - db["EQ_OUT"]
     fila("Antialiasing: atenuación a 15 kHz", f"{en(f, aa, 15000):.1f} dB", "≤ −15 dB (señal plegada sobre 5 kHz)",
          en(f, aa, 15000) <= -15)
 
@@ -259,10 +259,10 @@ def main():
     # ------------------------------------------------ 4. detector: linealidad a 1 kHz y respuesta temporal
     lin = []
     for a in (0.03, 0.06, 0.1, 0.15, 0.2, 0.25):
-        t, v = tran(f"tran_lin_{int(a * 1000):03d}", pots_max, f"SIN(0 {a} 1000)", ["ADC_M", "M_W"], t_fin=0.06)
+        t, v = tran(f"tran_lin_{int(a * 1000):03d}", pots_max, f"SIN(0 {a} 1000)", ["ADC_M_RAW", "M_W"], t_fin=0.06)
         m = t > 0.04
         pico = float(v["M_W"][m].max() - vref)
-        det = float(v["ADC_M"][m].mean() - vref)
+        det = float(v["ADC_M_RAW"][m].mean() - vref)
         lin.append((a, pico, det))
     err = max(abs(d_ / p_ - 1) for _, p_, d_ in lin if p_ > 0.1)
     fila("Detector de medios: linealidad entre 0,1 y 0,5 V de pico", f"error máximo {100 * err:.1f} %",
@@ -270,7 +270,7 @@ def main():
     # paquete de tono: 1 kHz durante 40 ms y silencio, para ver el ataque y la descarga
     cuerpo = netlist(pots_max, "0").replace(
         "VIN IN_L 0 0", f"BIN IN_L 0 V={amp_in}*sin(6.283185307*1000*time)*(time<0.04)")
-    d = correr("tran_ataque", cuerpo, ".tran 5u 0.1 0 5u", ["v(ADC_M)", "v(M_W)", "v(DO_M)"])
+    d = correr("tran_ataque", cuerpo, ".tran 5u 0.1 0 5u", ["v(ADC_M_RAW)", "v(M_W)", "v(DO_M)"])
     t_at, adc_at, mw_at = d[:, 0], d[:, 1], d[:, 2]
     pico_final = adc_at[(t_at > 0.03) & (t_at < 0.04)].mean() - vref
     t90 = t_at[np.argmax(adc_at - vref >= 0.9 * pico_final)]
@@ -280,12 +280,28 @@ def main():
          "≈ 37 % (τ = Rd·Ch = 22 ms)", abs(caida / pico_final - 0.37) < 0.08)
 
     # ------------------------------------------------ 5. margen del ADC con todo al máximo
-    t, v = tran("tran_maximo", pots_max, "SIN(0 0.11 1000)", ["ADC_M", "EQ_OUT", "ADC_FFT", "PRE"], t_fin=0.05)
+    entradas_ao = ["PRE_IN", "LB2", "MH2", "ML2", "AH2", "AA2", "G_W", "M_W", "A_W", "VREF"]
+    t, v = tran("tran_maximo", pots_max, "SIN(0 0.11 1000)",
+                ["ADC_M", "ADC_M_RAW", "EQ_OUT", "ADC_FFT", "ADC_FFT_RAW", "PRE"] + entradas_ao,
+                t_fin=0.05)
     m = t > 0.03
     fila("Entrada de 0,11 V de pico (máxima), deslizables al 100 %: ADC_M",
          f"{v['ADC_M'][m].max():.3f} V", "≤ 2,45 V (zona lineal del ADC)", v["ADC_M"][m].max() <= ADC_MAX)
     fila("Ídem: ADC_FFT", f"{v['ADC_FFT'][m].min():.3f} a {v['ADC_FFT'][m].max():.3f} V",
          "0,15 a 2,45 V", ADC_MIN <= v["ADC_FFT"][m].min() and v["ADC_FFT"][m].max() <= ADC_MAX)
+    minimo_ao = min(float(v[x][m].min()) for x in entradas_ao)
+    maximo_ao = max(float(v[x][m].max()) for x in entradas_ao)
+    fila("Rango de modo común en entradas LM324", f"{minimo_ao:.3f} a {maximo_ao:.3f} V",
+         "0 a 3,0 V garantizado en temperatura con alimentación de 5 V",
+         minimo_ao >= 0 and maximo_ao <= 3.0)
+    raw_min = min(float(v[x][m].min()) for x in ("ADC_M_RAW", "ADC_FFT_RAW"))
+    raw_max = max(float(v[x][m].max()) for x in ("ADC_M_RAW", "ADC_FFT_RAW"))
+    adc_min = min(float(v[x][m].min()) for x in ("ADC_M", "ADC_FFT"))
+    adc_max = max(float(v[x][m].max()) for x in ("ADC_M", "ADC_FFT"))
+    fila("Atenuadores de protección ADC referidos a VREF",
+         f"RAW {raw_min:.3f}…{raw_max:.3f} V → ADC {adc_min:.3f}…{adc_max:.3f} V",
+         "ADC = VREF + (RAW − VREF)/2", abs((adc_min - vref) - (raw_min - vref) / 2) < 0.003
+         and abs((adc_max - vref) - (raw_max - vref) / 2) < 0.003)
 
     # Curva dedicada a la sustentación: ejes y leyenda legibles al proyectar.
     fig, ax = plt.subplots(figsize=(10, 4.1))
@@ -335,7 +351,7 @@ def main():
     ax = ejes[1][1]
     m = t_at < 0.1
     ax.plot(1000 * t_at[m], mw_at[m], color="#29a35a", lw=0.5, alpha=0.6, label="Cursor de medios (M_W)")
-    ax.plot(1000 * t_at[m], adc_at[m], color="k", lw=2, label="Salida del detector (ADC_M → GPIO35)")
+    ax.plot(1000 * t_at[m], adc_at[m], color="k", lw=2, label="Salida RAW del detector de medios")
     ax.axhline(vref, color="gray", ls=":", lw=1)
     ax.axhline(ADC_MAX, color="#c0392b", ls="--", lw=1, label="Límite lineal del ADC (2,45 V)")
     ax.set(title="d) Detector de picos: paquete de 1 kHz de 40 ms", xlabel="Tiempo (ms)", ylabel="Tensión (V)",
@@ -361,7 +377,7 @@ def main():
     lim = max(p for _, p, _ in lin) * 1.05
     ax.plot([0, lim], [0, lim], "--", color="gray", label="Ideal (salida = pico)")
     ax.set(title="f) Linealidad del detector de medios a 1 kHz", xlabel="Pico en el cursor M_W (V)",
-           ylabel="ADC_M − VREF (V)")
+           ylabel="ADC_M_RAW − VREF (V)")
     ax.grid(True, alpha=0.3)
     ax.legend(fontsize=8)
     fig.tight_layout()

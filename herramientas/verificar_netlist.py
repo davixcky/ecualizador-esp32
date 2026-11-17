@@ -16,7 +16,9 @@ import circuito as cto  # noqa: E402
 from sexpr import find, find1, parse  # noqa: E402
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-SCH = os.path.join(AQUI, "..", "hardware", "ecualizador.kicad_sch")
+SCH = os.path.join(
+    AQUI, "..", "hardware", "archivo", "D3-logico", "ecualizador-D3-logico.kicad_sch"
+)
 
 
 def _arbol(ruta_sch=SCH):

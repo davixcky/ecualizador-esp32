@@ -33,7 +33,23 @@ def pour(b):
     b.Add(a)
     pass
 
+def bloquear_vias_bajo_componentes(b):
+    """Reserva las courtyards para que los taladros de los puentes queden accesibles."""
+    if not os.environ.get('EASY_SOLDER'):
+        return
+    for f in b.GetFootprints():
+        if f.GetReference().startswith(('JP', 'H')):
+            continue
+        cy = f.GetCourtyard(k.F_CrtYd); bb = cy.BBox() if cy.OutlineCount() else f.GetBoundingBox(False)
+        margen = MM(.8); x0, y0, x1, y1 = bb.GetLeft()-margen, bb.GetTop()-margen, bb.GetRight()+margen, bb.GetBottom()+margen
+        z = k.ZONE(b); z.SetIsRuleArea(True); z.SetLayer(k.B_Cu); z.SetDoNotAllowVias(True)
+        z.SetDoNotAllowTracks(False); z.SetDoNotAllowPads(False); z.SetDoNotAllowZoneFills(False); z.SetDoNotAllowFootprints(False)
+        o=z.Outline();o.NewOutline()
+        for x,y in ((x0,y0),(x1,y0),(x1,y1),(x0,y1)):o.Append(x,y)
+        b.Add(z)
+
 b = base.construir(base.overrides_de(col)); base.colocar(b, col)
+bloquear_vias_bajo_componentes(b)
 if os.environ.get('CL'):
     cl = float(os.environ['CL']); ds = b.GetDesignSettings(); ds.m_MinClearance = MM(cl)
     for nc in [ds.m_NetSettings.GetDefaultNetclass(), ds.m_NetSettings.GetNetClassByName('Alimentacion')]:

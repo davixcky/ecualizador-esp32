@@ -3,13 +3,15 @@ import os,re
 import pcbnew
 from pcbnew import FromMM as MM,ToMM,VECTOR2I
 W,H=200.0,120.0
-SEP=1.1
+SEP=float(os.environ.get('PCB_CLEARANCE', '1.1'))
+PAD_MIN=float(os.environ.get('PCB_PAD_MIN', '2.0'))
+PAD_FREE=float(os.environ.get('PCB_PAD_FREE', str(PAD_MIN)))
 BORDE=1.5
 COSTO_VIA=int(os.environ.get('VIA_COST',400))
 COSTO_PUENTE=float(os.environ.get('JUMPER_COST',20))
 
 def agrandar_pads(fp):
-    """Pads de al menos 2 mm (ovalados en filas de 2,54 mm) sin romper la separación."""
+    """Ajusta los pads PTH al mínimo de fabricación sin invadir el pad vecino."""
     pads = list(fp.Pads())
     pos = [(ToMM(p.GetPosition().x), ToMM(p.GetPosition().y)) for p in pads]
     for p, (x, y) in zip(pads, pos):
@@ -19,12 +21,12 @@ def agrandar_pads(fp):
         dy = min([abs(y - b) for a, b in pos if abs(x - a) < 0.1 and abs(y - b) > 0.1] or [99])
         s = p.GetSize(pcbnew.F_Cu)
         sx, sy = ToMM(s.x), ToMM(s.y)
-        tx = min(max(sx, 2.0), dx - SEP - 0.04)
-        ty = min(max(sy, 2.0), dy - SEP - 0.04)
+        tx = min(max(sx, PAD_FREE), dx - SEP - 0.04)
+        ty = min(max(sy, PAD_FREE), dy - SEP - 0.04)
         if dy < 3 and dx >= 5:
-            tx = max(tx, 2.4)
+            tx = max(tx, max(2.4, PAD_MIN))
         if dx < 3 and dy >= 5:
-            ty = max(ty, 2.4)
+            ty = max(ty, max(2.4, PAD_MIN))
         # No se achica por debajo de la biblioteca salvo que haga falta para la separación mínima.
         tx = max(tx, min(sx, dx - SEP - 0.04))
         ty = max(ty, min(sy, dy - SEP - 0.04))
@@ -147,7 +149,8 @@ def agregar_puente(b, ref, red, pts, aristas):
         p.SetNumber("1")
         p.SetAttribute(pcbnew.PAD_ATTRIB_PTH)
         p.SetShape(pcbnew.F_Cu, pcbnew.PAD_SHAPE_CIRCLE)
-        p.SetSize(pcbnew.F_Cu, VECTOR2I(MM(2.0), MM(2.0)))
+        jumper_pad = float(os.environ.get('PCB_JUMPER_PAD', '2.0'))
+        p.SetSize(pcbnew.F_Cu, VECTOR2I(MM(jumper_pad), MM(jumper_pad)))
         p.SetDrillSize(VECTOR2I(MM(0.8), MM(0.8)))
         p.SetLayerSet(pcbnew.PAD.PTHMask())
         fp.Add(p)

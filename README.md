@@ -24,24 +24,29 @@ La ruta de audio usa filtros activos y controles analógicos. El ESP32 lee los n
 | Ensayo de hoy | [Generador y osciloscopio: guía](simulacion/velxio/DEMO-HOY.md) |
 | Paquete para otro computador | [ZIP portátil: presentación, esquema y simulaciones](docs/exposicion-portable.zip) |
 | Simulación en Velxio | [Abrir casos locales](simulacion/velxio/index.html) · [Instrucciones y alcance](simulacion/velxio/README.md) · [100 Hz](simulacion/velxio/filtros-100Hz.vlx) · [1 kHz](simulacion/velxio/filtros-1000Hz.vlx) · [8 kHz](simulacion/velxio/filtros-8000Hz.vlx) |
-| Esquemático | [PDF](hardware/ecualizador.pdf) · [KiCad](hardware/ecualizador.kicad_sch) · [ERC](hardware/erc.rpt) |
-| PCB de una cara D.2 | [Plano PDF](hardware/pcb-rev-D2.pdf) · [KiCad](hardware/ecualizador.kicad_pcb) · [DRC](hardware/drc.rpt) · [Montaje y puentes](hardware/una-cara/LEEME.md) · [BOM](hardware/fabricacion/bom.csv) |
-| Modelos 3D | [Gabinete STEP](cad/ecualizador-gabinete.step) · [Piezas STL](cad/stl/) · [PCB STEP](hardware/3d/ecualizador-placa.step) · [PCB VRML](hardware/3d/ecualizador-placa.wrl) |
+| Proyecto único E.4-LM324 | [Abrir en KiCad](hardware/E4-LM324/proyecto/ecualizador-E4-LM324.kicad_pro) · [Esquema PDF](hardware/E4-LM324/proyecto/ecualizador-E4-LM324.pdf) · [Fabricación](hardware/E4-LM324/fabricacion/) · [Vista superior](hardware/E4-LM324/vistas/3d-top.png) · [Vista inferior](hardware/E4-LM324/vistas/3d-bottom.png) · [Montaje](hardware/E4-LM324/README.md) |
+| Prototipo modular E.5 en tarjetas perforadas | [Esquema modular PDF](hardware/E5-perforadas/esquema-modular-perforadas.pdf) · [Proyecto KiCad](hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_pro) · [Conexiones](hardware/E5-perforadas/conexiones-entre-tarjetas.csv) · [Guía](hardware/E5-perforadas/README.md) |
+| PCB E.3-LM324 de una cara | [KiCad](hardware/E3-LM324/placa/ecualizador-E3-LM324.kicad_pcb) · [Fabricación](hardware/E3-LM324/fabricacion/) · [Vista superior](hardware/E3-LM324/vistas/3d-top.png) · [Vista inferior](hardware/E3-LM324/vistas/3d-bottom.png) · [Reglas y montaje](hardware/E3-LM324/README.md) |
+| PCB de una cara D.2 (anterior, MCP6004) | [Plano PDF](hardware/pcb-rev-D2.pdf) · [KiCad](hardware/ecualizador.kicad_pcb) · [DRC](hardware/drc.rpt) · [Montaje y puentes](hardware/una-cara/LEEME.md) · [BOM](hardware/fabricacion/bom.csv) |
+| Modelos 3D | [Gabinete STEP](cad/ecualizador-gabinete.step) · [Piezas STL](cad/stl/) · [Retrofit D.3 STEP](hardware/3d/ecualizador-D3-retrofit.step) · [Vista superior](hardware/3d/ecualizador-D3-retrofit.png) · [Vista inferior](hardware/3d/ecualizador-D3-retrofit-inferior.png) · [PCB D.2 STEP](hardware/3d/ecualizador-placa.step) |
 | Propuesta original y rúbrica | [Fase 1](docs/fase1/) |
 
 ![Diseño del gabinete](img/3d-gabinete-cerrado.png)
 
-## Estado de la revisión del 22 de octubre de 2026
+## Estado de la revisión del 5 de noviembre de 2026
 
-- ERC: cero errores y cero advertencias. Las 59 redes coinciden pin a pin con la definición del circuito.
-- DRC D.2: cero infracciones, cero pads sin conectar y cero diferencias con el esquema. El DRC comprueba las 59 redes mediante cobre inferior, plano de GND y 80 cables. Las comprobaciones y límites de montaje se documentan en [la guía](hardware/una-cara/LEEME.md).
-- ngspice: 23 casos del diseño revisado cumplen sus criterios. El caso histórico de Fase 1 reproduce el valle que motivó la corrección. El macromodelo del operacional es una aproximación propia.
+- E.4-LM324 es la fuente única de fabricación: esquema físico y PCB en el mismo proyecto, paridad estricta KiCad con 0 diferencias, ERC con 0 errores y DRC con 0 errores/0 conexiones abiertas. Los 23 avisos ERC son exclusivamente pines `NC-*` intencionales.
+- D.3 usa cuatro LM324N a 5 V, conserva VREF en 1,65 V y protege las cuatro entradas ADC con atenuadores 2:1 referidos a VREF. El firmware reconstruye la amplitud original.
+- ngspice: 25 casos del diseño revisado cumplen; el caso histórico de Fase 1 se conserva deliberadamente como no conforme. El modelo funcional del LM324 valida margen de modo común, dinámica y protección ADC, pero no sustituye mediciones físicas.
+- La PCB D.2 archivada conserva el ruteo y BOM del MCP6004 a 3,3 V. No coincide directamente con D.3: para reutilizarla se debe seguir la [adaptación LM324](hardware/RETROFIT-LM324.md). No enviar D.2 a fabricar como si ya incorporara R33–R40.
+- La nueva PCB [E.3-LM324](hardware/E3-LM324/README.md) incorpora LM324 a 5 V y R33–R40: una cara, 23 alambres, pistas de 0,7 mm o más, donas de 1,9 mm o más y ninguna pista de paso entre pines a 2,54 mm. DRC sin errores ni conexiones abiertas; montaje físico pendiente.
+- E.4 sustituye a E.3 como opción recomendada para soldadura manual: pads de componentes ovalados de al menos 2,4 × 2,0 mm, pads propios de puente de 2,4 mm, 25 alambres de hasta 30,9 mm, alimentación +5 V perimetral y ningún puente reutiliza un agujero de componente.
 - Velxio: tres proyectos ejecutados con motor SPICE; predominan graves a 100 Hz, medios a 1 kHz y agudos a 8 kHz. Los filtros usan operacionales ideales. Un cuarto [ensayo animado de 12 NeoPixel](simulacion/velxio/led-animado.vlx) ejecuta código del ESP32; usa un patrón programado sin audio.
 - Velxio integrado: entrada → filtros → detectores → ADC ESP32 → TFT ILI9341, usando QEMU. Se comprueba el predominio de cada banda con 100 Hz, 1 kHz y 8 kHz. FFT sin calibración de frecuencia; no incluye potencia ni adaptación LED. [Guía y modelos](simulacion/velxio/INTEGRADO.md).
 - Firmware: compilación ESP32 correcta; 19 comprobaciones DSP y cinco comparaciones de dibujo por franjas correctas en el computador.
 - El montaje físico, las mediciones con instrumentos y el requisito de más del 70 % de dispositivos adquiridos y conectados **siguen sin evidencia en este repositorio**.
 
-Los [registros de validación](docs/validacion/) conservan los resultados. Los renders provienen del CAD y de KiCad; las pantallas se dibujan con el código de interfaz y datos de ejemplo.
+Los [resultados ngspice vigentes](simulacion/resultados.md) corresponden a D.3-LM324; `docs/validacion/` conserva registros históricos de D.2. Los renders provienen del CAD y de KiCad; las pantallas se dibujan con el código de interfaz y datos de ejemplo.
 
 ## Pantalla e iluminación
 
@@ -68,10 +73,10 @@ make -C firmware/test prueba pantallas
 python3 herramientas/verificar_netlist.py
 .venv/bin/python herramientas/simulacion.py
 
-# PCB de una cara: regenerar y verificar
-python3 herramientas/generar_esquematico.py
-python3 herramientas/generar_pcb.py
-bash herramientas/exportar_fabricacion.sh
+# PCB de una cara: regenerar el esquema físico E.4 y verificar
+python3 herramientas/generar_esquematico_e4.py
+kicad-cli pcb drc --schematic-parity hardware/E4-LM324/proyecto/ecualizador-E4-LM324.kicad_pcb
+python3 herramientas/validar_pcb_cnc.py hardware/E4-LM324/proyecto/ecualizador-E4-LM324.kicad_pcb 0.7 1.9
 
 # CAD (CadQuery) y renders (Blender, KiCad)
 .venv/bin/python herramientas/validar_cad.py

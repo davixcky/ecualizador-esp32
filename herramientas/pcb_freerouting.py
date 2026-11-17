@@ -13,9 +13,10 @@ POS=HW/'una-cara/colocacion.json';SES=HW/'ruteo-freerouting.ses'
 def construir():
  import circuito
  placement=json.loads(POS.read_text());pinnets,stamps=netlist_kicad();b=k.BOARD();b.SetCopperLayerCount(2)
- ds=b.GetDesignSettings();ds.m_MinClearance=MM(1.1);ds.m_TrackMinWidth=MM(.9);ds.m_CopperEdgeClearance=MM(.5);ds.m_ViasMinSize=MM(2);ds.m_MinThroughDrill=MM(.8)
- nc=ds.m_NetSettings.GetDefaultNetclass();nc.SetTrackWidth(MM(.9));nc.SetClearance(MM(1.1));nc.SetViaDiameter(MM(2));nc.SetViaDrill(MM(.8))
- power=k.NETCLASS('Alimentacion');power.SetTrackWidth(MM(1.2));power.SetClearance(MM(1.1));power.SetViaDiameter(MM(2));power.SetViaDrill(MM(.8));ds.m_NetSettings.SetNetclass('Alimentacion',power)
+ clearance=float(os.environ.get('PCB_CLEARANCE','1.1'));track=float(os.environ.get('PCB_TRACK','0.9'));power_track=float(os.environ.get('PCB_POWER_TRACK','1.2'));via=float(os.environ.get('PCB_VIA','2.0'))
+ ds=b.GetDesignSettings();ds.m_MinClearance=MM(clearance);ds.m_TrackMinWidth=MM(track);ds.m_CopperEdgeClearance=MM(.5);ds.m_ViasMinSize=MM(via);ds.m_MinThroughDrill=MM(.8)
+ nc=ds.m_NetSettings.GetDefaultNetclass();nc.SetTrackWidth(MM(track));nc.SetClearance(MM(clearance));nc.SetViaDiameter(MM(via));nc.SetViaDrill(MM(.8))
+ power=k.NETCLASS('Alimentacion');power.SetTrackWidth(MM(power_track));power.SetClearance(MM(clearance));power.SetViaDiameter(MM(via));power.SetViaDrill(MM(.8));ds.m_NetSettings.SetNetclass('Alimentacion',power)
  for name in ['GND','+5V','+3V3','+3.3VA']:ds.m_NetSettings.SetNetclassPatternAssignment(name,'Alimentacion')
  nets={}
  for name in sorted(set(pinnets.values())):
@@ -58,10 +59,13 @@ def construir():
  return b
 
 def reglas(path):
- pro=json.loads((HW/'ecualizador.kicad_pro').read_text());ds=pro['board']['design_settings'];ds['rules'].update(min_clearance=1.0,min_track_width=.9)
+ clearance=float(os.environ.get('PCB_CLEARANCE','1.0'));track=float(os.environ.get('PCB_TRACK','0.9'));power_track=float(os.environ.get('PCB_POWER_TRACK','1.2'));via=float(os.environ.get('PCB_VIA','2.0'))
+ pro=json.loads((HW/'ecualizador.kicad_pro').read_text());ds=pro['board']['design_settings'];ds['rules'].update(min_clearance=clearance,min_track_width=track)
  ds['rule_severities'].update(lib_footprint_mismatch='ignore',pth_inside_courtyard='warning')
- pro['net_settings']['classes'][0].update(clearance=1.0,track_width=.9,via_diameter=2.0,via_drill=.8)
- for nc in pro['net_settings']['classes']:nc['clearance']=1.0
+ pro['net_settings']['classes'][0].update(clearance=clearance,track_width=track,via_diameter=via,via_drill=.8)
+ for nc in pro['net_settings']['classes']:
+  nc['clearance']=clearance
+  if nc.get('name')=='Alimentacion':nc['track_width']=power_track
  path.write_text(json.dumps(pro,indent=2))
 
 def relleno_gnd(b):

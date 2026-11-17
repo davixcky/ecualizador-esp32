@@ -72,6 +72,20 @@ def construir(overrides=None):
     _overrides.clear(); _overrides.update(overrides or {})
     os.environ.pop('GRUPO', None)
     b = pf.construir()
+    # La colocación D.2 archivada no contiene piezas añadidas en revisiones posteriores.
+    # Incorporarlas aquí permite crear una placa nueva sin alterar ni invalidar D.2.
+    import circuito
+    pn, st = netlist_actual(); existentes = {f.GetReference() for f in b.GetFootprints()}
+    for pieza in circuito.PIEZAS:
+        ref = pieza['ref']
+        if ref in existentes:
+            continue
+        fp = _huella(pieza['huella']); fp.SetReference(ref); fp.SetValue(pieza['valor'])
+        fp.SetPath(k.KIID_PATH('/' + st[ref])); b.Add(fp); motor.agrandar_pads(fp)
+        for pad in fp.Pads():
+            nombre = pn.get((ref, pad.GetNumber()))
+            if nombre: pad.SetNet(b.FindNet(nombre))
+        fp.Reference().SetVisible(True); fp.Value().SetVisible(False)
     for f in list(b.GetFootprints()):
         if f.GetReference().startswith('H') and 'Mounting' in f.GetFPID().GetLibItemName().wx_str(): b.Remove(f)
     for d in list(b.GetDrawings()):
