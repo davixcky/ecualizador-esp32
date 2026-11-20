@@ -11,7 +11,7 @@
 | 24–28 s | Regreso a los tres controles al 50 %. |
 | 28–36 s | Apertura de la tapa imantada, vista de la PCB y cierre. |
 
-El audio cambia según la posición del deslizador; la pantalla muestra el espectro y la energía del audio procesado. Los NeoPixel toman el color de la banda que se está ajustando y su intensidad sigue la energía del sonido. Los porcentajes del rótulo indican recorrido del control, no ganancia en dB.
+El audio cambia según la posición del deslizador; la pantalla muestra el espectro y la energía del audio procesado. Los 12 NeoPixel reproducen el firmware actual: cuatro naranja para graves, cuatro verdes para medios y cuatro azules para agudos, con brillo fijo tenue para no introducir ruido durante la adquisición ADC. Los porcentajes del rótulo indican recorrido del control, no ganancia en dB.
 
 ## Cómo se produce el sonido
 

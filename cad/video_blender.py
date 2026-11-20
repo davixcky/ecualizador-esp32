@@ -35,18 +35,45 @@ tex=s['tex']; tex.image=bpy.data.images.load(str(ROOT/'video-texturas/tft-0001.p
 tex.image.source='SEQUENCE'; tex.image_user.frame_duration=FRAMES
 tex.image_user.frame_start=1; tex.image_user.use_auto_refresh=True
 tex.interpolation='Closest'
-# LED: color de la banda que se está ajustando; intensidad a partir del audio.
+# LED conforme al firmware: 12 píxeles fijos y tenues, cuatro por banda.
+# En el producto se reparten simétricamente 2+2+2 por cada ventana lateral.
 rows=json.loads((OUT/'demo-timeline.json').read_text())
 palette=[(1,.24,.035,1),(.04,.8,.35,1),(.035,.45,1,1)]
-for key in ['led','difusor']:
+for key in ('led','difusor'):
     node=mats[key].node_tree.nodes['Principled BSDF']
-    for fr,row in enumerate(rows,1):
-        color=palette[row['active']] if row['active'] is not None else (.05,.5,.8,1)
-        for field in ['Emission Color','Base Color']:
-            node.inputs[field].default_value=color
-            node.inputs[field].keyframe_insert('default_value',frame=fr)
-        node.inputs['Emission Strength'].default_value=.65+2.1*max(row['bands'])
-        node.inputs['Emission Strength'].keyframe_insert('default_value',frame=fr)
+    node.inputs['Base Color'].default_value=(.72,.78,.82,1)
+    node.inputs['Emission Color'].default_value=(.16,.2,.22,1)
+    node.inputs['Emission Strength'].default_value=.18
+for name in ('led0','led1'):
+    obj[name].hide_render=True
+for name in ('difusor0','difusor1'):
+    obj[name].hide_render=True
+for side,y in enumerate((-63.35,63.35)):
+    for i,x in enumerate((-41.667,-25,-8.333,8.333,25,41.667)):
+        band=i//2
+        mat=bpy.data.materials.new(f'pixel-{side}-{i}')
+        mat.use_nodes=True
+        bs=mat.node_tree.nodes['Principled BSDF']
+        bs.inputs['Base Color'].default_value=palette[band]
+        bs.inputs['Emission Color'].default_value=palette[band]
+        bs.inputs['Emission Strength'].default_value=3.0
+        bpy.ops.mesh.primitive_cube_add(location=(x,y,10.2),scale=(6.7,.28,2.65))
+        px=bpy.context.active_object;px.name=f'NeoPixel_{side}_{i}_{("graves","medios","agudos")[band]}'
+        px.data.materials.append(mat)
+    # Tres piezas opalinas visibles desde el exterior; cada una mezcla dos LED
+    # por lado, dando cuatro LED físicos por banda entre ambas ventanas.
+    for band,x in enumerate((-33.2,0,33.2)):
+        mat=bpy.data.materials.new(f'difusor-banda-{side}-{band}')
+        mat.use_nodes=True
+        bs=mat.node_tree.nodes['Principled BSDF']
+        pale=tuple(min(1,c*.72+.28) for c in palette[band][:3])+(1,)
+        bs.inputs['Base Color'].default_value=pale
+        bs.inputs['Emission Color'].default_value=palette[band]
+        bs.inputs['Emission Strength'].default_value=1.6
+        bs.inputs['Roughness'].default_value=.72
+        bpy.ops.mesh.primitive_cube_add(location=(x,y,10),scale=(16.25,.6,3.4))
+        df=bpy.context.active_object;df.name=f'Difusor_{side}_{("graves","medios","agudos")[band]}'
+        df.data.materials.append(mat)
 # Cámara: vista general, acercamiento a los controles y apertura de tapa.
 shots=[(1,(210,-340,310),(0,0,0),50),(73,(15,-295,410),(0,0,0),52),
        (577,(15,-295,410),(0,0,0),52),(673,(180,-340,340),(0,0,0),49),
