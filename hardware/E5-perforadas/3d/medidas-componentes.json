@@ -1,61 +1,311 @@
 {
-  "revision": "E.5-comprados-2026-11-17",
+  "revision": "E.5-rotativos-2026-11-20",
   "unidades": "mm",
-  "regla": "Una cota 'publicada' viene de la tienda o fabricante; 'conservadora' reserva espacio hasta medir la pieza recibida.",
+  "regla": "estado: 'publicada' viene de la tienda o del fabricante; 'conservadora' reserva espacio hasta medir la pieza; 'supuesto' es una decisión de diseño sin pieza definida. compra: 'verificada' = hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md (factura o albarán); 'declarada' = lo afirma el comprador sin documento en el repositorio; 'carrito' = solo figura en un carrito; 'pendiente' = no comprado.",
+  "evidencia_de_compra": "hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md",
   "componentes": {
     "PCB-FV-7X9-HQ": {
       "cantidad": 1,
-      "envolvente": [90.0, 70.0, 1.6],
+      "envolvente": [
+        90.0,
+        70.0,
+        1.6
+      ],
       "estado": "publicada",
+      "compra": "carrito",
       "fuente": "https://www.didacticaselectronicas.com/shop/pcb-fv-7x9-hq-circuito-impreso-universal-7cm-x-9cm-fibra-de-vidrio-8397",
       "detalle": "26x31 agujeros, paso 2.54, perforacion 1.0"
     },
     "PCB-FV-8X12-HQ": {
       "cantidad": 3,
-      "envolvente": [120.0, 80.0, 1.6],
+      "envolvente": [
+        120.0,
+        80.0,
+        1.6
+      ],
       "estado": "publicada",
+      "compra": "carrito",
       "fuente": "https://www.didacticaselectronicas.com/shop/category/prototipado-fabricacion-de-productos-placas-de-prototipo-perforadas-362"
     },
     "ESP32S-V1.1-USB-C-38P": {
       "cantidad": 1,
-      "envolvente": [58.0, 28.0, 13.0],
+      "envolvente": [
+        58.0,
+        28.0,
+        13.0
+      ],
       "paso_pines": 2.54,
       "separacion_centros_hileras": 25.4,
       "estado": "publicada_equivalente_y_conservadora_en_altura",
+      "compra": "declarada",
       "fuente": "https://www.gravityelectronic.com/shop/esp32s-esp-wroom-32-38-pin-cp2102-type-c-12920",
-      "por_medir": ["largo y ancho exactos de la unidad recibida", "altura total con headers"]
+      "por_medir": [
+        "largo y ancho exactos de la unidad recibida",
+        "altura total con zócalos",
+        "posición del USB-C respecto al borde"
+      ]
     },
-    "TFT-ST7789-1.9-170x320": {
+    "LilyGO-T4-S3-AMOLED-2.41": {
       "cantidad": 1,
-      "envolvente": [51.2, 27.3, 3.0],
-      "estado": "publicada_fabricante_equivalente",
-      "por_medir": ["posicion exacta de agujeros y conector en la unidad CVR"]
-    },
-    "Parlante-PAR01-4ohm-3W": {
-      "cantidad": 1,
-      "envolvente": {"diametro": 38.1, "profundidad_reservada": 13.0},
+      "envolvente": [
+        56.0,
+        44.0,
+        13.0
+      ],
+      "pcb": [
+        51.56,
+        38.72,
+        1.6
+      ],
+      "area_activa": [
+        48.96,
+        36.72
+      ],
+      "resolucion": [
+        450,
+        600
+      ],
       "estado": "mixta",
-      "fuente": "https://www.cvrelectronica.com/description/?product_id=281",
-      "por_medir": ["profundidad", "diametro entre tornillos"]
+      "compra": "pendiente",
+      "fuente": "https://github.com/Xinyuan-LilyGO/LilyGo-AMOLED-Series (dimensions/T4-S3-AMOLED-PCB.dxf, schematic/T4-S3-240719.pdf)",
+      "nota": "Sustituye a la TFT ST7789 de 1,9 pulgadas por decisión del 2026-11-20. Envolvente 56 x 44 x 13 mm publicada por la tienda (el vidrio es mayor que el PCB; los 13 mm incluyen la cabecera de pines). PCB 51,56 x 38,72 del DXF oficial. El área activa se CALCULÓ a partir de 2,41 pulgadas y 450x600 px y se supuso centrada en el vidrio; el reparto de los 13 mm (vidrio 2,0 / adhesivo 0,8 / PCB 1,6 / pines) es un supuesto. Es una placa ESP32-S3 completa con AMOLED RM690B0 y táctil CST226SE.",
+      "enlace_propuesto": {
+        "tipo": "UART a 3,3 V",
+        "ESP32_TX2_GPIO17": "T4-S3 U0RXD GPIO44",
+        "ESP32_RX2_GPIO16": "T4-S3 U0TXD GPIO43",
+        "alimentacion": "+5 V al pin VBUS de la cabecera (inferido del esquema; no conectar a la vez su USB-C)",
+        "GND": "común",
+        "estado": "PROPUESTA: no está en el esquema E.5 ni existe firmware para ninguna de las dos placas"
+      },
+      "por_medir": [
+        "espesor del vidrio y del conjunto sin pines",
+        "posición real del área activa y del PCB respecto al vidrio",
+        "radio de las esquinas del vidrio",
+        "posición del JST UART, USB-C y cabecera",
+        "consumo a 5 V (90 a 230+ mA según el fabricante)"
+      ],
+      "vidrio": [
+        56.0,
+        44.0
+      ],
+      "montaje": "horizontal (600 x 450), vidrio al ras de la tapa; entra desde fuera y la sujeta una placa trasera desmontable por encastre",
+      "fuente_envolvente": "https://lilygo.cc/products/t4-s3 (L 5,6 cm, W 4,4 cm, H 1,3 cm según la imagen de la tienda, vista por el comprador el 2026-11-20)"
+    },
+    "Parlantes-WS-14595-8ohm-5W": {
+      "cantidad": "1 conjunto = 2 parlantes en un mismo conector",
+      "envolvente_por_parlante": [
+        100.0,
+        45.0,
+        21.0
+      ],
+      "estado": "publicada_ambigua",
+      "compra": "verificada",
+      "fuente": "https://www.didacticaselectronicas.com/shop/ws-14595-parlante-8%CF%89-5w-11102",
+      "nota": "La tienda publica 100 x 45 x 21 mm sin aclarar si es por parlante o del conjunto. El modelo reserva esa envolvente para CADA parlante (caso más grande).",
+      "por_medir": [
+        "largo, ancho y fondo de cada parlante",
+        "patrón de tornillos",
+        "qué par rojo/negro pertenece a cada parlante (continuidad)",
+        "impedancia de cada parlante"
+      ],
+      "conector": "4 conductores: dos rojos y dos negros (confirmado por el comprador el 2026-11-20). Un parlante por canal del PAM8403: L+/L- y R+/R-. Nunca unir los negros entre sí ni a GND."
     },
     "PAM8403": {
       "cantidad": 1,
-      "envolvente": [21.0, 18.0, 4.0],
+      "envolvente": [
+        21.0,
+        18.0,
+        4.0
+      ],
       "estado": "conservadora",
-      "por_medir": ["largo", "ancho", "altura de componentes"]
+      "compra": "carrito",
+      "por_medir": [
+        "largo",
+        "ancho",
+        "altura de componentes",
+        "posición de las islas L/R/alimentación"
+      ]
     },
-    "CINTALED-WS2812B-IP65": {
-      "cantidad": "2 tramos de 6 pixeles",
-      "envolvente_por_tramo": [100.0, 12.5, 2.5],
-      "estado": "conservadora",
-      "fuente": "https://www.didacticaselectronicas.com/shop/cintaled-ws2812b-cinta-led-rgb-ws2812b-5v-60-leds-ip65-1-metro-16610",
-      "por_medir": ["ancho exterior real con silicona", "espesor"]
+    "BTF-FCOB-WS2811-12V-720": {
+      "cantidad": "3 tramos de 200 mm (4 píxeles cada uno) cortados del rollo de 5 m",
+      "asin": "B0BW5T6HW4",
+      "modelo": "FCOB-12V-720L-W-IP30-SPI",
+      "tension": 12.0,
+      "leds_por_metro": 720,
+      "ci_por_metro": 20,
+      "paso_pixel": 50.0,
+      "ancho": 12.0,
+      "espesor_reservado": 2.0,
+      "ip": "IP30",
+      "pcb": "blanca",
+      "orden_color_publicado": "BRG",
+      "conductores": 3,
+      "potencia_total_5m_W": 72,
+      "estado": "publicada",
+      "compra": "declarada",
+      "fuente": "https://www.amazon.com/dp/B0BW5T6HW4",
+      "nota": "Variante verificada el 2026-11-20: PCB blanca / 16.4 ft / DC12V 720 LED/m. No es WS2812B de 5 V ni tiene LED direccionables uno a uno: cada CI WS2811 gobierna 50 mm (36 chips).",
+      "por_medir": [
+        "espesor",
+        "rotulado de las islas (+12V/DIN/GND)",
+        "orden de color real",
+        "corte cada 50 mm (la ficha en español dice 48 mm)"
+      ]
     },
     "Potenciometro-B10K": {
-      "cantidad": 4,
-      "envolvente": [16.0, 8.0, 18.0],
+      "cantidad_comprada": 4,
+      "cantidad_montada": 3,
+      "repuesto": 1,
+      "uso": "RV2 GRAVES, RV3 MEDIOS, RV4 AGUDOS",
+      "envolvente": {
+        "diametro_cuerpo": 17.0,
+        "fondo_cuerpo": 9.5,
+        "largo_eje": 15.0,
+        "diametro_eje": 6.0,
+        "rosca": "M7x0.75",
+        "paso_terminales": 5.0
+      },
       "estado": "conservadora",
-      "por_medir": ["cuerpo", "longitud y diametro del eje", "paso de terminales"]
+      "compra": "declarada",
+      "fuente": "https://electronilab.co/tienda/potenciometro-lineal-b-10k-ohm-15mm/",
+      "nota": "Rotativo lineal de 15 mm de eje. El comprador declara 4 unidades; COMPONENTES-COMPRADOS-VERIFICADOS.md todavía no tiene factura o albarán que lo respalde.",
+      "por_medir": [
+        "diámetro y fondo del cuerpo",
+        "longitud y tipo de eje (estriado/D)",
+        "rosca del buje",
+        "paso de terminales",
+        "recorrido mecánico"
+      ]
+    },
+    "Potenciometro-A10K": {
+      "cantidad_comprada": 0,
+      "cantidad_montada": 2,
+      "uso": "RV1 NIVEL/ENTRADA, RV5 VOLUMEN",
+      "envolvente": {
+        "diametro_cuerpo": 17.0,
+        "fondo_cuerpo": 9.5,
+        "largo_eje": 15.0,
+        "diametro_eje": 6.0,
+        "rosca": "M7x0.75",
+        "paso_terminales": 5.0
+      },
+      "reserva_en_tapa": {
+        "diametro_libre": 24.0,
+        "fondo_libre": 14.0
+      },
+      "estado": "supuesto",
+      "compra": "pendiente",
+      "candidato_comprado": {
+        "sku": "P-20K",
+        "descripcion": "potenciómetro rotativo logarítmico de 20 kΩ",
+        "cantidad": 2,
+        "compra": "verificada",
+        "fuente": "https://www.didacticaselectronicas.com/shop/p-20k-potenciometro-rotativo-de-20k-6295",
+        "advertencia": "Es A20K, no A10K. No sustituye RV1/RV5 hasta validar impedancia, ganancia y cortes del circuito."
+      },
+      "nota": "COTA PENDIENTE DE MEDIR. Se usa la misma envolvente del B10K y se reserva alrededor un cilindro libre de 24 x 14 mm para admitir un cuerpo mayor.",
+      "por_medir": [
+        "todo: cuerpo, eje, rosca y terminales de la pieza que finalmente se compre"
+      ]
+    },
+    "Perillas": {
+      "cantidad": 5,
+      "envolvente": {
+        "diametro": 16.0,
+        "falda": 19.2,
+        "alto": 15.5
+      },
+      "estado": "supuesto",
+      "compra": "pendiente",
+      "por_medir": [
+        "se compran después de confirmar el eje de los potenciómetros"
+      ],
+      "material": "metálicas (aluminio torneado), por decisión del 2026-11-21; el modelo conserva la envolvente supuesta"
+    },
+    "Bornera-puente-8P": {
+      "cantidad": 2,
+      "sku": "BOR-BRIG-8P-VE",
+      "envolvente": [
+        62.0,
+        11.0,
+        13.0
+      ],
+      "estado": "conservadora",
+      "compra": "verificada",
+      "nota": "Las dos son verdes: el modelo las rotula +5V y GND. VREF nunca va a estas barras.",
+      "por_medir": [
+        "largo, ancho, alto",
+        "paso entre tornillos",
+        "agujeros de fijación"
+      ]
+    },
+    "Portafusible-CON-183AC": {
+      "cantidad": 1,
+      "envolvente": {
+        "diametro": 12.5,
+        "largo": 52.0
+      },
+      "estado": "conservadora",
+      "compra": "verificada",
+      "fusible": "FC-3A rápido 5x20 mm, 3 A/250 V (1 instalado + 1 repuesto)",
+      "por_medir": [
+        "diámetro y largo cerrados"
+      ]
+    },
+    "Interruptor-general": {
+      "cantidad": 1,
+      "envolvente": [
+        19.0,
+        13.0,
+        19.0
+      ],
+      "estado": "supuesto",
+      "compra": "pendiente",
+      "nota": "Mínimo 5 A DC. Recorte de balancín tipo KCD1 como reserva."
+    },
+    "Elevador-5V-12V": {
+      "cantidad": 1,
+      "envolvente": [
+        37.0,
+        17.0,
+        8.0
+      ],
+      "estado": "supuesto",
+      "compra": "pendiente",
+      "nota": "La tira comprada es de 12 V y el equipo solo tiene 5 V. Se reserva un elevador tipo MT3608; la alternativa es una fuente de 12 V aparte. Decisión eléctrica pendiente."
+    },
+    "Imanes-neodimio-6x2": {
+      "cantidad": "8 discos = 4 pares cuerpo/tapa",
+      "envolvente": {
+        "diametro": 6.0,
+        "espesor": 2.0
+      },
+      "estado": "supuesto",
+      "compra": "pendiente",
+      "nota": "Cierre magnético sin bisagras ni tornillos, como en el gabinete EQ / 03 archivado. Bolsillos de 6,3 x 2,3 mm. La tapa se abre basculando sobre su borde frontal y hay que sostenerla o apoyarla: nada la retiene abierta.",
+      "por_medir": [
+        "fuerza de retención con el peso de parlantes y tarjeta de pantalla",
+        "holgura de bolsillo en una pieza de prueba"
+      ]
+    },
+    "Difusor-hexagonal-impreso": {
+      "cantidad": 3,
+      "ventana_ancho": 11.0,
+      "paso_hexagono": 5.0,
+      "nervio": 1.1,
+      "fondo": 0.5,
+      "pestana": 0.8,
+      "largo": 200.0,
+      "estado": "supuesto",
+      "compra": "pendiente (impresión 3D propia)",
+      "inspiracion": "https://www.youtube.com/watch?v=t1xqIwvpk8I (Duality Infinity 3DHex, Andy Huot Creations)",
+      "nota": "Geometría propia. Del video solo se toma la idea: relieve hexagonal con fondo fino y nervio grueso, y un patrón que se repite cada 25 mm para coincidir con el píxel de 50 mm. Las piezas originales no se usan: la pista Duality mide unos 36 mm de ancho (medido en el STL de su difusor) y aquí las barras van a 17 mm entre centros; además su licencia es de uso personal y no permite redistribuir los archivos.",
+      "impresion": "Blanco, pestaña sobre la cama, capa de 0,1 mm en la lámina superior; la lámina cruza en puente los 9,2 mm de la cavidad.",
+      "por_medir": [
+        "difusión real con la tira FCOB a 9,4 mm de la lámina",
+        "espesor de fondo que no deje ver los chips",
+        "ajuste de la pestaña entre cuna y tapa"
+      ]
     }
   }
 }

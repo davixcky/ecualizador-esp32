@@ -203,11 +203,11 @@ def main():
     fila("Antialiasing: atenuación a 15 kHz", f"{en(f, aa, 15000):.1f} dB", "≤ −15 dB (señal plegada sobre 5 kHz)",
          en(f, aa, 15000) <= -15)
 
-    # suma plana con los tres deslizables en la mitad
+    # suma plana con los tres controles de banda en la mitad
     banda = (f >= 20) & (f <= 20000)
     plano = db["EQ_OUT"] - db["PRE"]
     rizado = plano[banda].max() - plano[banda].min()
-    fila("Respuesta plana (deslizables al 50 %), 20 Hz–20 kHz", f"{plano[banda].min():+.2f} a {plano[banda].max():+.2f} dB "
+    fila("Respuesta plana (controles de banda al 50 %), 20 Hz–20 kHz", f"{plano[banda].min():+.2f} a {plano[banda].max():+.2f} dB "
          f"(rizado {rizado:.2f} dB)", "rizado ≤ 1,5 dB", rizado <= 1.5)
 
     # misma prueba con los valores de la Fase 1 (sin inversor de medios) para documentar el cambio
@@ -219,11 +219,11 @@ def main():
         fase1 = fase1.replace(a, b)
     d1 = correr("ac_fase1", fase1, ".ac dec 60 10 40k", ["vdb(EQ_OUT)", "vdb(PRE)"])
     plano1 = d1[:, 1] - d1[:, 2]
-    fila("Valores de la Fase 1 (sin inversor), deslizables al 50 %",
+    fila("Valores de la Fase 1 (sin inversor), controles de banda al 50 %",
          f"{plano1[banda].min():+.1f} a {plano1[banda].max():+.1f} dB (rizado {plano1[banda].max() - plano1[banda].min():.1f} dB)",
          "rizado ≤ 1,5 dB", "No cumple: motivó el rediseño")
 
-    # familia de curvas al mover cada deslizable
+    # familia de curvas al mover cada control de banda
     familias = {}
     for rv, nombre in (("RV2", "graves"), ("RV3", "medios"), ("RV4", "agudos")):
         familias[nombre] = []
@@ -285,7 +285,7 @@ def main():
                 ["ADC_M", "ADC_M_RAW", "EQ_OUT", "ADC_FFT", "ADC_FFT_RAW", "PRE"] + entradas_ao,
                 t_fin=0.05)
     m = t > 0.03
-    fila("Entrada de 0,11 V de pico (máxima), deslizables al 100 %: ADC_M",
+    fila("Entrada de 0,11 V de pico (máxima), controles de banda al 100 %: ADC_M",
          f"{v['ADC_M'][m].max():.3f} V", "≤ 2,45 V (zona lineal del ADC)", v["ADC_M"][m].max() <= ADC_MAX)
     fila("Ídem: ADC_FFT", f"{v['ADC_FFT'][m].min():.3f} a {v['ADC_FFT'][m].max():.3f} V",
          "0,15 a 2,45 V", ADC_MIN <= v["ADC_FFT"][m].min() and v["ADC_FFT"][m].max() <= ADC_MAX)
@@ -325,7 +325,7 @@ def main():
     ax = ejes[0][0]
     for n, (c, et) in estilo.items():
         ax.semilogx(f, rel[n], color=c, lw=2, label=et)
-    ax.semilogx(f, plano, color="k", lw=2.2, label="Salida sumada (deslizables al 50 %)")
+    ax.semilogx(f, plano, color="k", lw=2.2, label="Salida sumada (controles de banda al 50 %)")
     ax.semilogx(f, aa, color="#8e44ad", lw=1.4, ls="--", label="Antialiasing hacia el ADC")
     ax.set(title="a) Respuesta de cada banda respecto a la salida del preamplificador", xlabel="Frecuencia (Hz)",
            ylabel="Ganancia (dB)", ylim=(-30, 10), xlim=(10, 40000))
@@ -334,7 +334,7 @@ def main():
     ax = ejes[0][1]
     ax.semilogx(f, plano, color="k", lw=2.2, label="Diseño final (medios invertidos, 409 Hz / 2,3 kHz)")
     ax.semilogx(d1[:, 0], plano1, color="#c0392b", lw=1.6, ls="--", label="Valores de la Fase 1 (sin inversor)")
-    ax.set(title="b) Salida con los tres deslizables al 50 %", xlabel="Frecuencia (Hz)", ylabel="Ganancia (dB)",
+    ax.set(title="b) Salida con los tres controles de banda al 50 %", xlabel="Frecuencia (Hz)", ylabel="Ganancia (dB)",
            ylim=(-12, 12), xlim=(10, 40000))
     ax.axvspan(20, 20000, color="#f1c40f", alpha=0.08)
     ax.grid(True, which="both", alpha=0.3)
@@ -344,7 +344,7 @@ def main():
         for pos, curva in curvas:
             ax.semilogx(f, curva, color=c, lw=1.0 + (pos == 1.0), alpha=0.35 + 0.65 * pos,
                         label=f"{nombre}" if pos == 1.0 else None)
-    ax.set(title="c) Ecualización: cada deslizable en 0, 25, 50, 75 y 100 %", xlabel="Frecuencia (Hz)",
+    ax.set(title="c) Ecualización: cada control de banda en 0, 25, 50, 75 y 100 %", xlabel="Frecuencia (Hz)",
            ylabel="Ganancia (dB)", ylim=(-25, 15), xlim=(10, 40000))
     ax.grid(True, which="both", alpha=0.3)
     ax.legend(fontsize=8, loc="lower center", ncol=3)

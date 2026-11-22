@@ -1,0 +1,84 @@
+{
+  "revision": "E.5",
+  "valid": true,
+  "issues": [],
+  "files": [
+    {
+      "file": "ecualizador-E5-cerrado.png",
+      "expected_pixels": [
+        2000,
+        1300
+      ],
+      "pixels": [
+        2000,
+        1300
+      ],
+      "bytes": 2663585,
+      "grayscale_stddev": 37.54,
+      "sha256": "915d430f3997bfb32ae37a64590b1f024d332ac25ebac67a7649290f555015a2",
+      "fresh": true
+    },
+    {
+      "file": "ecualizador-E5-detalle-controles.png",
+      "expected_pixels": [
+        2000,
+        1300
+      ],
+      "pixels": [
+        2000,
+        1300
+      ],
+      "bytes": 2815007,
+      "grayscale_stddev": 47.87,
+      "sha256": "edf2deac70c9371d61c62b68adcdb34fcd036ed63c0ca7e258754dc55e00b06e",
+      "fresh": true
+    },
+    {
+      "file": "ecualizador-E5-abierto.png",
+      "expected_pixels": [
+        2000,
+        1300
+      ],
+      "pixels": [
+        2000,
+        1300
+      ],
+      "bytes": 3313603,
+      "grayscale_stddev": 27.3,
+      "sha256": "5f68ef297ebb5cfbb7434654056e9883103660089718d884a2bc97fdb7a6ee4b",
+      "fresh": true
+    },
+    {
+      "file": "ecualizador-E5-planta.png",
+      "expected_pixels": [
+        1500,
+        2100
+      ],
+      "pixels": [
+        1500,
+        2100
+      ],
+      "bytes": 4404238,
+      "grayscale_stddev": 44.31,
+      "sha256": "998f0ae8db96acdd7edbbd530152d531bfc570a6a4ecb857287aa6a501a887e7",
+      "fresh": true
+    },
+    {
+      "file": "ecualizador-E5-pantalla-soporte-explotado.png",
+      "expected_pixels": [
+        1800,
+        1350
+      ],
+      "pixels": [
+        1800,
+        1350
+      ],
+      "bytes": 2423330,
+      "grayscale_stddev": 15.39,
+      "sha256": "e15632a14cec536bbe6fc4388a74bbb1ad10182155e43ef568027d98c5f00d61",
+      "fresh": true
+    }
+  ],
+  "scope": "Integridad, resolución, contenido no vacío y vigencia de renders fijos.",
+  "does_not_prove": "Encaje físico, imprimibilidad, funcionamiento eléctrico ni fidelidad óptica."
+}

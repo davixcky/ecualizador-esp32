@@ -1,0 +1,306 @@
+{
+  "cama_mm": [
+    256.0,
+    256.0
+  ],
+  "archivos": {
+    "E5-pruebas-de-ajuste.3mf": {
+      "piezas": [
+        {
+          "nombre": "Prueba_barra_cuna_tramo",
+          "triangulos": 374,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            59.9,
+            19.0,
+            10.0
+          ]
+        },
+        {
+          "nombre": "Prueba_barra_difusor_tramo",
+          "triangulos": 620,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            44.0,
+            14.2,
+            3.8
+          ]
+        },
+        {
+          "nombre": "Prueba_cuerpo_esquina_tarjeta_T1",
+          "triangulos": 408,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            18.0,
+            34.0,
+            13.5
+          ]
+        },
+        {
+          "nombre": "Prueba_cuerpo_pinza_portafusible",
+          "triangulos": 136,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            19.2,
+            9.0,
+            18.0
+          ]
+        },
+        {
+          "nombre": "Prueba_cuerpo_poste_iman_punta",
+          "triangulos": 304,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            9.0,
+            8.9,
+            10.0
+          ]
+        },
+        {
+          "nombre": "Prueba_pared_der_USB_C",
+          "triangulos": 32,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            30.0,
+            21.0,
+            2.5
+          ]
+        },
+        {
+          "nombre": "Prueba_pared_der_interruptor_y_pasacable",
+          "triangulos": 180,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            56.0,
+            27.0,
+            2.5
+          ]
+        },
+        {
+          "nombre": "Prueba_pared_izq_jack_3p5",
+          "triangulos": 160,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            22.0,
+            19.0,
+            2.5
+          ]
+        },
+        {
+          "nombre": "Prueba_tapa_pantalla_T4S3_y_SW1",
+          "triangulos": 2330,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            76.0,
+            73.0,
+            8.6
+          ]
+        },
+        {
+          "nombre": "Prueba_tapa_potenciometro_B10K",
+          "triangulos": 160,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            26.0,
+            26.0,
+            3.0
+          ]
+        },
+        {
+          "nombre": "Prueba_tapa_teton_iman",
+          "triangulos": 332,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            18.0,
+            16.0,
+            6.0
+          ]
+        },
+        {
+          "nombre": "Prueba_tapa_ventana_barra_LED",
+          "triangulos": 420,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            64.0,
+            22.0,
+            7.2
+          ]
+        }
+      ],
+      "ocupa_mm": [
+        230.0,
+        145.0,
+        18.0
+      ],
+      "cabe_en_la_cama": true,
+      "acostado": true,
+      "formato": "proyecto de Bambu Studio, solo geometría (usa los ajustes que tenga abiertos el usuario)"
+    },
+    "E5-piezas-pequenas.3mf": {
+      "piezas": [
+        {
+          "nombre": "Difusor_hexagonal_GRAVES",
+          "triangulos": 2292,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            206.0,
+            14.2,
+            3.8
+          ]
+        },
+        {
+          "nombre": "Difusor_hexagonal_MEDIOS",
+          "triangulos": 2292,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            206.0,
+            14.2,
+            3.8
+          ]
+        },
+        {
+          "nombre": "Difusor_hexagonal_AGUDOS",
+          "triangulos": 2292,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            206.0,
+            14.2,
+            3.8
+          ]
+        },
+        {
+          "nombre": "Cuna_tira_GRAVES",
+          "triangulos": 862,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            235.7,
+            27.0,
+            10.0
+          ]
+        },
+        {
+          "nombre": "Cuna_tira_MEDIOS",
+          "triangulos": 768,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            235.7,
+            16.0,
+            10.0
+          ]
+        },
+        {
+          "nombre": "Cuna_tira_AGUDOS",
+          "triangulos": 768,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            235.7,
+            16.0,
+            10.0
+          ]
+        },
+        {
+          "nombre": "Placa_trasera_desmontable_T4S3",
+          "triangulos": 1216,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            64.0,
+            52.5,
+            3.4
+          ]
+        },
+        {
+          "nombre": "Cuna_SW1",
+          "triangulos": 572,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            33.4,
+            13.8,
+            8.5
+          ]
+        },
+        {
+          "nombre": "Cuna_conector_parlantes",
+          "triangulos": 532,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            36.0,
+            13.8,
+            9.5
+          ]
+        },
+        {
+          "nombre": "Capuchon_SW1_VISTA",
+          "triangulos": 284,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            9.6,
+            9.6,
+            7.4
+          ]
+        }
+      ],
+      "ocupa_mm": [
+        235.8,
+        184.1,
+        10.0
+      ],
+      "cabe_en_la_cama": true,
+      "acostado": true,
+      "formato": "proyecto de Bambu Studio, solo geometría (usa los ajustes que tenga abiertos el usuario)"
+    },
+    "E5-cuerpo.3mf": {
+      "piezas": [
+        {
+          "nombre": "Gabinete_E5_cuerpo_de_canto_en_diagonal",
+          "triangulos": 7508,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            239.7,
+            239.7,
+            192.0
+          ]
+        }
+      ],
+      "ocupa_mm": [
+        239.7,
+        239.7,
+        192.0
+      ],
+      "cabe_en_la_cama": true,
+      "acostado": false,
+      "formato": "proyecto de Bambu Studio, solo geometría (usa los ajustes que tenga abiertos el usuario)"
+    },
+    "E5-tapa.3mf": {
+      "piezas": [
+        {
+          "nombre": "Tapa_E5_imantada_de_canto_en_diagonal",
+          "triangulos": 8506,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            198.7,
+            198.7,
+            192.0
+          ]
+        }
+      ],
+      "ocupa_mm": [
+        198.7,
+        198.7,
+        192.0
+      ],
+      "cabe_en_la_cama": true,
+      "acostado": false,
+      "formato": "proyecto de Bambu Studio, solo geometría (usa los ajustes que tenga abiertos el usuario)"
+    },
+    "E5-completo-generado.3mf": {
+      "camas": [
+        "Pruebas de ajuste",
+        "Piezas pequenas",
+        "Cuerpo",
+        "Tapa"
+      ],
+      "piezas": 24,
+      "formato": "proyecto de Bambu Studio con ajustes: Bambu Lab P2S 0.2 nozzle, 0.10mm Standard @BBL P2S 0.2 nozzle, Bambu PLA Basic @BBL P2S 0.2 nozzle"
+    }
+  }
+}

@@ -1,20 +1,212 @@
 {
-  "video": "docs/video/ecualizador-animado.mp4",
-  "video_codec": "h264",
-  "audio_codec": "aac",
-  "pixels": [
-    1920,
-    1080
-  ],
-  "fps": 24,
-  "frames": 864,
-  "duration_seconds": 36,
-  "audio_sample_rate": 48000,
-  "audio_correlation_to_wav": 0.999320017997958,
-  "decoded_audio_peak": 0.8767687678337097,
-  "decode_errors": 0,
-  "portable_package_video_identical": true,
-  "blender_slider_led_audio_sync": true,
-  "audio_method": "SPICE AC quasi-static processing, not hardware recording",
-  "sha256": "cd279b6f79bd351a7d1c4a79f4efec67aae8fd111b974cf6c62dddfd4cf7c56f"
+  "cad": {
+    "objetos": 255,
+    "deslizables": 0,
+    "B10K_montados": [
+      "RV2_GRAVES_B10K_lineal_cuerpo",
+      "RV3_MEDIOS_B10K_lineal_cuerpo",
+      "RV4_AGUDOS_B10K_lineal_cuerpo"
+    ],
+    "B10K_repuesto_sin_montar": 1,
+    "A10K_pendientes": [
+      "RV1_NIVEL_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo",
+      "RV5_VOLUMEN_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo"
+    ],
+    "perillas": [
+      "Perilla_AGUDOS_PENDIENTE_COMPRA",
+      "Perilla_GRAVES_PENDIENTE_COMPRA",
+      "Perilla_MEDIOS_PENDIENTE_COMPRA",
+      "Perilla_NIVEL_PENDIENTE_COMPRA",
+      "Perilla_VOLUMEN_PENDIENTE_COMPRA"
+    ],
+    "tarjetas": [
+      "T1_Perforada_90x70",
+      "T2_Perforada_120x80",
+      "T3_Perforada_120x80",
+      "T4_Perforada_120x80"
+    ],
+    "stl": [
+      "brida_inferior_lilygo_t4s3.stl",
+      "brida_superior_lilygo_t4s3.stl",
+      "cuna_conector_parlantes.stl",
+      "cuna_sw1.stl",
+      "cuna_tira_agudos.stl",
+      "cuna_tira_graves.stl",
+      "cuna_tira_medios.stl",
+      "difusor_opalino_agudos.stl",
+      "difusor_opalino_graves.stl",
+      "difusor_opalino_medios.stl",
+      "gabinete_e5_cuerpo.stl",
+      "gabinete_e5_cuerpo_mitad_derecha.stl",
+      "gabinete_e5_cuerpo_mitad_izquierda.stl",
+      "sw1_capuchon_vista.stl",
+      "tapa_e5_imantada.stl",
+      "tapa_e5_imantada_mitad_derecha.stl",
+      "tapa_e5_imantada_mitad_izquierda.stl"
+    ],
+    "comprobaciones_dimensionales": "31/31 cumplen",
+    "gabinete_mm": [
+      278.0,
+      192.0,
+      64.0
+    ]
+  },
+  "blender": {
+    "objetos": 293,
+    "nombres_con_deslizable": [],
+    "controles_rotativos": [
+      "Perilla_RV1_NIVEL",
+      "Perilla_RV2_GRAVES",
+      "Perilla_RV3_MEDIOS",
+      "Perilla_RV4_AGUDOS",
+      "Perilla_RV5_VOLUMEN"
+    ],
+    "B10K": [
+      "RV2_GRAVES_B10K_lineal_cuerpo",
+      "RV3_MEDIOS_B10K_lineal_cuerpo",
+      "RV4_AGUDOS_B10K_lineal_cuerpo"
+    ],
+    "A10K_pendientes": [
+      "RV1_NIVEL_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo",
+      "RV5_VOLUMEN_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo"
+    ],
+    "giro_grados": {
+      "RV1": [
+        0.0,
+        0.0
+      ],
+      "RV2": [
+        -150.0,
+        150.0
+      ],
+      "RV3": [
+        -150.0,
+        150.0
+      ],
+      "RV4": [
+        -150.0,
+        150.0
+      ],
+      "RV5": [
+        0.0,
+        0.0
+      ]
+    },
+    "error_max_giro_grados": 4.066562439675181e-06,
+    "led_emision_fija": {
+      "GRAVES": 1.1,
+      "MEDIOS": 1.1,
+      "AGUDOS": 1.1
+    },
+    "cables": 83,
+    "cables_que_siguen_la_tapa": 29,
+    "parlantes": [
+      "Parlante_1de2_WS14595_8ohm_5W_marco_100x45",
+      "Parlante_2de2_WS14595_8ohm_5W_marco_100x45"
+    ],
+    "tapa_cerrada_en_primer_y_ultimo_fotograma": true,
+    "audio_en_fotograma": 1
+  },
+  "video": {
+    "archivo": "docs/video/ecualizador-animado.mp4",
+    "codec": "h264",
+    "perfil": "High",
+    "pix_fmt": "yuv420p",
+    "pixeles": [
+      1920,
+      1080
+    ],
+    "fps": 24,
+    "fotogramas_decodificados": 1200,
+    "duracion_s": 50.0,
+    "tamano_bytes": 30092924,
+    "decodificacion_completa_sin_errores": true,
+    "sha256": "4c1bf2661b112ddf9cb6c7e5107352f08748e5a46bc1709b12b85722699bd85d"
+  },
+  "audio": {
+    "codec": "aac",
+    "canales": 1,
+    "frecuencia_muestreo": 48000,
+    "duracion_s": 50.0,
+    "correlacion_con_wav_del_modelo": 0.99908,
+    "desfase_muestras": 0,
+    "pico_decodificado": 0.87,
+    "muestras_en_recorte": 0,
+    "LUFS_integrado": -20.79,
+    "pico_real_dBTP": -1.01,
+    "LRA_LU": 4.4,
+    "silencios_mayores_a_0p5s": 0,
+    "efecto_por_control": [
+      {
+        "banda": "graves",
+        "control": "RV2",
+        "filtro_Hz": [
+          20,
+          300
+        ],
+        "nivel_con_control_al_minimo_dB": -45.43,
+        "nivel_con_control_al_maximo_dB": -13.55,
+        "diferencia_dB": 31.88
+      },
+      {
+        "banda": "medios",
+        "control": "RV3",
+        "filtro_Hz": [
+          300,
+          3000
+        ],
+        "nivel_con_control_al_minimo_dB": -46.84,
+        "nivel_con_control_al_maximo_dB": -22.11,
+        "diferencia_dB": 24.73
+      },
+      {
+        "banda": "agudos",
+        "control": "RV4",
+        "filtro_Hz": [
+          3000,
+          18000
+        ],
+        "nivel_con_control_al_minimo_dB": -56.53,
+        "nivel_con_control_al_maximo_dB": -29.55,
+        "diferencia_dB": 26.99
+      }
+    ],
+    "metodo": "respuestas AC de ngspice (macromodelo LM324) aplicadas por ventanas; no es grabación del prototipo",
+    "escucha_humana": false
+  },
+  "hoja_de_contacto": {
+    "archivo": "docs/video/hoja-de-contacto.jpg",
+    "instantes_s": [
+      0.0,
+      2.0,
+      5.0,
+      6.5,
+      8.0,
+      9.0,
+      11.5,
+      15.5,
+      18.5,
+      22.5,
+      25.5,
+      28.7,
+      30.0,
+      32.0,
+      33.2,
+      34.5,
+      36.5,
+      39.5,
+      41.5,
+      43.0,
+      45.0,
+      46.5,
+      48.0,
+      49.9
+    ]
+  },
+  "textos_vigentes": {
+    "archivos_revisados": 34,
+    "afirmaciones_de_controles_deslizables": 0,
+    "nota": "Los informes de la Fase 2 (docs/latex, docs/informe-fase2.*, docs/presentacion) describen la revisión D.2 archivada y llevan aviso."
+  },
+  "alcance": "Render y audio de un modelo de diseño. No sustituye pruebas eléctricas ni mecánicas; nadie escuchó el audio: solo se midió."
 }

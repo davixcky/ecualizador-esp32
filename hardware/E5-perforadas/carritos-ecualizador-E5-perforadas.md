@@ -1,5 +1,7 @@
 # Carritos — Ecualizador E.5 perforadas
 
+> **Actualización del 20 de noviembre de 2026.** Esta lista es de planificación. Lo realmente comprado y respaldado por factura o albarán está en [`../COMPONENTES-COMPRADOS-VERIFICADOS.md`](../COMPONENTES-COMPRADOS-VERIFICADOS.md). Cambios respecto a lo escrito abajo: **parlantes** = conjunto WS-14595 (dos de 8 Ω / 5 W en un conector), no uno de 4 Ω / 3 W; **luces** = tira BTF-LIGHTING FCOB WS2811 de **12 V** (ASIN B0BW5T6HW4, un píxel cada 50 mm), no WS2812B de 5 V, por lo que falta definir la alimentación de 12 V; **RV1/RV5** = A10K sin comprar (hay dos P-20K logarítmicos como candidatos sin validar); **no hay potenciómetros deslizables**. **Pantalla** = se decidió sustituir la TFT de 1,9″ por una LilyGO T4-S3 enlazada por UART (sin comprar, sin esquema ni firmware todavía). **Tapa** = cierre con imanes de Ø6 × 2 mm, sin bisagras. El modelo 3D y sus pendientes están en [`3d/`](3d/README.md).
+
 Fecha: 2026-11-16. Carritos de sesión en Chrome, sin login, **compartidos con el
 medidor de energía**. Aquí solo se listan y suman las cantidades del ecualizador.
 Reporte del medidor:

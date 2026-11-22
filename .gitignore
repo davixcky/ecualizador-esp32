@@ -10,6 +10,7 @@ docs/presentacion/png/_tmp.html
 
 .venv/
 firmware/.pio/
+firmware-lilygo/.pio/
 firmware/test/prueba_dsp
 firmware/test/pantallas
 firmware/test/salida/
@@ -31,5 +32,11 @@ hardware/ruteo-trabajo/
 
 # Fotogramas intermedios del video; MP4 y escena se conservan.
 docs/video/frames/
+docs/video/tft-fotogramas/
 docs/video/preview-*.png
 docs/video/*.blend1
+
+# Salida del video archivado D.2 (deslizables); no es el video vigente.
+cad/archivo-video-D2/
+# Intermedios del video E.5.
+hardware/E5-perforadas/video/.trabajo/

@@ -15,7 +15,7 @@ def desc(p):
     if p['ref'] in {'J3','J4','J5','J6'}:return {'J3':'Conexión de 4 vías al módulo PAM8403','J4':'Adaptador de 8 vías para pantalla','J5':'Conexión de 3 vías a tira LED','J6':'Bornera de 2 vías para fuente 5 V'}[p['ref']]
     if p['ref']=='C10':return '10 µF bipolar, ≥ 10 V (ver nota C10)'
     if p['tipo']=='OPAMP':return 'MCP6004-I/P, DIP-14'
-    if p['ref'] in {'RV2','RV3','RV4'}:return '10 kΩ lineal; rotativo o deslizable con cables'
+    if p['ref'] in {'RV2','RV3','RV4'}:return '10 kΩ lineal; rotativo, con cables'
     return p['valor']
 groups=defaultdict(list)
 for p in c.PIEZAS:

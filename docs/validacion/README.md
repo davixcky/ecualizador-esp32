@@ -10,4 +10,7 @@ Los registros contienen resultados de herramientas ejecutadas en computador. El 
 - `../../simulacion/velxio/validacion.json`: lecturas reales de los instrumentos del simulador web, tres casos.
 - `../../cad/validacion.json`: validez de sólidos y 13 comprobaciones de ajuste nominal. No comprueba todas las interferencias del ensamblaje ni tolerancias de impresión.
 
+- `video-dispositivo.json`: validación del 20 de noviembre de 2026 del modelo E.5 y de su video (CAD sin deslizables, tres B10K montados, dos posiciones A10K pendientes, MP4 decodificado completo y métricas de audio). La genera `../../hardware/E5-perforadas/video/validar_entrega.py`.
+- `../../cad/validacion.json` corresponde al gabinete D.2 archivado, no al montaje vigente.
+
 Hay una captura del osciloscopio virtual de Velxio. No hay mediciones de osciloscopio físico ni evidencia de una placa construida.

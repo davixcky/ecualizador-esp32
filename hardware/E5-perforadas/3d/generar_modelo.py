@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Modelo mecánico E.5 basado en las envolventes de los artículos comprados.
+"""Modelo mecánico E.5: tarjetas perforadas, controles rotativos y arneses.
 
-Ejecutar con:
+Ejecutar desde la raíz del repositorio:
     freecadcmd hardware/E5-perforadas/3d/generar_modelo.py
 
-Las placas se muestran completas, sin suponer recortes. Las cotas que la tienda
-no publica están documentadas como envolventes conservadoras en medidas-componentes.json.
+Toda la geometría sale de e5_layout.py y medidas-componentes.json. Escribe:
+    ecualizador-E5-perforadas.FCStd / .step
+    stl/*.stl                 (piezas imprimibles)
+    pruebas-de-ajuste/*.stl   (probetas recortadas de la tapa, el cuerpo y las barras)
+    validacion-3d.json        (comprobaciones dimensionales y pendientes)
+    .render/ensamble.json     (malla + trazado de cables para Blender)
 """
 from pathlib import Path
 import json
@@ -17,232 +21,355 @@ import Import
 import MeshPart
 import Part
 
-
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import e5_layout as E  # noqa: E402
+
 OUT = HERE
 STL = OUT / "stl"
+FIT = OUT / "pruebas-de-ajuste"
+TEMP = OUT / ".render"
 STL.mkdir(parents=True, exist_ok=True)
-
-# Gabinete para las cuatro perforadas compradas completas: 3 x 120x80 y 1 x 90x70.
-W, D, H = 278.0, 192.0, 61.0
-WALL, FLOOR, LID = 2.5, 3.0, 3.0
-Z_BOARD = 9.0
-STRIP_W = 12.5
-
-# x, y, ancho, fondo, etiqueta
-BOARDS = {
-    "T1": (8.0, 8.0, 90.0, 70.0, "ENTRADA + U1"),
-    "T2": (108.0, 8.0, 120.0, 80.0, "FILTROS + U2"),
-    "T3": (8.0, 100.0, 120.0, 80.0, "DETECTORES U3/U4"),
-    "T4": (140.0, 100.0, 120.0, 80.0, "ESP32 + CONTROL"),
-}
-
-COLORS = {
-    "body": (0.11, 0.14, 0.17), "lid": (0.32, 0.35, 0.39),
-    "perf": (0.45, 0.25, 0.08), "pad": (0.86, 0.62, 0.15),
-    "chip": (0.035, 0.04, 0.045), "connector": (0.92, 0.92, 0.88),
-    "esp": (0.05, 0.25, 0.20), "strip": (0.96, 0.96, 0.96),
-    "led": (0.10, 0.78, 0.92), "wire": (0.06, 0.45, 0.92),
-    "power": (0.85, 0.08, 0.05), "support": (0.16, 0.18, 0.20),
-    "screen": (0.02, 0.17, 0.28),
-}
+TEMP.mkdir(exist_ok=True)
 
 
 def vec(p):
     return App.Vector(*p)
 
 
-def box(w, d, h, x=0, y=0, z=0):
-    return Part.makeBox(w, d, h, vec((x, y, z)))
+AXES = {"x": (1, 0, 0), "y": (0, 1, 0), "z": (0, 0, 1)}
 
 
-def tube(points, radius=0.7):
+def prim(p):
+    if p[0] == "box":
+        _, x, y, z, dx, dy, dz = p
+        return Part.makeBox(dx, dy, dz, vec((x, y, z)))
+    if p[0] == "cone":
+        _, x, y, z, r1, r2, h = p
+        return Part.makeCone(r1, r2, h, vec((x, y, z)))
+    if p[0] == "prismx":
+        _, x, dx, pts = p
+        pts = list(pts) + [pts[0]]
+        return Part.Face(Part.makePolygon([vec((x, y, z)) for y, z in pts])).extrude(vec((dx, 0, 0)))
+    if p[0] == "hex":
+        _, x, y, z, af, h = p
+        r = af / math.sqrt(3)
+        pts = [vec((x + r * math.cos(math.radians(90 + 60 * k)), y + r * math.sin(math.radians(90 + 60 * k)), z)) for k in range(7)]
+        return Part.Face(Part.makePolygon(pts)).extrude(vec((0, 0, h)))
+    _, x, y, z, r, h, axis = p
+    return Part.makeCylinder(r, h, vec((x, y, z)), vec(AXES[axis]))
+
+
+def shape_of(part):
+    shapes = [prim(p) for p in part["add"]]
+    if part["cut"]:
+        base = shapes[0]
+        for s in shapes[1:]:
+            base = base.fuse(s)
+        for c in part["cut"]:
+            base = base.cut(prim(c))
+        return base
+    return shapes[0] if len(shapes) == 1 else Part.makeCompound(shapes)
+
+
+def rounded_prism(x0, y0, x1, y1, r, z, h):
+    """Prisma de planta rectangular con esquinas verticales redondeadas."""
+    pts = [(x0 + r, y0), (x1 - r, y0), (x1, y0 + r), (x1, y1 - r), (x1 - r, y1), (x0 + r, y1), (x0, y1 - r), (x0, y0 + r)]
+    cen = [(x1 - r, y0 + r), (x1 - r, y1 - r), (x0 + r, y1 - r), (x0 + r, y0 + r)]
+    edges = []
+    for i in range(4):
+        a, b = pts[2 * i], pts[2 * i + 1]
+        edges.append(Part.makeLine(vec((*a, z)), vec((*b, z))))
+        c = cen[i]
+        nxt = pts[(2 * i + 2) % 8]
+        ang = -45 + 90 * i
+        mid = (c[0] + r * math.cos(math.radians(ang)), c[1] + r * math.sin(math.radians(ang)))
+        edges.append(Part.Arc(vec((*b, z)), vec((*mid, z)), vec((*nxt, z))).toShape())
+    return Part.Face(Part.Wire(edges)).extrude(vec((0, 0, h)))
+
+
+def tube(points, radius):
     pieces = []
     for a, b in zip(points, points[1:]):
-        av, bv = vec(a), vec(b)
+        av, bv = vec(a[:3]), vec(b[:3])
         delta = bv.sub(av)
-        if delta.Length > 0.01:
+        if delta.Length > 0.05:
             pieces.append(Part.makeCylinder(radius, delta.Length, av, delta))
-    return Part.makeCompound(pieces)
+    for p in points[1:-1]:
+        pieces.append(Part.makeSphere(radius, vec(p[:3])))
+    return pieces
 
 
-def add(doc, name, shape, color, group="interior"):
-    obj = doc.addObject("PartDesign::Feature", name)
+def add(doc, name, shape, color, group, meta=None):
+    safe = "".join(ch if ch.isalnum() or ch == "_" else "_" for ch in name.replace("+", "mas").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("ñ", "n"))
+    obj = doc.addObject("Part::Feature", safe)
     obj.Label = name.replace("_", " ")
     obj.Shape = shape
-    obj.addProperty("App::PropertyString", "ColorRGB", "Render")
-    obj.ColorRGB = ",".join(str(v) for v in COLORS[color])
-    obj.addProperty("App::PropertyString", "AssemblyGroup", "Render")
-    obj.AssemblyGroup = group
+    obj.addProperty("App::PropertyString", "ColorRGB", "Render").ColorRGB = ",".join(f"{v:.4f}" for v in E.COLORS[color])
+    obj.addProperty("App::PropertyString", "ColorKey", "Render").ColorKey = color
+    obj.addProperty("App::PropertyString", "AssemblyGroup", "Render").AssemblyGroup = group
+    obj.addProperty("App::PropertyString", "Meta", "Render").Meta = json.dumps(meta or {}, ensure_ascii=False)
     return obj
 
 
-def perfboard(x, y, w, d):
-    shape = box(w, d, 1.6, x, y, Z_BOARD)
-    holes = [(x + 4, y + 4), (x + w - 4, y + 4),
-             (x + 4, y + d - 4), (x + w - 4, y + d - 4)]
-    for hx, hy in holes:
-        shape = shape.cut(Part.makeCylinder(1.6, 3, vec((hx, hy, Z_BOARD - .5))))
-    return shape, holes
-
-
-def pad_grid(x, y, w, d):
-    pads = []
-    # Malla aligerada: muestra el paso 2,54 mm sin convertir cada dona en objeto.
-    for px in range(0, int((w - 8) // 5.08) + 1):
-        for py in range(0, int((d - 8) // 5.08) + 1):
-            cx, cy = x + 4 + px * 5.08, y + 4 + py * 5.08
-            ring = Part.makeCylinder(1.15, .12, vec((cx, cy, Z_BOARD + 1.6)))
-            ring = ring.cut(Part.makeCylinder(.45, .2, vec((cx, cy, Z_BOARD + 1.55))))
-            pads.append(ring)
-    return Part.makeCompound(pads)
-
-
-def dip(x, y, pins=14):
-    length = 20 if pins == 14 else 26
-    body = box(length, 10, 4, x, y, Z_BOARD + 2.0)
-    notch = Part.makeCylinder(1.5, 2, vec((x + 3, y + 5, Z_BOARD + 5)))
-    return body.cut(notch)
-
-
-def resistor_row(x, y, count, dx=9):
-    return Part.makeCompound([box(6.3, 2.5, 2.5, x + i * dx, y, Z_BOARD + 2) for i in range(count)])
-
-
-def connector(x, y, pins, vertical=False):
-    w, d = (6, pins * 2.54 + 2) if vertical else (pins * 2.54 + 2, 6)
-    return box(w, d, 7, x, y, Z_BOARD + 1.6)
-
-
-def esp32s_v11_usbc(doc, x, y, prefix="T4"):
-    """ESP32S/ESP-WROOM-32 USB-C, 38 pines; filas separadas 25,4 mm."""
-    z = Z_BOARD + 1.6
-    add(doc, f"{prefix}_ESP32S_V1p1_PCB_58x28", box(28, 58, 1.6, x, y, z), "esp")
-    add(doc, f"{prefix}_ESP32S_Headers_38P", Part.makeCompound([
-        box(2.54, 48.26, 8.5, x + .03, y + 4.87, z - 5.0),
-        box(2.54, 48.26, 8.5, x + 25.43, y + 4.87, z - 5.0),
-    ]), "chip")
-    add(doc, f"{prefix}_ESP32S_RF_Shield", box(18, 25, 3.2, x + 5, y + 29, z + 1.6), "connector")
-    add(doc, f"{prefix}_ESP32S_USB_C", box(9, 7.5, 3.2, x + 9.5, y - .8, z + 1.6), "connector")
-    add(doc, f"{prefix}_ESP32S_EN_BOOT", Part.makeCompound([
-        box(4, 3.5, 2.2, x + 3.5, y + 5, z + 1.6),
-        box(4, 3.5, 2.2, x + 20.5, y + 5, z + 1.6),
-    ]), "chip")
-
-
 def enclosure(doc):
-    bottom = box(W, D, FLOOR)
-    walls = [box(W, WALL, H - FLOOR, 0, 0, FLOOR), box(W, WALL, H - FLOOR, 0, D - WALL, FLOOR),
-             box(WALL, D - 2 * WALL, H - FLOOR, 0, WALL, FLOOR),
-             box(WALL, D - 2 * WALL, H - FLOOR, W - WALL, WALL, FLOOR)]
-    add(doc, "Gabinete_E5", bottom.fuse(walls), "body", "body")
-    lid = box(W, D, LID, 0, 0, H)
-    # Ventana TFT y ranuras visuales para las dos barras.
-    lid = lid.cut(box(47, 23, LID + 2, 194, 128, H - 1))
-    lid = lid.cut(box(102, 6, LID + 2, 16, 183, H - 1))
-    lid = lid.cut(box(102, 6, LID + 2, 150, 183, H - 1))
-    # Rejilla para el parlante comprado de 1,5 pulgadas (envolvente circular 38,1 mm).
-    for ix in range(-2, 3):
-        for iy in range(-2, 3):
-            if ix * ix + iy * iy <= 5:
-                lid = lid.cut(Part.makeCylinder(1.6, LID + 2, vec((64 + ix * 6, 52 + iy * 6, H - 1))))
-    add(doc, "Tapa_E5", lid, "lid", "lid")
+    W, D, H, WALL, FLOOR, LID, R = E.W, E.D, E.H, E.WALL, E.FLOOR, E.LID, E.R_ESQ
+    body = rounded_prism(0, 0, W, D, R, 0, H).cut(rounded_prism(WALL, WALL, W - WALL, D - WALL, R - WALL, FLOOR, H))
+    for c in E.body_cuts():
+        body = body.cut(prim(c))
+    lid = rounded_prism(0, 0, W, D, R, H, LID)
+    for c in E.lid_cuts():
+        lid = lid.cut(prim(c))
+    add(doc, "Gabinete_E5_cuerpo", body, "body", "body")
+    add(doc, "Tapa_E5_imantada", lid, "lid", "lid")
+    return body, lid
 
 
-def populate(doc):
-    mounting = []
-    for ref, (x, y, w, d, label) in BOARDS.items():
-        shape, holes = perfboard(x, y, w, d)
-        add(doc, f"{ref}_Perforada_{int(w)}x{int(d)}", shape, "perf")
-        add(doc, f"{ref}_Donas", pad_grid(x, y, w, d), "pad")
-        mounting += holes
-        if ref == "T1":
-            add(doc, "T1_U1_LM324", dip(x + 33, y + 27), "chip")
-            add(doc, "T1_Pasivos", resistor_row(x + 10, y + 12, 7, 10), "connector")
-            add(doc, "T1_JAB", connector(x + w - 20, y + d - 9, 4), "connector")
-        elif ref == "T2":
-            add(doc, "T2_U2_LM324", dip(x + 39, y + 26), "chip")
-            add(doc, "T2_Potenciometros_B10K", Part.makeCompound([
-                box(16, 8, 18, x + 8 + i * 21, y + 7, Z_BOARD + 1.6) for i in range(4)]), "connector")
-            add(doc, "T2_JBC", connector(x + w - 25, y + d - 9, 5), "connector")
-        elif ref == "T3":
-            add(doc, "T3_U3_U4", Part.makeCompound([dip(x + 18, y + 25), dip(x + 55, y + 25)]), "chip")
-            add(doc, "T3_Detectores", resistor_row(x + 10, y + 10, 8, 10), "connector")
-            add(doc, "T3_JC4", connector(x + w - 22, y + d - 9, 4), "connector")
-        else:
-            esp32s_v11_usbc(doc, x + 8, y + 12)
-            add(doc, "T4_HCT245", dip(x + 48, y + 20, 20), "chip")
-            add(doc, "T4_LCD_Header", connector(x + 60, y + 52, 8), "connector")
-            add(doc, "T4_JBUS", connector(x + w - 12, y + 8, 4, True), "connector")
-            add(doc, "T4_PAM8403_21x18", box(21, 18, 4, x + 72, y + 15, Z_BOARD + 1.6), "esp")
-    # Postes de cada tarjeta, independientes y accesibles.
-    posts = []
-    for x, y in mounting:
-        posts.append(Part.makeCylinder(3.2, Z_BOARD - FLOOR, vec((x, y, FLOOR))))
-    add(doc, "Postes_M3", Part.makeCompound(posts), "support")
+def split(shape, keys):
+    """Parte una pieza en x = SEAM_X con colas de milano; el macho queda en la mitad izquierda."""
+    x0, g, big = E.SEAM_X, E.SEAM_GAP, 1000.0
 
-    # Arnés lógico y bus estrella por el corredor central.
-    wires = [
-        ((98, 70, 15), (108, 70, 15)), ((128, 135, 15), (140, 135, 15)),
-        ((220, 88, 15), (220, 100, 15)), ((55, 78, 15), (55, 100, 15)),
-        ((100, 94, 17), (260, 94, 17)),
-    ]
-    add(doc, "Arneses_E5", Part.makeCompound([tube([a, b], .8) for a, b in wires]), "wire")
-    add(doc, "Bus_5V_GND", tube([(258, 174, 18), (268, 174, 18), (268, 94, 18), (104, 94, 18)], 1.2), "power")
+    def key(y, neck, head, depth, grow):
+        pts = [(x0 - 1, y - neck / 2 - grow), (x0, y - neck / 2 - grow), (x0 + depth + grow, y - head / 2 - grow), (x0 + depth + grow, y + head / 2 + grow),
+               (x0, y + neck / 2 + grow), (x0 - 1, y + neck / 2 + grow)]
+        return Part.Face(Part.makePolygon([App.Vector(px, py, -5) for px, py in pts + [pts[0]]])).extrude(App.Vector(0, 0, 200))
 
-    # Dos barras cortadas de la misma tira WS2812B de 60 LED/m: 6 píxeles por tramo.
-    for idx, x in enumerate((16.0, 150.0), 1):
-        y, z = 181.0, 38.0
-        support = box(104, STRIP_W + .7, 2.2, x - 2, y - .35, z - 1.5)
-        strip = box(100, STRIP_W, 1.2, x, y, z)
-        leds = Part.makeCompound([box(5, 5, 1.8, x + 6.7 + i * 16.67, y + (STRIP_W - 5) / 2, z + 1.2) for i in range(6)])
-        add(doc, f"Soporte_NeoPixel_{idx}_13p2mm", support, "support")
-        add(doc, f"Barra_NeoPixel_{idx}_WS2812B_6px", strip, "strip")
-        add(doc, f"Pixels_{idx}", leds, "led")
-
-    # Elementos comprados montados en tapa/panel.
-    add(doc, "LCD_ST7789_1p9_51p2x27p3", box(51.2, 27.3, 3.0, 192, 126, H - 4), "screen", "lid")
-    add(doc, "Parlante_4ohm_3W_1p5in", Part.makeCylinder(19.05, 13, vec((64, 52, H - 16))), "chip", "lid")
+    males = [key(*k, 0) for k in keys]
+    sockets = [key(*k, g) for k in keys]
+    left = shape.common(Part.makeBox(big, big, big, App.Vector(x0 - big, -big / 2, -big / 2)))
+    left = left.multiFuse([shape.common(m) for m in males]).removeSplitter()
+    right = shape.common(Part.makeBox(big, big, big, App.Vector(x0 + g, -big / 2, -big / 2)))
+    for s_ in sockets:
+        right = right.cut(s_)
+    assert left.isValid() and right.isValid() and len(left.Solids) == 1 and len(right.Solids) == 1, (len(left.Solids), len(right.Solids))
+    return left, right
 
 
-def validate():
-    issues = []
-    rects = []
-    for ref, (x, y, w, d, _) in BOARDS.items():
-        if x < WALL + 2 or y < WALL + 2 or x + w > W - WALL - 2 or y + d > D - WALL - 8:
-            issues.append(f"{ref} fuera del volumen útil")
-        for other, ox, oy, ow, od in rects:
-            if x < ox + ow and x + w > ox and y < oy + od and y + d > oy:
-                issues.append(f"solape {ref}/{other}")
-        rects.append((ref, x, y, w, d))
-    report = {
-        "revision": "E.5", "enclosure_mm": [W, D, H + LID],
-        "boards": {k: list(v[:4]) for k, v in BOARDS.items()},
-        "neopixel_strip_mm": [100, STRIP_W], "support_clearance_mm": 13.2,
-        "issues": issues, "valid": not issues,
-        "dimension_basis": "medidas-componentes.json",
-        "note": "Placas compradas completas; componentes por envolvente. Ver estados fuente/conservadora/por_medir.",
+def solid(shape):
+    """Las piezas hechas de varias cajas se funden en cuerpos cerrados."""
+    return shape.Solids[0].multiFuse(shape.Solids[1:]).removeSplitter() if len(shape.Solids) > 1 else shape
+
+
+def fused(doc, shape, key):
+    """Cuerpo o tapa con sus encastres (postes, ganchos, setas, cuñas, alojamientos de imán) en una sola pieza."""
+    keys = key if isinstance(key, tuple) else (key,)
+    extra = [solid(o.Shape) for o in doc.Objects if hasattr(o, "Meta") and json.loads(o.Meta).get("fundir") in keys]
+    return shape.multiFuse(extra).removeSplitter() if extra else shape
+
+
+def fit_coupons(doc, lid, body, halves):
+    """Probetas de ajuste: recortes de la geometría real para comprobar encajes antes de imprimir cuerpo y tapa."""
+    W, H, LID, WALL = E.W, E.H, E.LID, E.WALL
+    get = lambda name: solid(doc.getObject(name).Shape)
+    clip = lambda shape, x0, y0, z0, x1, y1, z1: shape.common(Part.makeBox(x1 - x0, y1 - y0, z1 - z0, App.Vector(x0, y0, z0)))
+    cx, cy = E.TFT_C
+    gd = E.TFT_GLASS[1]
+    px = E.CONTROLS[1][3]                       # RV2: B10K comprado
+    bx0, by = E.BAR_X0, E.BARS[0][1]
+    bar = (bx0 - 23, by - 11, bx0 + 41, by + 11)
+    mx, my = E.MAGNETS[0]
+    uy, uz = E.USB_C[1], E.USB_C[2]
+    _, jy = E.bxy("T1", 0, 45)
+    fx, fy, fz, fl, fr = E.FUSE
+    zl = H - 6                                  # las probetas de tapa incluyen lo que cuelga de ella
+    out = {
+        "tapa_potenciometro_B10K": clip(lid, px - 13, E.KNOB_Y - 13, zl, px + 13, E.KNOB_Y + 13, H + LID),
+        "tapa_pantalla_T4S3_y_SW1": clip(lid, cx - 38, E.SW_C[1] - 8, zl, cx + 38, cy + gd / 2 + 5, H + LID),
+        "tapa_ventana_barra_LED": clip(lid, bar[0], bar[1], zl, bar[2], bar[3], H + LID),
+        "barra_difusor_tramo": clip(get("Difusor_opalino_GRAVES"), bar[0], bar[1], 0, bar[2], bar[3], H + LID + 1),
+        "barra_cuna_tramo": clip(get("Cuna_tira_GRAVES"), bar[0], bar[1], 0, bar[2], bar[3], H + LID + 1),
+        "tapa_teton_iman": clip(lid, mx - 9, my - 9, zl, mx + 9, E.D, H + LID),
+        "cuerpo_poste_iman_punta": clip(body, mx - 6, my - 6, H - 13, mx + 6, my + 4.4, H),
+        "cuerpo_esquina_tarjeta_T1": clip(body, 0, 0, 0, 18, 34, 13.5),
+        "cuerpo_pinza_portafusible": clip(body, fx - fr - 3, fy + 5, 0, W, fy + 14, 18),
+        "pared_der_interruptor_y_pasacable": clip(body, W - WALL, 10, 19, W, 66, 46),
+        "pared_der_USB_C": clip(body, W - WALL, uy - 15, uz - 12, W, uy + 15, uz + 9),
+        "pared_izq_jack_3p5": clip(body, 0, jy - 11, 4, WALL, jy + 11, 23),
     }
-    (OUT / "validacion-3d.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    ky = E.SEAM_KEYS_LID[1][0]                  # una cola de milano de la junta, en sus dos colores
+    out["union_cola_de_milano_macho"] = clip(halves["tapa_e5_imantada_mitad_izquierda"], E.SEAM_X - 14, ky - 10, H, E.SEAM_X + 8, ky + 10, H + LID)
+    out["union_cola_de_milano_hembra"] = clip(halves["tapa_e5_imantada_mitad_derecha"], E.SEAM_X, ky - 10, H, E.SEAM_X + 16, ky + 10, H + LID)
+    FIT.mkdir(exist_ok=True)
+    for old in FIT.glob("*.stl"):
+        old.unlink()
+    for name, shape in out.items():
+        assert shape.isValid() and len(shape.Solids) == 1 and shape.Volume > 50, (name, len(shape.Solids))
+        MeshPart.meshFromShape(Shape=shape, LinearDeflection=.12, AngularDeflection=.35).write(str(FIT / f"{name}.stl"))
+    return len(out)
+
+
+def validate(parts, wires):
+    W, D, H, WALL = E.W, E.D, E.H, E.WALL
+    issues, checks = [], []
+
+    def check(name, ok, detail):
+        checks.append({"comprobacion": name, "cumple": bool(ok), "detalle": detail})
+        if not ok:
+            issues.append(f"{name}: {detail}")
+
+    rects = []
+    for ref, (x, y, w, d, _) in E.BOARDS.items():
+        inside = x >= WALL + 2 and y >= WALL + 2 and x + w <= W - WALL - 2 and y + d <= D - WALL - 2
+        check(f"{ref} dentro del volumen útil", inside, f"x {x}..{x + w}, y {y}..{y + d}")
+        for other, ox, oy, ow, od in rects:
+            check(f"{ref} sin solape con {other}", not (x < ox + ow and x + w > ox and y < oy + od and y + d > oy), "planta")
+        rects.append((ref, x, y, w, d))
+    # Zona de alimentación fuera de las tarjetas.
+    zone = [("bornera +5V", E.BLK_P_X, E.BLK_Y0, E.BLOCK[1], E.BLOCK[0]), ("bornera GND", E.BLK_N_X, E.BLK_Y0, E.BLOCK[1], E.BLOCK[0]),
+            ("elevador 12 V", E.BOOST[0], E.BOOST[1], E.BOOST[2], E.BOOST[3])]
+    for name, x, y, w, d in zone:
+        clash = [r[0] for r in rects if x < r[1] + r[3] and x + w > r[1] and y < r[2] + r[4] and y + d > r[2]]
+        check(f"{name} sin solape con tarjetas", not clash and x + w <= W - WALL, f"x {x}..{x + w}, y {y}..{y + d} {clash}")
+    # Altura: lo montado en la tapa no toca lo montado en las tarjetas.
+    interior = [p for p in parts if p["group"] == "interior"]
+    lidp = [p for p in parts if p["group"] == "lid"]
+    worst = None
+    for lp in lidp:
+        lb = E.part_bbox(lp)
+        if lb[2] >= H:
+            continue
+        for ip in interior:
+            ib = E.part_bbox(ip)
+            if lb[0] < ib[3] and lb[3] > ib[0] and lb[1] < ib[4] and lb[4] > ib[1]:
+                gap = lb[2] - ib[5]
+                if worst is None or gap < worst[0]:
+                    worst = (gap, lp["name"], ip["name"])
+    check("holgura vertical tapa/tarjetas >= 5 mm", worst is None or worst[0] >= 5.0,
+          f"mínima {worst[0]:.1f} mm entre {worst[1]} y {worst[2]}" if worst else "sin superposición en planta")
+    top_interior = max(E.part_bbox(p)[5] for p in interior)
+    check("componentes interiores bajo la tapa", top_interior < H - 1, f"cota máxima interior {top_interior:.1f} mm; cara interior de tapa {H} mm")
+    # Controles.
+    names = [p["name"] for p in parts]
+    b10k = [p for p in parts if p["meta"].get("tipo") == "B10K"]
+    a10k = [p for p in parts if p["meta"].get("tipo") == "A10K"]
+    check("exactamente tres B10K montados", len(b10k) == 3, ", ".join(p["meta"]["ref"] for p in b10k))
+    check("un B10K queda como repuesto sin montar", E.B10K_COMPRADOS - len(b10k) == 1, f"declarados {E.B10K_COMPRADOS}, montados {len(b10k)}")
+    check("dos posiciones A10K marcadas pendientes", len(a10k) == 2 and all("PENDIENTE" in p["name"] for p in a10k), ", ".join(p["name"] for p in a10k))
+    check("cinco controles rotativos", len(E.CONTROLS) == 5 and sum(n.startswith("Perilla_") and n.endswith("PENDIENTE_COMPRA") for n in names) == 5, "NIVEL, GRAVES, MEDIOS, AGUDOS, VOLUMEN")
+    bad = [n for n in names + [w["name"] for w in wires] if any(t in n.lower() for t in ("desliz", "slider", "slide"))]
+    check("ningún potenciómetro deslizable", not bad, str(bad))
+    xs = [c[3] for c in E.CONTROLS]
+    pitch = min(b - a for a, b in zip(xs, xs[1:]))
+    check("separación entre perillas >= 30 mm", pitch >= 30, f"{pitch} mm entre ejes")
+    free = E.M["Potenciometro-A10K"]["reserva_en_tapa"]["diametro_libre"]
+    check("reserva libre alrededor de cada A10K", pitch - E.POT["diametro_cuerpo"] / 2 >= free / 2, f"cilindro libre de {free} mm")
+    # Tira LED.
+    check("tres barras de 4 píxeles = 12 píxeles lógicos", len(E.BARS) * E.PX_PER_BAND == 12, f"{len(E.BARS)} x {E.PX_PER_BAND} píxeles de {E.PIXEL} mm")
+    check("barra de 200 mm cabe en la tapa", E.BAR_X0 >= 20 and E.BAR_LEN == 200.0, f"x {E.BAR_X0}..{E.BAR_X0 + E.BAR_LEN}")
+    # Parlantes.
+    sp = [p for p in parts if "WS14595" in p["name"] and p["name"].endswith("marco_100x45")]
+    mag = [p for p in parts if p["name"].startswith("Iman_")]
+    check("cuatro pares de imanes y ninguna bisagra", len(mag) == 8 and not [n for n in names if "bisagra" in n.lower()], f"{len(mag)} imanes")
+    check("dos parlantes del conjunto WS-14595", len(sp) == 2, f"{len(sp)} transductores, un conector")
+    # USB-C frente a su ventana.
+    check("USB-C del ESP32S alineado con la pared derecha", abs(E.USB_C[0] - (W - WALL)) <= 2.5, f"boca en x = {E.USB_C[0]:.1f}; pared interior en {W - WALL}")
+    # Cables: extremos dentro del gabinete y cruces solo en la bisagra.
+    outside = []
+    for w in wires:
+        for x, y, z, tag in w["pts"]:
+            if not (WALL - .1 <= x <= W - WALL + .1 and WALL - .1 <= y <= D - WALL + .1 and E.FLOOR - .1 <= z <= H + .1):
+                outside.append(w["name"])
+                break
+    check("cables dentro del gabinete cerrado", not outside, str(sorted(set(outside))))
+    crossing = [w["name"] for w in wires if len({p[3] for p in w["pts"]}) == 2]
+    check("cables tapa-cuerpo cruzan junto al borde frontal", all(any(a[3] != b[3] and max(a[1], b[1]) <= 9 for a, b in zip(w["pts"], w["pts"][1:])) for w in wires if w["name"] in crossing),
+          f"{len(crossing)} conductores cruzan por el frente")
+    pot_len = {}
+    for w in wires:
+        if w["name"].startswith("RV"):
+            pot_len[w["name"]] = round(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])), 1)
+    check("cables de potenciómetros <= 120 mm", max(pot_len.values()) <= 120, f"máximo {max(pot_len.values())} mm")
+    tft_len = max(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])) for w in wires if w["name"].startswith("T4S3_"))
+
+    mounted = {"T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)", "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
+               "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3", "T4": "U5 ESP32S; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 enlace UART al T4-S3 (propuesto, sustituye a J4); SW1 (en tapa, 2 hilos)"}
+    counts = {}
+    for ref, refs in E.BOARD_PARTS.items():
+        counts[ref] = {"R": sum(r.startswith("R") and r[1:].isdigit() for r in refs), "C": sum(r.startswith("C") and r[1].isdigit() for r in refs),
+                       "D": sum(r.startswith("D") and r[1:].isdigit() for r in refs), "U": sum(r.startswith("U") for r in refs)}
+    tot = {k: sum(c[k] for c in counts.values()) for k in "RCDU"}
+    check("40 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U", tot == {"R": 40, "C": 26, "D": 3, "U": 6}, json.dumps(tot))
+
+    pendientes = [
+        "A10K de RV1 (NIVEL) y RV5 (VOLUMEN): NO comprados. Envolvente supuesta igual al B10K; cota pendiente de medir. Los dos P-20K logarítmicos comprados son candidatos sin validar eléctricamente.",
+        "B10K de RV2-RV4: el comprador declara 4 unidades (3 montadas + 1 repuesto); falta factura o albarán en COMPONENTES-COMPRADOS-VERIFICADOS.md y falta medir cuerpo, eje y rosca.",
+        "Tira BTF-LIGHTING B0BW5T6HW4: es FCOB WS2811 de 12 V. El equipo solo tiene 5 V: el elevador 5→12 V modelado no está comprado ni en el esquema.",
+        "Firmware: usa NEO_GRB; la tira publica orden BRG. Los 12 píxeles lógicos se conservan (3 barras × 4 CI), pero el orden de color debe probarse en la tira real.",
+        "Parlantes WS-14595: la envolvente 100×45×21 mm se aplicó a cada parlante (falta medir). El conector trae 4 hilos (2 rojos, 2 negros): un parlante por canal del PAM8403. El esquema solo alimenta una entrada (AMP_IN): hay que puentear L y R en el módulo y actualizar el esquema.",
+        "ESP32S V1.1 USB-C, PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
+        "Difusores: relieve hexagonal impreso (fondo 0,5 mm, nervio 1,1 mm, celdas de 5 mm, patrón repetido cada 25 mm). Geometría propia inspirada en el Duality Infinity 3DHex de Andy Huot; no se usan sus archivos (pista de unos 36 mm de ancho frente a 17 mm entre barras, y licencia de uso personal). Difusión real con la tira FCOB sin probar.",
+        "Pantalla LilyGO T4-S3 (sustituye a la TFT ST7789): NO comprada. Enlace con el ESP32 propuesto por UART2 (GPIO17→GPIO44, GPIO16←GPIO43, +5 V a VBUS, GND); no está en el esquema, J4/R30 quedarían sin uso y no existe firmware para ninguna de las dos placas. Envolvente 56 x 44 x 13 mm tomada de la tienda; montada en horizontal con el vidrio al ras de la tapa. Área activa calculada y reparto de espesores supuesto, no medidos. La interfaz de 600 x 450 del render es una propuesta.",
+        "Borneras puente, portafusible e interruptor: envolventes conservadoras; interruptor general de 5 A DC sin comprar.",
+        "Perillas e imanes de 6×2 mm (4 pares): sin comprar; geometría supuesta. La tapa no tiene bisagras: nada la sostiene abierta y la fuerza de los imanes no está comprobada.",
+        "Documentos en conflicto: BOM/LISTA piden pares +5V/GND propios desde las borneras para T1-T3, y conexiones-entre-tarjetas.csv también lleva +5V/GND por JBUS desde T4. El modelo dibuja ambos; hay que elegir uno antes de cablear.",
+        f"Enlace UART al T4-S3: el arnés dibujado mide {tft_len:.0f} mm por el borde frontal; aceptable para UART, pero la velocidad debe probarse.",
+        "Colocación agujero por agujero de cada tarjeta: no realizada. Las posiciones de componentes son representativas, no una guía de soldadura.",
+        "Gabinete y tapa no impresos ni probados: holguras de impresión, rigidez y ventilación sin validar.",
+    ]
+    report = {
+        "revision": "E.5", "fecha_fuente": E.MEDIDAS["revision"],
+        "gabinete_mm": [W, D, H + E.LID], "tapa": {"cierre": "4 pares de imanes 6x2 mm, sin bisagras", "apertura": "bascula sobre el borde frontal", "apertura_grados_en_el_video": E.LID_OPEN_DEG},
+        "tarjetas": {k: list(v[:4]) for k, v in E.BOARDS.items()}, "montaje_por_tarjeta": mounted, "conteo_por_tarjeta": counts,
+        "controles": [{"ref": r, "funcion": f, "tipo": k, "x": x, "y": E.KNOB_Y, "compra": e} for r, f, k, x, e, _ in E.CONTROLS],
+        "b10k": {"declarados": E.B10K_COMPRADOS, "montados": len(b10k), "repuesto_no_modelado": E.B10K_COMPRADOS - len(b10k)},
+        "a10k": {"comprados": 0, "posiciones": len(a10k), "estado": "pendiente; candidato P-20K sin validar"},
+        "deslizables": 0,
+        "tira_led": {"producto": "BTF-LIGHTING FCOB WS2811 12 V 720 LED/m", "tramos": len(E.BARS), "mm_por_tramo": E.BAR_LEN, "pixeles_logicos": 12, "mm_por_pixel": E.PIXEL},
+        "parlantes": 2, "cables": len(wires), "longitud_cables_potenciometro_mm": pot_len, "longitud_arnes_UART_T4S3_mm": round(tft_len, 1),
+        "comprobaciones": checks, "issues": issues, "valid": not issues,
+        "pendientes_y_supuestos": pendientes,
+        "alcance": "Validación geométrica por envolventes. No sustituye pruebas eléctricas, mecánicas ni la presentación física de las piezas.",
+    }
+    (OUT / "validacion-3d.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     if issues:
-        raise RuntimeError(issues)
+        raise RuntimeError("\n".join(issues))
+    return report
 
 
 def main():
-    validate()
+    parts, wires = E.build_all()
+    validate(parts, wires)
     doc = App.newDocument("Ecualizador_E5_Perforadas")
-    enclosure(doc)
-    populate(doc)
+    body0, lid0 = enclosure(doc)
+    hidden = []
+    for p in parts:
+        obj = add(doc, p["name"], shape_of(p), p["color"], p["group"], p["meta"])
+        if p["meta"].get("solo_mitades"):
+            hidden.append(obj.Name)
+    harness = {}
+    for w in wires:
+        key = (w["harness"], w["color"])
+        harness.setdefault(key, []).extend(tube(w["pts"], w["dia"] / 2))
+    for (name, color), pieces in harness.items():
+        add(doc, f"{name}__{color[2:]}", Part.makeCompound(pieces), color, "wire")
     doc.recompute()
     doc.saveAs(str(OUT / "ecualizador-E5-perforadas.FCStd"))
-    objects = [o for o in doc.Objects if hasattr(o, "Shape") and not o.Shape.isNull()]
+    objects = [o for o in doc.Objects if hasattr(o, "Shape") and not o.Shape.isNull() and o.Name not in hidden]
     Import.export(objects, str(OUT / "ecualizador-E5-perforadas.step"))
-    for name in ("Gabinete_E5", "Tapa_E5", "Soporte_NeoPixel_1_13p2mm", "Soporte_NeoPixel_2_13p2mm"):
-        obj = doc.getObject(name)
-        mesh = MeshPart.meshFromShape(Shape=obj.Shape, LinearDeflection=.12, AngularDeflection=.35)
-        mesh.write(str(STL / f"{name.lower()}.stl"))
-    print(f"E.5 CAD: {len(objects)} objetos; {W} x {D} x {H + LID} mm")
+    for old in STL.glob("*.stl"):
+        old.unlink()
+    # Piezas imprimibles: el cuerpo y la tapa llevan fundidos sus encastres; el resto son piezas sueltas que encajan.
+    lid, body = fused(doc, lid0, "tapa"), fused(doc, body0, "cuerpo")
+    printable = {"gabinete_e5_cuerpo": body, "tapa_e5_imantada": lid}       # de una pieza (por defecto)
+    # Opción en dos mitades con cola de milano; solo ellas llevan los refuerzos de la junta.
+    for name, shape, keys in (("gabinete_e5_cuerpo", fused(doc, body0, ("cuerpo", "cuerpo_mitades")), E.SEAM_KEYS_BODY), ("tapa_e5_imantada", lid, E.SEAM_KEYS_LID)):
+        printable[f"{name}_mitad_izquierda"], printable[f"{name}_mitad_derecha"] = split(shape, keys)
+    halves = {k: v for k, v in printable.items() if "tapa" in k and "mitad" in k}
+    printable.update({o.Name.lower(): solid(o.Shape) for o in objects if json.loads(o.Meta).get("pieza_impresa")})
+    for name, shape in printable.items():
+        assert shape.isValid() and len(shape.Solids) == 1, (name, len(shape.Solids))
+        MeshPart.meshFromShape(Shape=shape, LinearDeflection=.12, AngularDeflection=.35).write(str(STL / f"{name}.stl"))
+    coupons = fit_coupons(doc, lid, body, halves)
+    # Malla para Blender. Los cables no se teselan: Blender los reconstruye como curvas.
+    data = []
+    for obj in objects:
+        if obj.AssemblyGroup == "wire":
+            continue
+        vertices, faces = obj.Shape.tessellate(.12)
+        data.append({"name": obj.Name, "label": obj.Label, "vertices": [tuple(round(c, 4) for c in v) for v in vertices], "faces": faces,
+                     "color": obj.ColorKey, "group": obj.AssemblyGroup, "meta": json.loads(obj.Meta)})
+    (TEMP / "ensamble.json").write_text(json.dumps({"layout": E.export_layout(), "objects": data}), encoding="utf-8")
+    print(f"E.5 CAD: {len(objects)} objetos, {len(wires)} cables; {E.W} x {E.D} x {E.H + E.LID} mm; {len(printable)} STL; {coupons} probetas de ajuste")
 
 
-if __name__ == "__main__":
-    main()
+main()

@@ -25,4 +25,4 @@ Copiar `../exposicion-portable.zip` y extraerlo completo. El botón del esquema 
 
 ## Demo con sonido
 
-Abrir [el video del dispositivo](../video/ecualizador-animado.mp4) y activar el sonido. Dura 36 segundos: graves, medios y agudos bajan y suben por separado, con audio procesado mediante el modelo SPICE del circuito. Es una demo virtual; la pantalla y los LED se sincronizan con esa pista. El MP4 también está incluido en `docs/exposicion-portable.zip`.
+Abrir [el video del dispositivo](../video/ecualizador-animado.mp4) y activar el sonido. Dura 50 segundos y muestra el montaje vigente E.5 en tarjetas perforadas con cinco controles rotativos: graves, medios y agudos bajan y suben por separado al girar sus B10K, con audio procesado mediante el modelo SPICE del circuito; luego se levanta la tapa imantada. Es una demo virtual: la pantalla sigue esa pista y los LED permanecen fijos, como en el firmware. Las diapositivas de la Fase 2 todavía dibujan el gabinete D.2 con deslizables, que quedó archivado. El MP4 también está incluido en `docs/exposicion-portable.zip`.

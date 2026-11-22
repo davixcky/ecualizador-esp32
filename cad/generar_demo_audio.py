@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 from scipy import signal
 from scipy.io import wavfile
-ROOT=Path(__file__).resolve().parent;OUT=ROOT.parent/'docs/video';OUT.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parent;OUT=ROOT.parent/'cad/archivo-video-D2';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(ROOT.parent/'herramientas'))
 from simulacion import netlist,OPAMP_LIB
 from demo_timeline import FPS,DURATION,FRAMES,state

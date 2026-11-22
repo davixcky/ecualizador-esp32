@@ -5,14 +5,27 @@
 [Guía de montaje y esquema (PDF)](docs/protoboard/guia-prototipo-protoboard.pdf) · [Lista de materiales (CSV)](docs/protoboard/materiales.csv) · [Conexiones pin por pin (CSV)](docs/protoboard/conexiones.csv). Incluye pruebas con generador y osciloscopio, y ampliación con ESP32, pantalla y NeoPixel. [Fuente LaTeX](docs/latex/prototipo-protoboard.tex).
 
 
-## Video del dispositivo
+## Modelo mecánico vigente E.5
 
-[Ver video en Full HD](docs/video/ecualizador-animado.mp4) · [Escena de Blender y texturas](docs/video/ecualizador-blender.zip). Demo de 36 segundos con sonido: los deslizadores cambian el audio usando las respuestas SPICE del circuito. Pantalla y luces sincronizadas; apertura de la tapa imantada. Es una demo virtual, no una grabación del prototipo físico.
+[Vista cerrada](hardware/E5-perforadas/3d/ecualizador-E5-cerrado.png) ·
+[vista abierta](hardware/E5-perforadas/3d/ecualizador-E5-abierto.png) ·
+[planta desplegada](hardware/E5-perforadas/3d/ecualizador-E5-planta.png) ·
+[soporte de pantalla](hardware/E5-perforadas/3d/ecualizador-E5-pantalla-soporte-explotado.png) ·
+[cómo regenerar](hardware/E5-perforadas/3d/README.md) ·
+[prácticas propias de E.5](hardware/E5-perforadas/3d/BEST-PRACTICES.md).
+Estas imágenes fijas son la referencia visual del CAD vigente: tapa magnética, piezas por encastre,
+cinco controles rotativos, LilyGO T4-S3 propuesta y cuatro tarjetas perforadas.
+
+El [video de 50 segundos](docs/video/ecualizador-animado.mp4) se conserva como material histórico.
+Su [revisión](docs/video/REVIEW.md) documenta que el interior quedó anterior a los encastres actuales;
+no debe usarse como guía de fabricación o montaje.
+
+> **Controles vigentes:** no hay potenciómetros deslizables. Los informes y la presentación de la Fase 2 (`docs/latex/`, `docs/informe-fase2.*`, `docs/presentacion/`) y la carpeta [`cad/`](cad/LEEME-ARCHIVO.md) describen la revisión D.2 archivada, que sí los dibujaba; no representan el hardware que se va a montar. Las compras respaldadas están en [`hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md`](hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md).
 
 
 Proyecto de Electrónica II · Universidad de la Costa · Leo Rojas, David Orozco y Manuel Castilla.
 
-La ruta de audio usa filtros activos y controles analógicos. El ESP32 lee los niveles y calcula una FFT para la pantalla Waveshare de **1,9 pulgadas, 170 × 320, ST7789V2**. El gabinete EQ / 03 tiene acabado grafito, cierre con cuatro pares de imanes y dos canales interiores para 12 NeoPixel.
+La ruta de audio usa filtros activos y controles analógicos. El firmware existente lee los niveles y dibuja una FFT para la pantalla Waveshare de **1,9 pulgadas, 170 × 320, ST7789V2**. El CAD vigente propone sustituirla por una LilyGO T4-S3; [`firmware-lilygo/`](firmware-lilygo/) contiene el simulador visual y su panel de ajustes, todavía con datos de ejemplo y sin enlace de audio real. El gabinete E.5 mide 278 × 192 × 64 mm, usa cierre magnético y tres barras de luz (12 píxeles lógicos); el gabinete EQ / 03 con imanes de la Fase 2 quedó archivado.
 
 | Entrega | Archivos actuales |
 |---|---|
@@ -25,7 +38,7 @@ La ruta de audio usa filtros activos y controles analógicos. El ESP32 lee los n
 | Paquete para otro computador | [ZIP portátil: presentación, esquema y simulaciones](docs/exposicion-portable.zip) |
 | Simulación en Velxio | [Abrir casos locales](simulacion/velxio/index.html) · [Instrucciones y alcance](simulacion/velxio/README.md) · [100 Hz](simulacion/velxio/filtros-100Hz.vlx) · [1 kHz](simulacion/velxio/filtros-1000Hz.vlx) · [8 kHz](simulacion/velxio/filtros-8000Hz.vlx) |
 | Proyecto único E.4-LM324 | [Abrir en KiCad](hardware/E4-LM324/proyecto/ecualizador-E4-LM324.kicad_pro) · [Esquema PDF](hardware/E4-LM324/proyecto/ecualizador-E4-LM324.pdf) · [Fabricación](hardware/E4-LM324/fabricacion/) · [Vista superior](hardware/E4-LM324/vistas/3d-top.png) · [Vista inferior](hardware/E4-LM324/vistas/3d-bottom.png) · [Montaje](hardware/E4-LM324/README.md) |
-| Prototipo modular E.5 en tarjetas perforadas | [Esquema modular PDF](hardware/E5-perforadas/esquema-modular-perforadas.pdf) · [Proyecto KiCad](hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_pro) · [Conexiones](hardware/E5-perforadas/conexiones-entre-tarjetas.csv) · [Modelo 3D editable](hardware/E5-perforadas/3d/ecualizador-E5-perforadas.FCStd) · [Vista abierta](hardware/E5-perforadas/3d/ecualizador-E5-abierto.png) · [Guía](hardware/E5-perforadas/README.md) |
+| Prototipo modular E.5 en tarjetas perforadas | [Esquema modular PDF](hardware/E5-perforadas/esquema-modular-perforadas.pdf) · [Proyecto KiCad](hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_pro) · [Conexiones](hardware/E5-perforadas/conexiones-entre-tarjetas.csv) · [Modelo 3D editable](hardware/E5-perforadas/3d/ecualizador-E5-perforadas.FCStd) · [Vista cerrada](hardware/E5-perforadas/3d/ecualizador-E5-cerrado.png) · [Vista abierta](hardware/E5-perforadas/3d/ecualizador-E5-abierto.png) · [Planta desplegada](hardware/E5-perforadas/3d/ecualizador-E5-planta.png) · [Modelo 3D: cómo regenerar](hardware/E5-perforadas/3d/README.md) · [Guía](hardware/E5-perforadas/README.md) |
 | PCB E.3-LM324 de una cara | [KiCad](hardware/E3-LM324/placa/ecualizador-E3-LM324.kicad_pcb) · [Fabricación](hardware/E3-LM324/fabricacion/) · [Vista superior](hardware/E3-LM324/vistas/3d-top.png) · [Vista inferior](hardware/E3-LM324/vistas/3d-bottom.png) · [Reglas y montaje](hardware/E3-LM324/README.md) |
 | PCB de una cara D.2 (anterior, MCP6004) | [Plano PDF](hardware/pcb-rev-D2.pdf) · [KiCad](hardware/ecualizador.kicad_pcb) · [DRC](hardware/drc.rpt) · [Montaje y puentes](hardware/una-cara/LEEME.md) · [BOM](hardware/fabricacion/bom.csv) |
 | Modelos 3D | [Gabinete STEP](cad/ecualizador-gabinete.step) · [Piezas STL](cad/stl/) · [Retrofit D.3 STEP](hardware/3d/ecualizador-D3-retrofit.step) · [Vista superior](hardware/3d/ecualizador-D3-retrofit.png) · [Vista inferior](hardware/3d/ecualizador-D3-retrofit-inferior.png) · [PCB D.2 STEP](hardware/3d/ecualizador-placa.step) |

@@ -11,10 +11,11 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 - `BOM-precision.md` y `BOM-precision.csv`: lista de compra completa: pasivos de precisión, integrados, conectores, módulos, cables y material mecánico.
 - `COMPRAS-COLOMBIA.md`: enlaces de compra colombianos, cantidades con repuestos y advertencias de compatibilidad.
 - `LISTA-POR-TIENDA.md`: lista operativa con casillas, agrupada por proveedor para reducir pedidos y fletes.
-- `3d/ecualizador-E5-perforadas.FCStd` y `.step`: ensamble mecánico actualizado con
-  las cuatro tarjetas, arneses y dos barras WS2812B.
-- `3d/ecualizador-E5-{cerrado,abierto,planta}.png`: vistas para revisar
-  volumen, montaje y accesibilidad.
+- `../COMPONENTES-COMPRADOS-VERIFICADOS.md`: compras respaldadas por factura o albarán; manda sobre los carritos.
+- `3d/ecualizador-E5-perforadas.FCStd` y `.step`: ensamble mecánico con las cuatro tarjetas, cinco controles
+  rotativos en la tapa imantada, pantalla LilyGO T4-S3, dos parlantes, arneses y tres barras de luz. Ver `3d/README.md`.
+- `3d/ecualizador-E5-{cerrado,abierto,planta}.png`: vistas para revisar volumen, montaje y accesibilidad.
+- `video/`: guiones del video de `docs/video/` (audio SPICE, pantalla del firmware, Blender y validación).
 
 ## División propuesta
 
@@ -28,6 +29,10 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 El modelo 3D usa las placas adquiridas **sin recortarlas**. Las dimensiones y su
 grado de certeza están en `3d/medidas-componentes.json`; las cotas que el vendedor
 no publica siguen marcadas para medir con calibre antes de imprimir el gabinete.
+
+## Controles
+
+Los cinco controles son **rotativos** y van en la tapa; no hay potenciómetros deslizables. RV2, RV3 y RV4 (graves, medios, agudos) son B10K lineales: extremos entre la señal de la banda y VREF, cursor hacia el sumador. RV1 (nivel) y RV5 (volumen) son A10K logarítmicos que **aún no se han comprado**; los dos P-20K logarítmicos adquiridos no los sustituyen sin validar antes el circuito. Cada potenciómetro llega a su tarjeta con tres hilos soldados de menos de 12 cm.
 
 ## Reglas importantes
 

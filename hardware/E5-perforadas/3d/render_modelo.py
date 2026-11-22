@@ -1,90 +1,90 @@
 #!/usr/bin/env python3
-"""Exporta el FCStd a JSON con FreeCAD y lo renderiza con Blender."""
+"""Vistas fijas del ensamble E.5 y detalle explotado de la pantalla.
+
+    freecadcmd hardware/E5-perforadas/3d/generar_modelo.py      # antes: CAD y malla
+    blender -b -P hardware/E5-perforadas/3d/render_modelo.py
+
+Opcional: `-- cerrado abierto planta detalle pantalla-soporte` para elegir vistas.
+La pantalla LilyGO T4-S3 horizontal muestra `tft-render-horizontal.png`: una propuesta estática
+para los renders. El firmware del T4-S3 aún no existe.
+"""
 from pathlib import Path
-import json
+import os
 import sys
 
 HERE = Path(__file__).resolve().parent
-TEMP = HERE / ".render"
+sys.path.insert(0, str(HERE))
+import bpy  # noqa: E402
+import escena_blender  # noqa: E402
+
+ROOT = HERE.parents[2]
+views = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else ["cerrado", "abierto", "planta"]
+s = escena_blender.build(engine=os.environ.get("MOTOR", "CYCLES"), samples=int(os.environ.get("MUESTRAS", "96")),
+                         tft_image=HERE / "tft-render-horizontal.png")
+scene, lay = s["scene"], s["layout"]
+scene.render.resolution_x, scene.render.resolution_y = 2000, 1300
+W, D, H = lay["W"], lay["D"], lay["H"]
+for ref in ("RV1", "RV2", "RV3", "RV4", "RV5"):
+    s["set_knob"](ref, .5)
 
 
-def exportar():
-    import FreeCAD as App
-    TEMP.mkdir(exist_ok=True)
-    doc = App.openDocument(str(HERE / "ecualizador-E5-perforadas.FCStd"))
-    data = []
-    for obj in doc.Objects:
-        if not hasattr(obj, "Shape") or obj.Shape.isNull():
-            continue
-        vertices, faces = obj.Shape.tessellate(.18)
-        data.append({
-            "name": obj.Name, "vertices": [tuple(v) for v in vertices], "faces": faces,
-            "color": [float(v) for v in obj.ColorRGB.split(",")], "group": obj.AssemblyGroup,
-        })
-    path = TEMP / "ensamble.json"
-    path.write_text(json.dumps(data), encoding="utf-8")
-    print(path)
+def shot(name):
+    scene.render.filepath = str(HERE / f"ecualizador-E5-{name}.png")
+    bpy.ops.render.render(write_still=True)
 
 
-def renderizar(path):
-    import bpy
-    from mathutils import Vector
-    data = json.loads(Path(path).read_text(encoding="utf-8"))
-    bpy.ops.wm.read_factory_settings(use_empty=True)
-    scene = bpy.context.scene
-    scene.render.engine = "BLENDER_EEVEE"
-    scene.render.resolution_x, scene.render.resolution_y = 2000, 1300
-    scene.render.resolution_percentage = 100
-    scene.render.image_settings.file_format = "PNG"
-    scene.world = bpy.data.worlds.new("World")
-    scene.world.use_nodes = True
-    background = scene.world.node_tree.nodes.get("Background")
-    background.inputs["Color"].default_value = (.72, .74, .78, 1)
-    background.inputs["Strength"].default_value = .75
-    scene.view_settings.look = "AgX - Medium High Contrast"
-    objects, groups = {}, {}
-    for item in data:
-        mesh = bpy.data.meshes.new(item["name"])
-        mesh.from_pydata(item["vertices"], [], item["faces"]); mesh.update()
-        obj = bpy.data.objects.new(item["name"], mesh); scene.collection.objects.link(obj)
-        mat = bpy.data.materials.new(item["name"]); mat.diffuse_color = (*item["color"], 1)
-        mat.use_nodes = True
-        shader = mat.node_tree.nodes.get("Principled BSDF")
-        shader.inputs["Base Color"].default_value = (*item["color"], 1)
-        shader.inputs["Roughness"].default_value = .62
-        if "Pixels" in item["name"]:
-            shader.inputs["Emission Color"].default_value = (*item["color"], 1)
-            shader.inputs["Emission Strength"].default_value = 1.8
-        obj.data.materials.append(mat)
-        objects[item["name"]], groups[item["name"]] = obj, item["group"]
-    floor = bpy.data.meshes.new("Floor")
-    floor.from_pydata([(-500,-500,0),(500,-500,0),(500,500,0),(-500,500,0)], [], [(0,1,2,3)])
-    floor_obj = bpy.data.objects.new("Floor", floor); scene.collection.objects.link(floor_obj)
-    fm = bpy.data.materials.new("Floor"); fm.diffuse_color=(.93,.94,.96,1); floor_obj.data.materials.append(fm)
-    for pos, energy, size in (((-180,-220,360),1300,220),((360,80,260),900,180)):
-        light = bpy.data.lights.new("Area", "AREA"); light.energy=energy; light.shape="DISK"; light.size=size
-        lo=bpy.data.objects.new("Area",light); scene.collection.objects.link(lo); lo.location=pos
-        lo.rotation_euler=(Vector((118,93,20))-lo.location).to_track_quat('-Z','Y').to_euler()
-    camera_data=bpy.data.cameras.new("Camera"); camera_data.type="ORTHO"
-    camera=bpy.data.objects.new("Camera",camera_data); scene.collection.objects.link(camera); scene.camera=camera
-
-    def shot(name, target, direction, scale):
-        target=Vector(target); camera.location=target+Vector(direction).normalized()*600
-        camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler(); camera_data.ortho_scale=scale
-        scene.render.filepath=str(HERE/name); bpy.ops.render.render(write_still=True)
-
-    for name,obj in objects.items():
-        obj.location=(0,0,0); obj.hide_render=False
-    shot("ecualizador-E5-cerrado.png", (139,96,30), (-.65,-.9,1), 340)
-    for name,obj in objects.items():
-        obj.location=(300,0,-61) if groups[name]=="lid" else (0,0,0); obj.hide_render=False
-    shot("ecualizador-E5-abierto.png", (215,96,24), (-.55,-.85,1.15), 500)
-    for name,obj in objects.items():
-        obj.location=(0,0,0); obj.hide_render=groups[name]=="lid"
-    shot("ecualizador-E5-planta.png", (139,96,12), (0,-.06,1), 310)
-
-
-if "--" in sys.argv:
-    renderizar(sys.argv[-1])
-else:
-    exportar()
+if "cerrado" in views:
+    s["set_lid"](0)
+    s["aim"]((-150, -400, 330), (W / 2, D / 2 - 6, 26), 50)
+    shot("cerrado")
+if "detalle" in views:
+    s["set_lid"](0)
+    s["aim"]((139, -170, 190), (139, 40, 62), 50)
+    shot("detalle-controles")
+if "abierto" in views:
+    s["set_lid"](lay["lid_open_deg"])
+    s["aim"]((500, 470, 430), (W / 2, 62, 46), 42)
+    shot("abierto")
+if "planta" in views:
+    # Planta desplegada: tapa volteada 180° hacia el frente para ver su cara interior,
+    # las cuatro tarjetas y todos los arneses sin que nada tape nada.
+    s["set_lid"](180)
+    scene.render.resolution_x, scene.render.resolution_y = 1500, 2100
+    s["aim"]((W / 2, -4, 900), (W / 2, -4 + .01, 0), ortho=416)
+    shot("planta")
+if "pantalla-soporte" in views:
+    # Vista didáctica desde el interior: frente de prueba, módulo y placa trasera
+    # separados. No representa la posición de funcionamiento, sino el orden de montaje.
+    s["set_lid"](0)
+    bpy.ops.wm.stl_import(filepath=str(HERE / "pruebas-de-ajuste/tapa_pantalla_T4S3_y_SW1.stl"))
+    front = bpy.context.object
+    front.name = "Frente_prueba_pantalla_T4S3_y_SW1"
+    front.data.materials.append(escena_blender.make_material("lid", lay["colors"]["lid"]))
+    display_names = {
+        "LilyGO_T4S3_AMOLED_vidrio_56x44_PENDIENTE_COMPRA",
+        "LilyGO_T4S3_AMOLED_panel_y_adhesivo",
+        "LilyGO_T4S3_PCB_51p56x38p72",
+        "LilyGO_T4S3_ESP32S3_flash_y_PMU",
+        "LilyGO_T4S3_ranura_microSD",
+        "LilyGO_T4S3_USB_C",
+        "LilyGO_T4S3_cabecera_2x13",
+        "LilyGO_T4S3_cabecera_pines",
+        "LilyGO_T4S3_JST_UART_y_JST_I2C",
+        "LilyGO_T4S3_JST_bateria",
+    }
+    back_name = "Placa_trasera_desmontable_LilyGO_T4S3"
+    keep = display_names | {back_name, front.name}
+    for obj in scene.objects:
+        if obj.type in {"MESH", "CURVE", "FONT"}:
+            obj.hide_render = obj.name not in keep
+    s["screen"].hide_render = True
+    for name in display_names:
+        if name in s["objs"]:
+            s["objs"][name].location.z -= 10
+    back = s["objs"][back_name]
+    back.location.z -= 24
+    back.data.materials.clear()
+    back.data.materials.append(escena_blender.make_material("w_blue", (.20, .48, .78)))
+    scene.render.resolution_x, scene.render.resolution_y = 1800, 1350
+    s["aim"]((210, -155, -30), (139, 98, 45), 62)
+    shot("pantalla-soporte-explotado")

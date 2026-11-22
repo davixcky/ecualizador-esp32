@@ -4,7 +4,7 @@ from PIL import Image,ImageDraw,ImageFont
 import json,subprocess
 from demo_timeline import FPS,FRAMES
 ROOT=Path(__file__).resolve().parent;OUT=ROOT/'video-texturas';OUT.mkdir(exist_ok=True)
-rows=json.loads((ROOT.parent/'docs/video/demo-timeline.json').read_text())
+rows=json.loads((ROOT.parent/'cad/archivo-video-D2/demo-timeline.json').read_text())
 assert len(rows)==FRAMES
 font=subprocess.check_output(['fc-match','-f','%{file}','sans'],text=True)
 f=ImageFont.truetype(font,12);small=ImageFont.truetype(font,9)
@@ -40,4 +40,4 @@ for i,row in enumerate(rows):
     active=row['active']
     label=(f"{names[active]}  ·  {round(row['sliders'][active]*100)} %" if active is not None else ('LOS TRES CONTROLES AL 50 %' if row['time']<28 else 'TAPA IMANTADA · PCB DE UNA CARA'))
     ass+=f'Dialogue: 0,{stamp(i/FPS)},{stamp((i+1)/FPS)},Default,,0,0,0,,{label}\n'
-(ROOT.parent/'docs/video/demo-subtitulos.ass').write_text(ass)
+(ROOT.parent/'cad/archivo-video-D2/demo-subtitulos.ass').write_text(ass)

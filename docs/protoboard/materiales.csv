@@ -19,7 +19,7 @@ analógico,1,56k 1%,R12
 analógico,2,4n7 film,"C16, C20"
 analógico,1,2k7 1%,R15
 analógico,1,5k6 1%,R16
-analógico,3,10 kΩ lineal; rotativo o deslizable con cables,"RV2, RV3, RV4"
+analógico,3,10 kΩ lineal; rotativo, con cables,"RV2, RV3, RV4"
 analógico,5,47k 1%,"R17, R18, R19, R20, R21"
 analógico,1,100k 1%,R22
 analógico,1,100,R23

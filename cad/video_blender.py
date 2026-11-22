@@ -13,7 +13,7 @@ from demo_timeline import FPS,FRAMES,state
 sys.argv=['render_blender.py','--','escena']
 s=runpy.run_path(str(ROOT/'render_blender.py'))
 scene=s['esc']; cam=s['cam']; obj=s['obj']; mats=s['MAT']
-OUT=ROOT.parent/'docs/video'; OUT.mkdir(exist_ok=True)
+OUT=ROOT.parent/'cad/archivo-video-D2'; OUT.mkdir(parents=True,exist_ok=True)
 frames=OUT/'frames'; frames.mkdir(exist_ok=True)
 scene.render.engine='CYCLES'
 prefs=bpy.context.preferences.addons['cycles'].preferences

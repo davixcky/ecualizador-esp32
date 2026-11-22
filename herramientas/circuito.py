@@ -113,7 +113,7 @@ R("R15", "2k7 1%", "AH1", "AGUDOS", "Pasa altas de agudos (realimentación)")
 R("R16", "5k6 1%", "AH2", "VREF", "Pasa altas de agudos")
 AO("U2B", "AH2", "AGUDOS", "AGUDOS", "Pasa altas Sallen-Key de agudos")
 
-# --- ganancia por banda (deslizables)
+# --- ganancia por banda. H_SLIDE es la huella de la PCB D.2 archivada; el montaje vigente E.5 usa B10K rotativos.
 POT("RV2", "10k lin", "GRAVES", "G_W", "VREF", "Ganancia de graves", H_SLIDE)
 POT("RV3", "10k lin", "MEDIOS", "M_W", "VREF", "Ganancia de medios", H_SLIDE)
 POT("RV4", "10k lin", "AGUDOS", "A_W", "VREF", "Ganancia de agudos", H_SLIDE)

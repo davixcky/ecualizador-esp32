@@ -4,7 +4,7 @@ import json
 import numpy as np
 from scipy import signal
 from scipy.io import wavfile
-root=Path(__file__).resolve().parent.parent/'docs/video'
+root=Path(__file__).resolve().parent.parent/'cad/archivo-video-D2'
 report=json.loads((root/'validacion-audio.json').read_text())
 sr,x=wavfile.read(root/'demo-entrada.wav');x=x.astype(float)/32767*(.03/.7)
 sr,y=wavfile.read(root/'demo-audio.wav');y=y.astype(float)/32767

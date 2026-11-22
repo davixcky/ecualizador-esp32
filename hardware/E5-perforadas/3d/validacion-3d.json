@@ -1,20 +1,26 @@
 {
   "revision": "E.5",
-  "enclosure_mm": [
+  "fecha_fuente": "E.5-rotativos-2026-11-20",
+  "gabinete_mm": [
     278.0,
     192.0,
     64.0
   ],
-  "boards": {
+  "tapa": {
+    "cierre": "4 pares de imanes 6x2 mm, sin bisagras",
+    "apertura": "bascula sobre el borde frontal",
+    "apertura_grados_en_el_video": 100.0
+  },
+  "tarjetas": {
     "T1": [
-      8.0,
-      8.0,
+      5.5,
+      5.5,
       90.0,
       70.0
     ],
     "T2": [
-      108.0,
-      8.0,
+      105.0,
+      5.5,
       120.0,
       80.0
     ],
@@ -25,19 +31,298 @@
       80.0
     ],
     "T4": [
-      140.0,
+      153.0,
       100.0,
       120.0,
       80.0
     ]
   },
-  "neopixel_strip_mm": [
-    100,
-    12.5
+  "montaje_por_tarjeta": {
+    "T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)",
+    "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
+    "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3",
+    "T4": "U5 ESP32S; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 enlace UART al T4-S3 (propuesto, sustituye a J4); SW1 (en tapa, 2 hilos)"
+  },
+  "conteo_por_tarjeta": {
+    "T1": {
+      "R": 12,
+      "C": 10,
+      "D": 0,
+      "U": 1
+    },
+    "T2": {
+      "R": 12,
+      "C": 9,
+      "D": 0,
+      "U": 1
+    },
+    "T3": {
+      "R": 5,
+      "C": 5,
+      "D": 3,
+      "U": 2
+    },
+    "T4": {
+      "R": 11,
+      "C": 2,
+      "D": 0,
+      "U": 2
+    }
+  },
+  "controles": [
+    {
+      "ref": "RV1",
+      "funcion": "NIVEL",
+      "tipo": "A10K",
+      "x": 59.0,
+      "y": 26.0,
+      "compra": "pendiente"
+    },
+    {
+      "ref": "RV2",
+      "funcion": "GRAVES",
+      "tipo": "B10K",
+      "x": 99.0,
+      "y": 26.0,
+      "compra": "declarada"
+    },
+    {
+      "ref": "RV3",
+      "funcion": "MEDIOS",
+      "tipo": "B10K",
+      "x": 139.0,
+      "y": 26.0,
+      "compra": "declarada"
+    },
+    {
+      "ref": "RV4",
+      "funcion": "AGUDOS",
+      "tipo": "B10K",
+      "x": 179.0,
+      "y": 26.0,
+      "compra": "declarada"
+    },
+    {
+      "ref": "RV5",
+      "funcion": "VOLUMEN",
+      "tipo": "A10K",
+      "x": 219.0,
+      "y": 26.0,
+      "compra": "pendiente"
+    }
   ],
-  "support_clearance_mm": 13.2,
+  "b10k": {
+    "declarados": 4,
+    "montados": 3,
+    "repuesto_no_modelado": 1
+  },
+  "a10k": {
+    "comprados": 0,
+    "posiciones": 2,
+    "estado": "pendiente; candidato P-20K sin validar"
+  },
+  "deslizables": 0,
+  "tira_led": {
+    "producto": "BTF-LIGHTING FCOB WS2811 12 V 720 LED/m",
+    "tramos": 3,
+    "mm_por_tramo": 200.0,
+    "pixeles_logicos": 12,
+    "mm_por_pixel": 50.0
+  },
+  "parlantes": 2,
+  "cables": 82,
+  "longitud_cables_potenciometro_mm": {
+    "RV1_NIVEL_pin1": 60.5,
+    "RV1_NIVEL_pin2": 60.5,
+    "RV1_NIVEL_pin3": 60.5,
+    "RV2_GRAVES_pin1": 63.4,
+    "RV2_GRAVES_pin2": 62.7,
+    "RV2_GRAVES_pin3": 62.1,
+    "RV3_MEDIOS_pin1": 60.5,
+    "RV3_MEDIOS_pin2": 60.5,
+    "RV3_MEDIOS_pin3": 60.5,
+    "RV4_AGUDOS_pin1": 60.5,
+    "RV4_AGUDOS_pin2": 60.5,
+    "RV4_AGUDOS_pin3": 60.5,
+    "RV5_VOLUMEN_pin1": 59.0,
+    "RV5_VOLUMEN_pin2": 60.5,
+    "RV5_VOLUMEN_pin3": 63.0
+  },
+  "longitud_arnes_UART_T4S3_mm": 381.2,
+  "comprobaciones": [
+    {
+      "comprobacion": "T1 dentro del volumen útil",
+      "cumple": true,
+      "detalle": "x 5.5..95.5, y 5.5..75.5"
+    },
+    {
+      "comprobacion": "T2 dentro del volumen útil",
+      "cumple": true,
+      "detalle": "x 105.0..225.0, y 5.5..85.5"
+    },
+    {
+      "comprobacion": "T2 sin solape con T1",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "T3 dentro del volumen útil",
+      "cumple": true,
+      "detalle": "x 8.0..128.0, y 100.0..180.0"
+    },
+    {
+      "comprobacion": "T3 sin solape con T1",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "T3 sin solape con T2",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "T4 dentro del volumen útil",
+      "cumple": true,
+      "detalle": "x 153.0..273.0, y 100.0..180.0"
+    },
+    {
+      "comprobacion": "T4 sin solape con T1",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "T4 sin solape con T2",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "T4 sin solape con T3",
+      "cumple": true,
+      "detalle": "planta"
+    },
+    {
+      "comprobacion": "bornera +5V sin solape con tarjetas",
+      "cumple": true,
+      "detalle": "x 232.5..243.5, y 26.0..88.0 []"
+    },
+    {
+      "comprobacion": "bornera GND sin solape con tarjetas",
+      "cumple": true,
+      "detalle": "x 245.5..256.5, y 26.0..88.0 []"
+    },
+    {
+      "comprobacion": "elevador 12 V sin solape con tarjetas",
+      "cumple": true,
+      "detalle": "x 257.0..274.0, y 61.0..98.0 []"
+    },
+    {
+      "comprobacion": "holgura vertical tapa/tarjetas >= 5 mm",
+      "cumple": true,
+      "detalle": "mínima 19.2 mm entre Parlante_2de2_WS14595_8ohm_5W_iman y T2_Carcasas_XH"
+    },
+    {
+      "comprobacion": "componentes interiores bajo la tapa",
+      "cumple": true,
+      "detalle": "cota máxima interior 39.0 mm; cara interior de tapa 61.0 mm"
+    },
+    {
+      "comprobacion": "exactamente tres B10K montados",
+      "cumple": true,
+      "detalle": "RV2, RV3, RV4"
+    },
+    {
+      "comprobacion": "un B10K queda como repuesto sin montar",
+      "cumple": true,
+      "detalle": "declarados 4, montados 3"
+    },
+    {
+      "comprobacion": "dos posiciones A10K marcadas pendientes",
+      "cumple": true,
+      "detalle": "RV1_NIVEL_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo, RV5_VOLUMEN_A10K_log_PENDIENTE_COMPRA_candidato_P20K_sin_validar_cuerpo"
+    },
+    {
+      "comprobacion": "cinco controles rotativos",
+      "cumple": true,
+      "detalle": "NIVEL, GRAVES, MEDIOS, AGUDOS, VOLUMEN"
+    },
+    {
+      "comprobacion": "ningún potenciómetro deslizable",
+      "cumple": true,
+      "detalle": "[]"
+    },
+    {
+      "comprobacion": "separación entre perillas >= 30 mm",
+      "cumple": true,
+      "detalle": "40.0 mm entre ejes"
+    },
+    {
+      "comprobacion": "reserva libre alrededor de cada A10K",
+      "cumple": true,
+      "detalle": "cilindro libre de 24.0 mm"
+    },
+    {
+      "comprobacion": "tres barras de 4 píxeles = 12 píxeles lógicos",
+      "cumple": true,
+      "detalle": "3 x 4 píxeles de 50.0 mm"
+    },
+    {
+      "comprobacion": "barra de 200 mm cabe en la tapa",
+      "cumple": true,
+      "detalle": "x 39.0..239.0"
+    },
+    {
+      "comprobacion": "cuatro pares de imanes y ninguna bisagra",
+      "cumple": true,
+      "detalle": "8 imanes"
+    },
+    {
+      "comprobacion": "dos parlantes del conjunto WS-14595",
+      "cumple": true,
+      "detalle": "2 transductores, un conector"
+    },
+    {
+      "comprobacion": "USB-C del ESP32S alineado con la pared derecha",
+      "cumple": true,
+      "detalle": "boca en x = 273.8; pared interior en 275.5"
+    },
+    {
+      "comprobacion": "cables dentro del gabinete cerrado",
+      "cumple": true,
+      "detalle": "[]"
+    },
+    {
+      "comprobacion": "cables tapa-cuerpo cruzan junto al borde frontal",
+      "cumple": true,
+      "detalle": "29 conductores cruzan por el frente"
+    },
+    {
+      "comprobacion": "cables de potenciómetros <= 120 mm",
+      "cumple": true,
+      "detalle": "máximo 63.4 mm"
+    },
+    {
+      "comprobacion": "40 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U",
+      "cumple": true,
+      "detalle": "{\"R\": 40, \"C\": 26, \"D\": 3, \"U\": 6}"
+    }
+  ],
   "issues": [],
   "valid": true,
-  "dimension_basis": "medidas-componentes.json",
-  "note": "Placas compradas completas; componentes por envolvente. Ver estados fuente/conservadora/por_medir."
+  "pendientes_y_supuestos": [
+    "A10K de RV1 (NIVEL) y RV5 (VOLUMEN): NO comprados. Envolvente supuesta igual al B10K; cota pendiente de medir. Los dos P-20K logarítmicos comprados son candidatos sin validar eléctricamente.",
+    "B10K de RV2-RV4: el comprador declara 4 unidades (3 montadas + 1 repuesto); falta factura o albarán en COMPONENTES-COMPRADOS-VERIFICADOS.md y falta medir cuerpo, eje y rosca.",
+    "Tira BTF-LIGHTING B0BW5T6HW4: es FCOB WS2811 de 12 V. El equipo solo tiene 5 V: el elevador 5→12 V modelado no está comprado ni en el esquema.",
+    "Firmware: usa NEO_GRB; la tira publica orden BRG. Los 12 píxeles lógicos se conservan (3 barras × 4 CI), pero el orden de color debe probarse en la tira real.",
+    "Parlantes WS-14595: la envolvente 100×45×21 mm se aplicó a cada parlante (falta medir). El conector trae 4 hilos (2 rojos, 2 negros): un parlante por canal del PAM8403. El esquema solo alimenta una entrada (AMP_IN): hay que puentear L y R en el módulo y actualizar el esquema.",
+    "ESP32S V1.1 USB-C, PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
+    "Difusores: relieve hexagonal impreso (fondo 0,5 mm, nervio 1,1 mm, celdas de 5 mm, patrón repetido cada 25 mm). Geometría propia inspirada en el Duality Infinity 3DHex de Andy Huot; no se usan sus archivos (pista de unos 36 mm de ancho frente a 17 mm entre barras, y licencia de uso personal). Difusión real con la tira FCOB sin probar.",
+    "Pantalla LilyGO T4-S3 (sustituye a la TFT ST7789): NO comprada. Enlace con el ESP32 propuesto por UART2 (GPIO17→GPIO44, GPIO16←GPIO43, +5 V a VBUS, GND); no está en el esquema, J4/R30 quedarían sin uso y no existe firmware para ninguna de las dos placas. Envolvente 56 x 44 x 13 mm tomada de la tienda; montada en horizontal con el vidrio al ras de la tapa. Área activa calculada y reparto de espesores supuesto, no medidos. La interfaz de 600 x 450 del render es una propuesta.",
+    "Borneras puente, portafusible e interruptor: envolventes conservadoras; interruptor general de 5 A DC sin comprar.",
+    "Perillas e imanes de 6×2 mm (4 pares): sin comprar; geometría supuesta. La tapa no tiene bisagras: nada la sostiene abierta y la fuerza de los imanes no está comprobada.",
+    "Documentos en conflicto: BOM/LISTA piden pares +5V/GND propios desde las borneras para T1-T3, y conexiones-entre-tarjetas.csv también lleva +5V/GND por JBUS desde T4. El modelo dibuja ambos; hay que elegir uno antes de cablear.",
+    "Enlace UART al T4-S3: el arnés dibujado mide 381 mm por el borde frontal; aceptable para UART, pero la velocidad debe probarse.",
+    "Colocación agujero por agujero de cada tarjeta: no realizada. Las posiciones de componentes son representativas, no una guía de soldadura.",
+    "Gabinete y tapa no impresos ni probados: holguras de impresión, rigidez y ventilación sin validar."
+  ],
+  "alcance": "Validación geométrica por envolventes. No sustituye pruebas eléctricas, mecánicas ni la presentación física de las piezas."
 }
