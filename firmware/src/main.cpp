@@ -1,29 +1,48 @@
-// Ecualizador de audio de tres bandas con visualizador — firmware del ESP32-DevKitC V4.
+// Ecualizador de audio de tres bandas con visualizador — firmware del ESP32 principal.
 //
-// Núcleo 0, tarea `adquisicion`: toma 1024 muestras de la salida ecualizada (GPIO33) a 20 kS/s,
+// Núcleo 0, tarea `adquisicion`: toma 1024 muestras de la salida ecualizada a 20 kS/s,
 // lee los tres detectores de pico y VREF, calcula la FFT y deja el resultado en `ultima`.
-// Núcleo 1, `loop()`: dibuja la vista activa en la TFT por franjas, atiende el pulsador y la
-// página web del punto de acceso Wi-Fi.
+// Núcleo 1, `loop()`: atiende la página web del punto de acceso Wi-Fi y presenta los datos:
+//   - esp32dev/e2/e3/e4: dibuja la vista activa en la TFT por franjas y atiende el pulsador.
+//   - e5cyd (E.5, DevKit V1 de 30 pines): no hay TFT directa; transmite niveles y espectro
+//     a la pantalla de la tapa por ESP-NOW en difusión (decisión del usuario, 2026-11-24)
+//     y, como respaldo cableado, por Serial2 (GPIO17/16). Ver enlace_cyd.h. PROPUESTA:
+//     ningún enlace con la pantalla está todavía en el esquemático.
+#ifndef PLACA_E5CYD
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
+#include <SPI.h>
+#endif
 #include <Adafruit_NeoPixel.h>
 #include <Arduino.h>
-#include <SPI.h>
 #include <WebServer.h>
 #include <WiFi.h>
+#ifdef PLACA_E5CYD
+#include <esp_now.h>
+#endif
 #include <driver/adc.h>
 #include <esp_adc_cal.h>
 #include <esp_timer.h>
 
 #include "config.h"
 #include "dsp.h"
+#ifdef PLACA_E5CYD
+#include "enlace_cyd.h"
+#else
 #include "interfaz.h"
+#endif
 #include "web.h"
 
+#ifdef PLACA_E5CYD
+// Largo de la forma de onda capturada (igual a interfaz::ANCHO de las variantes con TFT).
+// Hoy ninguna vista del e5cyd la usa, pero mantenerla deja `Medida` idéntica entre variantes.
+constexpr int ANCHO = 320;
+#else
 using interfaz::ALTO;
 using interfaz::ANCHO;
 
 static Adafruit_ST7789 tft(TFT_CS, TFT_DC, TFT_RST);
+#endif
 static Adafruit_NeoPixel leds(NEOPIXEL_CANTIDAD, PIN_NEOPIXEL, NEO_GRB + NEO_KHZ800);
 static WebServer servidor(80);
 static esp_adc_cal_characteristics_t cal;
@@ -38,7 +57,7 @@ struct Medida {
 static Medida ultima;
 static portMUX_TYPE candado = portMUX_INITIALIZER_UNLOCKED;
 
-#if defined(PLACA_E3) || defined(PLACA_E4)
+#if defined(PLACA_E3) || defined(PLACA_E4) || defined(PLACA_E5CYD)
 static constexpr adc1_channel_t CH_VREF = ADC1_CHANNEL_7;    // GPIO35
 static constexpr adc1_channel_t CH_FFT = ADC1_CHANNEL_6;     // GPIO34
 static constexpr adc1_channel_t CH_BANDA[3] = {ADC1_CHANNEL_3,   // GPIO39 graves
@@ -143,6 +162,56 @@ static void responder_datos() {
   servidor.send(200, "application/json", j);
 }
 
+#ifdef PLACA_E5CYD
+// ------------------------------------------------- enlace con la pantalla CYD (PROPUESTA)
+// Una trama por bloque de FFT hacia la pantalla de la tapa, por DOS transportes a la vez:
+// ESP-NOW en difusión (decisión del usuario, 2026-11-24) y UART2 como respaldo cableado.
+// El protocolo vive en enlace_cyd.h (copia idéntica en firmware-cyd/include/). El pulsador
+// SW1 queda sin efecto en esta variante: la pantalla dibuja una única vista.
+//
+// Convivencia Wi-Fi: esta variante conserva el punto de acceso y la página web. ESP-NOW
+// comparte la radio emitiendo por la interfaz del AP (WIFI_IF_AP), y el AP se fija en el
+// canal 1, que es donde escucha la pantalla; si algún día se cambia el canal del AP hay
+// que cambiarlo también en el receptor.
+static_assert(enlace_cyd::BARRAS == dsp::BARRAS, "el protocolo y el DSP deben acordar las barras");
+
+#define CANAL_WIFI 1  // canal del AP y de la difusión ESP-NOW (el receptor escucha aquí)
+static const uint8_t DIFUSION[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+static bool espnow_listo = false;
+
+// Llamar después de WiFi.softAP (la interfaz del AP ya existe y está en CANAL_WIFI).
+static void iniciar_espnow() {
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("ESP-NOW no inició: queda solo el respaldo UART");
+    return;
+  }
+  esp_now_peer_info_t par{};
+  memcpy(par.peer_addr, DIFUSION, sizeof DIFUSION);
+  par.channel = CANAL_WIFI;
+  par.ifidx = WIFI_IF_AP;  // emite por la interfaz del punto de acceso
+  par.encrypt = false;     // la difusión ESP-NOW no admite cifrado
+  espnow_listo = esp_now_add_peer(&par) == ESP_OK;
+  if (!espnow_listo) Serial.println("ESP-NOW sin par de difusión: queda solo el respaldo UART");
+}
+
+static void transmitir(const Medida& m) {
+  enlace_cyd::Trama t;
+  for (int b = 0; b < 3; ++b) {
+    t.banda_mv[b] = m.banda_mv[b];
+    t.banda_db[b] = dsp::nivel_db(m.banda_mv[b]);
+  }
+  for (int j = 0; j < dsp::BARRAS; ++j) t.barras_db[j] = m.esp.barras_db[j];
+  t.recorte = m.esp.recorte || m.banda_mv[0] > 800 || m.banda_mv[1] > 800 || m.banda_mv[2] > 800;
+  char linea[enlace_cyd::LINEA_MAX];
+  const int n = enlace_cyd::componer(t, linea, sizeof linea);
+  if (n <= 0) return;
+  // ESP-NOW: la línea sin el '\n' final (~230 bytes) cabe en una trama de 250.
+  if (espnow_listo && n - 1 <= ESP_NOW_MAX_DATA_LEN)
+    esp_now_send(DIFUSION, (const uint8_t*)linea, n - 1);
+  // UART2: respaldo cableado, siempre se envía también.
+  Serial2.write((const uint8_t*)linea, n);
+}
+#else
 // ---------------------------------------------------------------- pantalla
 static interfaz::Franja franja(34);
 static interfaz::Datos datos;
@@ -157,6 +226,7 @@ static void mostrar(interfaz::Vista v) {
     tft.drawRGBBitmap(0, y0, franja.getBuffer(), ANCHO, franja.alto());
   }
 }
+#endif
 
 void setup() {
   Serial.begin(115200);
@@ -168,6 +238,10 @@ void setup() {
   for (auto ch : CH_BANDA) adc1_config_channel_atten(ch, ADC_ATTEN_DB_12);
   esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_12, ADC_WIDTH_BIT_12, 1100, &cal);
 
+#ifdef PLACA_E5CYD
+  // UART2 hacia la pantalla CYD de la tapa (PROPUESTA: aún sin esquemático, ver enlace_cyd.h).
+  Serial2.begin(enlace_cyd::BAUDIOS, SERIAL_8N1, PIN_CYD_RX, PIN_CYD_TX);
+#else
   SPI.begin(TFT_SCK, TFT_MISO, TFT_MOSI, TFT_CS);
   pinMode(TFT_BL, OUTPUT);
   digitalWrite(TFT_BL, LOW);
@@ -175,6 +249,7 @@ void setup() {
   tft.setSPISpeed(TFT_SPI_HZ);
   tft.setRotation(1); // horizontal: 320 × 170
   digitalWrite(TFT_BL, HIGH);
+#endif
   leds.begin();
   leds.setBrightness(NEOPIXEL_BRILLO);
   for (int i = 0; i < NEOPIXEL_CANTIDAD; ++i) {
@@ -182,12 +257,20 @@ void setup() {
     leds.setPixelColor(i, color[i / 4]);
   }
   leds.show(); // Luz fija tenue: no transmitir tramas durante cada bloque de ADC.
+#ifndef PLACA_E5CYD
   datos.version = FW_VERSION;
   datos.ip = "192.168.4.1";
   mostrar(interfaz::ARRANQUE);
+#endif
 
   WiFi.mode(WIFI_AP);
+#ifdef PLACA_E5CYD
+  // canal fijo: la difusión ESP-NOW hacia la pantalla sale por este mismo canal
+  WiFi.softAP(WIFI_SSID, WIFI_CLAVE, CANAL_WIFI);
+  iniciar_espnow();
+#else
   datos.wifi = WiFi.softAP(WIFI_SSID, WIFI_CLAVE);
+#endif
   servidor.on("/", [] { servidor.send_P(200, "text/html", PAGINA_WEB); });
   servidor.on("/datos", responder_datos);
   servidor.begin();
@@ -199,7 +282,9 @@ void setup() {
 }
 
 void loop() {
-  static uint32_t t_ant = millis(), t_boton = 0, ultimo_n = 0;
+  static uint32_t ultimo_n = 0;
+#ifndef PLACA_E5CYD
+  static uint32_t t_ant = millis(), t_boton = 0;
   static bool boton_ant = true;
 
   // pulsador con antirrebote: cada pulsación pasa a la siguiente vista
@@ -209,6 +294,7 @@ void loop() {
     t_boton = millis();
   }
   boton_ant = boton;
+#endif
 
   servidor.handleClient();
 
@@ -222,6 +308,11 @@ void loop() {
   }
   ultimo_n = m.n;
 
+#ifdef PLACA_E5CYD
+  // una trama por bloque nuevo hacia la pantalla CYD (niveles instantáneos; si el receptor
+  // quiere retención de picos, la calcula él)
+  transmitir(m);
+#else
   const uint32_t ahora = millis();
   const float dt = (ahora - t_ant) / 1000.0f;
   t_ant = ahora;
@@ -239,4 +330,5 @@ void loop() {
   datos.clientes = WiFi.softAPgetStationNum();
 
   mostrar((interfaz::Vista)vista);
+#endif
 }

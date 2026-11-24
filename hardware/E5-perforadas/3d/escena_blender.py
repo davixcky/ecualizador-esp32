@@ -205,7 +205,7 @@ def build(engine="BLENDER_EEVEE", samples=64, tft_image=None):
             hook.matrix_inverse = inv
         wires.append(o)
 
-    # Pantalla: plano emisivo del área activa, sobre el vidrio de la T4-S3, que queda al ras de la tapa.
+    # Pantalla: plano emisivo del área activa, sobre el módulo del CYD, que queda al ras de la tapa.
     t = lay["tft"]
     aw, ah = t["active"]
     cx, cy = t["center"][0] + t["offset_x"], t["center"][1]
@@ -215,7 +215,7 @@ def build(engine="BLENDER_EEVEE", samples=64, tft_image=None):
     uv = mesh.uv_layers.new(name="UV")
     for loop, co in zip(uv.data, ((0, 0), (1, 0), (1, 1), (0, 1))):
         loop.uv = co
-    screen = bpy.data.objects.new("Pantalla_T4S3_imagen_600x450", mesh)
+    screen = bpy.data.objects.new("Pantalla_CYD_imagen_240x320_girada", mesh)
     smat = bpy.data.materials.new("E5_TFT_imagen")
     b = _principled(smat)
     tex = smat.node_tree.nodes.new("ShaderNodeTexImage")
@@ -258,7 +258,8 @@ def build(engine="BLENDER_EEVEE", samples=64, tft_image=None):
     label("VISTA", lay["sw1"][0], lay["sw1"][1] - 9.5, 3.2)
     for bar in lay["bars"]:
         label(bar["name"], bar["x0"] - 5, bar["y"], 3.6, "RIGHT")
-    label("ECUALIZADOR · 3 BANDAS · E.5", W - 14, 10.5, 3.0, "RIGHT")
+    # En el borde trasero: el frente derecho lo ocupan ahora VOLUMEN y el pulsador VISTA.
+    label("ECUALIZADOR · 3 BANDAS · E.5", W - 14, 183.5, 3.0, "RIGHT")
 
     # Piso, mundo y luces de estudio.
     floor = bpy.data.meshes.new("Piso")

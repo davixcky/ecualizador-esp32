@@ -162,8 +162,6 @@ def fit_coupons(doc, lid, body, halves):
     W, H, LID, WALL = E.W, E.H, E.LID, E.WALL
     get = lambda name: solid(doc.getObject(name).Shape)
     clip = lambda shape, x0, y0, z0, x1, y1, z1: shape.common(Part.makeBox(x1 - x0, y1 - y0, z1 - z0, App.Vector(x0, y0, z0)))
-    cx, cy = E.TFT_C
-    gd = E.TFT_GLASS[1]
     px = E.CONTROLS[1][3]                       # RV2: B10K comprado
     bx0, by = E.BAR_X0, E.BARS[0][1]
     bar = (bx0 - 23, by - 11, bx0 + 41, by + 11)
@@ -174,7 +172,10 @@ def fit_coupons(doc, lid, body, halves):
     zl = H - 6                                  # las probetas de tapa incluyen lo que cuelga de ella
     out = {
         "tapa_potenciometro_B10K": clip(lid, px - 13, E.KNOB_Y - 13, zl, px + 13, E.KNOB_Y + 13, H + LID),
-        "tapa_pantalla_T4S3_y_SW1": clip(lid, cx - 38, E.SW_C[1] - 8, zl, cx + 38, cy + gd / 2 + 5, H + LID),
+        # Ventana de la pantalla 3,5" con sus cuatro uñas fijas: prueba la ventana completa, el
+        # apoyo del módulo al ras y el encaje corredizo del PCB bajo las uñas.
+        "tapa_pantalla_CYD": clip(lid, 104, 27, H - 8, 174, 128.5, H + LID),
+        "tapa_SW1": clip(lid, E.SW_C[0] - 15, E.SW_C[1] - 13, zl, E.SW_C[0] + 15, E.SW_C[1] + 13, H + LID),
         "tapa_ventana_barra_LED": clip(lid, bar[0], bar[1], zl, bar[2], bar[3], H + LID),
         "barra_difusor_tramo": clip(get("Difusor_opalino_GRAVES"), bar[0], bar[1], 0, bar[2], bar[3], H + LID + 1),
         "barra_cuna_tramo": clip(get("Cuna_tira_GRAVES"), bar[0], bar[1], 0, bar[2], bar[3], H + LID + 1),
@@ -261,8 +262,8 @@ def validate(parts, wires):
     mag = [p for p in parts if p["name"].startswith("Iman_")]
     check("cuatro pares de imanes y ninguna bisagra", len(mag) == 8 and not [n for n in names if "bisagra" in n.lower()], f"{len(mag)} imanes")
     check("dos parlantes del conjunto WS-14595", len(sp) == 2, f"{len(sp)} transductores, un conector")
-    # USB-C frente a su ventana.
-    check("USB-C del ESP32S alineado con la pared derecha", abs(E.USB_C[0] - (W - WALL)) <= 2.5, f"boca en x = {E.USB_C[0]:.1f}; pared interior en {W - WALL}")
+    # USB del DevKit frente a su ventana.
+    check("micro-USB del ESP32 DevKit V1 alineado con la pared derecha", abs(E.USB_C[0] - (W - WALL)) <= 2.5, f"boca en x = {E.USB_C[0]:.1f}; pared interior en {W - WALL}")
     # Cables: extremos dentro del gabinete y cruces solo en la bisagra.
     outside = []
     for w in wires:
@@ -279,10 +280,10 @@ def validate(parts, wires):
         if w["name"].startswith("RV"):
             pot_len[w["name"]] = round(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])), 1)
     check("cables de potenciómetros <= 120 mm", max(pot_len.values()) <= 120, f"máximo {max(pot_len.values())} mm")
-    tft_len = max(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])) for w in wires if w["name"].startswith("T4S3_"))
+    tft_len = max(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])) for w in wires if w["name"].startswith("CYD_"))
 
     mounted = {"T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)", "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
-               "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3", "T4": "U5 ESP32S; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 enlace UART al T4-S3 (propuesto, sustituye a J4); SW1 (en tapa, 2 hilos)"}
+               "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3", "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"}
     counts = {}
     for ref, refs in E.BOARD_PARTS.items():
         counts[ref] = {"R": sum(r.startswith("R") and r[1:].isdigit() for r in refs), "C": sum(r.startswith("C") and r[1].isdigit() for r in refs),
@@ -296,13 +297,14 @@ def validate(parts, wires):
         "Tira BTF-LIGHTING B0BW5T6HW4: es FCOB WS2811 de 12 V. El equipo solo tiene 5 V: el elevador 5→12 V modelado no está comprado ni en el esquema.",
         "Firmware: usa NEO_GRB; la tira publica orden BRG. Los 12 píxeles lógicos se conservan (3 barras × 4 CI), pero el orden de color debe probarse en la tira real.",
         "Parlantes WS-14595: la envolvente 100×45×21 mm se aplicó a cada parlante (falta medir). El conector trae 4 hilos (2 rojos, 2 negros): un parlante por canal del PAM8403. El esquema solo alimenta una entrada (AMP_IN): hay que puentear L y R en el módulo y actualizar el esquema.",
-        "ESP32S V1.1 USB-C, PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
+        "ESP32 DevKit V1 30P: NO comprado (decisión 2026-11-24; sustituye al ESP32S V1.1 USB-C de 38 pines, que queda liberado como repuesto). Envolvente conservadora: las fichas de los clones discrepan y la separación de hileras de 22,86 mm es supuesta. El esquema E.5 sigue dibujando el ESP32S de 38 pines: revisar pines usados antes de perforar T4.",
+        "PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
         "Difusores: relieve hexagonal impreso (fondo 0,5 mm, nervio 1,1 mm, celdas de 5 mm, patrón repetido cada 25 mm). Geometría propia inspirada en el Duality Infinity 3DHex de Andy Huot; no se usan sus archivos (pista de unos 36 mm de ancho frente a 17 mm entre barras, y licencia de uso personal). Difusión real con la tira FCOB sin probar.",
-        "Pantalla LilyGO T4-S3 (sustituye a la TFT ST7789): NO comprada. Enlace con el ESP32 propuesto por UART2 (GPIO17→GPIO44, GPIO16←GPIO43, +5 V a VBUS, GND); no está en el esquema, J4/R30 quedarían sin uso y no existe firmware para ninguna de las dos placas. Envolvente 56 x 44 x 13 mm tomada de la tienda; montada en horizontal con el vidrio al ras de la tapa. Área activa calculada y reparto de espesores supuesto, no medidos. La interfaz de 600 x 450 del render es una propuesta.",
+        "Pantalla ESP32-3248S035 (RECIBIDA el 2026-11-24; la publicación anunciaba la 2432S028 de 2,8\"): panel ST7796 de 3,5\" 320x480 confirmado empíricamente con el firmware. Cotas del PCB (97,5 x 56,5) conservadoras de la comunidad; módulo de 84 x 55 x 4 al ras del extremo frontal SUPUESTO, por medir antes de imprimir la tapa definitiva. Montada en VERTICAL; para que quepa, la fila de perillas se adelantó a y 23 y la retención son cuatro uñas fijas (la cuna de GRAVES bloquea la salida). Los DATOS viajan por ESP-NOW (decisión del usuario); el arnés dibujado solo lleva +5 V/GND a VIN de P1, con el UART de P1 como respaldo por cable. Nada de esto está en el esquema eléctrico. SW1 está en la fila de perillas (249, 23).",
         "Borneras puente, portafusible e interruptor: envolventes conservadoras; interruptor general de 5 A DC sin comprar.",
         "Perillas e imanes de 6×2 mm (4 pares): sin comprar; geometría supuesta. La tapa no tiene bisagras: nada la sostiene abierta y la fuerza de los imanes no está comprobada.",
         "Documentos en conflicto: BOM/LISTA piden pares +5V/GND propios desde las borneras para T1-T3, y conexiones-entre-tarjetas.csv también lleva +5V/GND por JBUS desde T4. El modelo dibuja ambos; hay que elegir uno antes de cablear.",
-        f"Enlace UART al T4-S3: el arnés dibujado mide {tft_len:.0f} mm por el borde frontal; aceptable para UART, pero la velocidad debe probarse.",
+        f"Alimentación de la pantalla: el arnés de dos hilos dibujado mide {tft_len:.0f} mm por el borde frontal. El consumo de la 3248S035 a 5 V está por medir; el enlace ESP-NOW debe probarse con las dos placas encendidas.",
         "Colocación agujero por agujero de cada tarjeta: no realizada. Las posiciones de componentes son representativas, no una guía de soldadura.",
         "Gabinete y tapa no impresos ni probados: holguras de impresión, rigidez y ventilación sin validar.",
     ]
@@ -315,7 +317,7 @@ def validate(parts, wires):
         "a10k": {"comprados": 0, "posiciones": len(a10k), "estado": "pendiente; candidato P-20K sin validar"},
         "deslizables": 0,
         "tira_led": {"producto": "BTF-LIGHTING FCOB WS2811 12 V 720 LED/m", "tramos": len(E.BARS), "mm_por_tramo": E.BAR_LEN, "pixeles_logicos": 12, "mm_por_pixel": E.PIXEL},
-        "parlantes": 2, "cables": len(wires), "longitud_cables_potenciometro_mm": pot_len, "longitud_arnes_UART_T4S3_mm": round(tft_len, 1),
+        "parlantes": 2, "cables": len(wires), "longitud_cables_potenciometro_mm": pot_len, "longitud_arnes_UART_CYD_mm": round(tft_len, 1),
         "comprobaciones": checks, "issues": issues, "valid": not issues,
         "pendientes_y_supuestos": pendientes,
         "alcance": "Validación geométrica por envolventes. No sustituye pruebas eléctricas, mecánicas ni la presentación física de las piezas.",

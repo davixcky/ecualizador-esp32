@@ -1,6 +1,6 @@
 {
   "revision": "E.5",
-  "fecha_fuente": "E.5-rotativos-2026-11-20",
+  "fecha_fuente": "E.5-rotativos-2026-11-24",
   "gabinete_mm": [
     278.0,
     192.0,
@@ -41,7 +41,7 @@
     "T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)",
     "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
     "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3",
-    "T4": "U5 ESP32S; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 enlace UART al T4-S3 (propuesto, sustituye a J4); SW1 (en tapa, 2 hilos)"
+    "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"
   },
   "conteo_por_tarjeta": {
     "T1": {
@@ -75,7 +75,7 @@
       "funcion": "NIVEL",
       "tipo": "A10K",
       "x": 59.0,
-      "y": 26.0,
+      "y": 23.0,
       "compra": "pendiente"
     },
     {
@@ -83,7 +83,7 @@
       "funcion": "GRAVES",
       "tipo": "B10K",
       "x": 99.0,
-      "y": 26.0,
+      "y": 23.0,
       "compra": "declarada"
     },
     {
@@ -91,7 +91,7 @@
       "funcion": "MEDIOS",
       "tipo": "B10K",
       "x": 139.0,
-      "y": 26.0,
+      "y": 23.0,
       "compra": "declarada"
     },
     {
@@ -99,7 +99,7 @@
       "funcion": "AGUDOS",
       "tipo": "B10K",
       "x": 179.0,
-      "y": 26.0,
+      "y": 23.0,
       "compra": "declarada"
     },
     {
@@ -107,7 +107,7 @@
       "funcion": "VOLUMEN",
       "tipo": "A10K",
       "x": 219.0,
-      "y": 26.0,
+      "y": 23.0,
       "compra": "pendiente"
     }
   ],
@@ -130,25 +130,25 @@
     "mm_por_pixel": 50.0
   },
   "parlantes": 2,
-  "cables": 82,
+  "cables": 80,
   "longitud_cables_potenciometro_mm": {
-    "RV1_NIVEL_pin1": 60.5,
-    "RV1_NIVEL_pin2": 60.5,
-    "RV1_NIVEL_pin3": 60.5,
-    "RV2_GRAVES_pin1": 63.4,
-    "RV2_GRAVES_pin2": 62.7,
-    "RV2_GRAVES_pin3": 62.1,
-    "RV3_MEDIOS_pin1": 60.5,
-    "RV3_MEDIOS_pin2": 60.5,
-    "RV3_MEDIOS_pin3": 60.5,
-    "RV4_AGUDOS_pin1": 60.5,
-    "RV4_AGUDOS_pin2": 60.5,
-    "RV4_AGUDOS_pin3": 60.5,
-    "RV5_VOLUMEN_pin1": 59.0,
-    "RV5_VOLUMEN_pin2": 60.5,
-    "RV5_VOLUMEN_pin3": 63.0
+    "RV1_NIVEL_pin1": 58.5,
+    "RV1_NIVEL_pin2": 58.5,
+    "RV1_NIVEL_pin3": 58.5,
+    "RV2_GRAVES_pin1": 61.4,
+    "RV2_GRAVES_pin2": 60.7,
+    "RV2_GRAVES_pin3": 60.1,
+    "RV3_MEDIOS_pin1": 58.5,
+    "RV3_MEDIOS_pin2": 58.5,
+    "RV3_MEDIOS_pin3": 58.5,
+    "RV4_AGUDOS_pin1": 58.5,
+    "RV4_AGUDOS_pin2": 58.5,
+    "RV4_AGUDOS_pin3": 58.5,
+    "RV5_VOLUMEN_pin1": 57.0,
+    "RV5_VOLUMEN_pin2": 58.5,
+    "RV5_VOLUMEN_pin3": 61.0
   },
-  "longitud_arnes_UART_T4S3_mm": 381.2,
+  "longitud_arnes_UART_CYD_mm": 389.6,
   "comprobaciones": [
     {
       "comprobacion": "T1 dentro del volumen útil",
@@ -218,7 +218,7 @@
     {
       "comprobacion": "holgura vertical tapa/tarjetas >= 5 mm",
       "cumple": true,
-      "detalle": "mínima 19.2 mm entre Parlante_2de2_WS14595_8ohm_5W_iman y T2_Carcasas_XH"
+      "detalle": "mínima 17.8 mm entre Setas_de_encastre_de_la_tapa y Interruptor_general_5A_PENDIENTE_COMPRA"
     },
     {
       "comprobacion": "componentes interiores bajo la tapa",
@@ -281,7 +281,7 @@
       "detalle": "2 transductores, un conector"
     },
     {
-      "comprobacion": "USB-C del ESP32S alineado con la pared derecha",
+      "comprobacion": "micro-USB del ESP32 DevKit V1 alineado con la pared derecha",
       "cumple": true,
       "detalle": "boca en x = 273.8; pared interior en 275.5"
     },
@@ -293,12 +293,12 @@
     {
       "comprobacion": "cables tapa-cuerpo cruzan junto al borde frontal",
       "cumple": true,
-      "detalle": "29 conductores cruzan por el frente"
+      "detalle": "27 conductores cruzan por el frente"
     },
     {
       "comprobacion": "cables de potenciómetros <= 120 mm",
       "cumple": true,
-      "detalle": "máximo 63.4 mm"
+      "detalle": "máximo 61.4 mm"
     },
     {
       "comprobacion": "40 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U",
@@ -314,13 +314,14 @@
     "Tira BTF-LIGHTING B0BW5T6HW4: es FCOB WS2811 de 12 V. El equipo solo tiene 5 V: el elevador 5→12 V modelado no está comprado ni en el esquema.",
     "Firmware: usa NEO_GRB; la tira publica orden BRG. Los 12 píxeles lógicos se conservan (3 barras × 4 CI), pero el orden de color debe probarse en la tira real.",
     "Parlantes WS-14595: la envolvente 100×45×21 mm se aplicó a cada parlante (falta medir). El conector trae 4 hilos (2 rojos, 2 negros): un parlante por canal del PAM8403. El esquema solo alimenta una entrada (AMP_IN): hay que puentear L y R en el módulo y actualizar el esquema.",
-    "ESP32S V1.1 USB-C, PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
+    "ESP32 DevKit V1 30P: NO comprado (decisión 2026-11-24; sustituye al ESP32S V1.1 USB-C de 38 pines, que queda liberado como repuesto). Envolvente conservadora: las fichas de los clones discrepan y la separación de hileras de 22,86 mm es supuesta. El esquema E.5 sigue dibujando el ESP32S de 38 pines: revisar pines usados antes de perforar T4.",
+    "PAM8403, perforadas y fuente: figuran en carritos o los declara el comprador; sin albarán verificado. Medir antes de perforar.",
     "Difusores: relieve hexagonal impreso (fondo 0,5 mm, nervio 1,1 mm, celdas de 5 mm, patrón repetido cada 25 mm). Geometría propia inspirada en el Duality Infinity 3DHex de Andy Huot; no se usan sus archivos (pista de unos 36 mm de ancho frente a 17 mm entre barras, y licencia de uso personal). Difusión real con la tira FCOB sin probar.",
-    "Pantalla LilyGO T4-S3 (sustituye a la TFT ST7789): NO comprada. Enlace con el ESP32 propuesto por UART2 (GPIO17→GPIO44, GPIO16←GPIO43, +5 V a VBUS, GND); no está en el esquema, J4/R30 quedarían sin uso y no existe firmware para ninguna de las dos placas. Envolvente 56 x 44 x 13 mm tomada de la tienda; montada en horizontal con el vidrio al ras de la tapa. Área activa calculada y reparto de espesores supuesto, no medidos. La interfaz de 600 x 450 del render es una propuesta.",
+    "Pantalla ESP32-3248S035 (RECIBIDA el 2026-11-24; la publicación anunciaba la 2432S028 de 2,8\"): panel ST7796 de 3,5\" 320x480 confirmado empíricamente con el firmware. Cotas del PCB (97,5 x 56,5) conservadoras de la comunidad; módulo de 84 x 55 x 4 al ras del extremo frontal SUPUESTO, por medir antes de imprimir la tapa definitiva. Montada en VERTICAL; para que quepa, la fila de perillas se adelantó a y 23 y la retención son cuatro uñas fijas (la cuna de GRAVES bloquea la salida). Los DATOS viajan por ESP-NOW (decisión del usuario); el arnés dibujado solo lleva +5 V/GND a VIN de P1, con el UART de P1 como respaldo por cable. Nada de esto está en el esquema eléctrico. SW1 está en la fila de perillas (249, 23).",
     "Borneras puente, portafusible e interruptor: envolventes conservadoras; interruptor general de 5 A DC sin comprar.",
     "Perillas e imanes de 6×2 mm (4 pares): sin comprar; geometría supuesta. La tapa no tiene bisagras: nada la sostiene abierta y la fuerza de los imanes no está comprobada.",
     "Documentos en conflicto: BOM/LISTA piden pares +5V/GND propios desde las borneras para T1-T3, y conexiones-entre-tarjetas.csv también lleva +5V/GND por JBUS desde T4. El modelo dibuja ambos; hay que elegir uno antes de cablear.",
-    "Enlace UART al T4-S3: el arnés dibujado mide 381 mm por el borde frontal; aceptable para UART, pero la velocidad debe probarse.",
+    "Alimentación de la pantalla: el arnés de dos hilos dibujado mide 390 mm por el borde frontal. El consumo de la 3248S035 a 5 V está por medir; el enlace ESP-NOW debe probarse con las dos placas encendidas.",
     "Colocación agujero por agujero de cada tarjeta: no realizada. Las posiciones de componentes son representativas, no una guía de soldadura.",
     "Gabinete y tapa no impresos ni probados: holguras de impresión, rigidez y ventilación sin validar."
   ],

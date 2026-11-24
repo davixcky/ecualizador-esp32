@@ -43,7 +43,10 @@ BOARDS = {
 # ------------------------------------------------------------------ controles
 POT = M["Potenciometro-B10K"]["envolvente"]
 POT_A = M["Potenciometro-A10K"]["envolvente"]
-KNOB_Y = 26.0
+# La fila se adelantó de y 26 a y 23 el 2026-11-24 para que quepa la pantalla de 3,5 pulgadas
+# recibida (su PCB de 97,5 mm de fondo necesita el sitio). Además los cuerpos de RV2-RV4
+# bloquean el deslizamiento frontal de la pantalla: son parte de su retención.
+KNOB_Y = 23.0
 # ref, función, tipo, x, estado de compra, color del indicador
 CONTROLS = [
     ("RV1", "NIVEL", "A10K", 59.0, "pendiente", "knob_neutral"),
@@ -62,18 +65,25 @@ def knob_angle(p):
 
 
 # ------------------------------------------------------------------ tapa
-TFT = M["LilyGO-T4-S3-AMOLED-2.41"]    # sustituye a la TFT ST7789 de 1,9 pulgadas
-TFT_C = (139.0, 98.0)                 # centro del módulo
-TFT_GLASS = tuple(TFT["vidrio"][:2])                       # 56 x 44: montada en horizontal
-TFT_PCB = tuple(TFT["pcb"])                                # 51,56 x 38,72 x 1,6
-TFT_ACTIVE = list(TFT["area_activa"][:2])                  # 48,96 x 36,72 (calculada; 600 x 450 px)
-TFT_H = TFT["envolvente"][2]          # 13 mm con la cabecera de pines
-TFT_GLASS_T = 2.0                     # espesor reservado para vidrio + AMOLED; por medir
+# Pantalla: ESP32-3248S035 RECIBIDA el 2026-11-24 (la publicación anunciaba la 2432S028 de 2,8").
+# Panel ST7796 de 3,5 pulgadas, 320 x 480, en VERTICAL (interfaz en retrato). El PCB de
+# 56,5 x 97,5 cabe entre los parlantes (hueco de 66 mm) y, con la fila de perillas en y 23,
+# entre esta y las barras de luz sin moverlas. El módulo queda al ras de la cara exterior,
+# al ras del extremo frontal del PCB; la antena WROOM mira al borde trasero.
+TFT = M["ESP32-3248S035-RECIBIDA"]
+CYD_PCB_W, CYD_PCB_L, CYD_PCB_T = TFT["pcb"][1], TFT["pcb"][0], TFT["pcb"][2]   # 56,5 ancho x 97,5 fondo
+CYD_MOD_L, CYD_MOD_W, CYD_MOD_T = TFT["modulo_tft"]        # módulo 84 x 55 x 4; reparto supuesto
+TFT_ACTIVE = [TFT["area_activa"][1], TFT["area_activa"][0]]  # 48,96 x 73,44 en retrato (x, y)
+CYD_X0, CYD_Y0 = 110.75, 32.5         # esquina frontal izquierda del PCB, centrado entre parlantes
+TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_L / 2)   # centro del módulo y de la ventana
+TFT_WIN = (CYD_MOD_W + .5, CYD_MOD_L + .5)                 # ventana pasante: módulo + 0,5 de holgura
+Z_CYD_TOP = H + LID - CYD_MOD_T       # cara superior del PCB para que el módulo quede al ras
 SPK = M["Parlantes-WS-14595-8ohm-5W"]["envolvente_por_parlante"]   # 100 x 45 x 21 cada uno
 SPK_CS = [(56.0, 96.0), (222.0, 96.0)]  # dos transductores del conjunto WS-14595
 SPK_WEDGE = 2.3                       # las cuñas a 45° nacen a 2,3 mm del canto: 0,3 mm sobre un marco de 2 mm
 SPK_PLUG = (200.0, 57.0)              # conector único del conjunto, sujeto bajo la tapa
-SW_C = (139.0, 60.0)                  # SW1: pulsador 6x6 en cuna bajo la tapa
+SW_C = (249.0, 23.0)                  # SW1: pulsador 6x6 en cuna bajo la tapa, en la fila de perillas
+                                      # (su sitio anterior, 139/60, queda bajo el PCB vertical de la pantalla)
 STRIP = M["BTF-FCOB-WS2811-12V-720"]
 PIXEL = STRIP["paso_pixel"]           # 50 mm por CI WS2811
 PX_PER_BAND = 4
@@ -118,8 +128,9 @@ COLORS = {
 # tapa. Encajan bajando una mitad sobre la otra; cunas, la placa trasera de pantalla y la tarjeta T2
 # cruzan la junta y la traban.
 SEAM_X, SEAM_GAP = 139.0, 0.1
-# (y, cuello, cabeza, fondo)
-SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (46.0, 6.0, 10.0, 6.0), (183.0, 6.0, 10.0, 6.0)]
+# (y, cuello, cabeza, fondo). La cola central va en la franja maciza entre la ventana de la
+# pantalla 3,5" (termina en y 116,75) y la barra de GRAVES (empieza en y 130,5).
+SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (123.0, 6.0, 10.0, 6.0), (183.0, 6.0, 10.0, 6.0)]
 SEAM_KEYS_BODY = [(5.6, 2.4, 4.0, 4.0), (40.0, 6.0, 10.0, 6.0), (96.0, 6.0, 10.0, 6.0), (150.0, 6.0, 10.0, 6.0), (D - 5.6, 2.4, 4.0, 4.0)]
 
 # ------------------------------------------------------------------ encastres
@@ -423,23 +434,27 @@ def build_boards():
     b.pads("PWR", 90, 4.5, 2, 5.08)
     b.flush()
 
-    # ---- T4: ESP32S, protección ADC, pantalla, pulsador y adaptación de la tira
+    # ---- T4: ESP32 DevKit V1 (30 pines), protección ADC, pantalla, pulsador y adaptación de la tira
     b = Board("T4")
-    esp = M["ESP32S-V1.1-USB-C-38P"]["envolvente"]
-    ex, ey = bxy("T4", 120 - esp[0], 30)        # USB-C al ras del borde derecho
+    esp = M["ESP32-DevKit-V1-30P"]["envolvente"]        # 52 x 28,5 conservadora; hileras a 22,86 supuesto
+    row_sep = M["ESP32-DevKit-V1-30P"]["separacion_centros_hileras"]
+    ex, ey = bxy("T4", 120 - esp[0], 30)        # micro-USB al ras del borde derecho
     zs = ZT + 8.5
-    part("T4_Zocalos_hembra_1x19_ESP32", "header", [box(ex + 4.87, ey + .03, ZT, 48.26, 2.54, 8.5),
-                                                      box(ex + 4.87, ey + 25.43, ZT, 48.26, 2.54, 8.5)])
-    part("T4_U5_ESP32S_V1p1_PCB_58x28", "esp", [box(ex, ey, zs, esp[0], esp[1], 1.6)])
-    part("T4_U5_ESP32S_blindaje_RF", "metal", [box(ex + 4, ey + 5, zs + 1.6, 25, 18, 3.2)])
-    part("T4_U5_ESP32S_antena", "chip", [box(ex - .0, ey + 5, zs + 1.6, 4, 18, 0.8)])
-    part("T4_U5_ESP32S_USB_C", "metal", [box(ex + esp[0] - 6.7, ey + 9.5, zs + 1.6, 7.5, 9.0, 3.2)])
-    part("T4_U5_ESP32S_pulsadores_EN_BOOT", "chip", [box(ex + esp[0] - 9, ey + 3.0, zs + 1.6, 4, 3.5, 2.2),
-                                                      box(ex + esp[0] - 9, ey + 21.5, zs + 1.6, 4, 3.5, 2.2)])
-    part("T4_U5_ESP32S_CP2102_y_regulador", "chip", [box(ex + 36, ey + 9, zs + 1.6, 5, 5, 1.0), box(ex + 43, ey + 12, zs + 1.6, 6.5, 3.5, 1.6)])
-    b.refs += ["U5 ESP32S V1.1 USB-C", "zócalos 1x19 x2"]
+    sock_l = 15 * 2.54 + 1.5
+    sock_x = ex + (esp[0] - sock_l) / 2
+    row_y = (ey + (esp[1] - row_sep) / 2, ey + (esp[1] + row_sep) / 2)
+    part("T4_Zocalos_hembra_1x15_ESP32", "header", [box(sock_x, row_y[0] - 1.27, ZT, sock_l, 2.54, 8.5),
+                                                      box(sock_x, row_y[1] - 1.27, ZT, sock_l, 2.54, 8.5)])
+    part("T4_U5_ESP32_DevKitV1_PCB_52x28p5", "esp", [box(ex, ey, zs, esp[0], esp[1], 1.6)])
+    part("T4_U5_DevKitV1_blindaje_RF", "metal", [box(ex + 7, ey + 5.3, zs + 1.6, 18, 18, 3.2)])
+    part("T4_U5_DevKitV1_antena", "chip", [box(ex, ey + 5.3, zs + 1.6, 6.5, 18, 0.8)])
+    part("T4_U5_DevKitV1_micro_USB", "metal", [box(ex + esp[0] - 5.2, ey + esp[1] / 2 - 4.0, zs + 1.6, 6.0, 8.0, 2.8)])
+    part("T4_U5_DevKitV1_pulsadores_EN_BOOT", "chip", [box(ex + esp[0] - 9, ey + 3.0, zs + 1.6, 4, 3.5, 2.2),
+                                                       box(ex + esp[0] - 9, ey + 22.0, zs + 1.6, 4, 3.5, 2.2)])
+    part("T4_U5_DevKitV1_CP2102_y_regulador", "chip", [box(ex + 32, ey + 11, zs + 1.6, 5, 5, 1.0), box(ex + 39, ey + 13, zs + 1.6, 6.5, 3.5, 1.6)])
+    b.refs += ["U5 ESP32 DevKit V1 30P", "zócalos 1x15 x2"]
     global USB_C
-    USB_C = (ex + esp[0] + .8, ey + 14.0, zs + 3.2)
+    USB_C = (ex + esp[0] + .8, ey + esp[1] / 2, zs + 3.0)
     b.dip("U6 74HCT245", 26, 50, pins=20)
     b.cer("C25 100nF", 26, 58.5)
     for i in range(8):
@@ -452,7 +467,7 @@ def build_boards():
     b.xh("JB4", 52, 5, 2)
     b.pads("SW1", 62, 4.5, 2)
     b.header("J5", 71, 5, 3)
-    b.header("J7_enlace_UART_T4S3_PROPUESTO", 88, 5, 4)
+    b.header("J7_pantalla_5V_y_UART_PROPUESTO", 88, 5, 4)
     b.xh("JBUS_T3", 4.5, 55, 4, vertical=True)
     b.xh("JC4", 4.5, 30, 4, vertical=True)
     x6, y6 = bxy("T4", 112, 6.5)
@@ -545,59 +560,53 @@ def build_lid_parts():
              estado="pendiente_compra_local", ref=ref)
         part(f"Perilla_{func}_indicador", ind, [box(x - .8, y + 1.5, z0 + 15.5, 1.6, 6.6, .5), box(x - .8, y + 7.6, z0 + 3.0, 1.6, .7, 12.6)], g)
 
-    # Pantalla: LilyGO T4-S3 (ESP32-S3 + AMOLED de 2,41") en horizontal. Entra desde fuera: el vidrio
-    # de 56 x 44 queda al ras de la tapa apoyado en un rebaje y el PCB pasa por el hueco interior.
+    # Pantalla: ESP32-3248S035 en vertical, con el módulo TFT al ras de la cara exterior y al ras
+    # del extremo frontal del PCB. La franja de la antena WROOM (97,5 - 84 = 13,5 mm) queda bajo
+    # la tapa, hacia las barras. Posiciones de USB, P1, TF y pulsadores: supuestas, por medir.
+    # RETENCIÓN SIN PIEZAS SUELTAS: la placa entra desde dentro desplazada 3 mm hacia atrás,
+    # baja sobre la tapa y se corre hacia el frente hasta que sus bordes quedan bajo cuatro
+    # uñas fijas (dos frontales, en los huecos entre los cuerpos de RV2/RV3 y RV3/RV4, y dos
+    # laterales traseras). Hacia el frente la detienen los propios postes de las uñas; hacia
+    # atrás la bloquea la cuna de GRAVES al montarse (igual que traba los parlantes). Para
+    # retirarla: quitar la cuna de GRAVES, correr la placa atrás y levantarla.
     cx, cy = TFT_C
-    gw, gd = TFT_GLASS
-    pw_, pd_, pt_ = TFT_PCB
-    zg = H + LID - TFT_GLASS_T          # cara inferior del vidrio
-    zp = zg - .8 - pt_                  # cara inferior del PCB
-    zb = H + LID - TFT_H                # punta de los pines de la cabecera
-    part("LilyGO_T4S3_AMOLED_vidrio_56x44_PENDIENTE_COMPRA", "screen", rrect(cx - gw / 2, cy - gd / 2, zg, gw, gd, TFT_GLASS_T, 4.0, eps=.03), "lid",
-         estado="pendiente_compra")
-    part("LilyGO_T4S3_AMOLED_panel_y_adhesivo", "chip", [box(cx - pw_ / 2, cy - pd_ / 2, zg - .8, pw_, pd_, .8)], "lid")
-    part("LilyGO_T4S3_PCB_51p56x38p72", "chip", [box(cx - pw_ / 2, cy - pd_ / 2, zp, pw_, pd_, pt_)], "lid")
-    # Las posiciones de componentes se rotan junto con la placa, no solo el contorno.
-    ppw, ppd = TFT["pcb"][1], TFT["pcb"][0]  # sistema local anterior: retrato 38,72 x 51,56
-    def tbox(x, y, z, dx, dy, dz):
-        return box(cx - (y + dy - cy), cy + (x - cx), z, dy, dx, dz)
-    def tpoint(x, y, z):
-        return (cx - (y - cy), cy + (x - cx), z)
-    part("LilyGO_T4S3_ESP32S3_flash_y_PMU", "chip", [tbox(cx - 3.5, cy - 2, zp - .9, 7, 7, .9), tbox(cx - 9, cy + 9, zp - 1.6, 5.3, 5.3, 1.6),
-                                                     tbox(cx + 2, cy - 14, zp - 1.0, 4, 4, 1.0)], "lid")
-    part("LilyGO_T4S3_ranura_microSD", "metal", [tbox(cx - ppw / 2 - .8, cy - 8, zp - 1.8, 14, 12, 1.8)], "lid")
-    part("LilyGO_T4S3_USB_C", "metal", [tbox(cx + ppw / 2 - 7.0, cy - 4.5, zp - 3.2, 7.5, 9.0, 3.2)], "lid")
-    part("LilyGO_T4S3_cabecera_2x13", "header", [tbox(cx - 16.5, cy + ppd / 2 - 7.5, zp - 2.5, 33.0, 5.1, 2.5)], "lid")
-    part("LilyGO_T4S3_cabecera_pines", "metal", [tbox(cx - 16.0 + k * 2.54 - .32, cy + ppd / 2 - 7.5 + 0.95 + r * 2.54 - .32, zb, .64, .64, zp - 2.5 - zb)
-                                                 for k in range(13) for r in range(2)], "lid")
-    part("LilyGO_T4S3_JST_UART_y_JST_I2C", "xh", [tbox(cx + ppw / 2 - 5.0, cy - 16.2, zp - 3.0, 5.0, 7.4, 3.0),
-                                                  tbox(cx + ppw / 2 - 5.0, cy + 8.8, zp - 3.0, 5.0, 7.4, 3.0)], "lid")
-    part("LilyGO_T4S3_JST_bateria", "xh", [tbox(cx - 12, cy - ppd / 2 + .5, zp - 3.0, 5.0, 4.5, 3.0)], "lid")
-    pins = [tpoint(cx + ppw / 2 - 2.5, cy - 14.9 + i * 1.6, zp - 3.0) for i in range(4)]
+    x0_, y0_ = CYD_X0, CYD_Y0
+    pw_, pd_ = CYD_PCB_W, CYD_PCB_L
+    zt_ = Z_CYD_TOP                     # cara superior del PCB (el módulo sube desde aquí)
+    zp = zt_ - CYD_PCB_T                # cara inferior del PCB
+    part("CYD_3248S035_PCB_56p5x97p5", "tft_pcb", [box(x0_, y0_, zp, pw_, pd_, CYD_PCB_T)], "lid",
+         estado="recibida; cotas conservadoras por medir")
+    part("CYD_modulo_TFT_3p5_marco", "chip", rrect(cx - CYD_MOD_W / 2, y0_, zt_, CYD_MOD_W, CYD_MOD_L, CYD_MOD_T - .3, 1.5), "lid")
+    part("CYD_tactil_cara_exterior", "screen",
+         rrect(cx - CYD_MOD_W / 2 + .8, y0_ + .8, zt_ + CYD_MOD_T - .3, CYD_MOD_W - 1.6, CYD_MOD_L - 1.6, .3, 1.2, eps=.03), "lid")
+    part("CYD_area_activa_320x480", "screen",
+         [box(cx - TFT_ACTIVE[0] / 2, cy - TFT_ACTIVE[1] / 2, zt_ + CYD_MOD_T - .28, TFT_ACTIVE[0], TFT_ACTIVE[1], .32)], "lid",
+         emisor=True)
+    # Cara inferior (hacia el interior): WROOM con antena en la franja trasera, micro-USB al
+    # frente, ranura TF en el canto derecho y P1 (serie, 4 vías) en la franja trasera.
+    part("CYD_ESP_WROOM_32_blindaje", "metal", [box(cx - 9, y0_ + pd_ - 18.1, zp - 3.2, 18, 12.4, 3.2)], "lid")
+    part("CYD_antena_WROOM", "chip", [box(cx - 9, y0_ + pd_ - 5.6, zp - .8, 18, 5.6, .8)], "lid")
+    # El micro-USB asoma por el borde frontal: con la fila de perillas en y 23 queda a 0,4 mm
+    # del cuerpo de RV3 (supuesto). MEDIR al recibir: si el conector real sale más, hay conflicto.
+    part("CYD_micro_USB", "metal", [box(cx - 4.0, y0_ - .6, zp - 2.8, 8.0, 6.4, 2.8)], "lid")
+    part("CYD_pulsadores_RST_BOOT", "chip", [box(x0_ + 6, y0_ + pd_ - 11.0, zp - 2.0, 4, 3.5, 2.0),
+                                             box(x0_ + 12, y0_ + pd_ - 11.0, zp - 2.0, 4, 3.5, 2.0)], "lid")
+    part("CYD_ranura_TF", "metal", [box(x0_ + pw_ - 13.5, y0_ + 70.0, zp - 2.0, 14.5, 12.0, 2.0)], "lid")
+    part("CYD_P1_conector_serie_4v", "xh", [box(cx + 10.0, y0_ + pd_ - 9.5, zp - 3.4, 7.4, 4.5, 3.4)], "lid")
+    pins = [(cx + 11.9 + i * 1.25, y0_ + pd_ - 7.2, zp - 3.0) for i in range(4)]
     CONNECTORS["LID.TFT"] = pins
-    # Placa trasera desmontable de la T4-S3. Es un marco abierto (no una cubierta cerrada) para dejar
-    # accesibles USB-C, microSD, JST y cabecera. Sus cuatro apoyos aprietan las esquinas del PCB contra
-    # el rebaje de la tapa. Baja sobre cuatro setas y el marco completo se corre 5 mm hacia atrás (+y)
-    # hasta hacer clic: retiene la pantalla sin pegamento y puede retirarse para reutilizarla.
-    tb = H - zp + 2.0                    # espesor de la brida: llega 2 mm por debajo del PCB
-    pads_x = (cx - pw_ / 2, cx + pw_ / 2 - 6.4)
-    adds, cuts = [], []
-    strips = ((cy - pd_ / 2 - 3.4, cy - pd_ / 2 - .6, cy - pd_ / 2 - .3, 1),
-              (cy + pd_ / 2 + .6, cy + pd_ / 2 - 2.0, cy + pd_ / 2 - .4, 1))
-    for y_strip, y_pad, seat_y, sign in strips:
-        adds.append(box(cx - 27.0, y_strip, H - tb, 54.0, 3.0, tb))
-        adds += [box(x0, y_pad, zp - 2.0, 6.4, 2.8, 2.0) for x0 in pads_x]
-        for ex_ in (cx - 27.0, cx + 27.0):
-            b_, c_ = ear(ex_, seat_y, "y", sign, t=tb)
-            adds.append(b_); cuts += c_
-    # Dos largueros exteriores unen las antiguas bridas en una sola pieza, fuera del PCB y de sus
-    # conectores. Quedan a la altura de los apoyos para no tapar ni presionar componentes.
-    side_y0 = strips[0][0]
-    side_y1 = strips[1][0] + 3.0
-    adds += [box(cx - 27.0, side_y0, zp - 2.0, 3.0, side_y1 - side_y0, 2.0),
-             box(cx + 24.0, side_y0, zp - 2.0, 3.0, side_y1 - side_y0, 2.0)]
-    part("Placa_trasera_desmontable_LilyGO_T4S3", "support", adds, "lid", cut=cuts,
-         pieza_impresa=True, desmontable=True, fijacion="4 setas; deslizar 5 mm hacia atras", adhesivo=False)
+    # Cuatro uñas fijas fundidas con la tapa. Las frontales van en los huecos entre los cuerpos
+    # de RV2/RV3 y RV3/RV4 (la fila de perillas está en y 23; los cuerpos llegan a y 31,5);
+    # las traseras son laterales, en el hueco de 4,75 mm entre el PCB y cada parlante, con la
+    # pestaña por debajo de la franja trasera del PCB (ahí ya no hay ventana).
+    lips = []
+    for lx_ in (112.0, 160.0):          # uñas frontales: poste delante del PCB + pestaña debajo
+        lips += [box(lx_, 29.0, zp - 2.0, 8.0, 3.0, H - (zp - 2.0)),
+                 box(lx_, 29.0, zp - 2.0, 8.0, (y0_ + 3.0) - 29.0, 1.9)]
+    for px_, tx_ in ((x0_ - 3.25, x0_ - 3.25), (x0_ + pw_ + .25, x0_ + pw_ - 3.75)):   # uñas laterales traseras
+        lips += [box(px_, y0_ + 86.0, zp - 2.0, 3.0, 8.0, H - (zp - 2.0)),
+                 box(tx_, y0_ + 86.0, zp - 2.0, 7.0, 8.0, 1.9)]
+    part("Unas_fijas_pantalla_CYD", "support", lips, "lid", fundir="tapa")
     # Conjunto WS-14595: dos parlantes de 8 ohm / 5 W en un solo conector.
     sw_, sd_, sh_ = SPK
     retain = []
@@ -645,10 +654,18 @@ def build_lid_parts():
         yw = STRIP_W / 2 + .4
         adds = [box(x0 - 3, y - yw - 1.6, zs - 2.0, BAR_LEN + 6, 2 * yw + 3.2, 2.0)]
         for o in (-1, 1):
-            adds += [box(x0 - 3, y + (yw + .8 if o > 0 else -yw - 1.6), zs, BAR_LEN + 6, .8, 8.0),
-                     box(x0 - 3, y + (yw if o > 0 else -yw - .8), zs, BAR_LEN + 6, .8, 8.0 - HEX_FLANGE),
-                     box(x0 - 5, y + (yw - 1.4 if o > 0 else -yw - 1.6), zs - 2.0, 2.0, 3.0, 10.0), box(x0 + BAR_LEN + 3, y + (yw - 1.4 if o > 0 else -yw - 1.6), zs - 2.0, 2.0, 3.0, 10.0)]
-            adds += [box(x0 + 8 + k * 46.0, y + (yw - .7 if o > 0 else -yw), zs + 1.0, 12.0, .7, .8) for k in range(5)]     # uñas que retienen la tira
+            segs = [(x0 - 3, BAR_LEN + 6)]
+            if i == 0 and o < 0:
+                # Las paredes frontales de GRAVES se interrumpen sobre la franja trasera del PCB
+                # de la pantalla 3,5" (x 110,75..167,25): la placa pasa por debajo de la cuna y
+                # esta, al montarse, le bloquea el deslizamiento de salida.
+                segs = [(x0 - 3, 108.0 - (x0 - 3)), (170.0, x0 + BAR_LEN + 3 - 170.0)]
+            for sx0, sdx in segs:
+                adds += [box(sx0, y + (yw + .8 if o > 0 else -yw - 1.6), zs, sdx, .8, 8.0),
+                         box(sx0, y + (yw if o > 0 else -yw - .8), zs, sdx, .8, 8.0 - HEX_FLANGE)]
+            adds += [box(x0 - 5, y + (yw - 1.4 if o > 0 else -yw - 1.6), zs - 2.0, 2.0, 3.0, 10.0), box(x0 + BAR_LEN + 3, y + (yw - 1.4 if o > 0 else -yw - 1.6), zs - 2.0, 2.0, 3.0, 10.0)]
+            adds += [box(x0 + 8 + k * 46.0, y + (yw - .7 if o > 0 else -yw), zs + 1.0, 12.0, .7, .8) for k in range(5)
+                     if not (i == 0 and o < 0 and k == 2)]     # uñas que retienen la tira (la central frontal de GRAVES cae en el hueco de la pantalla)
         cuts = []
         for seat_x in (x0 - 5 - EAR_FRONT, x0 + BAR_LEN + 3 + EAR_BACK):
             b_, c_ = ear(seat_x, y, "x", 1, width=2 * yw + 3.2)
@@ -772,18 +789,23 @@ def build_wires():
         pts = lid_drop([t, (t[0], t[1] - 3, Z_LIDW), (xl, t[1] - 9, Z_LIDW)], xl)
         pts += [(xl, Y_WALL, ZT + 12), (pad[0] + 4 + k * .2, Y_WALL + 1, ZT + 9), (pad[0] + 4, pad[1], ZT + 7), pad]
         wire(f"Parlantes_a_PAM_{('L+', 'L-', 'R+', 'R-')[k]}", "Arnes_parlantes_a_PAM8403_4_hilos", ("w_red", "w_black", "w_red", "w_black")[k], pts)
-    # --- troncal este (entre T2 y las borneras) hacia T4: TFT, SW1 y datos de la tira
+    # --- troncal este (entre T2 y las borneras) hacia T4: alimentación de la pantalla, SW1 y tira
     trunk = []          # (nombre, arnés, color, puntos de tapa, x de cruce, destino)
-    link_cols = ("w_red", "w_black", "w_yellow", "w_green")
-    link_sig = ("+5V_a_VBUS", "GND", "TX2_GPIO17_a_RX_GPIO44", "RX2_GPIO16_de_TX_GPIO43")
-    for i, t in enumerate(CONNECTORS["LID.TFT"]):
-        xl = 151.0 + i * 1.5
-        trunk.append((f"T4S3_{link_sig[i]}", "Arnes_enlace_UART_T4S3_J7_PROPUESTO", link_cols[i],
-                      [t, (t[0], t[1], t[2] - 2.5), (xl, 73.0, t[2] - 2.5), (xl, 70.0, Z_LIDW)], xl, CONNECTORS["T4.J7_enlace_UART_T4S3_PROPUESTO"][i]))
+    # Los DATOS viajan por ESP-NOW (decisión 2026-11-24): a la pantalla solo llegan +5 V y GND
+    # por el pin VIN/GND de P1. El arnés sale bajo el PCB vertical, corre pegado a él por el
+    # hueco entre RV3 y RV4 y sube a la cara interior de la tapa pasado el borde frontal del PCB.
+    link_cols = ("w_red", "w_black")
+    link_sig = ("+5V_a_VIN", "GND")
+    for i in range(2):
+        t = CONNECTORS["LID.TFT"][i]
+        xl = 152.0 + i * 1.5
+        zlow = 52.8 - i * .4
+        trunk.append((f"CYD_{link_sig[i]}", "Arnes_alimentacion_pantalla_J7", link_cols[i],
+                      [t, (t[0], t[1], zlow), (xl, t[1], zlow), (xl, 31.0, zlow), (xl, 29.0, Z_LIDW)], xl, CONNECTORS["T4.J7_pantalla_5V_y_UART_PROPUESTO"][i]))
     for i, t in enumerate(CONNECTORS["LID.SW1"]):
-        xl = 126.5 + i * 1.5
+        xl = 252.5 + i * 1.5
         trunk.append((f"SW1_{('BTN', 'GND')[i]}", "Arnes_SW1", ("w_brown", "w_black")[i],
-                      [t, (t[0], t[1] - 4, t[2]), (xl, 48.0, Z_LIDW)], xl, CONNECTORS["T4.SW1"][i]))
+                      [t, (t[0], t[1] - 2, t[2]), (xl, 16.0, Z_LIDW)], xl, CONNECTORS["T4.SW1"][i]))
     bar_in = CONNECTORS["LID.BAR0.R"]
     j5 = CONNECTORS["T4.J5"]
     for i, (sig, col, dest) in enumerate((("DIN", "w_green", j5[1]), ("GND_ref", "w_black", j5[2]))):
@@ -890,9 +912,9 @@ def lid_cuts():
     for ref, func, kind, x, estado, ind in CONTROLS:
         cuts.append(cyl(x, KNOB_Y, H - 1, 3.7, LID + 2))
     cx, cy = TFT_C
-    # Hueco pasante para el PCB y rebaje superior donde apoya el vidrio (repisa de 1 mm).
-    cuts.append(box(cx - TFT_PCB[0] / 2 - .7, cy - TFT_PCB[1] / 2 - .7, H - 1, TFT_PCB[0] + 1.4, TFT_PCB[1] + 1.4, LID + 2))
-    cuts += rrect(cx - TFT_GLASS[0] / 2 - .25, cy - TFT_GLASS[1] / 2 - .25, H + LID - TFT_GLASS_T, TFT_GLASS[0] + .5, TFT_GLASS[1] + .5, TFT_GLASS_T + 1, 4.25)
+    # Ventana pasante del módulo TFT del CYD: el módulo queda al ras por fuera; el PCB, más largo
+    # que la ventana, queda retenido bajo la tapa por las uñas fijas y el marco deslizante.
+    cuts += rrect(cx - TFT_WIN[0] / 2, cy - TFT_WIN[1] / 2, H - 1, TFT_WIN[0], TFT_WIN[1], LID + 2, 2.0)
     for sx, sy in SPK_CS:           # rejilla de ranuras sobre cada parlante
         for k in range(-10, 11):
             half = 16.0 if abs(k) < 9 else 11.0
@@ -997,7 +1019,7 @@ def export_layout():
         "boards": {k: list(v[:4]) + [v[4]] for k, v in BOARDS.items()}, "z_board_top": ZT,
         "controls": [{"ref": r, "func": f, "kind": k, "x": x, "y": KNOB_Y, "estado": e} for r, f, k, x, e, _ in CONTROLS],
         "pot_travel_deg": POT_TRAVEL_DEG,
-        "tft": {"center": list(TFT_C), "active": TFT_ACTIVE, "glass": list(TFT_GLASS), "offset_x": 0.0, "pixels": [600, 450]},
+        "tft": {"center": list(TFT_C), "active": TFT_ACTIVE, "glass": list(TFT_WIN), "offset_x": 0.0, "pixels": [320, 480]},
         "speakers": [list(c) for c in SPK_CS], "speaker_env": SPK, "sw1": list(SW_C),
         "bars": [{"name": n, "y": y, "x0": BAR_X0, "len": BAR_LEN, "color": list(COLORS[c])} for n, y, c in BARS], "hex_rib_z": H + LID - (HEX_RIB - HEX_FLOOR) / 2,
         "pixel_mm": PIXEL, "colors": {k: list(v) for k, v in COLORS.items()},

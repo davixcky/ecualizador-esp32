@@ -9,14 +9,17 @@ E.4/D.2 no se usan como referencia.
 |---|---|---|
 | ![cerrado](ecualizador-E5-cerrado.png) | ![abierto](ecualizador-E5-abierto.png) | ![planta](ecualizador-E5-planta.png) |
 
-Estas vistas fijas son la referencia visual vigente. El video E.5 se conserva como histórico porque su
-interior es anterior a los encastres actuales.
+Estas vistas fijas son la referencia visual vigente (pantalla de 3,5″ recibida, revisión del
+2026-11-24). El video E.5 se conserva como histórico porque su interior es anterior a los
+encastres actuales.
 
 ## Qué representa
 
-- **Tapa:** cinco controles rotativos en fila — NIVEL (RV1), GRAVES (RV2), MEDIOS (RV3),
-  AGUDOS (RV4), VOLUMEN (RV5) —, pantalla LilyGO T4-S3 (AMOLED de 2,41″, en horizontal, 600 × 450; vidrio de 56 × 44 mm al ras de la tapa), pulsador
-  VISTA (SW1), dos parlantes con rejilla y tres barras de luz con difusor de relieve hexagonal.
+- **Tapa:** cinco controles rotativos en fila (adelantada a y 23 el 2026-11-24) — NIVEL (RV1),
+  GRAVES (RV2), MEDIOS (RV3), AGUDOS (RV4), VOLUMEN (RV5) —, pantalla ESP32-3248S035 (TFT táctil
+  de 3,5″, 320 × 480, montada en VERTICAL con el módulo al ras de la tapa), pulsador VISTA (SW1,
+  junto a VOLUMEN en la fila de perillas), dos parlantes con rejilla y tres barras de luz con
+  difusor de relieve hexagonal.
 - **Cierre:** cuatro pares de imanes de Ø6 × 2 mm (tres postes traseros y una ménsula frontal)
   y un uñero trasero. La tapa bascula sobre su borde frontal; nada la sostiene abierta.
 - **Difusores:** cada barra lleva un difusor impreso con relieve hexagonal: fondo de 0,5 mm,
@@ -28,19 +31,24 @@ interior es anterior a los encastres actuales.
   La pestaña queda apretada entre la cuna de la tira y la tapa. Los extremos de cada barra son
   semicirculares, igual que su ventana en la tapa.
 - **Perillas:** metálicas (aluminio). Siguen pendientes de compra; el modelo usa una envolvente supuesta.
-- **Pantalla:** la T4-S3 es una placa ESP32-S3 completa. Sustituye a la TFT ST7789 y se enlaza
-  con el ESP32 por un arnés de cuatro hilos (+5 V, GND, TX, RX). Es una **propuesta**: no está
-  en el esquema ni existe firmware para ese enlace. No está comprada.
+- **Pantalla:** la placa RECIBIDA el 2026-11-24 es una **ESP32-3248S035** (la publicación
+  anunciaba la 2432S028 de 2,8″): ESP32 completo con TFT ST7796 de 3,5″ 320 × 480 y táctil,
+  confirmado empíricamente con `firmware-cyd` (env `cyd35`). Va en **vertical** entre los
+  parlantes; para que su PCB de 97,5 mm de fondo quepa, la fila de perillas se adelantó a
+  y 23. Los DATOS llegan por **ESP-NOW** (decisión del usuario): el arnés solo lleva +5 V y
+  GND al pin VIN de P1, con el UART de P1 como respaldo por cable. El enlace no está en el
+  esquema eléctrico; las cotas del PCB son de la comunidad y el reparto del módulo es
+  supuesto (medir antes de imprimir la tapa definitiva).
 - **RV2–RV4:** tres B10K lineales rotativos montados. El cuarto B10K es repuesto y no
   aparece en el modelo.
 - **RV1 y RV5:** A10K logarítmicos **pendientes de compra**. Se dibujan en ámbar, con el
   nombre `…A10K_log_PENDIENTE_COMPRA…` y con la envolvente del B10K como supuesto; la cota
   está pendiente de medir. Los dos P-20K logarítmicos comprados son solo candidatos.
 - **Interior:** T1–T4 con sus zócalos, LM324, 74HCT245, 40 resistencias, 26 capacitores,
-  3 diodos, ESP32S V1.1 USB-C de 38 pines sobre zócalos, PAM8403, jacks de 3,5 mm,
-  bornera J6, cabezales XH y headers.
+  3 diodos, ESP32 DevKit V1 de 30 pines sobre zócalos (sustituye al ESP32S de 38 pines,
+  que queda liberado), PAM8403, jacks de 3,5 mm, bornera J6, cabezales XH y headers.
 - **Cableado:** 82 conductores: arneses XH entre tarjetas (JAB, JBC, JB4, JC4, 3 × JBUS),
-  tres hilos por potenciómetro, enlace UART de la pantalla, pulsador, cuatro hilos de parlantes, tira, y la estrella de
+  tres hilos por potenciómetro, alimentación de la pantalla (+5 V/GND; los datos van por ESP-NOW), pulsador, cuatro hilos de parlantes, tira, y la estrella de
   +5 V/GND desde dos borneras puente con portafusible sujeto e interruptor.
 - **Luces:** tira BTF-LIGHTING FCOB WS2811 de **12 V**, 720 LED/m, 12 mm de ancho, un
   píxel cada 50 mm (ASIN B0BW5T6HW4, variante verificada). Los 12 píxeles lógicos del
@@ -58,13 +66,13 @@ colocación agujero por agujero ni sustituye pruebas eléctricas o mecánicas.
 | `generar_modelo.py` | FreeCAD: `.FCStd`, `.step`, `stl/` y `validacion-3d.json` |
 | `escena_blender.py` | Escena de Blender de las vistas fijas; también la reutiliza el video histórico |
 | `render_modelo.py` | Vistas cerrada, abierta, planta, detalle de controles y soporte de pantalla explotado |
-| `generar_interfaz_render.py` / `tft-render-horizontal.png` | Interfaz horizontal estática propuesta para los renders |
-| `ecualizador-E5-pantalla-soporte-explotado.png` | Orden de montaje: tapa de prueba → T4-S3 → placa trasera desmontable |
+| `generar_interfaz_render.py` / `tft-render-vertical.png` | Interfaz vertical estática (320 × 480) propuesta para los renders |
+| `ecualizador-E5-pantalla-soporte-explotado.png` | Montaje de la pantalla 3,5″: tapa de prueba con sus cuatro uñas y la placa separada |
 | `ecualizador-E5-perforadas.FCStd` / `.step` | Ensamble editable e intercambio |
 | `bambu/` | Proyectos 3MF para Bambu Studio (probetas de ajuste, piezas, cuerpo, tapa y uno combinado), con las piezas ya orientadas (ver abajo) |
 | `exportar_bambu.py` | Genera `bambu/` a partir de `stl/` |
 | `pruebas-de-ajuste/` | Probetas recortadas de la geometría real para comprobar encajes antes de imprimir cuerpo y tapa |
-| `stl/` | Piezas imprimibles: cuerpo, tapa, cunas de tira, difusores, cuna y capuchón de SW1, placa trasera desmontable de la T4-S3 |
+| `stl/` | Piezas imprimibles: cuerpo, tapa, cunas de tira, difusores, cuna y capuchón de SW1 (la pantalla se retiene con uñas fundidas en la tapa: sin pieza propia) |
 | `validacion-3d.json` | Comprobaciones dimensionales y lista de pendientes |
 | `validacion-renders.json` / `validar_renders.py` | Integridad, resolución y vigencia de las cinco vistas |
 | `BEST-PRACTICES.md` | Reglas propias del E.5 para fuentes de verdad, encastres, impresión y renders |
@@ -89,10 +97,12 @@ El render usa Cycles en GPU (`MUESTRAS=96` por defecto; `MOTOR=BLENDER_EEVEE` si
 
 - **Tapa que bascula por el frente.** Los arneses cruzan por el borde frontal, así los
   potenciómetros quedan a menos de 12 cm de T1/T2, como pide la regla de cables analógicos
-  cortos. El enlace UART de la pantalla recorre unos 37 cm, aceptable para UART.
-- **Pantalla por UART.** ESP32 GPIO17 (TX2) → T4-S3 GPIO44 (RX); ESP32 GPIO16 (RX2) ← T4-S3
-  GPIO43 (TX); +5 V al pin VBUS de la T4-S3; GND común. Ambas placas trabajan a 3,3 V. J4, R30
-  y los pines SPI del ESP32 quedarían libres. Falta esquema y firmware en las dos placas.
+  cortos. El arnés de la pantalla queda en dos hilos (+5 V/GND, unos 39 cm).
+- **Pantalla por ESP-NOW.** Los datos viajan por radio con el protocolo `$EQ5` de
+  `firmware/include/enlace_cyd.h` (difusión en el canal 1); ambos firmware ya lo hablan y el
+  UART de P1 (GPIO3/GPIO1, compartido con su puente USB-serie) queda como respaldo por cable.
+  Solo se cablea +5 V al VIN de P1 y GND. J4, R30 y los pines SPI del ESP32 quedan libres.
+  Falta reflejarlo en el esquema eléctrico y probar el alcance con la tapa cerrada.
 - **SW1 y PAM8403.** SW1 va en una cuna bajo la tapa con dos hilos a T4; el PAM8403
   se monta sobre pines en T2 junto a J3.
 - **Alimentación.** La fuente de 5 V es externa; entra por un pasacable, pasa por el
@@ -115,8 +125,8 @@ Bambu Studio cambia de carpeta al arrancar: con una ruta relativa responde "Load
 | Archivo | Contenido | Orientación |
 |---|---|---|
 | `bambu/E5-completo-generado.3mf` | Las cuatro camas en un solo proyecto, con soportes activados: probetas, piezas pequeñas, cuerpo y tapa | Las de cada cama |
-| `bambu/E5-pruebas-de-ajuste.3mf` | 12 probetas de ajuste (ver abajo) | Acostadas; ocupan 222 × 151 mm |
-| `bambu/E5-piezas-pequenas.3mf` | 3 difusores, 3 cunas de tira, placa trasera desmontable de la T4-S3, cuna de SW1, cuna del conector de parlantes, capuchón | Cunas boca abajo |
+| `bambu/E5-pruebas-de-ajuste.3mf` | 13 probetas de ajuste (ver abajo) | Acostadas; ocupan 244 × 171 mm |
+| `bambu/E5-piezas-pequenas.3mf` | 3 difusores, 3 cunas de tira, cuna de SW1, cuna del conector de parlantes, capuchón | Cunas boca abajo |
 | `bambu/E5-cuerpo.3mf` | Cuerpo de una pieza | De canto sobre la pared trasera, en diagonal; necesita soportes |
 | `bambu/E5-tapa.3mf` | Tapa de una pieza | De canto sobre el borde trasero, en diagonal; necesita soportes |
 
@@ -141,7 +151,8 @@ prueban las holguras reales. Imprimirlas con el mismo filamento y perfil que se 
 | Probeta | Qué se comprueba con la pieza real |
 |---|---|
 | `tapa_potenciometro_B10K` | El buje roscado M7 del B10K entra en el agujero de 7,4 mm y la tuerca aprieta sobre 3 mm de tapa |
-| `tapa_pantalla_T4S3_y_SW1` | El vidrio asienta al ras y el PCB pasa por el hueco. Trae las seis setas: probar en ella la placa trasera desmontable de la T4-S3 y la cuna de SW1 de la cama 2 |
+| `tapa_pantalla_CYD` | El módulo de 3,5″ pasa por la ventana y queda al ras; el PCB entra desplazado 3 mm hacia atrás y se corre al frente hasta quedar bajo las cuatro uñas fijas |
+| `tapa_SW1` | El capuchón de VISTA corre en su agujero y la cuna de SW1 de la cama 2 hace clic en sus dos setas |
 | `tapa_ventana_barra_LED` + `barra_difusor_tramo` + `barra_cuna_tramo` | El difusor entra en la ventana y queda al ras; la cuna corre sobre la seta y hace clic; la tira de 12 mm queda bajo las uñas |
 | `tapa_teton_iman` + `cuerpo_poste_iman_punta` | El imán de 6 × 2 entra a presión entre los nervios y no se sale; los dos se atraen |
 | `cuerpo_esquina_tarjeta_T1` | El pin entra en el agujero de la perforada y el gancho sujeta el canto |
@@ -161,7 +172,8 @@ ventana), la sujeción de los parlantes ni el cierre de la tapa completa.
 | Borneras puente y elevador | Guías bajas y dos ganchos por los extremos |
 | Portafusible | Dos pinzas abiertas por arriba |
 | Imanes | Alojamientos con cuatro nervios de apriete (0,3 mm de interferencia), en postes del cuerpo y tetones de la tapa |
-| Cunas de tira, cuna de SW1, cuna del conector de parlantes, placa trasera de la T4-S3 | Seta de la tapa + ojo de cerradura: la pieza baja por el ojo ancho y se corre 5 mm hasta hacer clic |
+| Cunas de tira, cuna de SW1, cuna del conector de parlantes | Seta de la tapa + ojo de cerradura: la pieza baja por el ojo ancho y se corre 5 mm hasta hacer clic |
+| Pantalla 3,5″ | Entra desplazada 3 mm hacia atrás y se corre al frente bajo cuatro uñas fijas; los postes la detienen al frente y la cuna de GRAVES, al montarse, le cierra la salida |
 | Difusores | Su pestaña queda apretada entre el escalón de la cuna y la tapa |
 | Tira LED | Bajo uñas de la cuna (no hace falta su adhesivo) |
 | Parlantes | Canto delantero bajo dos cuñas de la tapa; el trasero lo atrapan las cuñas de la cuna de GRAVES |
@@ -170,10 +182,12 @@ ventana), la sujeción de los parlantes ni el cierre de la tapa completa.
 
 Postes, ganchos, pinzas, setas, cuñas y tetones salen fundidos en los STL del cuerpo y de la tapa.
 
-Orden de montaje en la tapa (boca abajo): capuchón de SW1 en su agujero; T4-S3; placa trasera sobre sus
-cuatro setas y deslizada 5 mm hacia el borde trasero hasta hacer clic; cuna de
-SW1, parlantes (canto delantero bajo las cuñas), difusores en sus ventanas, cunas de AGUDOS y MEDIOS y,
-al final, la de GRAVES, que traba los parlantes. Cuna del conector en cualquier momento.
+Orden de montaje en la tapa (boca abajo): capuchón de SW1 en su agujero; pantalla 3,5″ con el
+módulo por la ventana, desplazada 3 mm hacia atrás y corrida al frente bajo las cuatro uñas
+fijas; cuna de SW1, parlantes (canto delantero bajo las cuñas), difusores en sus ventanas,
+cunas de AGUDOS y MEDIOS y, al final, la de GRAVES, que traba los parlantes y cierra la
+salida de la pantalla. Cuna del conector en cualquier momento. Los potenciómetros y sus
+tuercas pueden ir en cualquier punto tras la pantalla.
 
 Pendiente de validar: todas las holguras (0,1 mm por lado en el cuello del ojo, uñas de 0,6 mm en los
 ganchos) son de diseño y dependen del filamento; el espesor del marco de los parlantes (2 mm) y la

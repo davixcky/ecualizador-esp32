@@ -87,18 +87,28 @@
           ]
         },
         {
-          "nombre": "Prueba_tapa_pantalla_T4S3_y_SW1",
-          "triangulos": 2330,
+          "nombre": "Prueba_tapa_SW1",
+          "triangulos": 808,
           "aristas_abiertas": 0,
           "tamano_mm": [
-            76.0,
-            73.0,
-            8.6
+            30.0,
+            26.0,
+            7.2
+          ]
+        },
+        {
+          "nombre": "Prueba_tapa_pantalla_CYD",
+          "triangulos": 304,
+          "aristas_abiertas": 0,
+          "tamano_mm": [
+            70.0,
+            101.5,
+            7.6
           ]
         },
         {
           "nombre": "Prueba_tapa_potenciometro_B10K",
-          "triangulos": 160,
+          "triangulos": 192,
           "aristas_abiertas": 0,
           "tamano_mm": [
             26.0,
@@ -128,8 +138,8 @@
         }
       ],
       "ocupa_mm": [
-        230.0,
-        145.0,
+        236.0,
+        173.5,
         18.0
       ],
       "cabe_en_la_cama": true,
@@ -170,7 +180,7 @@
         },
         {
           "nombre": "Cuna_tira_GRAVES",
-          "triangulos": 862,
+          "triangulos": 874,
           "aristas_abiertas": 0,
           "tamano_mm": [
             235.7,
@@ -196,16 +206,6 @@
             235.7,
             16.0,
             10.0
-          ]
-        },
-        {
-          "nombre": "Placa_trasera_desmontable_T4S3",
-          "triangulos": 1216,
-          "aristas_abiertas": 0,
-          "tamano_mm": [
-            64.0,
-            52.5,
-            3.4
           ]
         },
         {
@@ -241,7 +241,7 @@
       ],
       "ocupa_mm": [
         235.8,
-        184.1,
+        145.4,
         10.0
       ],
       "cabe_en_la_cama": true,
@@ -274,7 +274,7 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_de_canto_en_diagonal",
-          "triangulos": 8506,
+          "triangulos": 7276,
           "aristas_abiertas": 0,
           "tamano_mm": [
             198.7,

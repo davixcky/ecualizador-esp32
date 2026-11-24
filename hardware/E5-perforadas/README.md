@@ -13,7 +13,10 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 - `LISTA-POR-TIENDA.md`: lista operativa con casillas, agrupada por proveedor para reducir pedidos y fletes.
 - `../COMPONENTES-COMPRADOS-VERIFICADOS.md`: compras respaldadas por factura o albarán; manda sobre los carritos.
 - `3d/ecualizador-E5-perforadas.FCStd` y `.step`: ensamble mecánico con las cuatro tarjetas, cinco controles
-  rotativos en la tapa imantada, pantalla LilyGO T4-S3, dos parlantes, arneses y tres barras de luz. Ver `3d/README.md`.
+  rotativos en la tapa imantada, pantalla ESP32-3248S035 de 3,5" en vertical (recibida el 2026-11-24; antes
+  LilyGO T4-S3) con ESP32 DevKit V1 de 30 pines, dos parlantes, arneses y tres barras de luz. Ver `3d/README.md`.
+  **Nota:** el esquema, los CSV de conexiones y las listas de compra de esta carpeta todavía describen la
+  T4-S3 y el ESP32S de 38 pines; están pendientes de actualizar a la decisión del 2026-11-24.
 - `3d/ecualizador-E5-{cerrado,abierto,planta}.png`: vistas para revisar volumen, montaje y accesibilidad.
 - `video/`: guiones del video de `docs/video/` (audio SPICE, pantalla del firmware, Blender y validación).
 

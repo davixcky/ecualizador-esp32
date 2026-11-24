@@ -13,7 +13,7 @@ EXPECTED = {
     "ecualizador-E5-planta.png": (1500, 2100),
     "ecualizador-E5-pantalla-soporte-explotado.png": (1800, 1350),
 }
-SOURCES = [HERE / ".render/ensamble.json", HERE / "render_modelo.py", HERE / "escena_blender.py", HERE / "tft-render-horizontal.png"]
+SOURCES = [HERE / ".render/ensamble.json", HERE / "render_modelo.py", HERE / "escena_blender.py", HERE / "tft-render-vertical.png"]
 fresh_after = max(p.stat().st_mtime for p in SOURCES)
 issues, files = [], []
 for name, expected_size in EXPECTED.items():

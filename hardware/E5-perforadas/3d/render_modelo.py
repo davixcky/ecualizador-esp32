@@ -5,8 +5,8 @@
     blender -b -P hardware/E5-perforadas/3d/render_modelo.py
 
 Opcional: `-- cerrado abierto planta detalle pantalla-soporte` para elegir vistas.
-La pantalla LilyGO T4-S3 horizontal muestra `tft-render-horizontal.png`: una propuesta estática
-para los renders. El firmware del T4-S3 aún no existe.
+La pantalla CYD vertical muestra `tft-render-vertical.png`: una propuesta estática
+para los renders. El firmware del CYD aún no existe.
 """
 from pathlib import Path
 import os
@@ -20,7 +20,7 @@ import escena_blender  # noqa: E402
 ROOT = HERE.parents[2]
 views = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else ["cerrado", "abierto", "planta"]
 s = escena_blender.build(engine=os.environ.get("MOTOR", "CYCLES"), samples=int(os.environ.get("MUESTRAS", "96")),
-                         tft_image=HERE / "tft-render-horizontal.png")
+                         tft_image=HERE / "tft-render-vertical.png")
 scene, lay = s["scene"], s["layout"]
 scene.render.resolution_x, scene.render.resolution_y = 2000, 1300
 W, D, H = lay["W"], lay["D"], lay["H"]
@@ -53,38 +53,33 @@ if "planta" in views:
     s["aim"]((W / 2, -4, 900), (W / 2, -4 + .01, 0), ortho=416)
     shot("planta")
 if "pantalla-soporte" in views:
-    # Vista didáctica desde el interior: frente de prueba, módulo y placa trasera
-    # separados. No representa la posición de funcionamiento, sino el orden de montaje.
+    # Vista didáctica desde el interior: frente de prueba (con las cuatro uñas fijas) y la
+    # pantalla 3,5" separada. No representa la posición de funcionamiento, sino el montaje.
     s["set_lid"](0)
-    bpy.ops.wm.stl_import(filepath=str(HERE / "pruebas-de-ajuste/tapa_pantalla_T4S3_y_SW1.stl"))
+    bpy.ops.wm.stl_import(filepath=str(HERE / "pruebas-de-ajuste/tapa_pantalla_CYD.stl"))
     front = bpy.context.object
-    front.name = "Frente_prueba_pantalla_T4S3_y_SW1"
+    front.name = "Frente_prueba_pantalla_CYD"
     front.data.materials.append(escena_blender.make_material("lid", lay["colors"]["lid"]))
     display_names = {
-        "LilyGO_T4S3_AMOLED_vidrio_56x44_PENDIENTE_COMPRA",
-        "LilyGO_T4S3_AMOLED_panel_y_adhesivo",
-        "LilyGO_T4S3_PCB_51p56x38p72",
-        "LilyGO_T4S3_ESP32S3_flash_y_PMU",
-        "LilyGO_T4S3_ranura_microSD",
-        "LilyGO_T4S3_USB_C",
-        "LilyGO_T4S3_cabecera_2x13",
-        "LilyGO_T4S3_cabecera_pines",
-        "LilyGO_T4S3_JST_UART_y_JST_I2C",
-        "LilyGO_T4S3_JST_bateria",
+        "CYD_3248S035_PCB_56p5x97p5",
+        "CYD_modulo_TFT_3p5_marco",
+        "CYD_tactil_cara_exterior",
+        "CYD_area_activa_320x480",
+        "CYD_ESP_WROOM_32_blindaje",
+        "CYD_antena_WROOM",
+        "CYD_micro_USB",
+        "CYD_pulsadores_RST_BOOT",
+        "CYD_ranura_TF",
+        "CYD_P1_conector_serie_4v",
     }
-    back_name = "Placa_trasera_desmontable_LilyGO_T4S3"
-    keep = display_names | {back_name, front.name}
+    keep = display_names | {front.name}
     for obj in scene.objects:
         if obj.type in {"MESH", "CURVE", "FONT"}:
             obj.hide_render = obj.name not in keep
     s["screen"].hide_render = True
     for name in display_names:
         if name in s["objs"]:
-            s["objs"][name].location.z -= 10
-    back = s["objs"][back_name]
-    back.location.z -= 24
-    back.data.materials.clear()
-    back.data.materials.append(escena_blender.make_material("w_blue", (.20, .48, .78)))
+            s["objs"][name].location.z -= 18
     scene.render.resolution_x, scene.render.resolution_y = 1800, 1350
-    s["aim"]((210, -155, -30), (139, 98, 45), 62)
+    s["aim"]((210, -155, -30), (139, 73, 45), 62)
     shot("pantalla-soporte-explotado")

@@ -7,7 +7,7 @@
 Escribe en bambu/ estos proyectos 3MF (en milímetros, un objeto con nombre por pieza). Si `bambu-studio`
 está instalado, su CLI los convierte a proyecto nativo; la interfaz gráfica no abre el 3MF genérico:
 
-    E5-piezas-pequenas.3mf   difusores, cunas, capuchón y placa trasera desmontable de la T4-S3
+    E5-piezas-pequenas.3mf   difusores, cunas, capuchón y marco corredizo de la pantalla CYD
     E5-cuerpo-izquierda/-derecha.3mf   mitades del cuerpo (color A y color B)
     E5-tapa-izquierda/-derecha.3mf     mitades de la tapa, con la cara exterior en la cama
     E5-pruebas-de-ajuste.3mf           probetas pequeñas para comprobar encajes ANTES de imprimir lo demás
@@ -160,8 +160,8 @@ def small_plate():
         objects.append((name, place(verts, BED[0] / 2, y + (hi[1] - lo[1]) / 2), tris))
         y += hi[1] - lo[1] + 5.0
     x, row = 10.0, 0.0
-    for stl_name, name, upside in (("placa_trasera_desmontable_lilygo_t4s3", "Placa_trasera_desmontable_T4S3", False),
-                                   ("cuna_sw1", "Cuna_SW1", True), ("cuna_conector_parlantes", "Cuna_conector_parlantes", True),
+    # La pantalla 3,5" se retiene con uñas fundidas en la tapa: ya no hay marco impreso aparte.
+    for stl_name, name, upside in (("cuna_sw1", "Cuna_SW1", True), ("cuna_conector_parlantes", "Cuna_conector_parlantes", True),
                                    ("sw1_capuchon_vista", "Capuchon_SW1_VISTA", False)):
         verts, tris = read_stl(STL / f"{stl_name}.stl")
         verts = flip(verts) if upside else verts

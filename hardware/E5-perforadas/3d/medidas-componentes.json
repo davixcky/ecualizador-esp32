@@ -1,5 +1,5 @@
 {
-  "revision": "E.5-rotativos-2026-11-20",
+  "revision": "E.5-rotativos-2026-11-24",
   "unidades": "mm",
   "regla": "estado: 'publicada' viene de la tienda o del fabricante; 'conservadora' reserva espacio hasta medir la pieza; 'supuesto' es una decisión de diseño sin pieza definida. compra: 'verificada' = hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md (factura o albarán); 'declarada' = lo afirma el comprador sin documento en el repositorio; 'carrito' = solo figura en un carrito; 'pendiente' = no comprado.",
   "evidencia_de_compra": "hardware/COMPONENTES-COMPRADOS-VERIFICADOS.md",
@@ -27,6 +27,25 @@
       "compra": "carrito",
       "fuente": "https://www.didacticaselectronicas.com/shop/category/prototipado-fabricacion-de-productos-placas-de-prototipo-perforadas-362"
     },
+    "ESP32-DevKit-V1-30P": {
+      "cantidad": 1,
+      "envolvente": [
+        52.0,
+        28.5,
+        13.0
+      ],
+      "paso_pines": 2.54,
+      "separacion_centros_hileras": 22.86,
+      "estado": "conservadora",
+      "compra": "pendiente",
+      "nota": "Sustituye al ESP32S V1.1 USB-C de 38 pines por decisión del 2026-11-24. Las fichas publicadas discrepan (48,3 x 25,4 a 51,45 x 28,33 mm según el clon): la envolvente reserva el caso mayor y la separación de hileras de 22,86 mm (0,9 in) es el valor típico, sin ficha que lo respalde para la unidad que se compre. USB micro-B en el borde corto, 2 hileras de 15 pines a 2,54 mm.",
+      "por_medir": [
+        "largo y ancho exactos de la unidad recibida",
+        "separación real entre centros de hileras",
+        "altura total con zócalos",
+        "posición y tipo del conector USB respecto al borde"
+      ]
+    },
     "ESP32S-V1.1-USB-C-38P": {
       "cantidad": 1,
       "envolvente": [
@@ -39,57 +58,103 @@
       "estado": "publicada_equivalente_y_conservadora_en_altura",
       "compra": "declarada",
       "fuente": "https://www.gravityelectronic.com/shop/esp32s-esp-wroom-32-38-pin-cp2102-type-c-12920",
+      "nota": "LIBERADO por decisión del 2026-11-24: el modelo monta ahora un ESP32 DevKit V1 de 30 pines. La unidad declarada queda como repuesto del equipo; se conserva la entrada como registro de compra.",
       "por_medir": [
         "largo y ancho exactos de la unidad recibida",
         "altura total con zócalos",
         "posición del USB-C respecto al borde"
       ]
     },
-    "LilyGO-T4-S3-AMOLED-2.41": {
+    "ESP32-3248S035-RECIBIDA": {
       "cantidad": 1,
       "envolvente": [
-        56.0,
-        44.0,
+        97.5,
+        56.5,
         13.0
       ],
       "pcb": [
-        51.56,
-        38.72,
+        97.5,
+        56.5,
         1.6
       ],
+      "modulo_tft": [
+        84.0,
+        55.0,
+        4.0
+      ],
       "area_activa": [
-        48.96,
-        36.72
+        73.44,
+        48.96
       ],
       "resolucion": [
-        450,
-        600
+        320,
+        480
       ],
-      "estado": "mixta",
-      "compra": "pendiente",
-      "fuente": "https://github.com/Xinyuan-LilyGO/LilyGo-AMOLED-Series (dimensions/T4-S3-AMOLED-PCB.dxf, schematic/T4-S3-240719.pdf)",
-      "nota": "Sustituye a la TFT ST7789 de 1,9 pulgadas por decisión del 2026-11-20. Envolvente 56 x 44 x 13 mm publicada por la tienda (el vidrio es mayor que el PCB; los 13 mm incluyen la cabecera de pines). PCB 51,56 x 38,72 del DXF oficial. El área activa se CALCULÓ a partir de 2,41 pulgadas y 450x600 px y se supuso centrada en el vidrio; el reparto de los 13 mm (vidrio 2,0 / adhesivo 0,8 / PCB 1,6 / pines) es un supuesto. Es una placa ESP32-S3 completa con AMOLED RM690B0 y táctil CST226SE.",
+      "estado": "conservadora",
+      "compra": "declarada",
+      "fuente": "https://es.aliexpress.com/item/1005006160645147.html",
+      "nota": "PLACA REALMENTE RECIBIDA el 2026-11-24: la serigrafía dice ESP32-3248S035 (panel de 3,5 pulgadas, 320 x 480), NO la ESP32-2432S028 de 2,8 pulgadas que anuncia el título de la publicación. Confirmado EMPIRICAMENTE con firmware-cyd (env cyd35): controlador ST7796 y luz de fondo en GPIO27 activa en alto (con ILI9341/ST7789 y GPIO21 la pantalla quedaba negra). PCB de 97,5 x 56,5 conservador según la documentación comunitaria. El módulo TFT de 84 x 55 x 4 al ras del extremo contrario a la antena es SUPUESTO; el área activa de 3,5 pulgadas 2:3 (73,44 x 48,96) es geométrica y se supone centrada en el módulo. El modelo E.5 la monta en vertical desde el 2026-11-24 (revisión de esta fecha): para que quepa, la fila de perillas se adelantó de y 26 a y 23 y la retención pasó a cuatro uñas fijas de la tapa, sin marco ni piezas sueltas.",
       "enlace_propuesto": {
-        "tipo": "UART a 3,3 V",
-        "ESP32_TX2_GPIO17": "T4-S3 U0RXD GPIO44",
-        "ESP32_RX2_GPIO16": "T4-S3 U0TXD GPIO43",
-        "alimentacion": "+5 V al pin VBUS de la cabecera (inferido del esquema; no conectar a la vez su USB-C)",
+        "tipo": "ESP-NOW en difusión (decisión del usuario, 2026-11-24): el protocolo $EQ5 de enlace_cyd.h viaja por radio; la pantalla solo necesita +5 V y GND (dos hilos). El UART0/P1 queda como respaldo por cable.",
+        "estado": "PROPUESTA: no está en el esquema; los firmware de ambos lados ya hablan los dos transportes"
+      },
+      "por_medir": [
+        "largo, ancho y espesor reales del PCB",
+        "posición y tamaño reales del módulo TFT sobre el PCB (84 x 55 x 4 supuesto)",
+        "variante táctil: S035R (XPT2046 resistivo) o S035C (GT911 capacitivo)",
+        "posición de conectores (USB, P1), agujeros de montaje y antena",
+        "consumo a 5 V con la pantalla encendida"
+      ],
+      "montaje": "vertical (320 x 480, interfaz en retrato), módulo al ras de la cara exterior de la tapa; entra desde dentro desplazada 3 mm hacia atrás y se corre al frente bajo cuatro uñas fijas (dos frontales entre los potenciómetros y dos laterales traseras). Hacia el frente la detienen los postes; hacia atrás la traba la cuna de GRAVES al montarse. Montar antes que las cunas de tira."
+    },
+    "ESP32-2432S028-CYD-2.8": {
+      "cantidad": 1,
+      "envolvente": [
+        86.5,
+        50.0,
+        13.0
+      ],
+      "pcb": [
+        86.5,
+        50.0,
+        1.6
+      ],
+      "modulo_tft": [
+        69.2,
+        50.0,
+        4.0
+      ],
+      "area_activa": [
+        57.6,
+        43.2
+      ],
+      "resolucion": [
+        240,
+        320
+      ],
+      "estado": "conservadora",
+      "compra": "pendiente",
+      "fuente": "https://es.aliexpress.com/item/1005006160645147.html",
+      "nota": "NO RECIBIDA: la publicación anunciaba esta placa de 2,8 pulgadas en el título, pero el 2026-11-24 llegó una ESP32-3248S035 de 3,5 (ver esa entrada, que es la que monta el modelo). Se conserva esta entrada como registro de la decisión original. Datos de entonces: ESP-WROOM-32 + TFT 240x320 táctil resistivo, cotas de la comunidad (la tienda no publica ninguna), módulo supuesto de 69,2 x 50 x 4 al ras del extremo contrario a la antena.",
+      "enlace_propuesto": {
+        "tipo": "UART a 3,3 V por el conector P1 (4 vías, 1,25 mm)",
+        "ESP32_TX2_GPIO17": "CYD P1 RX (GPIO3, U0RXD)",
+        "ESP32_RX2_GPIO16": "CYD P1 TX (GPIO1, U0TXD)",
+        "alimentacion": "+5 V al pin VIN de P1 (no conectar a la vez su USB)",
         "GND": "común",
+        "advertencia": "P1 es el UART0 del CYD: lo comparte con el puente USB-serie y el log de arranque. El firmware del CYD debe liberar o convivir con ese puerto.",
         "estado": "PROPUESTA: no está en el esquema E.5 ni existe firmware para ninguna de las dos placas"
       },
       "por_medir": [
-        "espesor del vidrio y del conjunto sin pines",
-        "posición real del área activa y del PCB respecto al vidrio",
-        "radio de las esquinas del vidrio",
-        "posición del JST UART, USB-C y cabecera",
-        "consumo a 5 V (90 a 230+ mA según el fabricante)"
+        "largo, ancho y espesor reales del PCB recibido",
+        "espesor y posición del módulo TFT sobre el PCB (el reparto 1,6 PCB + 4,0 módulo es supuesto)",
+        "posición del área activa respecto al módulo y al PCB",
+        "posición real de P1, micro-USB, TF y conector de parlante",
+        "variante recibida: micro-USB sola o micro-USB + USB-C; controlador real (ST7789 o ILI9341)",
+        "consumo a 5 V con pantalla encendida"
       ],
-      "vidrio": [
-        56.0,
-        44.0
-      ],
-      "montaje": "horizontal (600 x 450), vidrio al ras de la tapa; entra desde fuera y la sujeta una placa trasera desmontable por encastre",
-      "fuente_envolvente": "https://lilygo.cc/products/t4-s3 (L 5,6 cm, W 4,4 cm, H 1,3 cm según la imagen de la tienda, vista por el comprador el 2026-11-20)"
+      "montaje": "vertical (240 x 320 girada: la interfaz pasa a retrato), módulo al ras de la cara exterior de la tapa; entra desde dentro, el borde trasero queda bajo dos uñas fijas de la tapa y el frontal lo aprieta un marco deslizante por encastre",
+      "fuente_dimensiones": "https://embeddednerd.com/products/esp32-2432s028-2-8-cyd/ y https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display (comunidad, 2026-11-24); la publicación de la tienda no trae cotas"
     },
     "Parlantes-WS-14595-8ohm-5W": {
       "cantidad": "1 conjunto = 2 parlantes en un mismo conector",

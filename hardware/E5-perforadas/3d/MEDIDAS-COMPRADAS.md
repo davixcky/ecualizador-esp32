@@ -12,8 +12,8 @@ cota (`estado`) y qué respaldo tiene la compra (`compra`). La evidencia de comp
 | Potenciómetros A10K (RV1, RV5) | **Pendiente.** Hay dos P-20K logarítmicos comprados como candidatos sin validar | Todo. El modelo usa la envolvente del B10K y reserva un cilindro libre de 24 × 14 mm |
 | Parlantes WS-14595 (2) | Verificada | Si 100 × 45 × 21 mm es por parlante o del conjunto, tornillos, qué par rojo/negro es de cada parlante |
 | Tira FCOB WS2811 12 V | Declarada por el comprador | Espesor, rotulado de las islas, orden de color real, paso de corte |
-| ESP32S V1.1 USB-C | Declarada / carrito | Largo, ancho, altura con zócalos, posición del USB-C |
-| LilyGO T4-S3 (pantalla) | **Pendiente** | Envolvente 56 × 44 × 13 mm publicada por la tienda (vidrio mayor que el PCB, alto con pines); PCB de 51,56 × 38,72 mm según el DXF oficial; espesor del vidrio y posición del área activa sin medir |
+| ESP32 DevKit V1 30P | **Pendiente** (sustituye al ESP32S V1.1 de 38 pines, que queda liberado) | Largo y ancho (las fichas de los clones discrepan), separación real entre hileras (22,86 mm supuesto), altura con zócalos, posición del micro-USB |
+| ESP32-3248S035 (pantalla RECIBIDA) | Declarada: llegó el 2026-11-24 (la publicación anunciaba la 2432S028 de 2,8″). ST7796 y luz en GPIO27 ya confirmados con el firmware | PCB de 97,5 × 56,5 mm conservador; módulo TFT 84 × 55 × 4 mm supuesto; posición de P1, micro-USB y TF supuestas; variante táctil (S035R/S035C); el micro-USB supuesto queda a 0,4 mm del cuerpo de RV3: medirlo antes de imprimir la tapa |
 | PAM8403 | Carrito | Largo, ancho, altura, islas |
 | Borneras puente 8P (2) | Verificada | Largo, ancho, alto, paso de tornillos |
 | Portafusible CON-183AC | Verificada | Diámetro y largo cerrados |
@@ -21,8 +21,9 @@ cota (`estado`) y qué respaldo tiene la compra (`compra`). La evidencia de comp
 
 ## Sin comprar y con geometría supuesta
 
-A10K × 2, perillas × 5, LilyGO T4-S3, 8 imanes de Ø6 × 2 mm, interruptor general de 5 A DC,
-elevador de 5 a 12 V (o fuente de 12 V) para la tira, headers de J3/J5/J7.
+A10K × 2, perillas × 5, ESP32 DevKit V1 30P, 8 imanes de
+Ø6 × 2 mm, interruptor general de 5 A DC, elevador de 5 a 12 V (o fuente de 12 V) para la
+tira, headers de J3/J5/J7.
 
 ## Asuntos eléctricos que el modelo deja a la vista
 
@@ -36,10 +37,13 @@ elevador de 5 a 12 V (o fuente de 12 V) para la tira, headers de J3/J5/J7.
    para T1–T3; `conexiones-entre-tarjetas.csv` también lleva +5 V y GND por JBUS desde T4.
    El modelo dibuja ambos: hay que elegir uno.
 5. **RV1/RV5.** Montar los P-20K cambia impedancias y cortes; no hacerlo sin simular.
-6. **Pantalla T4-S3.** El enlace UART propuesto no está en el esquema y no hay firmware:
-   el ESP32 debe enviar niveles y espectro, y la T4-S3 debe dibujarlos. La T4-S3 consume
-   de 90 a más de 230 mA según el fabricante; sumarlo al presupuesto de 5 V.
-7. **Imanes.** La retención con el peso de parlantes y pantalla en la tapa no está comprobada.
+6. **Pantalla CYD.** El enlace UART propuesto (GPIO17→GPIO3, GPIO16←GPIO1, +5 V a VIN de P1)
+   no está en el esquema y no hay firmware: el ESP32 debe enviar niveles y espectro, y el CYD
+   debe dibujarlos en retrato (240 × 320 girada). P1 es el UART0 del CYD, compartido con su
+   puente USB-serie. Medir el consumo a 5 V con la pantalla encendida y sumarlo al presupuesto.
+7. **DevKit V1 de 30 pines.** El esquema E.5 sigue dibujando el ESP32S de 38 pines: revisar
+   que todos los GPIO usados existan en el de 30 pines antes de perforar T4.
+8. **Imanes.** La retención con el peso de parlantes y pantalla en la tapa no está comprobada.
 
 La lista completa y actualizada se regenera en `validacion-3d.json`
 (`pendientes_y_supuestos`).

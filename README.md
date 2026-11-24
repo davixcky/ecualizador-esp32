@@ -14,7 +14,7 @@
 [cómo regenerar](hardware/E5-perforadas/3d/README.md) ·
 [prácticas propias de E.5](hardware/E5-perforadas/3d/BEST-PRACTICES.md).
 Estas imágenes fijas son la referencia visual del CAD vigente: tapa magnética, piezas por encastre,
-cinco controles rotativos, LilyGO T4-S3 propuesta y cuatro tarjetas perforadas.
+cinco controles rotativos, pantalla ESP32-3248S035 de 3,5" recibida (en vertical) y cuatro tarjetas perforadas.
 
 El [video de 50 segundos](docs/video/ecualizador-animado.mp4) se conserva como material histórico.
 Su [revisión](docs/video/REVIEW.md) documenta que el interior quedó anterior a los encastres actuales;
@@ -25,7 +25,7 @@ no debe usarse como guía de fabricación o montaje.
 
 Proyecto de Electrónica II · Universidad de la Costa · Leo Rojas, David Orozco y Manuel Castilla.
 
-La ruta de audio usa filtros activos y controles analógicos. El firmware existente lee los niveles y dibuja una FFT para la pantalla Waveshare de **1,9 pulgadas, 170 × 320, ST7789V2**. El CAD vigente propone sustituirla por una LilyGO T4-S3; [`firmware-lilygo/`](firmware-lilygo/) contiene el simulador visual y su panel de ajustes, todavía con datos de ejemplo y sin enlace de audio real. El gabinete E.5 mide 278 × 192 × 64 mm, usa cierre magnético y tres barras de luz (12 píxeles lógicos); el gabinete EQ / 03 con imanes de la Fase 2 quedó archivado.
+La ruta de audio usa filtros activos y controles analógicos. El firmware existente lee los niveles y dibuja una FFT para la pantalla Waveshare de **1,9 pulgadas, 170 × 320, ST7789V2**. El CAD vigente (2026-11-24) la sustituye por la **ESP32-3248S035 recibida** (TFT táctil ST7796 de 3,5 pulgadas, 320 × 480, en vertical; ya funciona con `firmware-cyd`), enlazada por **ESP-NOW** (solo recibe +5 V y GND por cable), y cambia el ESP32S de 38 pines por un **ESP32 DevKit V1 de 30 pines** (sin comprar). [`firmware-lilygo/`](firmware-lilygo/) contiene el simulador visual de la T4-S3 descartada (queda como referencia; no corresponde al CAD vigente). El gabinete E.5 mide 278 × 192 × 64 mm, usa cierre magnético y tres barras de luz (12 píxeles lógicos); el gabinete EQ / 03 con imanes de la Fase 2 quedó archivado.
 
 | Entrega | Archivos actuales |
 |---|---|
@@ -48,6 +48,7 @@ La ruta de audio usa filtros activos y controles analógicos. El firmware existe
 
 ## Estado de la revisión del 5 de noviembre de 2026
 
+- **Actualización del 24 de noviembre de 2026:** la pantalla pasa de la LilyGO T4-S3 a la **ESP32-3248S035 de 3,5 pulgadas RECIBIDA** (la publicación anunciaba una de 2,8): montada en vertical, ST7796 confirmado y la interfaz de `firmware-cyd` ya corre en ella con vistas de bandas y espectro. Los datos viajarán por **ESP-NOW** (decisión del usuario); el arnés queda en +5 V/GND. El ESP32 del montaje pasa a un DevKit V1 de 30 pines (sin comprar; pines verificados compatibles). El modelo 3D E.5, sus 13 probetas y las camas de impresión reflejan la pantalla de 3,5; el video y el esquema eléctrico siguen mostrando revisiones anteriores.
 - E.4-LM324 es la fuente única de fabricación: esquema físico y PCB en el mismo proyecto, paridad estricta KiCad con 0 diferencias, ERC con 0 errores y DRC con 0 errores/0 conexiones abiertas. Los 23 avisos ERC son exclusivamente pines `NC-*` intencionales.
 - D.3 usa cuatro LM324N a 5 V, conserva VREF en 1,65 V y protege las cuatro entradas ADC con atenuadores 2:1 referidos a VREF. El firmware reconstruye la amplitud original.
 - ngspice: 25 casos del diseño revisado cumplen; el caso histórico de Fase 1 se conserva deliberadamente como no conforme. El modelo funcional del LM324 valida margen de modo común, dinámica y protección ADC, pero no sustituye mediciones físicas.

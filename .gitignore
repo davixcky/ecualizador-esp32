@@ -40,3 +40,4 @@ docs/video/*.blend1
 cad/archivo-video-D2/
 # Intermedios del video E.5.
 hardware/E5-perforadas/video/.trabajo/
+.pio/

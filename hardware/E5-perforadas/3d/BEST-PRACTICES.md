@@ -17,7 +17,8 @@ decidir cómo fabricar o montar una revisión posterior del CAD.
 ## Diseño para servicio y fabricación
 
 - Las piezas impresas del E.5 se retienen por encastre, presión o la tuerca/clip propio del componente;
-  no se presupone pegamento. La placa trasera de la T4-S3 se desmonta deslizándola 5 mm sobre cuatro setas.
+  no se presupone pegamento. La pantalla 3,5″ se retiene con cuatro uñas fundidas
+  en la tapa (entra corrida 3 mm y la cuna de GRAVES le cierra la salida), sin pieza impresa propia.
 - Primero se imprimen las probetas con el mismo material, boquilla, orientación y perfil final. Un encastre
   nominal en CAD no se declara validado hasta probarlo físicamente.
 - No se ocultan incertidumbres: cada cota se marca como medida, publicada, conservadora o supuesta.
@@ -28,7 +29,7 @@ decidir cómo fabricar o montar una revisión posterior del CAD.
 ## Separación mecánica y eléctrica
 
 Que algo aparezca en el CAD no significa que esté resuelto eléctricamente. Siguen como propuestas el
-elevador de 5 a 12 V para la tira, el enlace UART con la T4-S3 y la entrada mono a ambos canales del
+elevador de 5 a 12 V para la tira, el enlace UART con la pantalla CYD y la entrada mono a ambos canales del
 PAM8403. Los renders deben rotular o documentar esas condiciones, nunca presentarlas como hardware probado.
 
 ## Contrato de los renders
