@@ -13,9 +13,9 @@
         2000,
         1300
       ],
-      "bytes": 2695562,
-      "grayscale_stddev": 38.41,
-      "sha256": "24d7be6b88ae1c423d437330c53105b52705d02f3a59dd118c76934e477d78ca",
+      "bytes": 2697071,
+      "grayscale_stddev": 38.45,
+      "sha256": "3ae2a12d09c5b638477eb12557f6ba6aa99e3abb3d347d52ffb8f64d79d42386",
       "fresh": true
     },
     {
@@ -28,9 +28,9 @@
         2000,
         1300
       ],
-      "bytes": 2885728,
-      "grayscale_stddev": 49.47,
-      "sha256": "06ea9b07678459f7cd702a03eb12610960d65bc0e0cd5a80058b110147825d83",
+      "bytes": 2886285,
+      "grayscale_stddev": 49.58,
+      "sha256": "fc354db4b9ed5c27294ac7af66e45b307c04ce390720457e372d08dba035b97e",
       "fresh": true
     },
     {
@@ -43,9 +43,9 @@
         2000,
         1300
       ],
-      "bytes": 3273347,
-      "grayscale_stddev": 26.63,
-      "sha256": "045b5ff482bb14cc50b409d5e223c99260a81246cd2fded5f883bf633a77ccc8",
+      "bytes": 3275928,
+      "grayscale_stddev": 28.45,
+      "sha256": "9c2bc647322852a7916e07443e9baf6f03c054d8d647ec03bca1b163eb619700",
       "fresh": true
     },
     {
@@ -58,9 +58,9 @@
         1500,
         2100
       ],
-      "bytes": 4418186,
-      "grayscale_stddev": 46.3,
-      "sha256": "35edfb6e8a5de9bfa47299b0a22b85333da2136931af9f4449fd97976edd781b",
+      "bytes": 4420386,
+      "grayscale_stddev": 47.58,
+      "sha256": "4903e5ec4c3506882bcb3308ee73f5d382a7309e50ea4bceb444cb115f9518d8",
       "fresh": true
     },
     {
@@ -73,9 +73,9 @@
         1800,
         1350
       ],
-      "bytes": 2162090,
-      "grayscale_stddev": 19.67,
-      "sha256": "4948edf39c3d609a243dbcdd1af94ec648ebe3a38ba50074073821e559eaa69c",
+      "bytes": 2175754,
+      "grayscale_stddev": 24.91,
+      "sha256": "e22889877a61600f04a1ae3b34c2d7ac5dfa7c92558708efe476036e53b9c0a4",
       "fresh": true
     }
   ],
