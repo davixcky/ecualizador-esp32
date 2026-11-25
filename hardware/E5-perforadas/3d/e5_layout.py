@@ -621,7 +621,7 @@ def build_lid_parts():
     # placa y uña de 0,5 mm que la retiene con 0,1 mm de holgura. Los frontales llevan una
     # rampa a 45° para que el canto de la placa los apart e al bajar.
     hooks = []
-    zu_ = zp - .15                      # cara superior de la uña: 0,15 bajo la placa
+    zu_ = zp - .03                      # la uña asienta la placa prácticamente sin juego: cristal al ras
     aj = CYD_AJUSTE
     for hx_ in (112.0, 160.0):          # ganchos frontales (huecos entre potenciómetros)
         hooks += [box(hx_, 31.1 - aj, H - .01, 8.0, 1.2, 2.5),            # raíz: 0,5 mm anclados sobre la ranura
@@ -941,9 +941,13 @@ def lid_cuts():
     for ref, func, kind, x, estado, ind in CONTROLS:
         cuts.append(cyl(x, KNOB_Y, H - 1, 3.7, LID + 2))
     cx, cy = TFT_C
-    # Ventana pasante del cristal de la pantalla: queda al ras por fuera; la placa, más larga
-    # que la ventana, la retienen los cuatro ganchos a presión fundidos con la tapa.
-    cuts += rrect(cx - TFT_WIN[0] / 2, cy - TFT_WIN[1] / 2, H - 1, TFT_WIN[0], TFT_WIN[1], LID + 2, 2.0)
+    # Ventana ESCALONADA del cristal: la cavidad pasante conserva la holgura de trabajo
+    # (0,5/lado + ajuste) para poder meter la placa, pero el último milímetro hacia fuera se
+    # cierra a 0,25/lado + ajuste: el cristal queda al ras y enmarcado por una junta fina y
+    # pareja, en vez de un foso visible.
+    cuts += rrect(cx - TFT_WIN[0] / 2, cy - TFT_WIN[1] / 2, H - 1, TFT_WIN[0], TFT_WIN[1], LID - 1 + 1.05, 2.0)
+    rev = .25 + CYD_AJUSTE
+    cuts += rrect(cx - CYD_MOD_W / 2 - rev, cy - CYD_MOD_L / 2 - rev, H + LID - 1, CYD_MOD_W + 2 * rev, CYD_MOD_L + 2 * rev, 2.0, 2.0)
     # Ranuras de alivio de los ganchos de la pantalla: 2 mm hacia dentro de la tapa (queda
     # 1 mm de piel hacia fuera) con 0,2 mm de holgura alrededor de cada raíz para que flexione.
     for hx_ in (112.0, 160.0):

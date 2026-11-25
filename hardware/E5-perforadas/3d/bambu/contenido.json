@@ -98,17 +98,17 @@
         },
         {
           "nombre": "Prueba_tapa_pantalla_CYD",
-          "triangulos": 408,
+          "triangulos": 608,
           "aristas_abiertas": 0,
           "tamano_mm": [
             70.0,
             103.0,
-            8.0
+            7.9
           ]
         },
         {
           "nombre": "Prueba_tapa_potenciometro_B10K",
-          "triangulos": 208,
+          "triangulos": 242,
           "aristas_abiertas": 0,
           "tamano_mm": [
             26.0,
@@ -138,21 +138,21 @@
         },
         {
           "nombre": "Prueba_union_cola_de_milano_hembra",
-          "triangulos": 28,
+          "triangulos": 36,
           "aristas_abiertas": 0,
           "tamano_mm": [
             15.9,
-            9.3,
+            9.6,
             3.0
           ]
         },
         {
           "nombre": "Prueba_union_cola_de_milano_macho",
-          "triangulos": 28,
+          "triangulos": 36,
           "aristas_abiertas": 0,
           "tamano_mm": [
             19.0,
-            9.3,
+            9.6,
             3.0
           ]
         },
@@ -336,7 +336,7 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_mitad_izquierda_COLOR_A",
-          "triangulos": 3048,
+          "triangulos": 3156,
           "aristas_abiertas": 0,
           "tamano_mm": [
             147.0,
@@ -358,7 +358,7 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_mitad_derecha_COLOR_B",
-          "triangulos": 4492,
+          "triangulos": 4600,
           "aristas_abiertas": 0,
           "tamano_mm": [
             138.9,
