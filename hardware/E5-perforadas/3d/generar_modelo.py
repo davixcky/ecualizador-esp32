@@ -190,6 +190,11 @@ def fit_coupons(doc, lid, body, halves):
     ky = E.SEAM_KEYS_LID[1][0]                  # una cola de milano de la junta, en sus dos colores
     out["union_cola_de_milano_macho"] = clip(halves["tapa_e5_imantada_mitad_izquierda"], E.SEAM_X - 14, ky - 10, H, E.SEAM_X + 8, ky + 10, H + LID)
     out["union_cola_de_milano_hembra"] = clip(halves["tapa_e5_imantada_mitad_derecha"], E.SEAM_X, ky - 10, H, E.SEAM_X + 16, ky + 10, H + LID)
+    # La cola mayor del piso del cuerpo (cuello 10 / cabeza 16 / fondo 10), para probar la
+    # junta reforzada antes de imprimir las mitades completas.
+    kb = E.SEAM_KEYS_BODY[2][0]
+    out["union_cuerpo_cola_mayor_macho"] = clip(halves["gabinete_e5_cuerpo_mitad_izquierda"], E.SEAM_X - 18, kb - 11, 0, E.SEAM_X + 12, kb + 11, 8)
+    out["union_cuerpo_cola_mayor_hembra"] = clip(halves["gabinete_e5_cuerpo_mitad_derecha"], E.SEAM_X, kb - 11, 0, E.SEAM_X + 22, kb + 11, 8)
     FIT.mkdir(exist_ok=True)
     for old in FIT.glob("*.stl"):
         old.unlink()
@@ -357,7 +362,7 @@ def main():
     # Opción en dos mitades con cola de milano; solo ellas llevan los refuerzos de la junta.
     for name, shape, keys in (("gabinete_e5_cuerpo", fused(doc, body0, ("cuerpo", "cuerpo_mitades")), E.SEAM_KEYS_BODY), ("tapa_e5_imantada", lid, E.SEAM_KEYS_LID)):
         printable[f"{name}_mitad_izquierda"], printable[f"{name}_mitad_derecha"] = split(shape, keys)
-    halves = {k: v for k, v in printable.items() if "tapa" in k and "mitad" in k}
+    halves = {k: v for k, v in printable.items() if "mitad" in k}
     printable.update({o.Name.lower(): solid(o.Shape) for o in objects if json.loads(o.Meta).get("pieza_impresa")})
     for name, shape in printable.items():
         assert shape.isValid() and len(shape.Solids) == 1, (name, len(shape.Solids))

@@ -114,7 +114,7 @@ COLORS = {
     "pot": (0.60, 0.61, 0.63), "pot_pend": (0.82, 0.62, 0.20),
     "knob": (0.80, 0.80, 0.82), "knob_neutral": (0.86, 0.86, 0.84),
     "graves": (1.0, 0.48, 0.24), "medios": (0.24, 0.86, 0.52), "agudos": (0.20, 0.71, 1.0),
-    "screen": (0.01, 0.015, 0.02), "tft_pcb": (0.03, 0.10, 0.28),
+    "screen": (0.01, 0.015, 0.02), "tft_pcb": (0.72, 0.52, 0.08), "tft_marco": (0.88, 0.88, 0.86),
     "speaker": (0.02, 0.02, 0.02), "cone": (0.10, 0.10, 0.11),
     "strip": (0.93, 0.93, 0.90), "diffuser": (0.92, 0.94, 0.95),
     "support": (0.16, 0.18, 0.20), "pending": (0.86, 0.66, 0.10),
@@ -136,7 +136,12 @@ SEAM_X, SEAM_GAP = 139.0, 0.1
 # pantalla 3,5" (termina en y 121,45 con el cristal medido) y la barra de GRAVES (y 130,5):
 # solo caben 9 mm, así que esa cola es más pequeña que las otras dos.
 SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (126.0, 5.0, 8.0, 5.0), (183.0, 6.0, 10.0, 6.0)]
-SEAM_KEYS_BODY = [(5.6, 2.4, 4.0, 4.0), (40.0, 6.0, 10.0, 6.0), (96.0, 6.0, 10.0, 6.0), (150.0, 6.0, 10.0, 6.0), (D - 5.6, 2.4, 4.0, 4.0)]
+# Junta del cuerpo REFORZADA (2026-11-24, petición del comprador): tres colas de milano
+# mayores en el piso (cuello 10, cabeza 16, fondo 10: ~2,6 veces la sección anterior) y dos
+# columnas-espiga ocultas de cuello 6 / cabeza 10 / fondo 8 a toda altura dentro de los
+# refuerzos interiores de las paredes. La junta ensambla igual (bajando una mitad sobre la
+# otra) pero con mucho más área de apriete y cortante.
+SEAM_KEYS_BODY = [(5.6, 6.0, 10.0, 8.0), (40.0, 10.0, 16.0, 10.0), (96.0, 10.0, 16.0, 10.0), (150.0, 10.0, 16.0, 10.0), (D - 5.6, 6.0, 10.0, 8.0)]
 
 # ------------------------------------------------------------------ encastres
 # Nada va pegado ni atornillado. Tres uniones impresas:
@@ -583,7 +588,7 @@ def build_lid_parts():
     zp = zt_ - CYD_PCB_T                # cara inferior del PCB
     part("CYD_3248S035_PCB_101p5x54p9", "tft_pcb", [box(x0_, y0_, zp, pw_, pd_, CYD_PCB_T)], "lid",
          estado="recibida; cotas publicadas, offset del modulo por medir")
-    part("CYD_modulo_TFT_3p5_marco", "chip", rrect(cx - CYD_MOD_W / 2, y0_ + CYD_MOD_OFF, zt_, CYD_MOD_W, CYD_MOD_L, CYD_MOD_T - .3, 1.5), "lid")
+    part("CYD_modulo_TFT_3p5_marco", "tft_marco", rrect(cx - CYD_MOD_W / 2, y0_ + CYD_MOD_OFF, zt_, CYD_MOD_W, CYD_MOD_L, CYD_MOD_T - .3, 1.5), "lid")
     part("CYD_tactil_cara_exterior", "screen",
          rrect(cx - CYD_MOD_W / 2 + .8, y0_ + CYD_MOD_OFF + .8, zt_ + CYD_MOD_T - .3, CYD_MOD_W - 1.6, CYD_MOD_L - 1.6, .3, 1.2, eps=.03), "lid")
     part("CYD_area_activa_320x480", "screen",
@@ -732,8 +737,10 @@ def build_lid_parts():
         part(f"Iman_tapa_{n}_6x2_PENDIENTE_COMPRA", "metal", [cyl(mx, my, H - 3.0, r, t)], "lid", estado="pendiente_compra")
     part("Nervios_de_apriete_imanes_cuerpo", "support", ribs_body, "body", fundir="cuerpo")
     # Refuerzos interiores de las paredes en la junta: alojan una cola de milano que no se ve por fuera.
-    part("Refuerzos_de_la_junta", "support", [box(SEAM_X - 9, WALL - .2, FLOOR, 18, 6.5, Z_BOARD - .5 - FLOOR),
-                                              box(SEAM_X - 9, D - WALL - 6.3, FLOOR, 18, 6.5, H - 4.0 - FLOOR)], "body", fundir="cuerpo_mitades", solo_mitades=True)
+    # Pilastras interiores de la junta, agrandadas para alojar las columnas-espiga de 10 mm de
+    # cabeza (la trasera se detiene antes de la base del poste de imán en x 151).
+    part("Refuerzos_de_la_junta", "support", [box(SEAM_X - 12, WALL - .2, FLOOR, 24, 8.5, Z_BOARD - .5 - FLOOR),
+                                              box(SEAM_X - 12, D - WALL - 8.7, FLOOR, 23.5, 8.9, H - 4.0 - FLOOR)], "body", fundir="cuerpo_mitades", solo_mitades=True)
     part("Nervios_de_apriete_imanes_tapa", "support", ribs_lid, "lid", fundir="tapa")
     # Setas de la tapa para todas las orejas definidas arriba.
     part("Setas_de_encastre_de_la_tapa", "support", [q for sx_, sy_, t_ in LID_STUDS for q in stud(sx_, sy_, t_)], "lid", fundir="tapa")
