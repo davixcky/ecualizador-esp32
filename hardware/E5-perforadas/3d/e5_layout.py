@@ -71,11 +71,12 @@ def knob_angle(p):
 # entre esta y las barras de luz sin moverlas. El módulo queda al ras de la cara exterior,
 # al ras del extremo frontal del PCB; la antena WROOM mira al borde trasero.
 TFT = M["ESP32-3248S035-RECIBIDA"]
-CYD_PCB_W, CYD_PCB_L, CYD_PCB_T = TFT["pcb"][1], TFT["pcb"][0], TFT["pcb"][2]   # 56,5 ancho x 97,5 fondo
-CYD_MOD_L, CYD_MOD_W, CYD_MOD_T = TFT["modulo_tft"]        # módulo 84 x 55 x 4; reparto supuesto
+CYD_PCB_W, CYD_PCB_L, CYD_PCB_T = TFT["pcb"][1], TFT["pcb"][0], TFT["pcb"][2]   # 54,9 ancho x 101,5 fondo (publicado)
+CYD_MOD_L, CYD_MOD_W, CYD_MOD_T = TFT["modulo_tft"]        # cristal 86,7 x 55,0 x 4,85 MEDIDO (S035C)
+CYD_MOD_OFF = 2.0                     # cristal a 2 mm del borde del USB: por comprobar en la probeta
 TFT_ACTIVE = [TFT["area_activa"][1], TFT["area_activa"][0]]  # 48,96 x 73,44 en retrato (x, y)
-CYD_X0, CYD_Y0 = 110.75, 32.5         # esquina frontal izquierda del PCB, centrado entre parlantes
-TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_L / 2)   # centro del módulo y de la ventana
+CYD_X0, CYD_Y0 = 139.0 - 54.9 / 2, 32.5   # esquina frontal izquierda del PCB, centrado entre parlantes
+TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_OFF + CYD_MOD_L / 2)   # centro del módulo y la ventana
 TFT_WIN = (CYD_MOD_W + .5, CYD_MOD_L + .5)                 # ventana pasante: módulo + 0,5 de holgura
 Z_CYD_TOP = H + LID - CYD_MOD_T       # cara superior del PCB para que el módulo quede al ras
 SPK = M["Parlantes-WS-14595-8ohm-5W"]["envolvente_por_parlante"]   # 100 x 45 x 21 cada uno
@@ -129,8 +130,9 @@ COLORS = {
 # cruzan la junta y la traban.
 SEAM_X, SEAM_GAP = 139.0, 0.1
 # (y, cuello, cabeza, fondo). La cola central va en la franja maciza entre la ventana de la
-# pantalla 3,5" (termina en y 116,75) y la barra de GRAVES (empieza en y 130,5).
-SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (123.0, 6.0, 10.0, 6.0), (183.0, 6.0, 10.0, 6.0)]
+# pantalla 3,5" (termina en y 121,45 con el cristal medido) y la barra de GRAVES (y 130,5):
+# solo caben 9 mm, así que esa cola es más pequeña que las otras dos.
+SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (126.0, 5.0, 8.0, 5.0), (183.0, 6.0, 10.0, 6.0)]
 SEAM_KEYS_BODY = [(5.6, 2.4, 4.0, 4.0), (40.0, 6.0, 10.0, 6.0), (96.0, 6.0, 10.0, 6.0), (150.0, 6.0, 10.0, 6.0), (D - 5.6, 2.4, 4.0, 4.0)]
 
 # ------------------------------------------------------------------ encastres
@@ -574,11 +576,11 @@ def build_lid_parts():
     pw_, pd_ = CYD_PCB_W, CYD_PCB_L
     zt_ = Z_CYD_TOP                     # cara superior del PCB (el módulo sube desde aquí)
     zp = zt_ - CYD_PCB_T                # cara inferior del PCB
-    part("CYD_3248S035_PCB_56p5x97p5", "tft_pcb", [box(x0_, y0_, zp, pw_, pd_, CYD_PCB_T)], "lid",
-         estado="recibida; cotas conservadoras por medir")
-    part("CYD_modulo_TFT_3p5_marco", "chip", rrect(cx - CYD_MOD_W / 2, y0_, zt_, CYD_MOD_W, CYD_MOD_L, CYD_MOD_T - .3, 1.5), "lid")
+    part("CYD_3248S035_PCB_101p5x54p9", "tft_pcb", [box(x0_, y0_, zp, pw_, pd_, CYD_PCB_T)], "lid",
+         estado="recibida; cotas publicadas, offset del modulo por medir")
+    part("CYD_modulo_TFT_3p5_marco", "chip", rrect(cx - CYD_MOD_W / 2, y0_ + CYD_MOD_OFF, zt_, CYD_MOD_W, CYD_MOD_L, CYD_MOD_T - .3, 1.5), "lid")
     part("CYD_tactil_cara_exterior", "screen",
-         rrect(cx - CYD_MOD_W / 2 + .8, y0_ + .8, zt_ + CYD_MOD_T - .3, CYD_MOD_W - 1.6, CYD_MOD_L - 1.6, .3, 1.2, eps=.03), "lid")
+         rrect(cx - CYD_MOD_W / 2 + .8, y0_ + CYD_MOD_OFF + .8, zt_ + CYD_MOD_T - .3, CYD_MOD_W - 1.6, CYD_MOD_L - 1.6, .3, 1.2, eps=.03), "lid")
     part("CYD_area_activa_320x480", "screen",
          [box(cx - TFT_ACTIVE[0] / 2, cy - TFT_ACTIVE[1] / 2, zt_ + CYD_MOD_T - .28, TFT_ACTIVE[0], TFT_ACTIVE[1], .32)], "lid",
          emisor=True)
@@ -604,8 +606,8 @@ def build_lid_parts():
         lips += [box(lx_, 29.0, zp - 2.0, 8.0, 3.0, H - (zp - 2.0)),
                  box(lx_, 29.0, zp - 2.0, 8.0, (y0_ + 3.0) - 29.0, 1.9)]
     for px_, tx_ in ((x0_ - 3.25, x0_ - 3.25), (x0_ + pw_ + .25, x0_ + pw_ - 3.75)):   # uñas laterales traseras
-        lips += [box(px_, y0_ + 86.0, zp - 2.0, 3.0, 8.0, H - (zp - 2.0)),
-                 box(tx_, y0_ + 86.0, zp - 2.0, 7.0, 8.0, 1.9)]
+        lips += [box(px_, y0_ + 87.5, zp - 2.0, 3.0, 8.0, H - (zp - 2.0)),
+                 box(tx_, y0_ + 87.5, zp - 2.0, 7.0, 8.0, 1.9)]
     part("Unas_fijas_pantalla_CYD", "support", lips, "lid", fundir="tapa")
     # Conjunto WS-14595: dos parlantes de 8 ohm / 5 W en un solo conector.
     sw_, sd_, sh_ = SPK
@@ -659,7 +661,7 @@ def build_lid_parts():
                 # Las paredes frontales de GRAVES se interrumpen sobre la franja trasera del PCB
                 # de la pantalla 3,5" (x 110,75..167,25): la placa pasa por debajo de la cuna y
                 # esta, al montarse, le bloquea el deslizamiento de salida.
-                segs = [(x0 - 3, 108.0 - (x0 - 3)), (170.0, x0 + BAR_LEN + 3 - 170.0)]
+                segs = [(x0 - 3, 107.0 - (x0 - 3)), (171.0, x0 + BAR_LEN + 3 - 171.0)]
             for sx0, sdx in segs:
                 adds += [box(sx0, y + (yw + .8 if o > 0 else -yw - 1.6), zs, sdx, .8, 8.0),
                          box(sx0, y + (yw if o > 0 else -yw - .8), zs, sdx, .8, 8.0 - HEX_FLANGE)]

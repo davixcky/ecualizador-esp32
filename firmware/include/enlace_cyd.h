@@ -116,4 +116,64 @@ inline bool parsear(const char* linea, Trama& t) {
   return true;
 }
 
+// ---- Mando de luces (pantalla -> ESP32 principal), añadido el 2026-11-24 -----------------
+// La pantalla táctil controla la tira NeoPixel que maneja el ESP32 principal. Viaja por los
+// mismos transportes (ESP-NOW en difusión; UART como respaldo) en la dirección contraria:
+//
+//   $EQ5L,<encendido>,<brillo>,<modo>,<r>,<g>,<b>*HH\n
+//
+//   - encendido: 1/0.  brillo: 0..255 (el firmware arrancaba fijo en 32).
+//   - modo: 0 NIVELES (la tira sigue el audio, comportamiento original),
+//           1 ARCOIRIS (animación), 2 FIJO (color r,g,b).
+//   - r,g,b: color para el modo FIJO (0..255); en otros modos se ignora.
+
+constexpr int LUCES_NIVELES = 0;
+constexpr int LUCES_ARCOIRIS = 1;
+constexpr int LUCES_FIJO = 2;
+
+struct Luces {
+  bool encendido = true;
+  uint8_t brillo = 32;
+  uint8_t modo = LUCES_NIVELES;
+  uint8_t r = 255, g = 122, b = 51;
+};
+
+inline int componer_luces(const Luces& l, char* buf, int cap) {
+  char cuerpo[64];
+  const int n = snprintf(cuerpo, sizeof cuerpo, "EQ5L,%d,%d,%d,%d,%d,%d",
+                         l.encendido ? 1 : 0, l.brillo, l.modo, l.r, l.g, l.b);
+  if (n <= 0 || n >= (int)sizeof cuerpo) return 0;
+  const int total = snprintf(buf, cap, "$%s*%02X\n", cuerpo, suma_verificacion(cuerpo, n));
+  return (total > 0 && total < cap) ? total : 0;
+}
+
+inline bool parsear_luces(const char* linea, Luces& l) {
+  const char* ini = strchr(linea, '$');
+  if (!ini) return false;
+  const char* ast = strchr(ini, '*');
+  if (!ast || strncmp(ini + 1, "EQ5L,", 5) != 0) return false;
+  char* fin = nullptr;
+  const uint8_t declarada = (uint8_t)strtoul(ast + 1, &fin, 16);
+  if (fin != ast + 3) return false;
+  if (suma_verificacion(ini + 1, (int)(ast - ini - 1)) != declarada) return false;
+  long campo[6];
+  const char* p = ini + 6;  // tras "$EQ5L,"
+  for (int i = 0; i < 6; ++i) {
+    char* sig = nullptr;
+    campo[i] = strtol(p, &sig, 10);
+    if (sig == p || campo[i] < 0 || campo[i] > 255) return false;
+    p = sig;
+    if (*p == ',')
+      ++p;
+    else if (i + 1 < 6)
+      return false;
+  }
+  if (p != ast) return false;
+  l.encendido = campo[0] != 0;
+  l.brillo = (uint8_t)campo[1];
+  l.modo = (uint8_t)(campo[2] > LUCES_FIJO ? LUCES_NIVELES : campo[2]);
+  l.r = (uint8_t)campo[3]; l.g = (uint8_t)campo[4]; l.b = (uint8_t)campo[5];
+  return true;
+}
+
 }  // namespace enlace_cyd

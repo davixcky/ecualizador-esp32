@@ -102,13 +102,13 @@
           "aristas_abiertas": 0,
           "tamano_mm": [
             70.0,
-            101.5,
-            7.6
+            103.0,
+            8.5
           ]
         },
         {
           "nombre": "Prueba_tapa_potenciometro_B10K",
-          "triangulos": 192,
+          "triangulos": 184,
           "aristas_abiertas": 0,
           "tamano_mm": [
             26.0,
@@ -139,7 +139,7 @@
       ],
       "ocupa_mm": [
         236.0,
-        173.5,
+        175.0,
         18.0
       ],
       "cabe_en_la_cama": true,

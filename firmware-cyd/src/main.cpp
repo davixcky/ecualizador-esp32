@@ -1,22 +1,31 @@
 // Interfaz del ecualizador E.5 en la pantalla "CYD" montada en VERTICAL.
 // Placa recibida (2026-11-24): ESP32-3248S035, panel ST7796 de 320 x 480 (env cyd35).
 //
-// Dos vistas, alternadas con el pulsador BOOT de la propia placa (GPIO0):
+// TRES VISTAS, navegadas con la PANTALLA TÁCTIL (un toque en la cabecera pasa a la
+// siguiente; el pulsador BOOT de la placa sigue sirviendo de respaldo):
 //   BANDAS:   tres tarjetas GRAVES/MEDIOS/AGUDOS con barra de nivel, dB y mV.
 //   ESPECTRO: 32 barras de la FFT coloreadas por banda.
+//   LUCES:    mando de la tira NeoPixel del ESP32 principal: encendido, brillo,
+//             modo (NIVELES/ARCOIRIS/FIJO) y color. Cada cambio se envía como trama
+//             $EQ5L por ESP-NOW (y por el UART de respaldo).
 //
-// Enlace con el ESP32 principal (PROPUESTA del 2026-11-24, aún sin esquemático). El mismo
-// protocolo $EQ5 de include/enlace_cyd.h llega por DOS transportes y alimenta el mismo
-// analizador; gana el que entregue tramas:
-//   - ESP-NOW (decisión del usuario): difusión en 2,4 GHz, sin cables de datos — la pantalla
-//     solo necesitaría +5 V y GND. La trama ASCII (~231 B) cabe en un paquete (máx. 250 B).
-//   - UART0 / conector P1 (GPIO3 RX): se conserva como respaldo y para pruebas por cable.
-// Sin tramas durante 2 s se vuelve a los VALORES DE EJEMPLO animados ("EJEMPLO").
+// Táctil con DETECCIÓN AUTOMÁTICA de la variante (por medir cuál llegó):
+//   S035C: GT911 capacitivo por I2C (SDA 33, SCL 32, INT 21, RST 25, supuestos).
+//   S035R: XPT2046 resistivo en el mismo SPI del panel (CS 33); calibración por defecto
+//          de TFT_eSPI, suficiente porque los controles son grandes. Calibrar si desvía.
+//
+// Enlace con el ESP32 principal (PROPUESTA, aún sin esquemático): protocolo $EQ5/$EQ5L de
+// include/enlace_cyd.h por ESP-NOW en difusión (canal 1) y UART0/P1 como respaldo.
+// Sin tramas de niveles durante 2 s se vuelve a los VALORES DE EJEMPLO ("EJEMPLO").
 #include <Arduino.h>
+#include <SD.h>
+#include <SPI.h>
 #include <TFT_eSPI.h>
 #include <WiFi.h>
+#include <Wire.h>
 #include <esp_now.h>
 #include <esp_wifi.h>
+#include <TAMC_GT911.h>
 
 #include "enlace_cyd.h"
 
@@ -24,7 +33,12 @@ TFT_eSPI tft;
 
 // La CYD trae un LED RGB de ánodo común en 4/16/17: apagarlo (nivel alto).
 static const int LED_R = 4, LED_G = 16, LED_B = 17;
-static const int BTN_BOOT = 0;     // pulsador BOOT de la placa: cambia de vista
+static const int BTN_BOOT = 0;     // respaldo del táctil para cambiar de vista
+
+// GT911 (variante capacitiva, pines supuestos)
+static const int TP_SDA = 33, TP_SCL = 32, TP_INT = 21, TP_RST = 25;
+static TAMC_GT911 gt(TP_SDA, TP_SCL, TP_INT, TP_RST, TFT_WIDTH, TFT_HEIGHT);
+static bool tactil_capacitivo = false;
 
 struct Banda {
   const char *nombre;
@@ -36,14 +50,13 @@ struct Banda {
 };
 
 static Banda bandas[3];
-static uint16_t FG, MUTED, BAR_BG, BG;
+static uint16_t FG, MUTED, BAR_BG, BG, PANEL;
 
 static uint16_t escala(uint8_t r, uint8_t g, uint8_t b, float f) {
   return tft.color565(uint8_t(r * f), uint8_t(g * f), uint8_t(b * f));
 }
 
-// Geometría base en retrato 240 x 320 (mitad del render de 480 x 640), escalada en tiempo de
-// compilación al panel del env activo: SX/SY la llevan p. ej. a los 320 x 480 de la 3248S035.
+// Geometría base en retrato 240 x 320, escalada en compilación al panel del env activo.
 #define SX(v) ((v) * TFT_WIDTH / 240)
 #define SY(v) ((v) * TFT_HEIGHT / 320)
 static const int CARD_X = SX(12), CARD_W = SX(216), CARD_H = SY(72), CARD_Y0 = SY(52), CARD_PASO = SY(80);
@@ -65,8 +78,7 @@ static void tarjeta(int i) {
 }
 
 // Dibujo sin parpadeo: la barra solo pinta la franja que cambió y las cifras solo se
-// reescriben cuando su valor entero cambia (drawString con relleno pinta glifo y fondo
-// en una sola pasada, así que tampoco parpadean).
+// reescriben cuando su valor entero cambia.
 static int prev_nivel[3];
 static int prev_db[3];
 static int prev_mv[3];
@@ -76,12 +88,12 @@ static void valores(int i, float db, int mv) {
   int y = CARD_Y0 + i * CARD_PASO;
   int nivel = constrain(int(BAR_W * (db + 60.0f) / 60.0f), 6, BAR_W);
   const int by = y + BAR_DY;
-  if (prev_nivel[i] < 0) {            // primera vez: cubeta completa y relleno
+  if (prev_nivel[i] < 0) {
     tft.fillRoundRect(BAR_X, by, BAR_W, BAR_H, 4, BAR_BG);
     tft.fillRect(BAR_X + 2, by + 2, nivel - 4, BAR_H - 4, b.color);
-  } else if (nivel > prev_nivel[i]) { // crece: pintar solo la franja nueva
+  } else if (nivel > prev_nivel[i]) {
     tft.fillRect(BAR_X + prev_nivel[i] - 2, by + 2, nivel - prev_nivel[i], BAR_H - 4, b.color);
-  } else if (nivel < prev_nivel[i]) { // decrece: borrar solo la franja sobrante
+  } else if (nivel < prev_nivel[i]) {
     tft.fillRect(BAR_X + nivel - 2, by + 2, prev_nivel[i] - nivel, BAR_H - 4, BAR_BG);
   }
   prev_nivel[i] = nivel;
@@ -110,11 +122,9 @@ static void valores(int i, float db, int mv) {
 }
 
 // ---------------------------------------------------------------- vista ESPECTRO
-// 32 barras entre CARD_Y0 y la línea base, coloreadas por banda (11 + 11 + 10),
-// con el mismo dibujo por diferencias que las barras de nivel.
 static const int ESP_X0 = SX(12), ESP_W = SX(216);
 static const int ESP_BASE = SY(284), ESP_HMAX = SY(226);
-static const int ESP_BW = ESP_W / enlace_cyd::BARRAS;        // ancho de columna
+static const int ESP_BW = ESP_W / enlace_cyd::BARRAS;
 static int prev_h[enlace_cyd::BARRAS];
 
 static uint16_t color_barra(int i) {
@@ -149,15 +159,108 @@ static void barra_espectro(int i, float db) {
   prev_h[i] = h;
 }
 
+// ---------------------------------------------------------------- vista LUCES
+// Mando de la tira NeoPixel del ESP32 principal. Estado local; cada cambio se transmite.
+static enlace_cyd::Luces luces;
+static const uint16_t SWATCH_RGB[6][3] = {{255, 122, 51}, {64, 214, 128}, {64, 164, 255},
+                                          {235, 235, 225}, {170, 80, 255}, {255, 210, 40}};
+// Zonas (coordenadas base): fila encendido, corredera de brillo, 3 modos, 6 colores.
+static const int LZ_ON_Y = 56, LZ_ON_H = 30;
+static const int LZ_BR_Y = 100, LZ_BR_H = 34, LZ_BR_X = 20, LZ_BR_W = 200;
+static const int LZ_MD_Y = 150, LZ_MD_H = 26, LZ_MD_PASO = 30;
+static const int LZ_CO_Y = 250, LZ_CO_H = 28;
+
+static void fila_on() {
+  const int y = SY(LZ_ON_Y);
+  tft.setTextFont(2);
+  tft.setTextColor(FG, BG);
+  tft.setTextDatum(ML_DATUM);
+  tft.setTextPadding(0);
+  tft.drawString("TIRA DE LUZ", SX(20), y + SY(LZ_ON_H) / 2);
+  const uint16_t col = luces.encendido ? tft.color565(64, 214, 128) : tft.color565(70, 76, 84);
+  tft.fillRoundRect(SX(150), y, SX(70), SY(LZ_ON_H), 8, escala(64, 214, 128, luces.encendido ? .25f : .0f) | (luces.encendido ? 0 : PANEL));
+  tft.drawRoundRect(SX(150), y, SX(70), SY(LZ_ON_H), 8, col);
+  tft.setTextDatum(MC_DATUM);
+  tft.setTextColor(col, luces.encendido ? escala(64, 214, 128, .25f) : PANEL);
+  tft.drawString(luces.encendido ? "ENCENDIDA" : "APAGADA", SX(185), y + SY(LZ_ON_H) / 2);
+}
+
+static void fila_brillo() {
+  const int y = SY(LZ_BR_Y);
+  tft.setTextFont(2);
+  tft.setTextColor(MUTED, BG);
+  tft.setTextDatum(TL_DATUM);
+  tft.drawString("BRILLO", SX(20), y - SY(16));
+  char txt[8];
+  snprintf(txt, sizeof txt, "%d", luces.brillo);
+  tft.setTextDatum(TR_DATUM);
+  tft.setTextColor(FG, BG);
+  tft.setTextPadding(SX(40));
+  tft.drawString(txt, SX(220), y - SY(16));
+  tft.setTextPadding(0);
+  tft.fillRoundRect(SX(LZ_BR_X), y, SX(LZ_BR_W), SY(LZ_BR_H) / 2, 6, BAR_BG);
+  const int w = SX(LZ_BR_W) * luces.brillo / 255;
+  if (w > 4) tft.fillRoundRect(SX(LZ_BR_X), y, w, SY(LZ_BR_H) / 2, 6, tft.color565(255, 210, 40));
+}
+
+static void fila_modos() {
+  const char *noms[3] = {"NIVELES (sigue el audio)", "ARCOIRIS", "COLOR FIJO"};
+  tft.setTextFont(2);
+  for (int m = 0; m < 3; m++) {
+    const int y = SY(LZ_MD_Y + m * LZ_MD_PASO);
+    const bool sel = luces.modo == m;
+    tft.fillRoundRect(SX(20), y, SX(200), SY(LZ_MD_H), 6, sel ? escala(64, 164, 255, .25f) : PANEL);
+    tft.drawRoundRect(SX(20), y, SX(200), SY(LZ_MD_H), 6, sel ? tft.color565(64, 164, 255) : tft.color565(60, 68, 76));
+    tft.setTextDatum(ML_DATUM);
+    tft.setTextColor(sel ? FG : MUTED, sel ? escala(64, 164, 255, .25f) : PANEL);
+    tft.drawString(noms[m], SX(30), y + SY(LZ_MD_H) / 2);
+  }
+}
+
+static void fila_colores() {
+  const int y = SY(LZ_CO_Y);
+  tft.setTextFont(2);
+  tft.setTextColor(MUTED, BG);
+  tft.setTextDatum(TL_DATUM);
+  tft.drawString("COLOR (modo fijo)", SX(20), y - SY(16));
+  for (int c = 0; c < 6; c++) {
+    const int x = SX(20 + c * 34);
+    const uint16_t col = tft.color565(SWATCH_RGB[c][0], SWATCH_RGB[c][1], SWATCH_RGB[c][2]);
+    const bool sel = luces.r == SWATCH_RGB[c][0] && luces.g == SWATCH_RGB[c][1] && luces.b == SWATCH_RGB[c][2];
+    tft.fillRoundRect(x, y, SX(28), SY(LZ_CO_H), 5, col);
+    tft.drawRoundRect(x, y, SX(28), SY(LZ_CO_H), 5, sel ? FG : BG);
+    if (sel) tft.drawRoundRect(x + 1, y + 1, SX(28) - 2, SY(LZ_CO_H) - 2, 5, FG);
+  }
+}
+
+static void vista_luces() {
+  fila_on();
+  fila_brillo();
+  fila_modos();
+  fila_colores();
+  tft.setTextFont(2);
+  tft.setTextColor(MUTED, BG);
+  tft.setTextDatum(TC_DATUM);
+  tft.drawString("Los cambios van al ESP32 por ESP-NOW", SX(120), SY(284));
+}
+
+// ---------------------------------------------------------------- transmisión del mando
+static void enviar_luces() {
+  char buf[enlace_cyd::LINEA_MAX];
+  const int n = enlace_cyd::componer_luces(luces, buf, sizeof buf);
+  if (n <= 1) return;
+  static const uint8_t DIFUSION[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  esp_now_send(DIFUSION, (const uint8_t *)buf, n - 1);   // sin el salto de línea
+  Serial.print(buf);                                     // respaldo por UART0/P1 (y registro)
+}
+
 // ---------------------------------------------------------------- recepción de tramas
-// Los dos transportes alimentan el mismo analizador; se recuerda cuál entregó la última trama.
 enum Transporte { T_NINGUNO, T_UART, T_ESPNOW };
-static enlace_cyd::Trama trama;    // última trama válida recibida
-static uint32_t t_trama = 0;       // millis() de esa trama (0 = nunca llegó ninguna)
+static enlace_cyd::Trama trama;
+static uint32_t t_trama = 0;
 static Transporte transporte = T_NINGUNO;
 static bool en_vivo = false;
 
-// ESP-NOW: el callback corre en la tarea de WiFi; solo copia el paquete y avisa.
 static volatile bool espnow_listo = false;
 static char espnow_buf[enlace_cyd::LINEA_MAX];
 
@@ -184,12 +287,11 @@ static void recibir() {
     } else if (n < (int)sizeof linea - 1) {
       linea[n++] = c;
     } else {
-      n = 0;  // línea demasiado larga (ruido): descartar y resincronizar
+      n = 0;
     }
   }
 }
 
-// Indicador del pie: transporte activo o modo de ejemplo.
 static void indicador(bool vivo) {
   tft.setTextFont(2);
   tft.setTextDatum(TC_DATUM);
@@ -205,7 +307,7 @@ static void indicador(bool vivo) {
 }
 
 // ---------------------------------------------------------------- vistas y entrada
-enum Vista { V_BANDAS, V_ESPECTRO };
+enum Vista { V_BANDAS, V_ESPECTRO, V_LUCES, V_TOTAL };
 static Vista vista = V_BANDAS;
 
 static void abrir_vista() {
@@ -214,34 +316,100 @@ static void abrir_vista() {
   tft.setTextColor(MUTED, BG);
   tft.setTextDatum(TL_DATUM);
   tft.drawString("ECUALIZADOR E.5", SX(12), SY(8));
+  tft.setTextDatum(TR_DATUM);
+  tft.drawString("toca aqui: cambiar vista", SX(228), SY(8));
   tft.setTextFont(4);
   tft.setTextColor(FG, BG);
-  tft.drawString(vista == V_BANDAS ? "TRES BANDAS" : "ESPECTRO", SX(12), SY(22));
+  tft.setTextDatum(TL_DATUM);
+  const char *tit[V_TOTAL] = {"TRES BANDAS", "ESPECTRO", "LUCES"};
+  tft.drawString(tit[vista], SX(12), SY(22));
   tft.drawFastHLine(SX(12), SY(46), SX(216), tft.color565(35, 43, 50));
   for (int i = 0; i < 3; i++) { prev_nivel[i] = -1; prev_db[i] = 999; prev_mv[i] = -1; }
   for (int i = 0; i < enlace_cyd::BARRAS; i++) prev_h[i] = -1;
   if (vista == V_BANDAS) {
     for (int i = 0; i < 3; i++) tarjeta(i);
-  } else {
+  } else if (vista == V_ESPECTRO) {
     marco_espectro();
+  } else {
+    vista_luces();
   }
   indicador(en_vivo);
 }
 
-// Pulsador BOOT con antirrebote: flanco de bajada cambia de vista.
+static void siguiente_vista() {
+  vista = Vista((vista + 1) % V_TOTAL);
+  abrir_vista();
+}
+
+// Lectura unificada del táctil (GT911 o XPT2046). Devuelve true con coordenadas de panel.
+static bool toque(int &x, int &y) {
+  if (tactil_capacitivo) {
+    gt.read();
+    if (!gt.isTouched) return false;
+    x = gt.points[0].x;
+    y = gt.points[0].y;
+    return true;
+  }
+#ifdef TOUCH_CS
+  uint16_t tx, ty;
+  if (tft.getTouch(&tx, &ty, 600)) { x = tx; y = ty; return true; }
+#endif
+  return false;
+}
+
+static void tactil() {
+  static bool antes = false;
+  static uint32_t t_envio = 0;
+  int x = 0, y = 0;
+  const bool ahora = toque(x, y);
+  const bool flanco = ahora && !antes;
+  antes = ahora;
+  if (!ahora) return;
+
+  if (flanco && y < SY(48)) {         // cabecera: cambiar de vista
+    siguiente_vista();
+    return;
+  }
+  if (vista != V_LUCES) return;
+
+  bool cambio = false;
+  // Corredera de brillo: responde también al arrastre (limitado a 10 envíos/s).
+  if (y >= SY(LZ_BR_Y) - SY(6) && y <= SY(LZ_BR_Y + LZ_BR_H) && x >= SX(LZ_BR_X) - SX(6) && x <= SX(LZ_BR_X + LZ_BR_W) + SX(6)) {
+    const int v = constrain((x - SX(LZ_BR_X)) * 255 / SX(LZ_BR_W), 0, 255);
+    if (v != luces.brillo) { luces.brillo = (uint8_t)v; fila_brillo(); cambio = millis() - t_envio > 100; }
+  } else if (flanco && y >= SY(LZ_ON_Y) && y <= SY(LZ_ON_Y + LZ_ON_H)) {
+    luces.encendido = !luces.encendido;
+    fila_on();
+    cambio = true;
+  } else if (flanco && y >= SY(LZ_MD_Y) && y <= SY(LZ_MD_Y + 2 * LZ_MD_PASO + LZ_MD_H)) {
+    const int m = (y - SY(LZ_MD_Y)) / SY(LZ_MD_PASO);
+    if (m >= 0 && m <= 2 && m != luces.modo) { luces.modo = (uint8_t)m; fila_modos(); cambio = true; }
+  } else if (flanco && y >= SY(LZ_CO_Y) && y <= SY(LZ_CO_Y + LZ_CO_H)) {
+    const int c = (x - SX(20)) / SX(34);
+    if (c >= 0 && c <= 5) {
+      luces.r = SWATCH_RGB[c][0]; luces.g = SWATCH_RGB[c][1]; luces.b = SWATCH_RGB[c][2];
+      if (luces.modo != enlace_cyd::LUCES_FIJO) { luces.modo = enlace_cyd::LUCES_FIJO; fila_modos(); }
+      fila_colores();
+      cambio = true;
+    }
+  }
+  if (cambio) {
+    t_envio = millis();
+    enviar_luces();
+  }
+}
+
 static void boton() {
   static bool antes = true;
   static uint32_t t_cambio = 0;
   const bool ahora = digitalRead(BTN_BOOT);
   if (antes && !ahora && millis() - t_cambio > 250) {
     t_cambio = millis();
-    vista = vista == V_BANDAS ? V_ESPECTRO : V_BANDAS;
-    abrir_vista();
+    siguiente_vista();
   }
   antes = ahora;
 }
 
-// Espectro de ejemplo: tres lomas que respiran con los valores de muestra.
 static float espectro_ejemplo(int i, float t) {
   static const float centro[3] = {5.0f, 16.0f, 27.0f};
   float db = -60.0f;
@@ -256,17 +424,37 @@ static float espectro_ejemplo(int i, float t) {
 }
 
 void setup() {
-  Serial.begin(enlace_cyd::BAUDIOS);  // UART0: monitor USB y, en la tapa, el enlace por P1
-  Serial.println("Ecualizador E.5 - interfaz CYD (retrato, vistas BANDAS/ESPECTRO con BOOT)");
+  Serial.begin(enlace_cyd::BAUDIOS);
+  Serial.println("Ecualizador E.5 - interfaz CYD (tactil; vistas BANDAS/ESPECTRO/LUCES)");
   Serial.printf("Panel: %d x %d\n", TFT_WIDTH, TFT_HEIGHT);
   for (int p : {LED_R, LED_G, LED_B}) { pinMode(p, OUTPUT); digitalWrite(p, HIGH); }
   pinMode(BTN_BOOT, INPUT_PULLUP);
 
-  // ESP-NOW en difusión: el emisor debe usar el canal 1 (el predeterminado de STA).
+  // Deteccion del tactil: si hay un GT911 en el I2C (variante capacitiva), se usa; si no,
+  // se asume el XPT2046 resistivo del SPI del panel. OJO: el pin 33 es a la vez el SDA del
+  // GT911 y el CS del XPT2046 que TFT_eSPI configura en tft.init(); por eso la deteccion se
+  // hace aqui pero el Wire/gt911 definitivos se levantan DESPUES de tft.init().
+  Wire.begin(TP_SDA, TP_SCL);
+  Wire.beginTransmission(0x5D);
+  tactil_capacitivo = Wire.endTransmission() == 0;
+  if (!tactil_capacitivo) {
+    Wire.beginTransmission(0x14);
+    tactil_capacitivo = Wire.endTransmission() == 0;
+  }
+  Wire.end();
+  Serial.println(tactil_capacitivo ? "Tactil: GT911 capacitivo (S035C)"
+                                   : "Tactil: XPT2046 resistivo asumido (S035R); calibracion por defecto");
+
+  // ESP-NOW en difusión por el canal 1: recibe niveles y envía el mando de luces.
   WiFi.mode(WIFI_STA);
   esp_wifi_set_ps(WIFI_PS_NONE);
   if (esp_now_init() == ESP_OK) {
     esp_now_register_recv_cb(espnow_rx);
+    esp_now_peer_info_t par{};
+    memset(par.peer_addr, 0xFF, 6);
+    par.channel = 0;                 // el canal actual (1 por defecto en STA)
+    par.encrypt = false;
+    esp_now_add_peer(&par);
     Serial.printf("ESP-NOW listo; MAC de esta pantalla: %s\n", WiFi.macAddress().c_str());
   } else {
     Serial.println("ESP-NOW NO disponible; queda solo el enlace UART");
@@ -274,10 +462,28 @@ void setup() {
 
   tft.init();
   tft.setRotation(0);               // retrato; si queda cabeza abajo en la tapa, usar 2
+  if (tactil_capacitivo) {
+    // Recuperar el pin 33 como SDA (tft.init lo dejó como CS del tactil resistivo) y
+    // arrancar el GT911 ya con el bus definitivo.
+    Wire.begin(TP_SDA, TP_SCL);
+    gt.begin();
+  }
+  // Tarjeta TF (SPI propio en 18/19/23, CS 5 segun la comunidad; pines supuestos): se prueba
+  // al arrancar y se informa por serie. Sin tarjeta insertada solo imprime el aviso.
+  {
+    static SPIClass sd_spi(HSPI);
+    sd_spi.begin(18, 19, 23, 5);
+    if (SD.begin(5, sd_spi)) {
+      Serial.printf("Tarjeta TF: detectada, %.1f GB (tipo %d)\n", SD.cardSize() / 1073741824.0, (int)SD.cardType());
+    } else {
+      Serial.println("Tarjeta TF: sin tarjeta o sin respuesta (pines supuestos 18/19/23, CS 5)");
+    }
+  }
   BG = tft.color565(2, 5, 8);
   FG = tft.color565(238, 242, 245);
   MUTED = tft.color565(115, 128, 140);
   BAR_BG = tft.color565(18, 23, 28);
+  PANEL = tft.color565(10, 14, 18);
   bandas[0] = {"GRAVES", -32, 152, tft.color565(255, 122, 51), escala(255, 122, 51, .13f), escala(255, 122, 51, .45f)};
   bandas[1] = {"MEDIOS", -19, 196, tft.color565(64, 214, 128), escala(64, 214, 128, .13f), escala(64, 214, 128, .45f)};
   bandas[2] = {"AGUDOS", -28, 168, tft.color565(64, 164, 255), escala(64, 164, 255, .13f), escala(64, 164, 255, .45f)};
@@ -286,6 +492,7 @@ void setup() {
 
 void loop() {
   recibir();
+  tactil();
   boton();
   const bool vivo = t_trama != 0 && millis() - t_trama <= 2000;
   if (vivo != en_vivo) {
@@ -302,9 +509,9 @@ void loop() {
         valores(i, bandas[i].db + osc, bandas[i].mv + int(osc * 4));
       }
     }
-  } else {
+  } else if (vista == V_ESPECTRO) {
     for (int i = 0; i < enlace_cyd::BARRAS; i++)
       barra_espectro(i, vivo ? trama.barras_db[i] : espectro_ejemplo(i, t));
   }
-  delay(40);  // ~25 refrescos/s; recibir() vacía todo lo pendiente en cada vuelta
+  delay(30);
 }

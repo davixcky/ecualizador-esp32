@@ -174,7 +174,7 @@ def fit_coupons(doc, lid, body, halves):
         "tapa_potenciometro_B10K": clip(lid, px - 13, E.KNOB_Y - 13, zl, px + 13, E.KNOB_Y + 13, H + LID),
         # Ventana de la pantalla 3,5" con sus cuatro uñas fijas: prueba la ventana completa, el
         # apoyo del módulo al ras y el encaje corredizo del PCB bajo las uñas.
-        "tapa_pantalla_CYD": clip(lid, 104, 27, H - 8, 174, 128.5, H + LID),
+        "tapa_pantalla_CYD": clip(lid, 104, 27, H - 8, 174, 130.0, H + LID),
         "tapa_SW1": clip(lid, E.SW_C[0] - 15, E.SW_C[1] - 13, zl, E.SW_C[0] + 15, E.SW_C[1] + 13, H + LID),
         "tapa_ventana_barra_LED": clip(lid, bar[0], bar[1], zl, bar[2], bar[3], H + LID),
         "barra_difusor_tramo": clip(get("Difusor_opalino_GRAVES"), bar[0], bar[1], 0, bar[2], bar[3], H + LID + 1),
