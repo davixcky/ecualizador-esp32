@@ -135,7 +135,11 @@ SEAM_X, SEAM_GAP = 139.0, 0.1
 # (y, cuello, cabeza, fondo). La cola central va en la franja maciza entre la ventana de la
 # pantalla 3,5" (termina en y 121,45 con el cristal medido) y la barra de GRAVES (y 130,5):
 # solo caben 9 mm, así que esa cola es más pequeña que las otras dos.
-SEAM_KEYS_LID = [(8.0, 6.0, 10.0, 6.0), (126.0, 5.0, 8.0, 5.0), (183.0, 6.0, 10.0, 6.0)]
+# Colas de la tapa reforzadas donde hay sitio (2026-11-25): la delantera y la trasera pasan
+# a cuello 8 / cabeza 12 / fondo 8; la central sigue pequeña (5/8/5) porque vive en la franja
+# de 9 mm entre la ventana del cristal y la barra de GRAVES. La tapa además queda trabada por
+# las piezas que cruzan la junta (pantalla con sus ganchos, cunas y tarjeta T2).
+SEAM_KEYS_LID = [(8.0, 8.0, 12.0, 8.0), (126.0, 5.0, 8.0, 5.0), (183.0, 8.0, 12.0, 8.0)]
 # Junta del cuerpo REFORZADA (2026-11-24, petición del comprador): tres colas de milano
 # mayores en el piso (cuello 10, cabeza 16, fondo 10: ~2,6 veces la sección anterior) y dos
 # columnas-espiga ocultas de cuello 6 / cabeza 10 / fondo 8 a toda altura dentro de los
