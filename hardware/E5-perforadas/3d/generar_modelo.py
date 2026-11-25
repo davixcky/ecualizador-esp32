@@ -14,6 +14,7 @@ Toda la geometría sale de e5_layout.py y medidas-componentes.json. Escribe:
 from pathlib import Path
 import json
 import math
+import os
 import sys
 
 import FreeCAD as App
@@ -380,4 +381,6 @@ def main():
     print(f"E.5 CAD: {len(objects)} objetos, {len(wires)} cables; {E.W} x {E.D} x {E.H + E.LID} mm; {len(printable)} STL; {coupons} probetas de ajuste")
 
 
-main()
+# E5_SOLO_DEFINIR=1 permite importar este módulo como biblioteca (variantes_pantalla.py).
+if os.environ.get("E5_SOLO_DEFINIR") != "1":
+    main()

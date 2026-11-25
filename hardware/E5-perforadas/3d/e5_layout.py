@@ -16,6 +16,7 @@ medición está en medidas-componentes.json con estado «conservadora» o
 from pathlib import Path
 import json
 import math
+import os
 
 HERE = Path(__file__).resolve().parent
 MEDIDAS = json.loads((HERE / "medidas-componentes.json").read_text(encoding="utf-8"))
@@ -80,7 +81,10 @@ CYD_MOD_OFF = 1.5                     # cristal a 1,5 mm del borde frontal: por 
 TFT_ACTIVE = [TFT["area_activa"][1], TFT["area_activa"][0]]  # 48,96 x 73,44 en retrato (x, y)
 CYD_X0, CYD_Y0 = 139.0 - 54.9 / 2, 32.5   # esquina frontal izquierda del PCB, centrado entre parlantes
 TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_OFF + CYD_MOD_L / 2)   # centro del módulo y la ventana
-TFT_WIN = (CYD_MOD_W + 1.0, CYD_MOD_L + 1.0)               # ventana pasante: cristal + 0,5 por lado (holgura real de impresión)
+# CYD_AJUSTE (mm, variable de entorno): se SUMA a la holgura por lado de la ventana y a la
+# separación de los ganchos, para generar probetas en variantes (apretada/nominal/holgada).
+CYD_AJUSTE = float(os.environ.get("CYD_AJUSTE", "0"))
+TFT_WIN = (CYD_MOD_W + 1.0 + 2 * CYD_AJUSTE, CYD_MOD_L + 1.0 + 2 * CYD_AJUSTE)   # ventana: cristal + 0,5/lado + ajuste
 Z_CYD_TOP = H + LID - CYD_MOD_T       # cara superior del PCB para que el módulo quede al ras
 SPK = M["Parlantes-WS-14595-8ohm-5W"]["envolvente_por_parlante"]   # 100 x 45 x 21 cada uno
 SPK_CS = [(56.0, 96.0), (222.0, 96.0)]  # dos transductores del conjunto WS-14595
@@ -618,12 +622,13 @@ def build_lid_parts():
     # rampa a 45° para que el canto de la placa los apart e al bajar.
     hooks = []
     zu_ = zp - .15                      # cara superior de la uña: 0,15 bajo la placa
+    aj = CYD_AJUSTE
     for hx_ in (112.0, 160.0):          # ganchos frontales (huecos entre potenciómetros)
-        hooks += [box(hx_, 31.1, H - .01, 8.0, 1.2, 2.5),                 # raíz: 0,5 mm anclados sobre la ranura
-                  box(hx_, 31.1, zu_ - .5, 8.0, 1.2, H - zu_ + .5),       # hoja (0,4 por delante de la placa)
-                  box(hx_ + 1.0, 32.3, zu_ - .5, 6.0, .9, .5),            # uña: 0,7 bajo la placa
-                  prismx(hx_ + 1.0, 6.0, [(32.3, zu_ - .5), (33.2, zu_ - .5), (32.3, zu_ - 1.4)])]  # rampa
-    for bx0_, lipx_ in ((x0_ - 1.6, x0_ - .4), (x0_ + pw_ + .4, x0_ + pw_ - .5)):
+        hooks += [box(hx_, 31.1 - aj, H - .01, 8.0, 1.2, 2.5),            # raíz: 0,5 mm anclados sobre la ranura
+                  box(hx_, 31.1 - aj, zu_ - .5, 8.0, 1.2, H - zu_ + .5),  # hoja (0,4 + ajuste por delante de la placa)
+                  box(hx_ + 1.0, 32.3 - aj, zu_ - .5, 6.0, .9, .5),       # uña: 0,7 bajo la placa
+                  prismx(hx_ + 1.0, 6.0, [(32.3 - aj, zu_ - .5), (33.2 - aj, zu_ - .5), (32.3 - aj, zu_ - 1.4)])]  # rampa
+    for bx0_, lipx_ in ((x0_ - 1.6 - aj, x0_ - .4 - aj), (x0_ + pw_ + .4 + aj, x0_ + pw_ - .5 + aj)):
         # ganchos laterales sobre la franja trasera sin cristal
         hooks += [box(bx0_, 121.8, H - .01, 1.2, 6.5, 2.5),
                   box(bx0_, 121.8, zu_ - .5, 1.2, 6.5, H - zu_ + .5),
@@ -942,8 +947,8 @@ def lid_cuts():
     # Ranuras de alivio de los ganchos de la pantalla: 2 mm hacia dentro de la tapa (queda
     # 1 mm de piel hacia fuera) con 0,2 mm de holgura alrededor de cada raíz para que flexione.
     for hx_ in (112.0, 160.0):
-        cuts.append(box(hx_ - .35, 30.75, H - .02, 8.7, 1.9, 2.0))
-    for bx0_ in (CYD_X0 - 1.6, CYD_X0 + CYD_PCB_W + .4):
+        cuts.append(box(hx_ - .35, 30.75 - CYD_AJUSTE, H - .02, 8.7, 1.9, 2.0))
+    for bx0_ in (CYD_X0 - 1.6 - CYD_AJUSTE, CYD_X0 + CYD_PCB_W + .4 + CYD_AJUSTE):
         cuts.append(box(bx0_ - .35, 121.45, H - .02, 1.9, 7.2, 2.0))
     for sx, sy in SPK_CS:           # rejilla de ranuras sobre cada parlante
         for k in range(-10, 11):
