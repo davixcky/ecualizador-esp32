@@ -1,0 +1,64 @@
+--- a/frontend/src/simulation/spice/componentToSpice.ts
++++ b/frontend/src/simulation/spice/componentToSpice.ts
+@@ -754,8 +754,13 @@
+     const wiper = netLookup('SIG');
+     const bot = netLookup('GND');
+     if (!top || !wiper || !bot) return null;
+-    const total = parseValueWithUnits(comp.properties.value, 10_000);
+-    const pos = Number(comp.properties.position ?? comp.properties.percent ?? 50) / 100;
++    const floating = comp.properties.floatingTrack === true;
++    const total = parseValueWithUnits(floating ? comp.properties.total ?? 10000 : comp.properties.value, 10_000);
++    const min = Number(comp.properties.min ?? 0);
++    const max = Number(comp.properties.max ?? 100);
++    const pos = Math.max(0, Math.min(1, floating
++      ? (Number(comp.properties.value ?? 50) - min) / (max - min || 1)
++      : Number(comp.properties.position ?? comp.properties.percent ?? 50) / 100));
+     const Rtop = Math.max(1, (1 - pos) * total);
+     const Rbot = Math.max(1, pos * total);
+     return {
+diff --git a/frontend/src/simulation/parts/ComplexParts.ts b/frontend/src/simulation/parts/ComplexParts.ts
+index 6d35e66..4c7954e 100644
+--- a/frontend/src/simulation/parts/ComplexParts.ts
++++ b/frontend/src/simulation/parts/ComplexParts.ts
+@@ -92,7 +92,7 @@ PartSimulationRegistry.register('potentiometer', {
+     const onInput = () => {
+       const rawStr = (element as any).value ?? '0';
+       const raw = parseInt(rawStr, 10);
+-      if (pin !== null) {
++      if (pin !== null && !(element as any).floatingTrack) {
+         const volts = (raw / 1023.0) * refVoltage;
+         setAdcVoltage(simulator, pin, volts);
+       }
+@@ -124,7 +124,7 @@ PartSimulationRegistry.register('slide-potentiometer', {
+       const max = Number(el.max ?? 1023);
+       const value = Number(el.value ?? 0);
+       const normalized = (value - min) / (max - min || 1);
+-      if (arduinoPin !== null) {
++      if (arduinoPin !== null && !el.floatingTrack) {
+         const volts = normalized * refVoltage;
+         setAdcVoltage(avrSimulator, arduinoPin, volts);
+       }
+diff --git a/frontend/src/simulation/spice/NetlistBuilder.ts b/frontend/src/simulation/spice/NetlistBuilder.ts
+index 851c4db..3c7d8a1 100644
+--- a/frontend/src/simulation/spice/NetlistBuilder.ts
++++ b/frontend/src/simulation/spice/NetlistBuilder.ts
+@@ -183,7 +183,8 @@ export function buildNetlist(input: BuildNetlistInput): BuildNetlistResult {
+     }
+   }
+   for (const comp of components) {
+-    if (skipCanonicalization(comp.metadataId)) continue;
++    if (skipCanonicalization(comp.metadataId) ||
++        ((comp.metadataId === 'potentiometer' || comp.metadataId === 'slide-potentiometer') && comp.properties.floatingTrack === true)) continue;
+     for (const pinName of pinsReferencedByWires(comp.id, wires)) {
+       if (GROUND_PIN_RE.test(pinName)) {
+         uf.setCanonical(pinKey(comp.id, pinName), '0');
+@@ -552,7 +553,8 @@ export function buildWireNetMap(
+     }
+   }
+   for (const comp of components) {
+-    if (comp.metadataId.startsWith('instr-')) continue;
++    if (comp.metadataId.startsWith('instr-') ||
++        ((comp.metadataId === 'potentiometer' || comp.metadataId === 'slide-potentiometer') && comp.properties.floatingTrack === true)) continue;
+     for (const pName of pinsReferencedByWires(comp.id, wires)) {
+       if (GROUND_PIN_RE.test(pName)) uf.setCanonical(pin(comp.id, pName), '0');
+       else if (VCC_PIN_RE.test(pName)) uf.setCanonical(pin(comp.id, pName), 'vcc_rail');

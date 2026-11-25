@@ -1,0 +1,35 @@
+diff --git a/frontend/src/simulation/spice/componentToSpice.ts b/frontend/src/simulation/spice/componentToSpice.ts
+index 845ae63..5f8c7ee 100644
+--- a/frontend/src/simulation/spice/componentToSpice.ts
++++ b/frontend/src/simulation/spice/componentToSpice.ts
+@@ -385,6 +385,30 @@ const MAPPERS: Record<string, Mapper> = {
+     const inn = netLookup('IN-');
+     const out = netLookup('OUT');
+     if (!inp || !inn || !out) return null;
++    // EQ03 opts into the project's own MCP6004 approximation. The stock
++    // unlimited ideal VCVS remains the default for every other project.
++    if (comp.properties.model === 'eq03-mcp6004') {
++      const bias = comp.properties.detector ? '' : ` .nodeset V(${out})=1.65`;
++      return {
++        cards: [
++          `X_${comp.id} ${inp} ${inn} vcc_rail 0 ${out} EQ03_MCP6004`,
++          `.nodeset V(${inp})=1.65 V(${inn})=1.65`,
++          ...(bias ? [bias.trim()] : []),
++        ],
++        modelsUsed: new Set([`.subckt EQ03_MCP6004 inp inn vdd vss out
++Rq vdd vss 33k
++Emid mid 0 vdd vss 0.5
++Bgm mid n1 I=0.0954*tanh((V(inp)-V(inn))/0.0954)
++R1 n1 mid 1e5
++C1 n1 mid 159.2n
++Dh n1 vdd EQ03_DCL
++Dl vss n1 EQ03_DCL
++Bo o1 0 V=min(max(V(n1), V(vss)+0.02), V(vdd)-0.02)
++Ro o1 out 25
++.model EQ03_DCL D(IS=1e-12 N=1)
++.ends EQ03_MCP6004`]),
++      };
++    }
+     return {
+       cards: [`E_${comp.id} ${out} 0 ${inp} ${inn} 1e6`],
+       modelsUsed: new Set(),

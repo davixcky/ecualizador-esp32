@@ -1,0 +1,21 @@
+services:
+  velxio:
+    image: eq03-velxio-local:2026-10-22
+    build:
+      context: ./local
+    ports:
+      - "127.0.0.1:3080:80"
+    volumes:
+      - eq03-data:/app/data
+      - eq03-arduino:/root/.arduino15
+      - eq03-libraries:/root/Arduino
+      - eq03-ccache:/var/cache/ccache
+      - eq03-build:/var/lib/velxio-build
+    restart: unless-stopped
+
+volumes:
+  eq03-data:
+  eq03-arduino:
+  eq03-libraries:
+  eq03-ccache:
+  eq03-build:

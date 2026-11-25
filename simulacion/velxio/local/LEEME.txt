@@ -1,0 +1,104 @@
+VELXIO LOCAL — EQ03 — 22 OCTUBRE 2026
+
+Abrir http://localhost:3080/editor/?esp32sim=qemu
+Importar ../integrado-local-1000Hz.vlx y pulsar Run.
+Hay casos de 100, 1000 y 8000 Hz. Usar los nombres integrado-local-*.vlx.
+
+Desde la raíz ecualizador-esp32:
+  docker compose -p eq03 -f simulacion/velxio/compose.yaml up -d --build
+
+La imagen local conserva herramientas ESP-IDF, QEMU y backend de la imagen
+oficial. Reconstruye el frontend con un parche opcional para los proyectos
+que declaren properties.model = "eq03-mcp6004" en sus operacionales.
+El modelo ideal estándar de Velxio permanece disponible para otros proyectos.
+La fuente del frontend está fijada a b9fd8eb837ebec22e817dfd8ebd01c9f51aa16b6.
+
+La corrección sustituye la fuente controlada ideal ilimitada por el mismo
+macromodelo propio usado en herramientas/simulacion.py: ganancia DC 100 dB,
+GBW nominal 1 MHz, slew rate nominal 0,6 V/us, salida con 25 ohmios y recorte
+a 20 mV de los rieles. Añade estimaciones de reposo (.nodeset) a 1,65 V para
+que SPICE encuentre el punto de operación de esta cadena con fuente única.
+Es una aproximación del proyecto; no es un modelo oficial de Microchip.
+
+Las alimentaciones de los AO se asocian a vcc_rail y GND del ESP32 emulado.
+No se valida la caída de la alimentación analógica filtrada ni su ruido.
+Los diodos de los detectores siguen siendo genéricos. Los controles RV2, RV3 y RV4 son deslizadores interactivos de 10 kΩ,
+inicialmente al 50 %, con su extremo inferior conectado a VREF.
+
+El programa ejecutado por QEMU toma lecturas reales de los nodos SPICE.
+No se precargan amplitudes ni se sustituyen las lecturas del ADC.
+La ILI9341 sustituye a la Waveshare únicamente en esta simulación.
+Se conserva el aviso de FFT sin calibración: no sirve como frecuencímetro.
+No incluye PAM8403/parlante ni el adaptador y consumo de la tira LED.
+
+validacion-spice.json: niveles de las tres bandas después del transitorio.
+eq03-bounded-opamp.test.ts: regresión ejecutada con el ngspice WASM de Velxio;
+comprueba punto DC, llegada al final de 0,4 s, selectividad y rango de ADC.
+validacion-navegador.json: ejecución real de los tres casos en Docker/QEMU;
+comprueba convergencia, tres lecturas consecutivas con la banda esperada,
+variación del ADC_FFT y una TFT con píxeles encendidos de varios colores.
+tft-*.png: contenido real del framebuffer, sin el recorte del canvas de edición.
+
+Para repetir la prueba de navegador (Node + Playwright):
+  CDP_URL=http://127.0.0.1:9233 node herramientas/validar_integrado_local.cjs
+Se requiere Chrome con depuración remota y el paquete playwright instalado.
+
+Los archivos integrado-*.vlx originales conservan su modelo ideal para la
+versión pública. Usarlos en el editor local también conserva ese modelo.
+La corrección local está en los archivos integrado-local-*.vlx y el parche.
+
+ORDEN PARA EXPOSICIÓN — 24 OCTUBRE 2026
+
+Los casos integrado-local-*.vlx se organizan por etapas numeradas:
+01 alimentación; 02 referencia; 03 entrada y preamplificador;
+04 graves; 05 medios; 06 agudos; 07 detectores; 08 inversión y suma;
+09 filtro para FFT; 10 ESP32 y TFT.
+Naranja identifica graves; verde, medios; cian, agudos; violeta, VREF;
+rojo, alimentación; gris, GND; amarillo, interfaz de pantalla.
+Cada componente muestra su referencia y valor, incluso sin seleccionarlo.
+rotulos-presentacion.patch añade estos rótulos optativos al frontend local.
+
+Las conexiones se acortaron dentro de cada red y se guardaron trayectorias
+ortogonales. Se conservaron las particiones eléctricas de los archivos
+originales: las mismas patillas comparten cada red y los valores no cambian.
+rutas-presentacion.json conserva el trazado; geometria-componentes.json,
+las posiciones de patillas medidas en el editor. ordenar_velxio.py define
+las posiciones y los colores. generar_integrado_local.py restaura ese orden
+y el trazado al regenerar los tres casos.
+
+Para regenerar las rutas si cambias la posición de componentes, medir primero
+sus patillas con calculatePinPosition de Velxio y actualizar la geometría.
+Después ejecutar herramientas/rutear_velxio.cjs con VELXIO_ROUTER apuntando
+a un bundle CommonJS de utils/wireAutoRoute.ts del frontend de Velxio.
+Para reconstruir la distribución guardada no hace falta ese paso: basta
+ejecutar python3 herramientas/generar_integrado_local.py.
+
+Para consultar el circuito completo, reducir zoom y desplazar el canvas.
+Para la demostración, ampliar el bloque 10 y mantener visibles los medidores.
+
+POTENCIÓMETROS INTERACTIVOS
+
+Importar integrado-local-multitono.vlx para probar las tres bandas a la vez.
+Tres generadores de 100 Hz, 1 kHz y 8 kHz se mezclan mediante resistencias
+de 1 kΩ antes de la entrada. Cada generador entrega 0,45 V de pico; la
+mezcla y el acondicionamiento atenúan esa señal antes de los filtros.
+Es una fuente de ensayo del simulador, no una modificación de la PCB.
+
+RV2 controla graves, RV3 medios y RV4 agudos. Arrastrar el cursor; al
+seleccionarlo también se puede usar Inicio/Fin y las flechas del teclado.
+Al 0 % la banda se atenúa; al 100 % entrega su mayor contribución.
+La pantalla se actualiza después de que SPICE resuelve el nuevo estado.
+Los casos individuales de 100, 1000 y 8000 Hz también tienen los controles.
+El caso multitono usa una ventana transitoria de 80 ms para responder
+más rápido; sus amplitudes incluyen el transitorio del modelo.
+
+El parche potenciometros-flotantes.patch permite conservar el extremo
+inferior en VREF y el superior en la señal de banda. Ambos son terminales
+de una pista resistiva; sus nombres VCC/GND en el widget no fuerzan una
+alimentación. La propiedad floatingTrack activa esta opción únicamente
+en los controles de esta demo. El cursor modifica el solver y las lecturas
+del ADC; no se escriben amplitudes directamente en el ESP32 o la pantalla.
+
+validacion-potenciometros-spice.json conserva los niveles calculados a
+0, 50 y 100 % en las tres bandas. validacion-potenciometros-navegador.json
+registra las lecturas del ADC después de arrastrar los controles reales.

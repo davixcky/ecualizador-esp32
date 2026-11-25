@@ -1,0 +1,20 @@
+[
+  {
+    "hz": 100,
+    "same_electrical_nets": true,
+    "components": 88,
+    "wires": 157
+  },
+  {
+    "hz": 1000,
+    "same_electrical_nets": true,
+    "components": 88,
+    "wires": 157
+  },
+  {
+    "hz": 8000,
+    "same_electrical_nets": true,
+    "components": 88,
+    "wires": 157
+  }
+]

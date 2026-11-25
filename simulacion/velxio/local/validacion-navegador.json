@@ -1,0 +1,188 @@
+[
+  {
+    "hz": 100,
+    "pass": true,
+    "rows": [
+      {
+        "levels_v": [
+          0.04052,
+          0.0041,
+          0.00011
+        ],
+        "dominant": 0,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 75.1,
+        "fft_span": 275
+      },
+      {
+        "levels_v": [
+          0.0424,
+          0.00322,
+          0
+        ],
+        "dominant": 0,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 202.3,
+        "fft_span": 272
+      },
+      {
+        "levels_v": [
+          0.04347,
+          0.00316,
+          -0.00013
+        ],
+        "dominant": 0,
+        "reference_adc": 2046.2,
+        "fft_hz_diagnostic": 75.1,
+        "fft_span": 274
+      },
+      {
+        "levels_v": [
+          0.04266,
+          0.00331,
+          -0.00018
+        ],
+        "dominant": 0,
+        "reference_adc": 2046.3,
+        "fft_hz_diagnostic": 78,
+        "fft_span": 273
+      }
+    ],
+    "debug": {
+      "converged": true,
+      "error": null,
+      "analysisMode": "tran",
+      "nodeVoltageCount": 53
+    },
+    "display": {
+      "litPixels": 6739,
+      "colorCount": 4
+    },
+    "fftFrequencyValidated": false,
+    "timestamp": "2026-10-24T21:02:26.544Z"
+  },
+  {
+    "hz": 1000,
+    "pass": true,
+    "rows": [
+      {
+        "levels_v": [
+          0.00157,
+          0.04845,
+          0.00157
+        ],
+        "dominant": 1,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 993.2,
+        "fft_span": 283
+      },
+      {
+        "levels_v": [
+          0.0016,
+          0.04709,
+          0.0016
+        ],
+        "dominant": 1,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 1056.6,
+        "fft_span": 283
+      },
+      {
+        "levels_v": [
+          0.0016,
+          0.04726,
+          0.0016
+        ],
+        "dominant": 1,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 1059,
+        "fft_span": 301
+      },
+      {
+        "levels_v": [
+          0.00157,
+          0.04756,
+          0.00157
+        ],
+        "dominant": 1,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 1057.3,
+        "fft_span": 304
+      }
+    ],
+    "debug": {
+      "converged": true,
+      "error": null,
+      "analysisMode": "tran",
+      "nodeVoltageCount": 53
+    },
+    "display": {
+      "litPixels": 7693,
+      "colorCount": 4
+    },
+    "fftFrequencyValidated": false,
+    "timestamp": "2026-10-24T21:02:39.853Z"
+  },
+  {
+    "hz": 8000,
+    "pass": true,
+    "rows": [
+      {
+        "levels_v": [
+          0,
+          0,
+          0
+        ],
+        "dominant": 0,
+        "reference_adc": 0,
+        "fft_hz_diagnostic": 5909.2,
+        "fft_span": 97
+      },
+      {
+        "levels_v": [
+          0,
+          0.00081,
+          0.02901
+        ],
+        "dominant": 2,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 5748.9,
+        "fft_span": 97
+      },
+      {
+        "levels_v": [
+          0,
+          0.00079,
+          0.02901
+        ],
+        "dominant": 2,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 5678,
+        "fft_span": 97
+      },
+      {
+        "levels_v": [
+          0.00062,
+          0.00081,
+          0.02901
+        ],
+        "dominant": 2,
+        "reference_adc": 2046,
+        "fft_hz_diagnostic": 6078.5,
+        "fft_span": 97
+      }
+    ],
+    "debug": {
+      "converged": true,
+      "error": null,
+      "analysisMode": "tran",
+      "nodeVoltageCount": 53
+    },
+    "display": {
+      "litPixels": 5940,
+      "colorCount": 4
+    },
+    "fftFrequencyValidated": false,
+    "timestamp": "2026-10-24T21:02:53.453Z"
+  }
+]

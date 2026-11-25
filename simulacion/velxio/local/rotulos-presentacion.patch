@@ -1,0 +1,30 @@
+diff --git a/frontend/src/components/DynamicComponent.tsx b/frontend/src/components/DynamicComponent.tsx
+index 6c59b72..dd3a320 100644
+--- a/frontend/src/components/DynamicComponent.tsx
++++ b/frontend/src/components/DynamicComponent.tsx
+@@ -800,6 +800,25 @@ export const DynamicComponent: React.FC<DynamicComponentProps> = ({
+       {/* Container for web component */}
+       <div ref={containerRef} className="web-component-container" />
+ 
++      {typeof properties.presentationLabel === 'string' && (
++        <div style={{position:'absolute',left:0,top:-22,whiteSpace:'nowrap',
++          fontSize:12,fontWeight:600,color:String(properties.presentationColor || '#cbd5e1'),
++          pointerEvents:'none',lineHeight:'18px',
++          transform:properties.rotation ? `rotate(${-Number(properties.rotation)}deg)` : undefined,
++          transformOrigin:'left top'}}>
++          {properties.presentationLabel}
++        </div>
++      )}
++      {typeof properties.presentationTitle === 'string' && (
++        <div style={{position:'absolute',left:-12,top:-78,whiteSpace:'nowrap',
++          fontSize:23,fontWeight:700,color:String(properties.presentationColor || '#cbd5e1'),
++          borderBottom:'2px solid currentColor',paddingBottom:8,pointerEvents:'none',
++          transform:properties.rotation ? `rotate(${-Number(properties.rotation)}deg)` : undefined,
++          transformOrigin:'left top'}}>
++          {properties.presentationTitle}
++        </div>
++      )}
++
+       {/* Live-controls hint: this chip has a slider/button panel — click it */}
+       {showControlHint && !isBurnt && (
+         <div
