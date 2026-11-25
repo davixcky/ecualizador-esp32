@@ -306,6 +306,7 @@ def validate(parts, wires):
         "Documentos en conflicto: BOM/LISTA piden pares +5V/GND propios desde las borneras para T1-T3, y conexiones-entre-tarjetas.csv también lleva +5V/GND por JBUS desde T4. El modelo dibuja ambos; hay que elegir uno antes de cablear.",
         f"Alimentación de la pantalla: el arnés de dos hilos dibujado mide {tft_len:.0f} mm por el borde frontal. El consumo de la 3248S035 a 5 V está por medir; el enlace ESP-NOW debe probarse con las dos placas encendidas.",
         "Colocación agujero por agujero de cada tarjeta: no realizada. Las posiciones de componentes son representativas, no una guía de soldadura.",
+        "Conectores traseros de la pantalla (micro-USB/USB-C, posición supuesta): sobresalen ~1,2 mm del canto y quedan ~0,5 mm sobre la reserva de espesor de la tira de GRAVES. Comprobar con la tira real puesta; si rozan, correr la tira ~1 mm atrás en su cuna o rebajar su reserva local.",
         "Gabinete y tapa no impresos ni probados: holguras de impresión, rigidez y ventilación sin validar.",
     ]
     report = {

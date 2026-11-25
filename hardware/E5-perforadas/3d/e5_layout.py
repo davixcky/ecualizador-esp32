@@ -73,11 +73,14 @@ def knob_angle(p):
 TFT = M["ESP32-3248S035-RECIBIDA"]
 CYD_PCB_W, CYD_PCB_L, CYD_PCB_T = TFT["pcb"][1], TFT["pcb"][0], TFT["pcb"][2]   # 54,9 ancho x 101,5 fondo (publicado)
 CYD_MOD_L, CYD_MOD_W, CYD_MOD_T = TFT["modulo_tft"]        # cristal 86,7 x 55,0 x 4,85 MEDIDO (S035C)
-CYD_MOD_OFF = 2.0                     # cristal a 2 mm del borde del USB: por comprobar en la probeta
+# ORIENTACIÓN (foto del comprador): la franja sin cristal (agujeros de montaje, micro-USB y
+# USB-C) está en UN extremo corto; el cristal llega casi al otro. Se monta con el cristal hacia
+# el frente (perillas) y la franja de conectores hacia las barras; el firmware gira la imagen.
+CYD_MOD_OFF = 1.5                     # cristal a 1,5 mm del borde frontal: por comprobar en la probeta
 TFT_ACTIVE = [TFT["area_activa"][1], TFT["area_activa"][0]]  # 48,96 x 73,44 en retrato (x, y)
 CYD_X0, CYD_Y0 = 139.0 - 54.9 / 2, 32.5   # esquina frontal izquierda del PCB, centrado entre parlantes
 TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_OFF + CYD_MOD_L / 2)   # centro del módulo y la ventana
-TFT_WIN = (CYD_MOD_W + .5, CYD_MOD_L + .5)                 # ventana pasante: módulo + 0,5 de holgura
+TFT_WIN = (CYD_MOD_W + 1.0, CYD_MOD_L + 1.0)               # ventana pasante: cristal + 0,5 por lado (holgura real de impresión)
 Z_CYD_TOP = H + LID - CYD_MOD_T       # cara superior del PCB para que el módulo quede al ras
 SPK = M["Parlantes-WS-14595-8ohm-5W"]["envolvente_por_parlante"]   # 100 x 45 x 21 cada uno
 SPK_CS = [(56.0, 96.0), (222.0, 96.0)]  # dos transductores del conjunto WS-14595
@@ -588,33 +591,34 @@ def build_lid_parts():
          emisor=True)
     # Cara inferior (hacia el interior): WROOM con antena en la franja trasera, micro-USB al
     # frente, ranura TF en el canto derecho y P1 (serie, 4 vías) en la franja trasera.
-    part("CYD_ESP_WROOM_32_blindaje", "metal", [box(cx - 9, y0_ + pd_ - 18.1, zp - 3.2, 18, 12.4, 3.2)], "lid")
-    part("CYD_antena_WROOM", "chip", [box(cx - 9, y0_ + pd_ - 5.6, zp - .8, 18, 5.6, .8)], "lid")
-    # El micro-USB asoma por el borde frontal: con la fila de perillas en y 23 queda a 0,4 mm
-    # del cuerpo de RV3 (supuesto). MEDIR al recibir: si el conector real sale más, hay conflicto.
-    part("CYD_micro_USB", "metal", [box(cx - 4.0, y0_ - .6, zp - 2.8, 8.0, 6.4, 2.8)], "lid")
-    part("CYD_pulsadores_RST_BOOT", "chip", [box(x0_ + 6, y0_ + pd_ - 11.0, zp - 2.0, 4, 3.5, 2.0),
-                                             box(x0_ + 12, y0_ + pd_ - 11.0, zp - 2.0, 4, 3.5, 2.0)], "lid")
-    part("CYD_ranura_TF", "metal", [box(x0_ + pw_ - 13.5, y0_ + 70.0, zp - 2.0, 14.5, 12.0, 2.0)], "lid")
-    part("CYD_P1_conector_serie_4v", "xh", [box(cx + 10.0, y0_ + pd_ - 9.5, zp - 3.4, 7.4, 4.5, 3.4)], "lid")
-    pins = [(cx + 11.9 + i * 1.25, y0_ + pd_ - 7.2, zp - 3.0) for i in range(4)]
+    part("CYD_ESP_WROOM_32_blindaje", "metal", [box(cx - 9, y0_ + 5.0, zp - 3.2, 18, 12.4, 3.2)], "lid")
+    part("CYD_antena_WROOM", "chip", [box(cx - 9, y0_ + .5, zp - .8, 18, 4.0, .8)], "lid")
+    # Franja trasera (la del extremo sin cristal, según la foto del comprador): agujeros de
+    # montaje, micro-USB y USB-C apuntando hacia atrás (sobresalen ~1,2 mm del canto) y P1.
+    part("CYD_micro_USB", "metal", [box(cx - 11.0, y0_ + pd_ - 6.0, zp - 2.8, 8.0, 7.2, 2.8)], "lid")
+    part("CYD_USB_C", "metal", [box(cx + 1.0, y0_ + pd_ - 6.0, zp - 3.2, 9.0, 7.2, 3.2)], "lid")
+    part("CYD_pulsadores_RST_BOOT", "chip", [box(x0_ + 8, y0_ + pd_ - 10.0, zp - 2.0, 4, 3.5, 2.0),
+                                             box(x0_ + 14, y0_ + pd_ - 10.0, zp - 2.0, 4, 3.5, 2.0)], "lid")
+    part("CYD_ranura_TF", "metal", [box(x0_ + pw_ - 13.5, y0_ + pd_ - 26.0, zp - 2.0, 14.5, 12.0, 2.0)], "lid")
+    part("CYD_P1_conector_serie_4v", "xh", [box(cx + 14.0, y0_ + pd_ - 12.5, zp - 3.4, 7.4, 4.5, 3.4)], "lid")
+    pins = [(cx + 15.9 + i * 1.25, y0_ + pd_ - 10.2, zp - 3.0) for i in range(4)]
     CONNECTORS["LID.TFT"] = pins
     # Los cuatro ganchos. Cada uno: raíz dentro de su ranura de alivio (cortada en lid_cuts,
     # 0,2 mm de holgura alrededor para que flexione), hoja de 1,2 mm hasta el plano de la
     # placa y uña de 0,5 mm que la retiene con 0,1 mm de holgura. Los frontales llevan una
     # rampa a 45° para que el canto de la placa los apart e al bajar.
     hooks = []
-    zu_ = zp - .1                       # cara superior de la uña: 0,1 bajo la placa
+    zu_ = zp - .15                      # cara superior de la uña: 0,15 bajo la placa
     for hx_ in (112.0, 160.0):          # ganchos frontales (huecos entre potenciómetros)
-        hooks += [box(hx_, 31.3, H - .01, 8.0, 1.2, 2.5),                 # raíz: 0,5 mm anclados sobre la ranura
-                  box(hx_, 31.3, zu_ - .5, 8.0, 1.2, H - zu_ + .5),       # hoja
-                  box(hx_ + 1.0, 32.5, zu_ - .5, 6.0, .6, .5),            # uña bajo la placa
-                  prismx(hx_ + 1.0, 6.0, [(32.5, zu_ - .5), (33.1, zu_ - .5), (32.5, zu_ - 1.1)])]  # rampa
-    for bx0_, lipx_ in ((x0_ - 1.4, x0_ - .2), (x0_ + pw_ + .2, x0_ + pw_ - .3)):
-        # ganchos laterales sobre la franja trasera sin cristal (y 122..128,5)
-        hooks += [box(bx0_, 122.0, H - .01, 1.2, 6.5, 2.5),
-                  box(bx0_, 122.0, zu_ - .5, 1.2, 6.5, H - zu_ + .5),
-                  box(lipx_, 123.0, zu_ - .5, .5, 4.5, .5)]
+        hooks += [box(hx_, 31.1, H - .01, 8.0, 1.2, 2.5),                 # raíz: 0,5 mm anclados sobre la ranura
+                  box(hx_, 31.1, zu_ - .5, 8.0, 1.2, H - zu_ + .5),       # hoja (0,4 por delante de la placa)
+                  box(hx_ + 1.0, 32.3, zu_ - .5, 6.0, .9, .5),            # uña: 0,7 bajo la placa
+                  prismx(hx_ + 1.0, 6.0, [(32.3, zu_ - .5), (33.2, zu_ - .5), (32.3, zu_ - 1.4)])]  # rampa
+    for bx0_, lipx_ in ((x0_ - 1.6, x0_ - .4), (x0_ + pw_ + .4, x0_ + pw_ - .5)):
+        # ganchos laterales sobre la franja trasera sin cristal
+        hooks += [box(bx0_, 121.8, H - .01, 1.2, 6.5, 2.5),
+                  box(bx0_, 121.8, zu_ - .5, 1.2, 6.5, H - zu_ + .5),
+                  box(lipx_, 122.8, zu_ - .5, .9, 4.5, .5)]
     part("Ganchos_pantalla_CYD", "support", hooks, "lid", fundir="tapa")
     # Conjunto WS-14595: dos parlantes de 8 ohm / 5 W en un solo conector.
     sw_, sd_, sh_ = SPK
@@ -927,9 +931,9 @@ def lid_cuts():
     # Ranuras de alivio de los ganchos de la pantalla: 2 mm hacia dentro de la tapa (queda
     # 1 mm de piel hacia fuera) con 0,2 mm de holgura alrededor de cada raíz para que flexione.
     for hx_ in (112.0, 160.0):
-        cuts.append(box(hx_ - .2, 31.1, H - .02, 8.4, 1.6, 2.0))
-    for bx0_ in (CYD_X0 - 1.4, CYD_X0 + CYD_PCB_W + .2):
-        cuts.append(box(bx0_ - .2, 121.8, H - .02, 1.6, 6.9, 2.0))
+        cuts.append(box(hx_ - .35, 30.75, H - .02, 8.7, 1.9, 2.0))
+    for bx0_ in (CYD_X0 - 1.6, CYD_X0 + CYD_PCB_W + .4):
+        cuts.append(box(bx0_ - .35, 121.45, H - .02, 1.9, 7.2, 2.0))
     for sx, sy in SPK_CS:           # rejilla de ranuras sobre cada parlante
         for k in range(-10, 11):
             half = 16.0 if abs(k) < 9 else 11.0
