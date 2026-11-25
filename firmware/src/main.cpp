@@ -179,12 +179,30 @@ static_assert(enlace_cyd::BARRAS == dsp::BARRAS, "el protocolo y el DSP deben ac
 static const uint8_t DIFUSION[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 static bool espnow_listo = false;
 
+// ---- mando de luces $EQ5L (pantalla -> este ESP32), volátil: se pierde al reiniciar.
+// La retrollamada de ESP-NOW corre en la tarea Wi-Fi: solo copia la trama cruda; loop()
+// la interpreta y aplica. El respaldo UART2 llega por el mismo loop().
+static enlace_cyd::Luces luces;  // estado vigente de la tira (arranca como el original)
+static portMUX_TYPE candado_luces = portMUX_INITIALIZER_UNLOCKED;
+static char espnow_linea[ESP_NOW_MAX_DATA_LEN + 1];
+static volatile bool espnow_pendiente = false;
+
+static void al_recibir_espnow(const uint8_t*, const uint8_t* datos, int n) {
+  if (n <= 0 || n > ESP_NOW_MAX_DATA_LEN) return;
+  portENTER_CRITICAL(&candado_luces);
+  memcpy(espnow_linea, datos, n);
+  espnow_linea[n] = '\0';
+  espnow_pendiente = true;
+  portEXIT_CRITICAL(&candado_luces);
+}
+
 // Llamar después de WiFi.softAP (la interfaz del AP ya existe y está en CANAL_WIFI).
 static void iniciar_espnow() {
   if (esp_now_init() != ESP_OK) {
     Serial.println("ESP-NOW no inició: queda solo el respaldo UART");
     return;
   }
+  esp_now_register_recv_cb(al_recibir_espnow);
   esp_now_peer_info_t par{};
   memcpy(par.peer_addr, DIFUSION, sizeof DIFUSION);
   par.channel = CANAL_WIFI;
@@ -192,6 +210,66 @@ static void iniciar_espnow() {
   par.encrypt = false;     // la difusión ESP-NOW no admite cifrado
   espnow_listo = esp_now_add_peer(&par) == ESP_OK;
   if (!espnow_listo) Serial.println("ESP-NOW sin par de difusión: queda solo el respaldo UART");
+}
+
+// Devuelve true si llegó una orden de luces válida por ESP-NOW o por el respaldo UART2.
+static bool recibir_luces() {
+  bool nuevas = false;
+  if (espnow_pendiente) {
+    char linea[ESP_NOW_MAX_DATA_LEN + 1];
+    portENTER_CRITICAL(&candado_luces);
+    memcpy(linea, espnow_linea, sizeof linea);
+    espnow_pendiente = false;
+    portEXIT_CRITICAL(&candado_luces);
+    if (enlace_cyd::parsear_luces(linea, luces)) nuevas = true;
+  }
+  static char linea2[enlace_cyd::LINEA_MAX];
+  static int n = 0;
+  while (Serial2.available() > 0) {
+    const char c = (char)Serial2.read();
+    if (c == '\n' || c == '\r') {
+      linea2[n] = '\0';
+      if (n > 0 && enlace_cyd::parsear_luces(linea2, luces)) nuevas = true;
+      n = 0;
+    } else if (n < (int)sizeof linea2 - 1) {
+      linea2[n++] = c;
+    } else {
+      n = 0;  // línea demasiado larga (ruido): descartar y resincronizar
+    }
+  }
+  return nuevas;
+}
+
+// Vuelca el estado `luces` en la tira. Solo lo llama loop(): la tarea de adquisición no
+// toca la tira, igual que en el diseño original.
+static void aplicar_luces() {
+  if (!luces.encendido) {
+    leds.clear();
+    leds.show();
+    return;
+  }
+  leds.setBrightness(luces.brillo);
+  switch (luces.modo) {
+    case enlace_cyd::LUCES_FIJO:
+      for (int i = 0; i < NEOPIXEL_CANTIDAD; ++i)
+        leds.setPixelColor(i, leds.Color(luces.r, luces.g, luces.b));
+      break;
+    case enlace_cyd::LUCES_ARCOIRIS: {
+      // rueda de tonos repartida en los 12 píxeles lógicos; una vuelta cada ~8 s
+      const uint16_t base = (uint16_t)(millis() * 8);
+      for (int i = 0; i < NEOPIXEL_CANTIDAD; ++i)
+        leds.setPixelColor(i, leds.gamma32(leds.ColorHSV(base + (uint16_t)(i * 65536L / NEOPIXEL_CANTIDAD))));
+      break;
+    }
+    default:
+      // NIVELES: los colores fijos por banda del comportamiento original (la tira todavía
+      // no sigue el audio; ese es el comportamiento que había antes del mando de luces)
+      for (int i = 0; i < NEOPIXEL_CANTIDAD; ++i) {
+        const uint32_t color[] = {leds.Color(255, 122, 61), leds.Color(61, 220, 132), leds.Color(51, 181, 255)};
+        leds.setPixelColor(i, color[i / 4]);
+      }
+  }
+  leds.show();
 }
 
 static void transmitir(const Medida& m) {
@@ -283,7 +361,18 @@ void setup() {
 
 void loop() {
   static uint32_t ultimo_n = 0;
-#ifndef PLACA_E5CYD
+#ifdef PLACA_E5CYD
+  // mando de luces de la pantalla: se atiende en cada vuelta (también cuando no hay
+  // bloque nuevo); el ARCOIRIS se redibuja ~20 veces por segundo
+  static uint32_t t_luces = 0;
+  const bool luces_nuevas = recibir_luces();
+  const bool animar = luces.encendido && luces.modo == enlace_cyd::LUCES_ARCOIRIS &&
+                      millis() - t_luces > 50;
+  if (luces_nuevas || animar) {
+    t_luces = millis();
+    aplicar_luces();
+  }
+#else
   static uint32_t t_ant = millis(), t_boton = 0;
   static bool boton_ant = true;
 
