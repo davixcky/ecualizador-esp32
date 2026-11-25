@@ -98,17 +98,17 @@
         },
         {
           "nombre": "Prueba_tapa_pantalla_CYD",
-          "triangulos": 304,
+          "triangulos": 408,
           "aristas_abiertas": 0,
           "tamano_mm": [
             70.0,
             103.0,
-            8.5
+            7.6
           ]
         },
         {
           "nombre": "Prueba_tapa_potenciometro_B10K",
-          "triangulos": 184,
+          "triangulos": 200,
           "aristas_abiertas": 0,
           "tamano_mm": [
             26.0,
@@ -274,7 +274,7 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_de_canto_en_diagonal",
-          "triangulos": 7276,
+          "triangulos": 7380,
           "aristas_abiertas": 0,
           "tamano_mm": [
             198.7,

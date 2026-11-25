@@ -565,12 +565,14 @@ def build_lid_parts():
     # Pantalla: ESP32-3248S035 en vertical, con el módulo TFT al ras de la cara exterior y al ras
     # del extremo frontal del PCB. La franja de la antena WROOM (97,5 - 84 = 13,5 mm) queda bajo
     # la tapa, hacia las barras. Posiciones de USB, P1, TF y pulsadores: supuestas, por medir.
-    # RETENCIÓN SIN PIEZAS SUELTAS: la placa entra desde dentro desplazada 3 mm hacia atrás,
-    # baja sobre la tapa y se corre hacia el frente hasta que sus bordes quedan bajo cuatro
-    # uñas fijas (dos frontales, en los huecos entre los cuerpos de RV2/RV3 y RV3/RV4, y dos
-    # laterales traseras). Hacia el frente la detienen los propios postes de las uñas; hacia
-    # atrás la bloquea la cuna de GRAVES al montarse (igual que traba los parlantes). Para
-    # retirarla: quitar la cuna de GRAVES, correr la placa atrás y levantarla.
+    # RETENCIÓN POR GANCHOS A PRESIÓN: el cristal medido cubre casi todo el ancho de la placa
+    # (55,0 sobre 55,1), así que solo puede entrar en la ventana EN VERTICAL (0,25 mm de
+    # holgura por lado: no hay sitio para inclinar ni correr la placa, lo que descarta las
+    # uñas fijas con pestaña). Cuatro ganchos en voladizo fundidos con la tapa se flexionan
+    # al bajar la placa y hacen clic sobre ella: dos frontales (en los huecos entre los
+    # cuerpos de RV2/RV3 y RV3/RV4) y dos laterales sobre la franja trasera sin cristal.
+    # Cada gancho nace dentro de una ranura de alivio en la tapa para ganar brazo de flexión.
+    # Para retirar la placa: apartar los dos ganchos laterales con el dedo y levantarla.
     cx, cy = TFT_C
     x0_, y0_ = CYD_X0, CYD_Y0
     pw_, pd_ = CYD_PCB_W, CYD_PCB_L
@@ -597,18 +599,23 @@ def build_lid_parts():
     part("CYD_P1_conector_serie_4v", "xh", [box(cx + 10.0, y0_ + pd_ - 9.5, zp - 3.4, 7.4, 4.5, 3.4)], "lid")
     pins = [(cx + 11.9 + i * 1.25, y0_ + pd_ - 7.2, zp - 3.0) for i in range(4)]
     CONNECTORS["LID.TFT"] = pins
-    # Cuatro uñas fijas fundidas con la tapa. Las frontales van en los huecos entre los cuerpos
-    # de RV2/RV3 y RV3/RV4 (la fila de perillas está en y 23; los cuerpos llegan a y 31,5);
-    # las traseras son laterales, en el hueco de 4,75 mm entre el PCB y cada parlante, con la
-    # pestaña por debajo de la franja trasera del PCB (ahí ya no hay ventana).
-    lips = []
-    for lx_ in (112.0, 160.0):          # uñas frontales: poste delante del PCB + pestaña debajo
-        lips += [box(lx_, 29.0, zp - 2.0, 8.0, 3.0, H - (zp - 2.0)),
-                 box(lx_, 29.0, zp - 2.0, 8.0, (y0_ + 3.0) - 29.0, 1.9)]
-    for px_, tx_ in ((x0_ - 3.25, x0_ - 3.25), (x0_ + pw_ + .25, x0_ + pw_ - 3.75)):   # uñas laterales traseras
-        lips += [box(px_, y0_ + 87.5, zp - 2.0, 3.0, 8.0, H - (zp - 2.0)),
-                 box(tx_, y0_ + 87.5, zp - 2.0, 7.0, 8.0, 1.9)]
-    part("Unas_fijas_pantalla_CYD", "support", lips, "lid", fundir="tapa")
+    # Los cuatro ganchos. Cada uno: raíz dentro de su ranura de alivio (cortada en lid_cuts,
+    # 0,2 mm de holgura alrededor para que flexione), hoja de 1,2 mm hasta el plano de la
+    # placa y uña de 0,5 mm que la retiene con 0,1 mm de holgura. Los frontales llevan una
+    # rampa a 45° para que el canto de la placa los apart e al bajar.
+    hooks = []
+    zu_ = zp - .1                       # cara superior de la uña: 0,1 bajo la placa
+    for hx_ in (112.0, 160.0):          # ganchos frontales (huecos entre potenciómetros)
+        hooks += [box(hx_, 31.3, H - .01, 8.0, 1.2, 2.5),                 # raíz: 0,5 mm anclados sobre la ranura
+                  box(hx_, 31.3, zu_ - .5, 8.0, 1.2, H - zu_ + .5),       # hoja
+                  box(hx_ + 1.0, 32.5, zu_ - .5, 6.0, .6, .5),            # uña bajo la placa
+                  prismx(hx_ + 1.0, 6.0, [(32.5, zu_ - .5), (33.1, zu_ - .5), (32.5, zu_ - 1.1)])]  # rampa
+    for bx0_, lipx_ in ((x0_ - 1.4, x0_ - .2), (x0_ + pw_ + .2, x0_ + pw_ - .3)):
+        # ganchos laterales sobre la franja trasera sin cristal (y 122..128,5)
+        hooks += [box(bx0_, 122.0, H - .01, 1.2, 6.5, 2.5),
+                  box(bx0_, 122.0, zu_ - .5, 1.2, 6.5, H - zu_ + .5),
+                  box(lipx_, 123.0, zu_ - .5, .5, 4.5, .5)]
+    part("Ganchos_pantalla_CYD", "support", hooks, "lid", fundir="tapa")
     # Conjunto WS-14595: dos parlantes de 8 ohm / 5 W en un solo conector.
     sw_, sd_, sh_ = SPK
     retain = []
@@ -914,9 +921,15 @@ def lid_cuts():
     for ref, func, kind, x, estado, ind in CONTROLS:
         cuts.append(cyl(x, KNOB_Y, H - 1, 3.7, LID + 2))
     cx, cy = TFT_C
-    # Ventana pasante del módulo TFT del CYD: el módulo queda al ras por fuera; el PCB, más largo
-    # que la ventana, queda retenido bajo la tapa por las uñas fijas y el marco deslizante.
+    # Ventana pasante del cristal de la pantalla: queda al ras por fuera; la placa, más larga
+    # que la ventana, la retienen los cuatro ganchos a presión fundidos con la tapa.
     cuts += rrect(cx - TFT_WIN[0] / 2, cy - TFT_WIN[1] / 2, H - 1, TFT_WIN[0], TFT_WIN[1], LID + 2, 2.0)
+    # Ranuras de alivio de los ganchos de la pantalla: 2 mm hacia dentro de la tapa (queda
+    # 1 mm de piel hacia fuera) con 0,2 mm de holgura alrededor de cada raíz para que flexione.
+    for hx_ in (112.0, 160.0):
+        cuts.append(box(hx_ - .2, 31.1, H - .02, 8.4, 1.6, 2.0))
+    for bx0_ in (CYD_X0 - 1.4, CYD_X0 + CYD_PCB_W + .2):
+        cuts.append(box(bx0_ - .2, 121.8, H - .02, 1.6, 6.9, 2.0))
     for sx, sy in SPK_CS:           # rejilla de ranuras sobre cada parlante
         for k in range(-10, 11):
             half = 16.0 if abs(k) < 9 else 11.0
