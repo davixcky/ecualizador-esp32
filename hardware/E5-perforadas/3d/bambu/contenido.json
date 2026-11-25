@@ -98,17 +98,17 @@
         },
         {
           "nombre": "Prueba_tapa_pantalla_CYD",
-          "triangulos": 608,
+          "triangulos": 616,
           "aristas_abiertas": 0,
           "tamano_mm": [
             70.0,
             103.0,
-            7.9
+            8.4
           ]
         },
         {
           "nombre": "Prueba_tapa_potenciometro_B10K",
-          "triangulos": 242,
+          "triangulos": 180,
           "aristas_abiertas": 0,
           "tamano_mm": [
             26.0,
@@ -138,21 +138,21 @@
         },
         {
           "nombre": "Prueba_union_cola_de_milano_hembra",
-          "triangulos": 36,
+          "triangulos": 72,
           "aristas_abiertas": 0,
           "tamano_mm": [
             15.9,
-            9.6,
+            16.5,
             3.0
           ]
         },
         {
           "nombre": "Prueba_union_cola_de_milano_macho",
-          "triangulos": 36,
+          "triangulos": 28,
           "aristas_abiertas": 0,
           "tamano_mm": [
-            19.0,
-            9.6,
+            22.0,
+            16.5,
             3.0
           ]
         },
@@ -336,19 +336,19 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_mitad_izquierda_COLOR_A",
-          "triangulos": 3156,
+          "triangulos": 3144,
           "aristas_abiertas": 0,
           "tamano_mm": [
             147.0,
             192.0,
-            8.3
+            8.4
           ]
         }
       ],
       "ocupa_mm": [
         147.0,
         192.0,
-        8.3
+        8.4
       ],
       "cabe_en_la_cama": true,
       "acostado": true,
@@ -358,19 +358,19 @@
       "piezas": [
         {
           "nombre": "Tapa_E5_imantada_mitad_derecha_COLOR_B",
-          "triangulos": 4600,
+          "triangulos": 4588,
           "aristas_abiertas": 0,
           "tamano_mm": [
             138.9,
             192.0,
-            8.3
+            8.4
           ]
         }
       ],
       "ocupa_mm": [
         138.9,
         192.0,
-        8.3
+        8.4
       ],
       "cabe_en_la_cama": true,
       "acostado": true,

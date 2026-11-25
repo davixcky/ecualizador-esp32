@@ -77,7 +77,7 @@ CYD_MOD_L, CYD_MOD_W, CYD_MOD_T = TFT["modulo_tft"]        # cristal 86,7 x 55,0
 # ORIENTACIÓN (foto del comprador): la franja sin cristal (agujeros de montaje, micro-USB y
 # USB-C) está en UN extremo corto; el cristal llega casi al otro. Se monta con el cristal hacia
 # el frente (perillas) y la franja de conectores hacia las barras; el firmware gira la imagen.
-CYD_MOD_OFF = 1.5                     # cristal a 1,5 mm del borde frontal: por comprobar en la probeta
+CYD_MOD_OFF = (101.48 - 86.5) / 2     # cristal CENTRADO en la placa (medido: ~7,5 mm por extremo)
 TFT_ACTIVE = [TFT["area_activa"][1], TFT["area_activa"][0]]  # 48,96 x 73,44 en retrato (x, y)
 CYD_X0, CYD_Y0 = 139.0 - 54.9 / 2, 32.5   # esquina frontal izquierda del PCB, centrado entre parlantes
 TFT_C = (CYD_X0 + CYD_PCB_W / 2, CYD_Y0 + CYD_MOD_OFF + CYD_MOD_L / 2)   # centro del módulo y la ventana
@@ -143,7 +143,7 @@ SEAM_X, SEAM_GAP = 139.0, 0.1
 # a cuello 8 / cabeza 12 / fondo 8; la central sigue pequeña (5/8/5) porque vive en la franja
 # de 9 mm entre la ventana del cristal y la barra de GRAVES. La tapa además queda trabada por
 # las piezas que cruzan la junta (pantalla con sus ganchos, cunas y tarjeta T2).
-SEAM_KEYS_LID = [(8.0, 8.0, 12.0, 8.0), (126.0, 5.0, 8.0, 5.0), (183.0, 8.0, 12.0, 8.0)]
+SEAM_KEYS_LID = [(8.0, 8.0, 12.0, 8.0), (183.0, 8.0, 12.0, 8.0)]
 # Junta del cuerpo REFORZADA (2026-11-24, petición del comprador): tres colas de milano
 # mayores en el piso (cuello 10, cabeza 16, fondo 10: ~2,6 veces la sección anterior) y dos
 # columnas-espiga ocultas de cuello 6 / cabeza 10 / fondo 8 a toda altura dentro de los
@@ -626,8 +626,8 @@ def build_lid_parts():
     for hx_ in (112.0, 160.0):          # ganchos frontales (huecos entre potenciómetros)
         hooks += [box(hx_, 31.1 - aj, H - .01, 8.0, 1.2, 2.5),            # raíz: 0,5 mm anclados sobre la ranura
                   box(hx_, 31.1 - aj, zu_ - .5, 8.0, 1.2, H - zu_ + .5),  # hoja (0,4 + ajuste por delante de la placa)
-                  box(hx_ + 1.0, 32.3 - aj, zu_ - .5, 6.0, .9, .5),       # uña: 0,7 bajo la placa
-                  prismx(hx_ + 1.0, 6.0, [(32.3 - aj, zu_ - .5), (33.2 - aj, zu_ - .5), (32.3 - aj, zu_ - 1.4)])]  # rampa
+                  box(hx_ + 1.0, 32.3 - aj, zu_ - .5, 6.0, 1.5, .5),      # uña: 1,3 bajo la placa (hay 7,5 de margen)
+                  prismx(hx_ + 1.0, 6.0, [(32.3 - aj, zu_ - .5), (33.8 - aj, zu_ - .5), (32.3 - aj, zu_ - 2.0)])]  # rampa
     for bx0_, lipx_ in ((x0_ - 1.6 - aj, x0_ - .4 - aj), (x0_ + pw_ + .4 + aj, x0_ + pw_ - .5 + aj)):
         # ganchos laterales sobre la franja trasera sin cristal
         hooks += [box(bx0_, 121.8, H - .01, 1.2, 6.5, 2.5),
@@ -946,8 +946,9 @@ def lid_cuts():
     # cierra a 0,25/lado + ajuste: el cristal queda al ras y enmarcado por una junta fina y
     # pareja, en vez de un foso visible.
     cuts += rrect(cx - TFT_WIN[0] / 2, cy - TFT_WIN[1] / 2, H - 1, TFT_WIN[0], TFT_WIN[1], LID - 1 + 1.05, 2.0)
-    rev = .25 + CYD_AJUSTE
-    cuts += rrect(cx - CYD_MOD_W / 2 - rev, cy - CYD_MOD_L / 2 - rev, H + LID - 1, CYD_MOD_W + 2 * rev, CYD_MOD_L + 2 * rev, 2.0, 2.0)
+    rev_l = .25 + CYD_AJUSTE              # extremos (hay 7,5 mm de placa debajo: nunca asoma)
+    rev_w = .15 + CYD_AJUSTE              # lados: la placa solo sobra 0,055/lado; el anillo debe taparla
+    cuts += rrect(cx - CYD_MOD_W / 2 - rev_w, cy - CYD_MOD_L / 2 - rev_l, H + LID - 1, CYD_MOD_W + 2 * rev_w, CYD_MOD_L + 2 * rev_l, 2.0, 2.0)
     # Ranuras de alivio de los ganchos de la pantalla: 2 mm hacia dentro de la tapa (queda
     # 1 mm de piel hacia fuera) con 0,2 mm de holgura alrededor de cada raíz para que flexione.
     for hx_ in (112.0, 160.0):

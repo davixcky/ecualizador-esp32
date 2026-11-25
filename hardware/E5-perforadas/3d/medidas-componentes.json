@@ -68,19 +68,19 @@
     "ESP32-3248S035-RECIBIDA": {
       "cantidad": 1,
       "envolvente": [
-        101.4,
+        101.48,
         58.0,
-        8.9
+        8.86
       ],
       "pcb": [
-        101.4,
-        55.1,
+        101.48,
+        54.99,
         1.6
       ],
       "modulo_tft": [
-        86.7,
-        55.0,
-        4.85
+        86.5,
+        54.88,
+        4.8
       ],
       "area_activa": [
         73.44,
@@ -93,14 +93,13 @@
       "estado": "medida",
       "compra": "declarada",
       "fuente": "https://es.aliexpress.com/item/1005006160645147.html",
-      "nota": "MEDIDA POR EL COMPRADOR el 2026-11-24 con la placa en mano: PCB de 101,41 x 55,10 mm; cristal/módulo táctil de 86,71 x 55,0 x 4,85 mm (variante S035C capacitiva: el cristal cubre casi todo el ancho de la placa — las fichas publicadas dan 75 x 50 porque describen la tarjeta del panel de la variante R). Pila total de 8,89 mm con la microSD puesta; la tarjeta SD sobresale ~2,9 mm del canto (ancho total 58 mm). Confirmado además por firmware: ST7796, luz en GPIO27, GT911 capacitivo. La primera probeta (97,5 x 56,5 supuestos) y la segunda (fichas publicadas) no encajaron; esta revisión usa las medidas reales.",
+      "nota": "MEDIDA POR EL COMPRADOR (2026-11-25, segunda pasada): PCB 101,48 x 54,99; cristal/módulo 86,50 x 54,88 x 4,80, CENTRADO en la placa (~7,5 mm de PCB desnudo en CADA extremo corto — la primera pasada lo supuso al ras de un extremo y por eso las probetas no alineaban). Pila total 8,86; la microSD sobresale ~2,9 mm del canto. Variante S035C confirmada (ST7796, luz GPIO27, GT911).",
       "enlace_propuesto": {
         "tipo": "ESP-NOW en difusión (decisión del usuario, 2026-11-24): el protocolo $EQ5 de enlace_cyd.h viaja por radio; la pantalla solo necesita +5 V y GND (dos hilos). El UART0/P1 queda como respaldo por cable.",
         "estado": "PROPUESTA: no está en el esquema; los firmware de ambos lados ya hablan los dos transportes"
       },
       "por_medir": [
-        "offset del cristal respecto al borde corto del lado del USB (supuesto 2 mm) — comprobar en la probeta",
-        "posición real de P1, micro-USB y conector de parlante",
+        "posición real de P1, micro-USB/USB-C y conector de parlante en la franja trasera",
         "consumo a 5 V con la pantalla encendida"
       ],
       "montaje": "vertical (320 x 480, interfaz en retrato), módulo al ras de la cara exterior de la tapa; entra desde dentro desplazada 3 mm hacia atrás y se corre al frente bajo cuatro uñas fijas (dos frontales entre los potenciómetros y dos laterales traseras). Hacia el frente la detienen los postes; hacia atrás la traba la cuna de GRAVES al montarse. Montar antes que las cunas de tira.",
