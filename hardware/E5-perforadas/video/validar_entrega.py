@@ -1,6 +1,6 @@
 """Validación de la entrega E.5: CAD, escena de Blender, MP4, audio y textos vigentes.
 
-    .venv/bin/python hardware/E5-perforadas/video/validar_entrega.py
+    python hardware/E5-perforadas/video/validar_entrega.py     # cualquier Python con NumPy y SciPy
 
 Escribe docs/validacion/video-dispositivo.json y docs/video/hoja-de-contacto.jpg.
 Mide; no escucha: el audio se evalúa solo con métricas y decodificación.
@@ -20,7 +20,7 @@ from scipy.io import wavfile
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
-from timeline import FPS, FRAMES, DURATION, BAND_START  # noqa: E402
+from timeline import FPS, FRAMES, DURATION, BAND_START, SWEEP_START  # noqa: E402
 
 V = ROOT / "docs/video"
 E5 = ROOT / "hardware/E5-perforadas"
@@ -89,6 +89,15 @@ for band, (lo, hi) in enumerate([(20, 300), (300, 3000), (3000, 18000)]):
     assert mx - mn > 5, (band, mn, mx)
     bands.append({"banda": ("graves", "medios", "agudos")[band], "control": f"RV{band + 2}", "filtro_Hz": [lo, hi],
                   "nivel_con_control_al_minimo_dB": round(mn, 2), "nivel_con_control_al_maximo_dB": round(mx, 2), "diferencia_dB": round(mx - mn, 2)})
+# NIVEL (RV1) y VOLUMEN (RV5): A10K pendientes de compra, ley dB-lineal SUPUESTA; se mide toda la señal.
+for ref, name, start in (("RV1", "NIVEL", SWEEP_START[0]), ("RV5", "VOLUMEN", SWEEP_START[4])):
+    def rms_full(t0, t1, s=start):
+        seg = decoded[round((s + t0) * sr):round((s + t1) * sr)].astype(float)
+        return float(10 * np.log10(np.mean(seg ** 2) + 1e-20))
+    mn, mx = rms_full(1.0, 1.95), rms_full(3.95, 4.9)
+    assert mx - mn > 15, (ref, mn, mx)
+    bands.append({"banda": "toda la señal", "control": f"{ref} {name} (A10K pendiente de compra, ley supuesta)", "filtro_Hz": None,
+                  "nivel_con_control_al_minimo_dB": round(mn, 2), "nivel_con_control_al_maximo_dB": round(mx, 2), "diferencia_dB": round(mx - mn, 2)})
 report["video"] = {"archivo": "docs/video/ecualizador-animado.mp4", "codec": v["codec_name"], "perfil": v.get("profile"), "pix_fmt": v["pix_fmt"],
                    "pixeles": [v["width"], v["height"]], "fps": FPS, "fotogramas_decodificados": int(v["nb_read_frames"]),
                    "duracion_s": float(probe["format"]["duration"]), "tamano_bytes": video.stat().st_size, "decodificacion_completa_sin_errores": True,
@@ -102,7 +111,7 @@ report["audio"] = {"codec": a["codec_name"], "canales": int(a["channels"]), "fre
 
 # ---------------------------------------------------------------- hoja de contacto desde el MP4 final
 sheet = V / "hoja-de-contacto.jpg"
-times = [0.0, 2.0, 5.0, 6.5, 8.0, 9.0, 11.5, 15.5, 18.5, 22.5, 25.5, 28.7, 30.0, 32.0, 33.2, 34.5, 36.5, 39.5, 41.5, 43.0, 45.0, 46.5, 48.0, 49.9]
+times = [0.0, 2.0, 5.0, 6.5, 8.5, 11.0, 15.5, 18.5, 22.5, 25.5, 29.5, 32.5, 35.7, 37.0, 39.5, 42.5, 44.5, 46.5, 49.0, 53.5, 56.5, 59.8, 62.0, 63.9]
 tmp = HERE / ".trabajo/contacto"
 tmp.mkdir(parents=True, exist_ok=True)
 for i, t in enumerate(times):

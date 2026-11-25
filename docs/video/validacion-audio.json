@@ -1,17 +1,17 @@
 {
   "method": "SPICE AC (macromodelo LM324) + interpolación STFT cuasiestática",
-  "duration_s": 50,
+  "duration_s": 64,
   "sample_rate": 48000,
-  "samples": 2400000,
+  "samples": 3072000,
   "input_peak_V": 0.11,
   "peak": 0.87,
   "clipped_samples": 0,
-  "single_playback_gain": 4.843115190465212,
-  "adc_fft_raw_peak_V": 0.17188562375512045,
+  "single_playback_gain": 1.4970950956212534,
+  "adc_fft_raw_peak_V": 0.4892189111611301,
   "band_detector_peak_mV": [
-    67.56736108178076,
-    32.1706426142406,
-    60.0755106840947
+    164.07218088075498,
+    87.93597752356129,
+    145.82105856314635
   ],
   "rotary_control_tests": [
     {
@@ -33,10 +33,33 @@
       "max_vs_min_dB": 28.122003062653164
     }
   ],
+  "a10k_control_tests": [
+    {
+      "control": "RV1 NIVEL A10K log PENDIENTE DE COMPRA",
+      "sweep_start_s": 7.0,
+      "audio_max_vs_min_dB": 30.93,
+      "adc_node_max_vs_min_dB": 30.95
+    },
+    {
+      "control": "RV5 VOLUMEN A10K log PENDIENTE DE COMPRA",
+      "sweep_start_s": 38.0,
+      "audio_max_vs_min_dB": 29.91,
+      "adc_node_max_vs_min_dB": -0.12
+    }
+  ],
+  "a10k_gain_law": "SUPUESTA (A10K no comprados ni medidos): dB-lineal, 30 dB de recorrido, aplicada como ±15 dB respecto al punto RV1 = RV5 = 0,5 del banco SPICE",
+  "spice_bank": "reutilizado de respuestas-spice.npz",
   "band_start_s": [
+    14.0,
+    21.0,
+    28.0
+  ],
+  "sweep_start_s": [
     7.0,
     14.0,
-    21.0
+    21.0,
+    28.0,
+    38.0
   ],
   "source": "composición procedimental original",
   "hardware_recording": false,

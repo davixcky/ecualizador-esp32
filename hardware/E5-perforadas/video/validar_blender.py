@@ -8,7 +8,7 @@ from pathlib import Path
 import bpy
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from timeline import FPS, FRAMES, BAND_START, state, lid_angle  # noqa: E402
+from timeline import FPS, FRAMES, SWEEP_START, state, lid_angle  # noqa: E402
 
 s = bpy.context.scene
 names = [o.name for o in bpy.data.objects]
@@ -17,10 +17,10 @@ knobs = sorted(n for n in names if n.startswith("Perilla_RV"))
 assert len(knobs) == 5, knobs
 assert s.frame_end == FRAMES and s.render.fps == FPS
 assert (s.render.resolution_x, s.render.resolution_y) == (1920, 1080)
-order = {"RV2": 0, "RV3": 1, "RV4": 2}
+order = {"RV1": 0, "RV2": 1, "RV3": 2, "RV4": 3, "RV5": 4}
 worst = 0.0
-moved = {k: [1e9, -1e9] for k in ("RV1", "RV2", "RV3", "RV4", "RV5")}
-for frame in sorted({1, FRAMES, *[int((b + d) * FPS) + 1 for b in BAND_START for d in (0, .9, 1.5, 3, 4.5, 6.9)], 745, 800, 900, 1100, 1140}):
+moved = {k: [1e9, -1e9] for k in order}
+for frame in sorted({1, FRAMES, *[int((b + d) * FPS) + 1 for b in SWEEP_START for d in (0, .9, 1.5, 3, 4.5, 6.9)], 1117, 1200, 1320, 1420, 1500}):
     s.frame_set(frame)
     t = (frame - 1) / FPS
     values, _ = state(t)
@@ -28,14 +28,11 @@ for frame in sorted({1, FRAMES, *[int((b + d) * FPS) + 1 for b in BAND_START for
         ref = name.split("_")[1]
         deg = math.degrees(bpy.data.objects[name].rotation_euler.z)
         moved[ref][0], moved[ref][1] = min(moved[ref][0], deg), max(moved[ref][1], deg)
-        if ref in order:
-            worst = max(worst, abs(deg - (0.5 - values[order[ref]]) * 300))
+        worst = max(worst, abs(deg - (0.5 - values[order[ref]]) * 300))
     worst_lid = abs(math.degrees(bpy.data.objects["Tapa_pivote"].rotation_euler.x) - lid_angle(t))
     assert worst_lid < .01, (frame, worst_lid)
 assert worst < .01, worst
-for ref in ("RV1", "RV5"):
-    assert abs(moved[ref][1] - moved[ref][0]) < 1e-6, ref
-for ref in order:
+for ref in order:   # los CINCO controles giran todo su recorrido en el video
     assert moved[ref][1] - moved[ref][0] > 290, (ref, moved[ref])
 s.frame_set(1)
 assert abs(bpy.data.objects["Tapa_pivote"].rotation_euler.x) < 1e-6

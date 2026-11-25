@@ -1,4 +1,4 @@
-"""Blender 5.1: escena animada y fotogramas del video E.5 (50 s, 24 fps, 1920x1080).
+"""Blender 5.3: escena animada y fotogramas del video E.5 (64 s, 24 fps, 1920x1080).
 
     blender -b -P hardware/E5-perforadas/video/video_blender.py            # escena + todos los fotogramas
     BUILD_ONLY=1 blender -b -P ...                                          # solo guarda el .blend editable
@@ -20,7 +20,7 @@ ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "3d"))
 import escena_blender  # noqa: E402
-from timeline import FPS, FRAMES, BAND_START, BAND_LEN, BUTTON_T, state, lid_angle, button_press  # noqa: E402
+from timeline import FPS, FRAMES, SWEEP_START, SWEEP_LEN, BUTTON_T, state, lid_angle, button_press  # noqa: E402
 
 OUT = ROOT / "docs/video"
 FRAMES_DIR = OUT / "frames"
@@ -42,20 +42,19 @@ tex.image_user.frame_start = 1
 tex.image_user.frame_offset = 0
 tex.image_user.use_auto_refresh = True
 
-# Controles: RV2-RV4 siguen la línea de tiempo; RV1 y RV5 (A10K pendientes) no se mueven.
-order = ("RV2", "RV3", "RV4")
-for ref in ("RV1", "RV5"):
-    s["set_knob"](ref, .5)
+# Controles: los CINCO siguen la línea de tiempo (RV1 y RV5 son A10K pendientes de compra,
+# pero en el modelo animado también giran: NIVEL y VOLUMEN tienen su propio barrido).
+order = ("RV1", "RV2", "RV3", "RV4", "RV5")
 for frame in range(1, FRAMES + 1):
     t = (frame - 1) / FPS
     values, active = state(t)
-    moving = any(b - .1 <= t <= b + BAND_LEN + .1 for b in BAND_START)
+    moving = any(b - .1 <= t <= b + SWEEP_LEN + .1 for b in SWEEP_START)
     if moving or frame in (1, FRAMES):
         for ref, v in zip(order, values):
             s["set_knob"](ref, v)
             s["knobs"][ref].keyframe_insert("rotation_euler", index=2, frame=frame)
     a = lid_angle(t)
-    if frame in (1, FRAMES) or 30.9 <= t <= 47.1:
+    if frame in (1, FRAMES) or 44.9 <= t <= 61.1:
         s["pivot"].rotation_euler.x = math.radians(a)
         s["pivot"].keyframe_insert("rotation_euler", index=0, frame=frame)
     if frame in (1, FRAMES) or abs(t - BUTTON_T) < .4:
@@ -73,20 +72,22 @@ SHOTS = [  # segundo, posición de cámara, objetivo, focal
     (4.0, (150, -300, 250), (120, 60, 50), 50),
     (4.6, (70, -160, 175), (90, 40, 62), 50),       # detalle de las cinco perillas
     (6.8, (208, -160, 175), (188, 40, 62), 50),
-    (8.0, (120, -225, 335), (139, 82, 50), 45),     # perillas + TFT + tres barras LED
-    (27.5, (158, -225, 335), (139, 82, 50), 45),
-    (28.6, (139, -70, 300), (139, 112, 60), 50),    # TFT y LED de cerca; pulsación de VISTA
-    (30.8, (150, -90, 310), (139, 112, 60), 50),
-    (32.4, (500, -60, 430), (139, 70, 60), 42),     # rodea por la derecha mientras abre la tapa
-    (34.2, (500, 470, 430), (139, 62, 46), 42),     # interior completo desde atrás
-    (37.8, (400, 520, 410), (139, 66, 46), 42),
-    (39.0, (330, 265, 235), (185, 22, 52), 48),     # T2, PAM8403 y parlantes en la tapa
-    (40.8, (300, 265, 235), (175, 22, 52), 48),
-    (42.0, (395, 250, 270), (232, 146, 14), 50),    # T4, ESP32S y USB-C en la pared derecha
-    (43.8, (420, 215, 260), (236, 146, 14), 50),
-    (45.6, (500, -120, 420), (139, 70, 50), 45),    # cierra la tapa
-    (47.4, (230, -400, 330), (139, 90, 26), 50),
-    (50.0, (150, -420, 320), (139, 90, 26), 50),    # producto cerrado
+    (8.0, (120, -225, 335), (139, 82, 50), 45),     # perillas + TFT + tres barras LED: NIVEL y bandas
+    (34.5, (158, -225, 335), (139, 82, 50), 45),
+    (35.6, (139, -70, 300), (139, 112, 60), 50),    # TFT y LED de cerca; pulsación de VISTA
+    (37.8, (150, -90, 310), (139, 112, 60), 50),
+    (38.6, (215, -150, 260), (172, 82, 55), 48),    # VOLUMEN (RV5) y la pantalla a la vez
+    (44.6, (235, -140, 268), (176, 82, 55), 48),
+    (46.4, (500, -60, 430), (139, 70, 60), 42),     # rodea por la derecha mientras abre la tapa
+    (48.2, (500, 470, 430), (139, 62, 46), 42),     # interior completo desde atrás
+    (51.8, (400, 520, 410), (139, 66, 46), 42),
+    (53.0, (330, 265, 235), (185, 22, 52), 48),     # T2, PAM8403 y parlantes en la tapa
+    (54.8, (300, 265, 235), (175, 22, 52), 48),
+    (56.0, (395, 250, 270), (232, 146, 14), 50),    # T4, ESP32 DevKit V1 y 74HCT245 a la derecha
+    (57.8, (420, 215, 260), (236, 146, 14), 50),
+    (59.6, (500, -120, 420), (139, 70, 50), 45),    # cierra la tapa
+    (61.4, (230, -400, 330), (139, 90, 26), 50),
+    (64.0, (150, -420, 320), (139, 90, 26), 50),    # producto cerrado
 ]
 for sec, pos, tgt, lens in SHOTS:
     fr = min(FRAMES, round(sec * FPS) + 1)

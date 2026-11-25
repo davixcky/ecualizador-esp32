@@ -2,7 +2,8 @@
 // la pantalla muestra en cada fotograma. Entrada: .trabajo/tft-entrada.bin (por fotograma: int32 vista,
 // 3 float mV de los detectores, 1024 float con las tensiones del bloque ADC a 20 kS/s).
 // Salida: binario de float32 con los 33 bordes de barra y una fila por fotograma.
-// Lo compila y ejecuta generar_tft.py, que dibuja la interfaz de 450 x 600 de la LilyGO T4-S3.
+// Lo compila y ejecuta generar_tft.py, que dibuja la interfaz de la ESP32-3248S035 de 3,5"
+// (320 x 480 en vertical, dibujada a 1,5x: 480 x 720).
 #include <stdio.h>
 #include <string.h>
 
