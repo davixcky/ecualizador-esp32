@@ -41,7 +41,7 @@
     "T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)",
     "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
     "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3",
-    "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"
+    "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R31-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"
   },
   "conteo_por_tarjeta": {
     "T1": {
@@ -63,7 +63,7 @@
       "U": 2
     },
     "T4": {
-      "R": 11,
+      "R": 10,
       "C": 2,
       "D": 0,
       "U": 2
@@ -301,9 +301,9 @@
       "detalle": "máximo 61.4 mm"
     },
     {
-      "comprobacion": "40 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U",
+      "comprobacion": "39 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U (R30 retirado con el TFT SPI)",
       "cumple": true,
-      "detalle": "{\"R\": 40, \"C\": 26, \"D\": 3, \"U\": 6}"
+      "detalle": "{\"R\": 39, \"C\": 26, \"D\": 3, \"U\": 6}"
     }
   ],
   "issues": [],

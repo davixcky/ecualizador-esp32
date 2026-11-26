@@ -477,7 +477,7 @@ def build_boards():
     b.cer("C25 100nF", 26, 58.5)
     for i in range(8):
         b.res(f"R{33 + i}", 53, 24 + i * 5.08)
-    for i, r in enumerate((30, 31, 32)):
+    for i, r in enumerate((31, 32)):    # R30 era el pulldown del TFT SPI retirado del diseño
         b.res(f"R{r}", 16 + i * 11.4, 36)
     b.elec("C26 1000uF", 100, 18, 10.0, 17.0)
     b.xh("JBUS_T1", 12, 5, 4)

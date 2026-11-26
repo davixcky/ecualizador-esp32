@@ -289,13 +289,13 @@ def validate(parts, wires):
     tft_len = max(sum(math.dist(a[:3], b[:3]) for a, b in zip(w["pts"], w["pts"][1:])) for w in wires if w["name"].startswith("CYD_"))
 
     mounted = {"T1": "U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1 (en tapa, 3 hilos)", "T2": "U2; R13-R16; R19-R26; C3; C5; C15-C21; J2; J3; PAM8403; RV2-RV5 (en tapa)",
-               "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3", "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R30-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"}
+               "T3": "U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3", "T4": "U5 ESP32 DevKit V1 30P; U6 74HCT245; R31-R40; C25-C26; J5; J6; J7 alimentación de la pantalla +5V/GND (datos por ESP-NOW; UART de respaldo, propuesto); SW1 (en tapa, 2 hilos)"}
     counts = {}
     for ref, refs in E.BOARD_PARTS.items():
         counts[ref] = {"R": sum(r.startswith("R") and r[1:].isdigit() for r in refs), "C": sum(r.startswith("C") and r[1].isdigit() for r in refs),
                        "D": sum(r.startswith("D") and r[1:].isdigit() for r in refs), "U": sum(r.startswith("U") for r in refs)}
     tot = {k: sum(c[k] for c in counts.values()) for k in "RCDU"}
-    check("40 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U", tot == {"R": 40, "C": 26, "D": 3, "U": 6}, json.dumps(tot))
+    check("39 resistencias, 26 capacitores, 3 diodos, 6 integrados/módulos U (R30 retirado con el TFT SPI)", tot == {"R": 39, "C": 26, "D": 3, "U": 6}, json.dumps(tot))
 
     pendientes = [
         "A10K de RV1 (NIVEL) y RV5 (VOLUMEN): NO comprados. Envolvente supuesta igual al B10K; cota pendiente de medir. Los dos P-20K logarítmicos comprados son candidatos sin validar eléctricamente.",
