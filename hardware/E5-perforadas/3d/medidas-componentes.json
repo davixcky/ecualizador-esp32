@@ -37,8 +37,8 @@
       "paso_pines": 2.54,
       "separacion_centros_hileras": 22.86,
       "estado": "conservadora",
-      "compra": "pendiente",
-      "nota": "Sustituye al ESP32S V1.1 USB-C de 38 pines por decisión del 2026-11-24. Las fichas publicadas discrepan (48,3 x 25,4 a 51,45 x 28,33 mm según el clon): la envolvente reserva el caso mayor y la separación de hileras de 22,86 mm (0,9 in) es el valor típico, sin ficha que lo respalde para la unidad que se compre. USB micro-B en el borde corto, 2 hileras de 15 pines a 2,54 mm.",
+      "compra": "declarada",
+      "nota": "Sustituye al ESP32S V1.1 USB-C de 38 pines por decisión del 2026-11-24. Las fichas publicadas discrepan (48,3 x 25,4 a 51,45 x 28,33 mm según el clon): la envolvente reserva el caso mayor y la separación de hileras de 22,86 mm (0,9 in) es el valor típico, sin ficha que lo respalde para la unidad que se compre. USB micro-B en el borde corto, 2 hileras de 15 pines a 2,54 mm. ACTUALIZACIÓN 2026-11-25: el comprador declara tener la unidad de 30 pines en mano; faltan sus medidas con calibre.",
       "por_medir": [
         "largo y ancho exactos de la unidad recibida",
         "separación real entre centros de hileras",
