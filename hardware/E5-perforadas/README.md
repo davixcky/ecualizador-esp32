@@ -15,8 +15,10 @@ Esta variante conserva el circuito eléctrico D.3/E.4, pero lo divide para monta
 - `3d/ecualizador-E5-perforadas.FCStd` y `.step`: ensamble mecánico con las cuatro tarjetas, cinco controles
   rotativos en la tapa imantada, pantalla ESP32-3248S035 de 3,5" en vertical (recibida el 2026-11-24; antes
   LilyGO T4-S3) con ESP32 DevKit V1 de 30 pines, dos parlantes, arneses y tres barras de luz. Ver `3d/README.md`.
-  **Nota:** el esquema, los CSV de conexiones y las listas de compra de esta carpeta todavía describen la
-  T4-S3 y el ESP32S de 38 pines; están pendientes de actualizar a la decisión del 2026-11-24.
+  **Nota (2026-11-25):** el esquema maestro, los CSV y la BOM de esta carpeta ya reflejan la decisión del
+  2026-11-24: U5 = ESP32 DevKit V1 de 30 pines (mapa de pines `e5cyd` del firmware) y pantalla ESP32-3248S035
+  con datos por ESP-NOW; el header J7 lleva solo +5V/GND y un respaldo UART2 **PROPUESTO** (sin probar).
+  Los carritos de compra (`COMPRAS-COLOMBIA.md`, `LISTA-POR-TIENDA.md`) siguen siendo históricos.
 - `3d/ecualizador-E5-{cerrado,abierto,planta}.png`: vistas para revisar volumen, montaje y accesibilidad.
 - `video/`: guiones del video de `docs/video/` (audio SPICE, pantalla del firmware, Blender y validación).
 

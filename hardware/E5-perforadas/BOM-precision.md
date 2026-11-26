@@ -1,6 +1,6 @@
 # Lista de materiales de precisión · E.5 perforadas
 
-> **Actualización del 20 de noviembre de 2026.** Esta lista es de planificación. Lo realmente comprado y respaldado por factura o albarán está en [`../COMPONENTES-COMPRADOS-VERIFICADOS.md`](../COMPONENTES-COMPRADOS-VERIFICADOS.md). Cambios respecto a lo escrito abajo: **parlantes** = conjunto WS-14595 (dos de 8 Ω / 5 W en un conector), no uno de 4 Ω / 3 W; **luces** = tira BTF-LIGHTING FCOB WS2811 de **12 V** (ASIN B0BW5T6HW4, un píxel cada 50 mm), no WS2812B de 5 V, por lo que falta definir la alimentación de 12 V; **RV1/RV5** = A10K sin comprar (hay dos P-20K logarítmicos como candidatos sin validar); **no hay potenciómetros deslizables**. **Pantalla** = se decidió sustituir la TFT de 1,9″ por una LilyGO T4-S3 enlazada por UART (sin comprar, sin esquema ni firmware todavía). **Tapa** = cierre con imanes de Ø6 × 2 mm, sin bisagras. El modelo 3D y sus pendientes están en [`3d/`](3d/README.md).
+> **Actualización del 20 de noviembre de 2026.** Esta lista es de planificación. Lo realmente comprado y respaldado por factura o albarán está en [`../COMPONENTES-COMPRADOS-VERIFICADOS.md`](../COMPONENTES-COMPRADOS-VERIFICADOS.md). Cambios respecto a lo escrito abajo: **parlantes** = conjunto WS-14595 (dos de 8 Ω / 5 W en un conector), no uno de 4 Ω / 3 W; **luces** = tira BTF-LIGHTING FCOB WS2811 de **12 V** (ASIN B0BW5T6HW4, un píxel cada 50 mm), no WS2812B de 5 V, por lo que falta definir la alimentación de 12 V; **RV1/RV5** = A10K sin comprar (hay dos P-20K logarítmicos como candidatos sin validar); **no hay potenciómetros deslizables**. **Pantalla** = la TFT de 1,9″ se sustituyó por una ESP32-3248S035 de 3,5″ (recibida el 2026-11-24; se esperaba una LilyGO T4-S3): datos por ESP-NOW, +5V/GND por J7 y UART2 solo de respaldo (PROPUESTO); el esquema maestro ya la refleja junto con el ESP32 DevKit V1 de 30 pines. **Tapa** = cierre con imanes de Ø6 × 2 mm, sin bisagras. El modelo 3D y sus pendientes están en [`3d/`](3d/README.md).
 
 Cantidades netas para las cuatro tarjetas. Para compra se recomienda añadir al menos dos unidades de cada valor pequeño y 10 % en los valores repetidos.
 
@@ -16,7 +16,7 @@ Todas deben ser **película metálica, 1/4 W, tolerancia de 1 % o mejor**. No us
 | 2,7 kΩ | 1 | R15 | Película metálica, 1 %, 0,25 W |
 | 5,6 kΩ | 1 | R16 | Película metálica, 1 %, 0,25 W |
 | 10 kΩ | 10 | R2, R3, R33–R40 | **0,1 % recomendado**, 25 ppm/°C; divisores de VREF y ADC |
-| 10 kΩ | 11 | R4, R5, R8–R10, R13, R14, R25, R26, R30, R32 | Película metálica, 1 %, 0,25 W |
+| 10 kΩ | 10 | R4, R5, R8–R10, R13, R14, R25, R26, R32 | Película metálica, 1 %, 0,25 W |
 | 22 kΩ | 1 | R7 | Película metálica, 1 %, 0,25 W |
 | 27 kΩ | 1 | R11 | Película metálica, 1 %, 0,25 W |
 | 47 kΩ | 6 | R17–R21, R24 | Película metálica, 1 %, 0,25 W |
@@ -69,7 +69,7 @@ Los electrolíticos no necesitan tolerancia de precisión. Verificar polaridad a
 |---|---:|---|---|
 | LM324N DIP-14 | 4 | U1–U4 | Original de fabricante reconocido; usar zócalos DIP-14 |
 | 74HCT245 DIP-20 | 1 | U6 | Sustitución local validada para el NeoPixel; alimentar a 5 V, DIR=1 y /OE=0 |
-| ESP32-DevKitC V4, 38 pines | 1 | U5 | Montar en zócalos hembra |
+| ESP32 DevKit V1, 30 pines | 1 | U5 | En mano; montar en dos zócalos hembra 1 × 15 (filas a 22,86 mm) |
 | 1N4148 | 3 | D1–D3 | Mismo fabricante/lote recomendado |
 | Potenciómetro 10 kΩ lineal | 3 | RV2–RV4 | Misma serie y mismo lote; tolerancia típica ±20 % |
 | Potenciómetro 10 kΩ logarítmico | 2 | RV1, RV5 | Audio/logarítmico |
@@ -82,11 +82,10 @@ Los electrolíticos no necesitan tolerancia de precisión. Verificar polaridad a
 | Bornera 2 vías, paso 5,08 mm | 1 | J6 | Entrada de fuente +5 V/GND; corriente nominal ≥3 A |
 | Conector 1 × 4 | 1 | J3 | PAM8403: +5V, GND, AMP_IN, GND |
 | Conector 1 × 3 | 1 | J5 | NeoPixel: +5V, DIN, GND |
-| Conector 1 × 8 | 1 | J4 | Pantalla: VCC, GND, DIN, CLK, CS, DC, RST, BL |
-| Cable/adaptador GH1.25 de 8 vías | 1 | Pantalla | Conectar por nombre de señal, no por color ni posición asumida |
+| Conector 1 × 4 | 1 | J7 | Pantalla: +5V, GND y UART2 de respaldo (CYD_TX, CYD_RX); los datos van por ESP-NOW |
 | Pulsador momentáneo 6 × 6 mm | 1 | SW1 | Normalmente abierto |
 
-**Corrección importante:** J4 tiene ocho señales y por tanto usa un conector de **8 vías**, no de 14.
+**Nota de la pantalla (2026-11-25):** desaparecen el conector J4 de 8 vías, el cable GH1.25 y la R30 de la TFT SPI. La pantalla ESP32-3248S035 va en la tapa y recibe los datos por ESP-NOW; J7 solo le lleva +5V/GND, y sus pines UART2 son un respaldo cableado **PROPUESTO** (aún sin probar en el montaje).
 
 ## Conectores entre las cuatro tarjetas
 
@@ -105,7 +104,7 @@ Para `+5V` y `GND` usar cable de 22 AWG. Para VREF y señales usar 26 AWG. Mante
 
 | Componente | Cant. | Especificación |
 |---|---:|---|
-| Pantalla Waveshare 1,9 pulgadas | 1 | 170 × 320, controlador ST7789V2, interfaz SPI |
+| Pantalla ESP32-3248S035 de 3,5 pulgadas | 1 | 480 × 320, controlador ST7796, recibida; datos por ESP-NOW y +5V/GND desde J7 |
 | Módulo amplificador PAM8403 | 1 | 5 V, 2 × 3 W; usar un solo canal según J3 |
 | Parlante | 1 | 4 Ω, 3 W, diámetro aproximado 40–50 mm |
 | Tira WS2812B | 12 LED | 5 V, tira de 10 mm; dos tramos de aproximadamente 100 mm |
@@ -124,7 +123,7 @@ Para `+5V` y `GND` usar cable de 22 AWG. Para VREF y señales usar 26 AWG. Mante
 | Tarjeta perforada T4 | 1 | Aproximadamente 100 × 80 mm, paso 2,54 mm, pads individuales |
 | Zócalo DIP-14 | 4 | Para los cuatro LM324; preferiblemente torneados |
 | Zócalo DIP-20 | 1 | Para el 74HCT245; preferiblemente torneado |
-| Zócalo hembra 1 × 19 | 2 | Para el ESP32 DevKitC de 38 pines |
+| Zócalo hembra 1 × 15 | 2 | Para el ESP32 DevKit V1 de 30 pines; filas a 22,86 mm |
 | Espadines de prueba | 20 aprox. | VREF, PRE, bandas, EQ_OUT, ADC y alimentaciones |
 | Alambre de cobre estañado | 4 m | Diámetro 0,8–1,0 mm para barras locales de +5V/GND |
 | Cable rígido estañado | 1 rollo | 24–26 AWG solo para puentes cortos de señal |

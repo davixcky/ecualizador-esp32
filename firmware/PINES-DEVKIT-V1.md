@@ -2,8 +2,9 @@
 
 Decisión del 2026-11-24 (hardware/E5-perforadas/3d/README.md): el controlador principal pasa
 del ESP32S de 38 pines al **ESP32 DevKit V1 de 30 pines**, y la pantalla SPI J4 se sustituye
-por la placa CYD (ESP32-2432S028) enlazada por UART2. Esta auditoría comprueba que todos los
-GPIO que usa el firmware E.4/E.5 existen en el encabezado del DevKit V1 de 30 pines.
+por la placa CYD recibida (ESP32-3248S035 de 3,5"): los datos viajan por ESP-NOW y el UART2
+queda solo de respaldo. Esta auditoría comprueba que todos los GPIO que usa el firmware
+E.4/E.5 existen en el encabezado del DevKit V1 de 30 pines.
 
 ## GPIO expuestos en el DevKit V1 de 30 pines
 
@@ -59,7 +60,12 @@ UART existen todos en el encabezado del DevKit V1 de 30 pines; los GPIO ausentes
 al de 38 pines (0 y 6–11) no los usa el firmware. En `e5cyd` quedan además libres los seis
 pines de la TFT (18, 19, 21, 22, 23, 25).
 
-**Advertencia de honestidad:** el enlace UART con la CYD es una **propuesta** que todavía
-no está en el esquemático (`hardware/ecualizador.kicad_sch` sigue dibujando la Waveshare
-SPI en J4 y el ESP32S de 38 pines), y el DevKit V1 y la CYD están pendientes de compra
-(hardware/E5-perforadas/3d/MEDIDAS-COMPRADAS.md).
+**Advertencia de honestidad:** el esquema maestro E.5
+(`hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_sch`) ya dibuja (2026-11-25) el
+DevKit V1 de 30 pines con este mapa y el header J7 (+5V/GND + UART2 de respaldo, marcado
+PROPUESTO porque el enlace no se ha probado en el montaje real). El esquemático histórico
+D.3 (`hardware/ecualizador.kicad_sch`) sigue dibujando la Waveshare SPI en J4 y el ESP32 de
+38 pines a propósito, como registro de esa revisión. La pantalla recibida es la
+ESP32-3248S035 de 3,5" (no la ESP32-2432S028 prevista; firmware/include/enlace_cyd.h) y el
+DevKit V1 ya está en mano, pendiente de medir con calibre
+(hardware/E5-perforadas/3d/medidas-componentes.json).

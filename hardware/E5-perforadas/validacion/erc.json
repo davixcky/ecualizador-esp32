@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/erc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-11-16T11:29:31",
+    "date": "2026-11-26T01:42:21",
     "ignored_checks": [
         {
             "description": "Global label only appears once in the schematic",
@@ -22,9 +22,10 @@
     ],
     "included_severities": [
         "error",
-        "warning"
+        "warning",
+        "exclusion"
     ],
-    "kicad_version": "10.0.0",
+    "kicad_version": "10.0.8",
     "sheets": [
         {
             "path": "/",
@@ -36,18 +37,18 @@
                         {
                             "description": "Symbol U6 Pin 3 [A1, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.6924
+                                "x": 124.46,
+                                "y": 269.24
                             },
-                            "uuid": "7742e8d2-7fff-55b3-84b1-00db567ecbd3"
+                            "uuid": "17706f4e-fe1c-5308-8071-3a8dc9cf7b81"
                         },
                         {
-                            "description": "Symbol #PWR030 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR028 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.6924
+                                "x": 121.92,
+                                "y": 269.24
                             },
-                            "uuid": "402ec027-8c22-5618-959c-014924440330"
+                            "uuid": "c95377c7-ffd7-5355-aa53-86bfce227ae0"
                         }
                     ],
                     "severity": "warning",
@@ -59,18 +60,18 @@
                         {
                             "description": "Symbol U6 Pin 4 [A2, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.7178
+                                "x": 124.46,
+                                "y": 271.78
                             },
-                            "uuid": "dc32e5c0-34e5-57c0-b1ad-aa43956d5141"
+                            "uuid": "fcf9ed2e-36c2-5c7b-b8c7-e6b24c5f113b"
                         },
                         {
-                            "description": "Symbol #PWR031 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR029 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.7178
+                                "x": 121.92,
+                                "y": 271.78
                             },
-                            "uuid": "364a7140-cf7a-5ecb-baed-a06dcf45e16b"
+                            "uuid": "0db205dc-c283-546b-8c07-8e8a7251cedf"
                         }
                     ],
                     "severity": "warning",
@@ -82,18 +83,18 @@
                         {
                             "description": "Symbol U6 Pin 5 [A3, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.7432
+                                "x": 124.46,
+                                "y": 274.32
                             },
-                            "uuid": "1afc8b25-b7c8-56bd-b147-9e484dbb6924"
+                            "uuid": "7c8e40e9-d577-50de-bf0f-1b201b5c9716"
                         },
                         {
-                            "description": "Symbol #PWR032 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR030 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.7432
+                                "x": 121.92,
+                                "y": 274.32
                             },
-                            "uuid": "40cb29ca-5277-5ba8-826a-bb8e2ab2e208"
+                            "uuid": "49d59e0c-f139-5494-b792-bccdbca13bde"
                         }
                     ],
                     "severity": "warning",
@@ -105,18 +106,18 @@
                         {
                             "description": "Symbol U6 Pin 6 [A4, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.7686
+                                "x": 124.46,
+                                "y": 276.86
                             },
-                            "uuid": "4f894346-a785-50cd-97ef-1ca9017985b0"
+                            "uuid": "c863bd3c-009b-560b-9d6f-da48b52d7ca2"
                         },
                         {
-                            "description": "Symbol #PWR033 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR031 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.7686
+                                "x": 121.92,
+                                "y": 276.86
                             },
-                            "uuid": "365d064c-a177-56f9-baff-a3cdd34c589c"
+                            "uuid": "e25b5169-4dfd-50df-972f-f55ffd7e51f9"
                         }
                     ],
                     "severity": "warning",
@@ -128,18 +129,18 @@
                         {
                             "description": "Symbol U6 Pin 7 [A5, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.794
+                                "x": 124.46,
+                                "y": 279.4
                             },
-                            "uuid": "d2c60c5f-46a1-56b6-8bba-8df613e1bfdd"
+                            "uuid": "75f0fabe-7ccc-56cc-ac56-c9876426f92d"
                         },
                         {
-                            "description": "Symbol #PWR034 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR032 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.794
+                                "x": 121.92,
+                                "y": 279.4
                             },
-                            "uuid": "22ff222c-e83b-5398-a943-964b772d828d"
+                            "uuid": "b7f86913-c826-527e-82c9-16509a0382db"
                         }
                     ],
                     "severity": "warning",
@@ -151,18 +152,18 @@
                         {
                             "description": "Symbol U6 Pin 8 [A6, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.8194
+                                "x": 124.46,
+                                "y": 281.94
                             },
-                            "uuid": "e357d7fd-ff01-5fff-a2f0-a867785f3885"
+                            "uuid": "68f8871e-c36b-57b0-807f-057c30c81b04"
                         },
                         {
-                            "description": "Symbol #PWR035 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR033 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.8194
+                                "x": 121.92,
+                                "y": 281.94
                             },
-                            "uuid": "9a0dde5f-971d-50bb-ba8c-f34ebef8b894"
+                            "uuid": "d1c8ce1f-26de-5c28-bb12-07a9b4daa300"
                         }
                     ],
                     "severity": "warning",
@@ -174,18 +175,18 @@
                         {
                             "description": "Symbol U6 Pin 9 [A7, Tri-state, Line]",
                             "pos": {
-                                "x": 1.2446,
-                                "y": 2.8448
+                                "x": 124.46,
+                                "y": 284.48
                             },
-                            "uuid": "1dbf2dd3-0323-5950-aaf2-c4bb2a34d88a"
+                            "uuid": "7786ce77-810c-5fe1-a513-03f9ca355874"
                         },
                         {
-                            "description": "Symbol #PWR036 Pin 1 [Power input, Line]",
+                            "description": "Symbol #PWR034 Pin 1 [Power input, Line]",
                             "pos": {
-                                "x": 1.2192,
-                                "y": 2.8448
+                                "x": 121.92,
+                                "y": 284.48
                             },
-                            "uuid": "1cd95063-735a-507f-9f3a-e6eb3bf31803"
+                            "uuid": "15398533-e494-5c07-a831-6d0c451a1bb2"
                         }
                     ],
                     "severity": "warning",

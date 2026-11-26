@@ -186,8 +186,8 @@ def load_harness():
 
 # Notas por referencia (la primera que coincida dentro de un grupo).
 NOTES = {
-    "U5": "Esquema: DevKitC 38P; se usará DevKit V1 30P (pendiente de compra)",
-    "J4": "Enlace TFT de la rev. anterior; pantalla actual por ESP-NOW",
+    "U5": "DevKit V1 30P en mano; el maestro ya dibuja el mapa e5cyd del firmware",
+    "J7": "Pantalla: +5V/GND; datos por ESP-NOW; UART2 solo respaldo (PROPUESTO)",
     "RV1": "NIVEL; rotativo log (A10K sin comprar)",
     "RV5": "VOLUMEN; rotativo log (A10K sin comprar)",
     "RV2": "Rotativos B10K ('deslizables' en el maestro = rev. anterior)",
@@ -257,8 +257,8 @@ def page_overview(doc):
         (fitz.Rect(426, 70, 616, 168), "T3 · U3 + U4",
          ["INVERSOR MEDIOS", "3 DETECTORES", "tau = 22 ms", "ADC_x_RAW"]),
         (fitz.Rect(624, 70, 812, 168), "T4 · CONTROL",
-         ["ESP32 (30P, por comprar)", "R33-R40 (ADC)", "74HCT245 + LED",
-          "Pantalla vía ESP-NOW"]),
+         ["ESP32 DevKit V1 30P", "R33-R40 (ADC)", "74HCT245 + LED",
+          "Pantalla vía ESP-NOW (J7 = 5V/GND)"]),
     ]
     for rect, title, lines in boxes:
         text_box(p, rect, title, lines, 7.6, gap=False)
@@ -293,10 +293,10 @@ def page_overview(doc):
               "salida, tomando VREF de la T1 ya validada.",
               "3. T3 (págs. 6-7): inversor de medios y detectores de pico.",
               "4. T4 (págs. 8-9): tensiones y atenuadores SIN el ESP32; el "
-              "DevKit se inserta al final (aún está pendiente de compra).",
+              "DevKit V1 (en mano) se inserta al final.",
               "5. Integración por etapas según la página 10.",
-              "Mientras no exista el ESP32, la línea +3V3 de JBUS debe salir "
-              "de una fuente de banco de 3,3 V. Todos los valores de esta "
+              "Mientras el ESP32 no esté insertado, la línea +3V3 de JBUS "
+              "debe salir de una fuente de banco de 3,3 V. Todos los valores de esta "
               "guía son esperados según el modelo ideal: ninguno ha sido "
               "medido en placa todavía."], 8.4, gap=False, lineheight=1.45)
     return p
@@ -350,13 +350,13 @@ def page_integration(doc, harness, pendientes):
             for h in harness]
     widths = [38, 24, 88, 68, 234]
     table(p, M, 64, widths, ["Arnés", "Pin", "Señal", "Ruta", "Nota"],
-          rows, fs=6.6, row_h=10.0)
+          rows, fs=6.6, row_h=9.0)
 
     text_box(p, fitz.Rect(30, 300, 482, 408), "PANTALLA Y ALIMENTACIÓN · AVISOS",
-             ["Pantalla: el maestro y la BOM aún dibujan el enlace por cable "
-              "(J4 SPI a la Waveshare; UART como respaldo). Decisión vigente: "
-              "pantalla ESP32-3248S035 separada, datos por ESP-NOW, y su arnés "
-              "solo lleva +5V y GND (no figura en conexiones-entre-tarjetas.csv).",
+             ["Pantalla: el maestro y la BOM ya reflejan la decisión vigente: "
+              "pantalla ESP32-3248S035 separada, datos por ESP-NOW y arnés J7 "
+              "con +5V/GND (los pines CYD_TX/CYD_RX de J7 son el respaldo "
+              "UART2 PROPUESTO, aún sin probar en el montaje real).",
               "Alimentación: la BOM/LISTA piden pares +5V/GND propios desde "
               "las borneras para T1-T3 y este CSV también los lleva por JBUS "
               "desde T4. Elegir UNA sola ruta antes de cablear para evitar "
@@ -401,7 +401,7 @@ T1_COLS = [
      "- J1 y RV1 (rotativo, terminales 1-2-3) cableados por nombre; "
      "C9 (1 uF film) en serie con la entrada."],
     ["- Alimentar +5V y +3V3 desde la fuente de banco (el +3V3 "
-     "definitivo lo dará el ESP32 de T4, aún sin comprar).",
+     "definitivo lo dará el ESP32 de T4).",
      "- Con el zócalo vacío: pin 4 = 5,0 V, pin 11 = 0 V; +3.3VA "
      "aprox. 3,3 V tras R1; VDIV = 1,65 V (esperado según el modelo: "
      "3,3 V x R3/(R2+R3)).",
@@ -500,34 +500,35 @@ T3_FAIL = ("Diodo invertido o abierto: el detector no sube con la señal. Sin "
            "soldado.")
 
 T4_COLS = [
-    ["- El DevKit V1 de 30 pines está PENDIENTE DE COMPRA y el maestro "
-     "dibuja el DevKitC de 38: verificar la correspondencia de pines "
-     "antes de perforar y soldar T4.",
+    ["- El maestro ya dibuja el DevKit V1 de 30 pines (en mano) con el "
+     "mapa e5cyd del firmware: VREF 35, ADC_G 39, ADC_M 36, ADC_A 32, "
+     "ADC_FFT 34, LED 5, BTN 13. Verificarlo contra la placa real "
+     "antes de perforar y soldar T4 (faltan sus medidas con calibre).",
      "- Zócalos del ESP32 y DIP-20 (U6) orientados; C26 (1000 uF) con "
      "polaridad correcta junto a J5.",
      "- Fusible de 3 A e interruptor general en serie con J6.",
      "- R33-R40 en parejas de 10k (0,1 % recomendado) lo más cerca "
      "posible de los pines ADC.",
      "- Ningún corto entre +5V-GND."],
-    ["- Alimentar 5 V por J6 SIN el ESP32: +5V en el pin 5V del "
-     "zócalo, en U6 pin 20 y en J5-1; la red +3V3 queda a 0 V (la "
-     "genera el regulador del DevKit).",
+    ["- Alimentar 5 V por J6 SIN el ESP32: +5V en el pin VIN del "
+     "zócalo, en U6 pin 20, en J5-1 y en J7-1; la red +3V3 queda a "
+     "0 V (la genera el regulador del DevKit).",
      "- Aplicar VREF de banco (1,65 V) a la red VREF y una tensión "
      "conocida a cada ADC_x_RAW: el pin ADC debe leer VREF + "
      "(RAW - VREF)/2. Esperado según el modelo: RAW 1,65 -> 1,65 V; "
      "RAW 3,0 -> 2,33 V; RAW 0 -> 0,83 V; RAW 5,0 -> 3,33 V.",
      "- Con DDS (seno 1 Vpp, offset 1,65 V) en un RAW: CH1 = RAW y "
      "CH2 = pin ADC con la mitad de amplitud, centrado en 1,65 V."],
-    ["- Con el DevKit ya comprado: insertarlo sin periféricos y "
-     "comprobar 3,3 V en su pin 3V3. Alimentar por J6 o por USB, "
-     "NUNCA ambos a la vez.",
+    ["- Insertar el DevKit sin periféricos y comprobar 3,3 V en su "
+     "pin 3V3. Alimentar por J6 o por USB, NUNCA ambos a la vez.",
      "- U6 (74HCT245): DIR pin 1 a +5V y /OE pin 19 a GND; LED_DATA "
      "(3,3 V) entra por A0 (pin 2) y J5-2 entrega niveles de 5 V "
      "(verificar con el osciloscopio).",
      "- SW1: el pin BTN alto en reposo y 0 V al pulsar.",
      "- La pantalla ESP32-3248S035 va FUERA de T4, enlazada por "
-     "ESP-NOW: solo requiere +5V y GND. El conector J4 (TFT SPI por "
-     "cable) pertenece a la revisión anterior."],
+     "ESP-NOW: J7 solo le lleva +5V y GND. Los pines CYD_TX/CYD_RX "
+     "de J7 son el respaldo UART2 PROPUESTO; no cablearlos si "
+     "ESP-NOW funciona."],
 ]
 T4_FAIL = ("Sin VREF en los divisores: lecturas ADC corridas (RAW = 1,65 V "
            "se leería aprox. 0,83 V con VREF a 0). J6 y USB a la vez: "
@@ -536,8 +537,9 @@ T4_FAIL = ("Sin VREF en los divisores: lecturas ADC corridas (RAW = 1,65 V "
            "del primer LED: fallos aleatorios en la tira.")
 
 PENDIENTES = [
-    "- ESP32 DevKit V1 30P: NO comprado; el esquema sigue dibujando el "
-    "DevKitC de 38 pines (revisar pines antes de perforar T4).",
+    "- ESP32 DevKit V1 30P: en mano, pero sin medidas con calibre; el "
+    "maestro ya lo dibuja con el mapa e5cyd (revisar contra la placa "
+    "real antes de perforar T4).",
     "- Potenciómetros A10K (RV1 NIVEL, RV5 VOLUMEN): no comprados; los "
     "P-20K log comprados están sin validar eléctricamente.",
     "- B10K RV2-RV4: declarados comprados (3+1) pero sin albarán verificado "
@@ -566,7 +568,8 @@ HARNESS_BY_BOARD = {
     "T3": "Además de la tabla: conectores JST-XH de arneses: JBUS (4), "
           "JBC (5) y JC4 (4 vías).",
     "T4": "Además de la tabla: conectores JST-XH de arneses: JBUS (4), "
-          "JB4 (2) y JC4 (4 vías).",
+          "JB4 (2) y JC4 (4 vías); J7 (header 1x4) lleva +5V/GND a la "
+          "pantalla de la tapa.",
 }
 
 
@@ -670,21 +673,21 @@ def main():
 
     # --- T4
     page_schematic(
-        doc, "T4 · ESP32, protección ADC y salida NeoPixel",
+        doc, "T4 · ESP32 DevKit V1 30P, protección ADC y salida NeoPixel",
         "Los atenuadores se montan aquí, lo más cerca posible de los pines "
         "ADC del ESP32",
         [(fitz.Rect(30, 70, 810, 305), (263, 13, 409, 98),
-          "T4-A · ESP32, R33-R40, TFT y pulsador (según el maestro)"),
+          "T4-A · ESP32 DevKit V1, R33-R40, J7 (pantalla) y pulsador"),
          (fitz.Rect(30, 335, 810, 520), (10, 252, 409, 337),
           "T4-B · fuente, 74HCT245 y salida NeoPixel")],
         src,
         bottom_note=(fitz.Rect(45, 528, 795, 575),
-                     "El maestro dibuja un ESP32 DevKitC V4 de 38 pines y la "
-                     "pantalla Waveshare por J4: la revisión vigente usa un "
-                     "DevKit V1 de 30 pines (pendiente de compra) y la "
-                     "pantalla ESP32-3248S035 por ESP-NOW (+5V/GND). "
-                     "Verificar los pines usados antes de perforar. "
-                     "Atenuadores: ADC = VREF + (RAW - VREF)/2."))
+                     "El maestro ya dibuja el DevKit V1 de 30 pines (mapa "
+                     "e5cyd del firmware) y el header J7 hacia la pantalla "
+                     "ESP32-3248S035: datos por ESP-NOW; J7 = +5V/GND y "
+                     "UART2 solo de respaldo (PROPUESTO). Verificar los "
+                     "pines contra firmware/PINES-DEVKIT-V1.md antes de "
+                     "perforar. Atenuadores: ADC = VREF + (RAW - VREF)/2."))
     page_procedure(doc, "T4",
                    "Lista desde lista-por-tarjeta.csv + BOM-precision.csv · "
                    "valores esperados según el modelo",

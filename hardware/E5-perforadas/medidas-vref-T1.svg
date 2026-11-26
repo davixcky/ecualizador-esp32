@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="2280" viewBox="0 0 1240 2280">
+<rect width="1240" height="2280" fill="#ffffff"/>
+<rect width="1240" height="92" fill="#eef2f7"/>
+<path d="M0 92 L1240 92" stroke="#c6ccd4" stroke-width="2"/>
+<text x="30" y="38" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#16191d" text-anchor="start" font-weight="bold">T1 · VREF = 1,65 V — QUÉ DEBE LEER EL MULTÍMETRO</text>
+<text x="30" y="62" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#5b6472" text-anchor="start" font-weight="normal">Etapa 2 de hardware/E5-perforadas/guia-pruebas-tarjetas.pdf (págs. 2-3). Circuito igual al de la caja «Alimentación analógica y VREF»</text>
+<text x="30" y="81" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#5b6472" text-anchor="start" font-weight="normal">del esquema maestro. Valores esperados según el modelo; cuente ±2 % por las resistencias al 1 %.</text>
+<rect x="25" y="104" width="1190" height="492" rx="6" fill="#ffffff" stroke="#c6ccd4" stroke-width="1.5"/>
+<rect x="26" y="105" width="1188" height="33" rx="5" fill="#eef2f7"/>
+<path d="M25 138 L1215 138" stroke="#c6ccd4" stroke-width="1.5"/>
+<text x="41" y="127" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">TENSIONES EN DC · FUENTE ENCENDIDA Y U1 EN EL ZÓCALO</text>
+<g transform="translate(10,32)">
+<path d="M80 200 L80 174" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M60 174 L100 174" stroke="#16191d" stroke-width="3"/>
+<text x="80" y="164" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="middle" font-weight="bold">+3V3</text>
+<text x="104" y="168" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">(JBUS 3)</text>
+<path d="M80 200 L140 200" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<rect x="140" y="188.0" width="62" height="24" fill="#fff" stroke="#16191d" stroke-width="2"/>
+<text x="171.0" y="178.0" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="middle" font-weight="bold">R1</text>
+<text x="171.0" y="234.0" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="middle" font-weight="normal">10 Ω</text>
+<path d="M202 200 L620 200" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<circle cx="260" cy="200" r="4.5" fill="#16191d"/>
+<text x="260" y="186" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#0b3d91" text-anchor="middle" font-weight="bold">+3.3VA</text>
+<path d="M307 292 L353 292" stroke="#16191d" stroke-width="2.6"/>
+<path d="M307 308 Q330 321 353 308" fill="none" stroke="#16191d" stroke-width="2.6"/>
+<text x="300" y="289" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#16191d" text-anchor="end" font-weight="bold">+</text>
+<text x="362" y="298" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">C1</text>
+<text x="362" y="317" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">100 µF</text>
+<path d="M330 200 L330 292" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M330 308 L330 430" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M330 430 L330 444" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M313 444 L347 444" stroke="#16191d" stroke-width="2.6"/>
+<path d="M319 450 L341 450" stroke="#16191d" stroke-width="2.2"/>
+<path d="M325 456 L335 456" stroke="#16191d" stroke-width="1.8"/>
+<path d="M397 292 L443 292" stroke="#16191d" stroke-width="2.6"/>
+<path d="M397 308 L443 308" stroke="#16191d" stroke-width="2.6"/>
+<text x="452" y="298" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">C2</text>
+<text x="452" y="317" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">100 nF</text>
+<path d="M420 200 L420 292" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M420 308 L420 430" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M420 430 L420 444" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M403 444 L437 444" stroke="#16191d" stroke-width="2.6"/>
+<path d="M409 450 L431 450" stroke="#16191d" stroke-width="2.2"/>
+<path d="M415 456 L425 456" stroke="#16191d" stroke-width="1.8"/>
+<path d="M620 200 L620 240" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<rect x="606.0" y="240" width="28" height="60" fill="#fff" stroke="#16191d" stroke-width="2"/>
+<text x="646.0" y="264" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">R2</text>
+<text x="646.0" y="283" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">10 kΩ</text>
+<path d="M620 300 L620 360" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<circle cx="620" cy="330" r="4.5" fill="#16191d"/>
+<text x="600" y="324" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#0b3d91" text-anchor="end" font-weight="bold">VDIV</text>
+<rect x="606.0" y="360" width="28" height="60" fill="#fff" stroke="#16191d" stroke-width="2"/>
+<text x="646.0" y="384" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">R3</text>
+<text x="646.0" y="403" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">10 kΩ</text>
+<path d="M620 420 L620 430" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M620 430 L620 444" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M603 444 L637 444" stroke="#16191d" stroke-width="2.6"/>
+<path d="M609 450 L631 450" stroke="#16191d" stroke-width="2.2"/>
+<path d="M615 456 L625 456" stroke="#16191d" stroke-width="1.8"/>
+<path d="M510 330 L620 330" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M487 370 L533 370" stroke="#16191d" stroke-width="2.6"/>
+<path d="M487 386 Q510 399 533 386" fill="none" stroke="#16191d" stroke-width="2.6"/>
+<text x="480" y="367" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#16191d" text-anchor="end" font-weight="bold">+</text>
+<text x="542" y="376" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">C8</text>
+<text x="542" y="395" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">10 µF</text>
+<path d="M510 330 L510 370" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M510 386 L510 430" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M510 430 L510 444" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M493 444 L527 444" stroke="#16191d" stroke-width="2.6"/>
+<path d="M499 450 L521 450" stroke="#16191d" stroke-width="2.2"/>
+<path d="M505 456 L515 456" stroke="#16191d" stroke-width="1.8"/>
+<circle cx="510" cy="330" r="4.5" fill="#16191d"/>
+<path d="M620 330 L830 330 L830 310 L860 310" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<path d="M860 270 L860 390 L960 330 Z" fill="#fff" stroke="#16191d" stroke-width="2.2"/>
+<text x="874" y="316" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#16191d" text-anchor="start" font-weight="bold">+</text>
+<text x="874" y="362" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#16191d" text-anchor="start" font-weight="bold">–</text>
+<text x="896" y="342" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">U1A</text>
+<text x="852" y="304" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="end" font-weight="normal">3</text>
+<text x="852" y="366" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="end" font-weight="normal">2</text>
+<text x="968" y="322" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">1</text>
+<path d="M960 330 L1090 330" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<circle cx="1000" cy="330" r="4.5" fill="#16191d"/>
+<path d="M1000 330 L1000 400 L830 400 L830 350 L860 350" fill="none" stroke="#16191d" stroke-width="2.0" stroke-linecap="square"/>
+<text x="862" y="416" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">realimentación pin 1 → pin 2</text>
+<text x="1098" y="326" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#0b3d91" text-anchor="start" font-weight="bold">VREF</text>
+<text x="1098" y="344" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">(JBUS 4)</text>
+<rect x="36" y="118" width="104" height="30" rx="5" fill="#e6f0ff" stroke="#1f6feb" stroke-width="1.6"/>
+<text x="88.0" y="139.0" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#0b3d91" text-anchor="middle" font-weight="bold">3,30 V</text>
+<path d="M88.0 148 L80 174" stroke="#1f6feb" stroke-width="1.4" stroke-dasharray="5 4"/>
+<circle cx="80" cy="174" r="3.4" fill="#1f6feb"/>
+<rect x="196" y="118" width="124" height="30" rx="5" fill="#e6f0ff" stroke="#1f6feb" stroke-width="1.6"/>
+<text x="258.0" y="139.0" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#0b3d91" text-anchor="middle" font-weight="bold">≈ 3,30 V</text>
+<path d="M258.0 148 L260 200" stroke="#1f6feb" stroke-width="1.4" stroke-dasharray="5 4"/>
+<circle cx="260" cy="200" r="3.4" fill="#1f6feb"/>
+<rect x="400" y="252" width="104" height="30" rx="5" fill="#e6f0ff" stroke="#1f6feb" stroke-width="1.6"/>
+<text x="452.0" y="273.0" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#0b3d91" text-anchor="middle" font-weight="bold">1,65 V</text>
+<path d="M504 282 L566 330" stroke="#1f6feb" stroke-width="1.4" stroke-dasharray="5 4"/>
+<circle cx="566" cy="330" r="3.4" fill="#1f6feb"/>
+<rect x="990" y="226" width="104" height="30" rx="5" fill="#e6f0ff" stroke="#1f6feb" stroke-width="1.6"/>
+<text x="1042.0" y="247.0" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#0b3d91" text-anchor="middle" font-weight="bold">1,65 V</text>
+<path d="M1042.0 256 L1045 330" stroke="#1f6feb" stroke-width="1.4" stroke-dasharray="5 4"/>
+<circle cx="1045" cy="330" r="3.4" fill="#1f6feb"/>
+<text x="50" y="486" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Seguidor de tensión: la salida copia VDIV, así que con U1 en el zócalo pin 3 = pin 2 = pin 1 = 1,65 V.</text>
+<text x="50" y="508" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">C1 y C8 son electrolíticos: la pata + va al nodo (+3.3VA y VDIV) y la – a GND. El divisor consume 165 µA, así que R1 cae menos de 2 mV.</text>
+</g>
+<rect x="25" y="612" width="1190" height="390" rx="6" fill="#ffffff" stroke="#c6ccd4" stroke-width="1.5"/>
+<rect x="26" y="613" width="1188" height="33" rx="5" fill="#eef2f7"/>
+<path d="M25 646 L1215 646" stroke="#c6ccd4" stroke-width="1.5"/>
+<text x="41" y="635" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">U1 · LM324N · QUÉ ES CADA PIN Y QUÉ DEBE MEDIR EN REPOSO (SIN SEÑAL)</text>
+<rect x="520" y="676" width="200" height="252" rx="5" fill="#fff" stroke="#16191d" stroke-width="2.2"/>
+<path d="M609 676 A11 11 0 0 0 631 676" fill="none" stroke="#16191d" stroke-width="2.2"/>
+<text x="620" y="806" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#16191d" text-anchor="middle" font-weight="bold">U1</text>
+<text x="620" y="826" font-family="Helvetica, Arial, sans-serif" font-size="12.5" fill="#16191d" text-anchor="middle" font-weight="normal">LM324N</text>
+<text x="620" y="844" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#5b6472" text-anchor="middle" font-weight="normal">vista desde arriba</text>
+<path d="M520 690 L502 690" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">1</text>
+<text x="494" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">VREF · salida del seguidor</text>
+<text x="176" y="695" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">OUT1</text>
+<path d="M520 728 L502 728" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">2</text>
+<text x="494" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">VREF · realimentación de U1A</text>
+<text x="176" y="733" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN1−</text>
+<path d="M520 766 L502 766" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">3</text>
+<text x="494" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">VDIV · divisor R2/R3</text>
+<text x="176" y="771" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN1+</text>
+<path d="M520 804 L502 804" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">4</text>
+<text x="494" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">5,00 V</text>
+<text x="434" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">+5V · alimentación</text>
+<text x="176" y="809" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">V+</text>
+<path d="M520 842 L502 842" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">5</text>
+<text x="494" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">PRE_IN · C9 y R6 (100 k) a VREF</text>
+<text x="176" y="847" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN2+</text>
+<path d="M520 880 L502 880" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">6</text>
+<text x="494" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">PRE_FB · R7 (22 k) y R8 (10 k)</text>
+<text x="176" y="885" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN2−</text>
+<path d="M520 918 L502 918" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="530" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">7</text>
+<text x="494" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="end" font-weight="bold">1,65 V</text>
+<text x="434" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="normal">PRE · salida del preamplificador</text>
+<text x="176" y="923" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">OUT2</text>
+<path d="M720 690 L738 690" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">14</text>
+<text x="746" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="695" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">MED_HP · salida del pasa altas</text>
+<text x="1064" y="695" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">OUT4</text>
+<path d="M720 728 L738 728" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">13</text>
+<text x="746" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="733" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">MH2 · R12 (56 k) a VREF</text>
+<text x="1064" y="733" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN4+</text>
+<path d="M720 766 L738 766" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">12</text>
+<text x="746" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="771" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">MED_HP · realimentación de U1D</text>
+<text x="1064" y="771" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN4−</text>
+<path d="M720 804 L738 804" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">11</text>
+<text x="746" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">0,00 V</text>
+<text x="806" y="809" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">GND · masa</text>
+<text x="1064" y="809" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">V−</text>
+<path d="M720 842 L738 842" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">10</text>
+<text x="746" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="847" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">LB2 · R10 desde PRE, C12 a VREF</text>
+<text x="1064" y="847" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN3+</text>
+<path d="M720 880 L738 880" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">9</text>
+<text x="746" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="885" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">GRAVES · realimentación de U1C</text>
+<text x="1064" y="885" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">IN3−</text>
+<path d="M720 918 L738 918" fill="none" stroke="#16191d" stroke-width="2.4" stroke-linecap="square"/>
+<text x="710" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="end" font-weight="bold">8</text>
+<text x="746" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#0b3d91" text-anchor="start" font-weight="bold">1,65 V</text>
+<text x="806" y="923" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">GRAVES · salida del pasa bajas</text>
+<text x="1064" y="923" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#5b6472" text-anchor="start" font-weight="normal">OUT3</text>
+<text x="50" y="964" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Los cuatro amplificadores polarizan en VREF, así que en reposo las trece patillas de señal deben estar en 1,65 V: solo el pin 4 (5 V) y el pin 11 (0 V) se salen.</text>
+<text x="50" y="986" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#b4232a" text-anchor="start" font-weight="bold">PIN 7 Y PIN 8 ESTÁN UNIDOS EN CONTINUA por R9 + R10 (10 k + 10 k): en reposo tienen que leer lo mismo salvo unos pocos mV de diferencia (corriente de polarización). Si no, el montaje no es el del esquema.</text>
+<rect x="25" y="1020" width="1190" height="497" rx="6" fill="#ffffff" stroke="#c6ccd4" stroke-width="1.5"/>
+<rect x="26" y="1021" width="1188" height="33" rx="5" fill="#eef2f7"/>
+<path d="M25 1054 L1215 1054" stroke="#c6ccd4" stroke-width="1.5"/>
+<text x="41" y="1043" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">MEDIDAS EN OHMIOS · FUENTE APAGADA Y PINZAS DESCONECTADAS, U1 FUERA DEL ZÓCALO</text>
+<rect x="26" y="1054" width="1188" height="30" fill="#eff3f7"/>
+<text x="41" y="1074" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Entre estos dos puntos</text>
+<text x="371" y="1074" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Esperado</text>
+<text x="561" y="1074" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Qué significa</text>
+<path d="M26 1084 L1214 1084" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1107" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VDIV ↔ GND</text>
+<text x="371" y="1107" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 10 kΩ</text>
+<text x="561" y="1107" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Es R3. Si da 27 kΩ, la resistencia montada ahí es la de R11</text>
+<rect x="26" y="1120" width="1188" height="36" fill="#f6f8fa"/>
+<path d="M26 1120 L1214 1120" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1143" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VDIV ↔ +3.3VA</text>
+<text x="371" y="1143" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 10 kΩ</text>
+<text x="561" y="1143" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Es R2. Abierto = soldadura fría o pata levantada</text>
+<path d="M26 1156 L1214 1156" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1179" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">+3V3 ↔ +3.3VA</text>
+<text x="371" y="1179" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 10 Ω</text>
+<text x="561" y="1179" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Es R1. Abierto = no llega el riel filtrado al divisor</text>
+<rect x="26" y="1192" width="1188" height="36" fill="#f6f8fa"/>
+<path d="M26 1192 L1214 1192" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1215" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">+5V ↔ +3V3</text>
+<text x="371" y="1215" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">abierto</text>
+<text x="561" y="1215" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Cualquier valor bajo, o un salto de diodo, explica que +3V3 suba a 4,4 V</text>
+<path d="M26 1228 L1214 1228" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1251" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">+5V ↔ GND</text>
+<text x="371" y="1251" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">sin corto</text>
+<text x="561" y="1251" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">0 Ω = corto; no vuelva a encender hasta encontrarlo</text>
+<rect x="26" y="1264" width="1188" height="36" fill="#f6f8fa"/>
+<path d="M26 1264 L1214 1264" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1287" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VREF ↔ GND</text>
+<text x="371" y="1287" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">sin corto</text>
+<text x="561" y="1287" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">0 Ω = VREF a masa; revise C8 y la pista de VREF</text>
+<path d="M26 1300 L1214 1300" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1323" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Zócalo pin 4 ↔ +5V</text>
+<text x="41" y="1342" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Zócalo pin 11 ↔ GND</text>
+<text x="371" y="1323" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 0 Ω</text>
+<text x="561" y="1323" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Abierto = U1 se queda sin alimentación al insertarlo</text>
+<rect x="26" y="1355" width="1188" height="36" fill="#f6f8fa"/>
+<path d="M26 1355 L1214 1355" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1378" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Zócalo pin 5 ↔ pin 1</text>
+<text x="371" y="1378" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 100 kΩ</text>
+<text x="561" y="1378" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Camino de R6: polariza en VREF el + del preamplificador</text>
+<path d="M26 1391 L1214 1391" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1414" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Zócalo pin 13 ↔ pin 1</text>
+<text x="371" y="1414" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">≈ 56 kΩ</text>
+<text x="561" y="1414" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Camino de R12. Abierto = el pin 13 flota y el pin 14 miente</text>
+<rect x="26" y="1427" width="1188" height="36" fill="#f6f8fa"/>
+<path d="M26 1427 L1214 1427" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1450" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Zócalo pin 5 ↔ GND</text>
+<text x="371" y="1450" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">abierto</text>
+<text x="561" y="1450" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Una fuga aquí baja el pin 5 por debajo de VREF</text>
+<text x="41" y="1487" font-family="Helvetica, Arial, sans-serif" font-size="12.5" fill="#b4232a" text-anchor="start" font-weight="normal">No basta apagar la fuente: retire también sus pinzas. Una salida conectada puede tirar +3.3VA a 0 V y entonces VDIV ↔ GND leería R2∥R3 ≈ 5 kΩ, que parece falla y no lo es.</text>
+<text x="41" y="1507" font-family="Helvetica, Arial, sans-serif" font-size="12.5" fill="#b4232a" text-anchor="start" font-weight="normal">C1 y C8 se cargan con la corriente del ohmímetro: espere a que la lectura se estabilice antes de anotarla.</text>
+<rect x="25" y="1533" width="1190" height="584" rx="6" fill="#ffffff" stroke="#c6ccd4" stroke-width="1.5"/>
+<rect x="26" y="1534" width="1188" height="33" rx="5" fill="#eef2f7"/>
+<path d="M25 1567 L1215 1567" stroke="#c6ccd4" stroke-width="1.5"/>
+<text x="41" y="1556" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#16191d" text-anchor="start" font-weight="bold">SU LECTURA DE 2,4 V · QUÉ SIGNIFICA</text>
+<rect x="26" y="1567" width="1188" height="30" fill="#eff3f7"/>
+<text x="41" y="1587" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Lo que mida ahora</text>
+<text x="331" y="1587" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Diagnóstico</text>
+<text x="751" y="1587" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Qué hacer</text>
+<path d="M26 1597 L1214 1597" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1620" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Pin 7 y pin 14 = 1,02 V</text>
+<text x="41" y="1639" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">con pin 1 = 1,65 V</text>
+<text x="331" y="1620" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Los dos se polarizan desde VREF, por R6</text>
+<text x="331" y="1639" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">(100 k) y R12 (56 k). Que ambos caigan al</text>
+<text x="331" y="1658" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">mismo valor apunta al riel VREF, no a los</text>
+<text x="331" y="1677" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">amplificadores</text>
+<text x="751" y="1620" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Medir pin 5 y pin 13: si también dan 1,02 V</text>
+<text x="751" y="1639" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">el fallo está en la polarización. Seguir la</text>
+<text x="751" y="1658" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">pata lejana de R6 y de R12: deben dar</text>
+<text x="751" y="1677" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">1,65 V y tener continuidad con el pin 1</text>
+<rect x="26" y="1690" width="1188" height="112" fill="#f6f8fa"/>
+<path d="M26 1690 L1214 1690" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1713" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">Pin 7 ≠ pin 8</text>
+<text x="331" y="1713" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Imposible con el esquema: R9 + R10 los</text>
+<text x="331" y="1732" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">unen en continua. O hay un error de</text>
+<text x="331" y="1751" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">montaje en R9/R10/C12, o una de las dos</text>
+<text x="331" y="1770" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">salidas está oscilando y el multímetro</text>
+<text x="331" y="1789" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">promedia la oscilación</text>
+<text x="751" y="1713" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Osciloscopio en AC y µs/div sobre pin 7 y</text>
+<text x="751" y="1732" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">pin 14. Si oscilan, revisar C4 entre los</text>
+<text x="751" y="1751" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">pines 4 y 11. Si no, medir R9 y R10 en</text>
+<text x="751" y="1770" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">ohmios y comprobar que C12 no esté en</text>
+<text x="751" y="1789" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">corto</text>
+<path d="M26 1802 L1214 1802" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1825" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">El canal de 3,3 V sube</text>
+<text x="41" y="1844" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">al encender el de 5 V</text>
+<text x="41" y="1863" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">(4,42 V medidos)</text>
+<text x="331" y="1825" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">Algo inyecta +5V en la red +3V3. Una</text>
+<text x="331" y="1844" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">fuente en CV solo entrega corriente, no la</text>
+<text x="331" y="1863" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">absorbe, así que el riel se va hacia arriba</text>
+<text x="751" y="1825" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Apagar el canal de 5 V: ¿vuelve a 3,3 V?</text>
+<text x="751" y="1844" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Con todo desconectado, +5V ↔ +3V3 debe</text>
+<text x="751" y="1863" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">dar abierto en el ohmímetro</text>
+<rect x="26" y="1876" width="1188" height="55" fill="#f6f8fa"/>
+<path d="M26 1876 L1214 1876" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1899" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VDIV = la mitad exacta</text>
+<text x="41" y="1918" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">de +3.3VA</text>
+<text x="331" y="1899" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">El divisor está sano (R2 = R3): lo que</text>
+<text x="331" y="1918" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">falla es el riel, no las resistencias</text>
+<text x="751" y="1899" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Arreglar primero el riel; VDIV se corrige</text>
+<text x="751" y="1918" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">solo cuando +3.3VA vuelva a 3,3 V</text>
+<path d="M26 1931 L1214 1931" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="1954" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">+3.3VA ≈ 3,3 V</text>
+<text x="41" y="1973" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">y VDIV = 2,4 V</text>
+<text x="331" y="1954" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">R3 vale 27 kΩ en vez de 10 kΩ: R3 y R11</text>
+<text x="331" y="1973" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">quedaron intercambiadas (R11 = 27 kΩ y</text>
+<text x="331" y="1992" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">también se monta en la T1)</text>
+<text x="751" y="1954" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Apagar y medir VDIV ↔ GND. Si da 27 kΩ,</text>
+<text x="751" y="1973" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">poner la de 10 kΩ en R3 y la de 27 kΩ</text>
+<text x="751" y="1992" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">en R11 (filtro de medios de U1D)</text>
+<rect x="26" y="2005" width="1188" height="55" fill="#f6f8fa"/>
+<path d="M26 2005 L1214 2005" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="2028" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VDIV = 1,65 V pero</text>
+<text x="41" y="2047" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">la salida = 2,4 V</text>
+<text x="331" y="2028" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">El seguidor no realimenta: falta el</text>
+<text x="331" y="2047" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">puente del pin 1 al pin 2</text>
+<text x="751" y="2028" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Verificar ese puente y que VDIV entre</text>
+<text x="751" y="2047" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">por el pin 3, no por el pin 2</text>
+<path d="M26 2060 L1214 2060" stroke="#c6ccd4" stroke-width="1"/>
+<text x="41" y="2083" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">VDIV ≈ 0 V</text>
+<text x="41" y="2102" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">o inestable</text>
+<text x="331" y="2083" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">La masa del canal de 3,3 V no está unida</text>
+<text x="331" y="2102" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="bold">a GND, o R2 está abierta</text>
+<text x="751" y="2083" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">Unir las masas de los dos canales de la</text>
+<text x="751" y="2102" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#5b6472" text-anchor="start" font-weight="normal">fuente y medir R2</text>
+<rect x="25" y="2133" width="1190" height="104" rx="6" fill="#fff5e6" stroke="#d97706" stroke-width="1.6"/>
+<text x="45" y="2161" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#16191d" text-anchor="start" font-weight="bold">ORDEN DE TRABAJO:  1) comprobar que +3V3 se queda en 3,3 V con el canal de 5 V encendido   →   2) medir +3.3VA   →   3) medir VDIV</text>
+<text x="45" y="2185" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#16191d" text-anchor="start" font-weight="normal">→   4) solo con VREF = 1,65 V, inyectar señal. Toda la cadena polariza sobre VREF: con la referencia mal, PRE, GRAVES y MED_HP no significan nada.</text>
+<text x="45" y="2215" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#b4232a" text-anchor="start" font-weight="bold">PELIGRO: con el riel en 4,4 V no conecte la T4. El ESP32 es de 3,3 V y su máximo absoluto son 3,6 V: se destruye antes de que pueda medir nada.</text>
+<text x="1210" y="2263" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#5b6472" text-anchor="end" font-weight="normal">Generado por herramientas/generar_medidas_vref.py · circuito según generar_esquematico.py</text>
+</svg>

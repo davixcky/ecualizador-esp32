@@ -27,9 +27,10 @@
 #endif
 
 // ---- pantalla
-// E.5 (PLACA_E5CYD): no hay TFT directa. La pantalla es la placa CYD en la tapa y recibe los
-// datos por UART2 (ver enlace_cyd.h). PROPUESTA del 2026-11-24: el enlace aún no está en el
-// esquemático, que sigue dibujando la Waveshare SPI en J4.
+// E.5 (PLACA_E5CYD): no hay TFT directa. La pantalla es la placa CYD en la tapa; los datos
+// viajan por ESP-NOW y el UART2 queda de respaldo (ver enlace_cyd.h). El esquema maestro E.5
+// (hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_sch) ya dibuja el header J7
+// (+5V/GND + UART2 de respaldo, PROPUESTO); el histórico D.3 conserva la Waveshare SPI en J4.
 #ifdef PLACA_E5CYD
 #define PIN_CYD_TX 17   // GPIO17, TX2 -> P1 RX (GPIO3) del CYD
 #define PIN_CYD_RX 16   // GPIO16, RX2 <- P1 TX (GPIO1) del CYD

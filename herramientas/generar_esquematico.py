@@ -27,7 +27,10 @@ from sexpr import Sym, dump, find, find1, parse  # noqa: E402
 AQUI = os.path.dirname(os.path.abspath(__file__))
 HW = os.path.join(AQUI, "..", "hardware")
 SALIDA = os.path.join(HW, "archivo", "D3-logico", "ecualizador-D3-logico.kicad_sch")
-LIBS = "/usr/share/kicad/symbols/"
+# Bibliotecas oficiales de KiCad: primera ruta existente (Linux y macOS).
+_LIBS_CANDIDATAS = ("/usr/share/kicad/symbols/",
+                    "/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols/")
+LIBS = next((p for p in _LIBS_CANDIDATAS if os.path.isdir(p)), _LIBS_CANDIDATAS[0])
 PROYECTO = "ecualizador"
 S = Sym
 
@@ -112,36 +115,51 @@ def pin_def(tipo, x, y, ang, nombre, numero, largo=5.08):
             [S("name"), nombre, efectos()], [S("number"), numero, efectos()]]
 
 
+# Tarjeta ESP32 dibujada como U5. El símbolo se construye desde cto.IZQ/cto.DER;
+# la variante E.5 (generar_esquematico_perforadas.py) sustituye las listas y estos
+# nombres por el DevKit V1 de 30 pines sin tocar la definición histórica D.3.
+ESP_SIMBOLO = "ESP32-DevKitC-38"
+ESP_DESCRIPCION = "Tarjeta ESP32-DevKitC V4 (ESP32-WROOM-32), 38 pines"
+
+
+def esp_media_altura():
+    """Media altura del rectángulo del símbolo del ESP32 (depende del número de pines)."""
+    return r((max(len(cto.IZQ), len(cto.DER)) - 1) * 1.27 + 2.54)
+
+
 def sim_esp32():
     def tipo(n, numero):
         if PIN_RED_OVERRIDE.get(("U5", str(numero)), "").startswith("NC-"):
             return "passive"
         if n == "3V3":
             return "power_out"
-        if n in ("5V", "GND"):
+        if n in ("5V", "VIN", "GND"):
             return "power_in"
         if n in ("VP/IO36", "VN/IO39", "IO34", "IO35", "EN"):
             return "input"
         return "bidirectional"
-    pines = [pin_def(tipo(n, k + 1), -17.78, r(22.86 - 2.54 * k), 0, n, str(k + 1)) for k, n in enumerate(cto.IZQ)]
-    pines += [pin_def(tipo(n, k + 20), 17.78, r(22.86 - 2.54 * k), 180, n, str(k + 20)) for k, n in enumerate(cto.DER)]
-    graf = [[S("rectangle"), [S("start"), -12.7, 25.4], [S("end"), 12.7, -25.4],
+    n_izq = len(cto.IZQ)
+    alto = esp_media_altura()
+    tope = r(alto - 2.54)   # y del primer pin de cada columna (numeradas de arriba hacia abajo)
+    pines = [pin_def(tipo(n, k + 1), -17.78, r(tope - 2.54 * k), 0, n, str(k + 1)) for k, n in enumerate(cto.IZQ)]
+    pines += [pin_def(tipo(n, k + n_izq + 1), 17.78, r(tope - 2.54 * k), 180, n, str(k + n_izq + 1))
+              for k, n in enumerate(cto.DER)]
+    graf = [[S("rectangle"), [S("start"), -12.7, alto], [S("end"), 12.7, -alto],
              [S("stroke"), [S("width"), 0.254], [S("type"), S("default")]], [S("fill"), [S("type"), S("background")]]],
-            [S("text"), "USB", [S("at"), 0, -23.5, 0], efectos()]]
-    return [S("symbol"), "Ecualizador:ESP32-DevKitC-38", [S("pin_names"), [S("offset"), 1.016]],
+            [S("text"), "USB", [S("at"), 0, r(-alto + 1.9), 0], efectos()]]
+    return [S("symbol"), f"Ecualizador:{ESP_SIMBOLO}", [S("pin_names"), [S("offset"), 1.016]],
             [S("exclude_from_sim"), S("no")], [S("in_bom"), S("yes")], [S("on_board"), S("yes")],
-            prop("Reference", "U", 0, 27.94), prop("Value", "ESP32-DevKitC-38", 0, -27.94),
+            prop("Reference", "U", 0, r(alto + 2.54)), prop("Value", ESP_SIMBOLO, 0, r(-alto - 2.54)),
             prop("Footprint", "", 0, 0, oculto=True), prop("Datasheet", "", 0, 0, oculto=True),
-            prop("Description", "Tarjeta ESP32-DevKitC V4 (ESP32-WROOM-32), 38 pines", 0, 0, oculto=True),
-            [S("symbol"), "ESP32-DevKitC-38_0_1"] + graf, [S("symbol"), "ESP32-DevKitC-38_1_1"] + pines]
+            prop("Description", ESP_DESCRIPCION, 0, 0, oculto=True),
+            [S("symbol"), f"{ESP_SIMBOLO}_0_1"] + graf, [S("symbol"), f"{ESP_SIMBOLO}_1_1"] + pines]
 
 
 SIMBOLO = {"R": "Device:R", "C": "Device:C", "CP": "Device:C_Polarized", "POT": "Device:R_Potentiometer",
            "D": "Device:D", "JACK": "Connector_Audio:AudioJack3", "CONN4": "Connector_Generic:Conn_01x04",
            "CONN3": "Connector_Generic:Conn_01x03", "CONN2": "Connector_Generic:Conn_01x02",
            "BUFFER": "74xx:74AHCT125", "BUFFER245": "74xx:74HC245",
-           "TFT": "Connector_Generic:Conn_01x08", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:LM324",
-           "ESP32": "Ecualizador:ESP32-DevKitC-38"}
+           "TFT": "Connector_Generic:Conn_01x08", "SW": "Switch:SW_Push", "OPAMP": "Amplifier_Operational:LM324"}
 POTENCIA = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+3.3VA": "power:+3.3VA"}
 
 
@@ -171,7 +189,7 @@ class Esquematico:
 
     def usar(self, lib_id):
         if lib_id not in self.lib:
-            if lib_id == "Ecualizador:ESP32-DevKitC-38":
+            if lib_id == f"Ecualizador:{ESP_SIMBOLO}":
                 d = sim_esp32()
             elif lib_id == "Amplifier_Operational:LM324":
                 d = cargar("Amplifier_Operational", "LM324")
@@ -189,7 +207,7 @@ class Esquematico:
             p = None
         else:
             p = cto.pieza(ref)
-            lib_id = SIMBOLO[p["tipo"]]
+            lib_id = f"Ecualizador:{ESP_SIMBOLO}" if p["tipo"] == "ESP32" else SIMBOLO[p["tipo"]]
             valor = valor or p["valor"]
         pines = self.usar(lib_id)
         pos = {}
@@ -650,14 +668,24 @@ def construir():
               135.89, 92.71, 1.0)
 
     # ---------------- microcontrolador, pantalla y pulsador
-    sch.caja(265.43, 15.24, 407.67, 96.52, "MICROCONTROLADOR, PANTALLA TFT Y PULSADOR")
-    sch.colocar("U5", 314.96, 55.88, ref_at=(312.42, 27.94), val_at=(304.8, 83.82))
-    j4x, j4y = ((520.7, 45.72) if PIN_RED_OVERRIDE else (365.76, 58.42))
-    j4 = sch.colocar("J4", j4x, j4y, ref_at=(j4x - 2.54, j4y - 20.32), val_at=(j4x - 11.43, j4y + 21.59))
-    if not PIN_RED_OVERRIDE:
-        a_potencia(sch, j4["1"], "+3V3", [(-5.08, 0), (0, -5.08)], 0)
-        a_potencia(sch, j4["2"], "GND", [(-12.7, 0)], 270)
-    pasivo_v(sch, "R30", 345.44, 30.48, lado=-1)
+    # J4 (TFT SPI con R30) y J7 (alimentación/UART de la pantalla separada) son
+    # excluyentes según la variante: se dibuja el que exista en cto.PIEZAS.
+    hay_j4 = any(p["ref"] == "J4" for p in cto.PIEZAS)
+    hay_j7 = any(p["ref"] == "J7" for p in cto.PIEZAS)
+    sch.caja(265.43, 15.24, 407.67, 96.52,
+             "MICROCONTROLADOR, PANTALLA TFT Y PULSADOR" if hay_j4
+             else "MICROCONTROLADOR, ENLACE A LA PANTALLA (ESP-NOW) Y PULSADOR")
+    medio_u5 = r(esp_media_altura() + 2.54)
+    sch.colocar("U5", 314.96, 55.88, ref_at=(312.42, r(55.88 - medio_u5)), val_at=(304.8, r(55.88 + medio_u5)))
+    if hay_j4:
+        j4x, j4y = ((520.7, 45.72) if PIN_RED_OVERRIDE else (365.76, 58.42))
+        j4 = sch.colocar("J4", j4x, j4y, ref_at=(j4x - 2.54, j4y - 20.32), val_at=(j4x - 11.43, j4y + 21.59))
+        if not PIN_RED_OVERRIDE:
+            a_potencia(sch, j4["1"], "+3V3", [(-5.08, 0), (0, -5.08)], 0)
+            a_potencia(sch, j4["2"], "GND", [(-12.7, 0)], 270)
+        pasivo_v(sch, "R30", 345.44, 30.48, lado=-1)
+    if hay_j7:
+        sch.colocar("J7", 365.76, 53.34, ref_at=(363.22, 44.45), val_at=(354.33, 62.23))
     sch.colocar("SW1", 391.16, 30.48, ref_at=(388.62, 25.4), val_at=(386.08, 35.56))
     # Atenuadores 2:1 alrededor de VREF para que las salidas de AO a 5 V no puedan
     # sobrepasar el dominio del ADC de 3,3 V.
@@ -672,8 +700,14 @@ def construir():
         vref(sch, d)
     sch.texto("R33–R40: ADC = VREF + (RAW−VREF)/2;\n0…5 V queda limitado a 0,825…3,325 V. Firmware compensa ×2.",
               265.43, 94.0, 0.9)
-    sch.texto("J4 físico: " + texto_pinout(sch, "J4", range(1, 9)) +
-              ".\nCablear por nombre; GH1.25 no tiene este orden.", 351.79, 86.36, 0.9)
+    if hay_j4:
+        sch.texto("J4 físico: " + texto_pinout(sch, "J4", range(1, 9)) +
+                  ".\nCablear por nombre; GH1.25 no tiene este orden.", 351.79, 86.36, 0.9)
+    if hay_j7:
+        sch.texto("J7 (PROPUESTO): alimenta la pantalla ESP32-3248S035 de la tapa (1 +5V, 2 GND).\n"
+                  "Los DATOS viajan por ESP-NOW (difusión, canal 1); el UART2 es solo respaldo:\n"
+                  "3 CYD_TX = TX2/IO17 → P1 RX (GPIO3); 4 CYD_RX = RX2/IO16 ← P1 TX (GPIO1).",
+                  335.28, 85.09, 0.9)
 
     # ================= fila 2: filtros =================
     sch.caja(12.7, 99.06, 407.67, 151.13, "FILTROS ACTIVOS SALLEN-KEY DE SEGUNDO ORDEN (ganancia unitaria, Q ≈ 0,73)")

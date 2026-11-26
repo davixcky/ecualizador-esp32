@@ -2,4 +2,4 @@ tarjeta,componentes,comentario
 T1,"U1; R1-R12; C1-C2; C4; C8-C14; J1; RV1","C4 es el desacople local de U1"
 T2,"U2; R13-R16; R19-R26; C3; C5; C15-C21; RV2-RV5; J2; J3","C3 queda junto al PAM8403; C5 desacopla U2; R17-R18 van en T3"
 T3,"U3; U4; R17-R18; R27-R29; C6-C7; C22-C24; D1-D3","R17-R18 forman el inversor de medios; C6/C7 son desacoples locales"
-T4,"U5; U6; R30-R40; C25-C26; J4-J6; SW1","R33-R40 deben estar junto a los pines ADC del ESP32"
+T4,"U5; U6; R31-R40; C25-C26; J5-J7; SW1","R33-R40 deben estar junto a los pines ADC del ESP32; sin TFT: J7 lleva 5V/GND a la pantalla (datos por ESP-NOW)"

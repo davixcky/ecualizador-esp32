@@ -18,3 +18,7 @@ JC4,1,ADC_G_RAW,T3,T4,Nivel de graves antes del atenuador
 JC4,2,ADC_M_RAW,T3,T4,Nivel de medios antes del atenuador
 JC4,3,ADC_A_RAW,T3,T4,Nivel de agudos antes del atenuador
 JC4,4,GND,T3,T4,Masa acompañante
+J7,1,+5V,T4,Pantalla (tapa),Alimenta la ESP32-3248S035 (VIN de P1); los datos viajan por ESP-NOW
+J7,2,GND,T4,Pantalla (tapa),Retorno común con la pantalla
+J7,3,CYD_TX,T4,Pantalla (tapa),PROPUESTO: respaldo UART2; TX2/GPIO17 hacia P1 RX (GPIO3) del CYD
+J7,4,CYD_RX,T4,Pantalla (tapa),PROPUESTO: respaldo UART2; RX2/GPIO16 desde P1 TX (GPIO1)

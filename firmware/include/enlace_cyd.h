@@ -15,8 +15,10 @@
 //      ESP32 GPIO16 (RX2) <- P1 TX (GPIO1), +5 V al VIN de P1 y GND común (arnés de
 //      cuatro hilos). P1 es el UART0 de la pantalla, compartido con su puente USB-serie
 //      y su log de arranque: las tramas conviven con ese tráfico.
-// PROPUESTA: ninguno de los dos enlaces está en el esquemático
-// (hardware/ecualizador.kicad_sch sigue dibujando la pantalla SPI J4); la pantalla sigue
+// El esquema maestro E.5 (hardware/E5-perforadas/proyecto/ecualizador-perforadas.kicad_sch)
+// dibuja desde el 2026-11-25 el header J7 con +5 V/GND y el UART2 de respaldo, marcado
+// PROPUESTO porque ningún enlace se ha probado en el montaje real; el histórico D.3
+// (hardware/ecualizador.kicad_sch) conserva la pantalla SPI J4. La pantalla sigue
 // necesitando +5 V y GND aunque se use solo ESP-NOW.
 // Por eso el protocolo es de líneas ASCII con suma de verificación y el receptor descarta
 // en silencio todo lo que no valide.

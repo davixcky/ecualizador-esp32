@@ -15,6 +15,15 @@ BLUE = (0.05, 0.18, 0.55)
 GREEN = (0.05, 0.45, 0.25)
 GRAY = (0.35, 0.35, 0.35)
 
+# Caracteres fuera de Latin-1 que Helvetica imprimiría como "?".
+_SUBS = {"≈": "aprox. ", "–": "-", "—": "-", "−": "-", "×": "x", "…": "..."}
+
+
+def sanitize(text):
+    for bad, good in _SUBS.items():
+        text = text.replace(bad, good)
+    return text.encode("latin-1", "replace").decode("latin-1")
+
 
 def mmrect(src_page, x1, y1, x2, y2):
     sx = src_page.rect.width / 594.0
@@ -24,16 +33,16 @@ def mmrect(src_page, x1, y1, x2, y2):
 
 def page(doc, title, subtitle=""):
     p = doc.new_page(width=A4L[0], height=A4L[1])
-    p.insert_text((M, 27), title, fontsize=17, fontname="hebo", color=BLUE)
+    p.insert_text((M, 27), sanitize(title), fontsize=17, fontname="hebo", color=BLUE)
     if subtitle:
-        p.insert_text((M, 44), subtitle, fontsize=8.5, color=GRAY)
+        p.insert_text((M, 44), sanitize(subtitle), fontsize=8.5, color=GRAY)
     p.draw_line((M, 51), (A4L[0] - M, 51), color=BLUE, width=0.8)
     p.insert_text((A4L[0] - 150, A4L[1] - 15), "E.5 · tarjetas perforadas", fontsize=7, color=GRAY)
     return p
 
 
 def clip(p, src, target, coords, caption):
-    p.insert_text((target.x0, target.y0 - 4), caption, fontsize=8.5, fontname="hebo", color=GREEN)
+    p.insert_text((target.x0, target.y0 - 4), sanitize(caption), fontsize=8.5, fontname="hebo", color=GREEN)
     body = fitz.Rect(target.x0, target.y0 + 2, target.x1, target.y1)
     p.show_pdf_page(body, src.parent, 0, clip=mmrect(src, *coords), keep_proportion=True)
     p.draw_rect(body, color=(0.75, 0.75, 0.75), width=0.4)
@@ -41,9 +50,9 @@ def clip(p, src, target, coords, caption):
 
 def text_box(p, rect, title, lines, size=8.5):
     p.draw_rect(rect, color=(0.65, 0.65, 0.65), fill=(0.98, 0.98, 0.98), width=0.5)
-    p.insert_text((rect.x0 + 8, rect.y0 + 15), title, fontsize=10, fontname="hebo", color=BLUE)
+    p.insert_text((rect.x0 + 8, rect.y0 + 15), sanitize(title), fontsize=10, fontname="hebo", color=BLUE)
     p.insert_textbox(fitz.Rect(rect.x0 + 8, rect.y0 + 29, rect.x1 - 8, rect.y1 - 7),
-                     "\n\n".join(lines), fontsize=size, lineheight=1.15,
+                     sanitize("\n\n".join(lines)), fontsize=size, lineheight=1.15,
                      color=(0.1, 0.1, 0.1))
 
 
@@ -58,7 +67,7 @@ def main():
         (fitz.Rect(45, 95, 210, 215), "T1 · ENTRADA + U1", ["VREF 1,65 V", "PRE", "GRAVES", "MED_HP"]),
         (fitz.Rect(245, 95, 410, 215), "T2 · FILTROS + U2", ["MEDIOS / AGUDOS", "SUMADOR", "SALIDA / FFT"]),
         (fitz.Rect(445, 95, 610, 215), "T3 · U3 + U4", ["INVERSOR MEDIOS", "3 DETECTORES", "ADC_*_RAW"]),
-        (fitz.Rect(645, 95, 810, 215), "T4 · CONTROL", ["ESP32", "R33–R40", "TFT / LED"]),
+        (fitz.Rect(645, 95, 810, 215), "T4 · CONTROL", ["ESP32 30P", "R33–R40", "J7 pantalla / LED"]),
     ]
     for rect, title, lines in boxes:
         text_box(p, rect, title, lines, 8)
@@ -99,12 +108,12 @@ def main():
     text_box(p, fitz.Rect(30, 465, 812, 545), "PRUEBA ANTES DE CONECTAR EL ESP32",
              ["Medir ADC_G_RAW, ADC_M_RAW y ADC_A_RAW con osciloscopio. Deben descansar cerca de VREF y subir con el pico de cada banda. No conectarlos todavía al ESP32: primero comprobar T4 y los atenuadores R33–R40."], 8.5)
 
-    p = page(doc, "T4 · ESP32, protección ADC, pantalla y NeoPixel",
-             "Los atenuadores se montan aquí, lo más cerca posible de los pines ADC")
-    clip(p, src, fitz.Rect(30, 70, 810, 305), (263, 13, 409, 98), "T4-A · ESP32, R33–R40, TFT y pulsador")
+    p = page(doc, "T4 · ESP32 DevKit V1 30P, protección ADC, enlace de pantalla y NeoPixel",
+             "Los atenuadores se montan aquí, lo más cerca posible de los pines ADC; la pantalla recibe los datos por ESP-NOW")
+    clip(p, src, fitz.Rect(30, 70, 810, 305), (263, 13, 409, 98), "T4-A · ESP32 DevKit V1, R33–R40, J7 (pantalla) y pulsador")
     clip(p, src, fitz.Rect(30, 335, 810, 520), (10, 252, 409, 337), "T4-B · fuente, 74HCT245 y salida NeoPixel")
     p.insert_textbox(fitz.Rect(45, 530, 795, 575),
-                     "Antes de insertar el ESP32: comprobar +5V, +3V3 y GND; aplicar una tensión conocida a cada ADC_*_RAW y verificar ADC = VREF + (RAW − VREF)/2.",
+                     "Antes de insertar el ESP32: comprobar +5V, +3V3 y GND; aplicar una tensión conocida a cada ADC_*_RAW y verificar ADC = VREF + (RAW - VREF)/2.",
                      fontsize=8.5, color=(0.15, 0.15, 0.15), align=1)
 
     p = page(doc, "Pinout de arneses y puesta en marcha",
@@ -120,7 +129,7 @@ def main():
               "3. T1 + T2: respuesta de las tres bandas y EQ_OUT.",
               "4. Añadir T3 y medir los cuatro ADC_*_RAW.",
               "5. Validar R33–R40; solo entonces insertar ESP32.",
-              "6. Conectar TFT, PAM8403 y LED al final."], 8.5)
+              "6. Al final: PAM8403, LED y pantalla (ESP-NOW; J7 solo 5V/GND)."], 8.5)
     text_box(p, fitz.Rect(30, 310, 812, 525), "PUNTOS DE CONTROL",
              ["Alimentación: LM324 pin 4 ≈ 5 V; pin 11 = 0 V.",
               "Referencia: VDIV ≈ 1,65 V y VREF ≈ 1,65 V.",
